@@ -148,7 +148,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7d6a4d96230da478125f6a85f7293b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headPosition: {fileID: 1155823747}
+  inputObserver: {fileID: 1238287783}
+  headRef: {fileID: 1155823747}
+  cameraRef: {fileID: 2136385794}
+  headBob: 1
+  amount: 0.05
+  amountMultiplier: {x: 1.6, y: 1.4}
+  frequency: 10
+  frequencyMultiplier: {x: 0.5, y: 1}
+  smoothSpeed: 10
+  stoppingSpeed: 10
 --- !u!4 &596611843
 Transform:
   m_ObjectHideFlags: 0
@@ -354,7 +363,7 @@ MonoBehaviour:
   rigidbodyRef: {fileID: 1238287780}
   bodyRef: {fileID: 1273559232}
   inputObserver: {fileID: 1238287783}
-  movementSpeed: 8
+  movementSpeed: 5
 --- !u!1 &1273559231
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,7 +608,7 @@ GameObject:
   - component: {fileID: 1615675895}
   - component: {fileID: 1615675894}
   m_Layer: 0
-  m_Name: Cune
+  m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

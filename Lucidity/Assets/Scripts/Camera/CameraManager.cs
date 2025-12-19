@@ -1,33 +1,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CameraModes
-{
-    None = 0,
-    Documentation = 1,
-    Inhibition = 2,
-    Ultraviolet = 3,
-    Future = 4
-}
 
 public class CameraManager : MonoBehaviour
 {
-
+    public Transform normalCamera;
+    public Transform currentActiveCamera;
     public CameraMode currentMode;
     public List<CameraMode> cameraModes;
 
     void Start()
     {
-        //Se settean todos los modos en la lista del manager 
-        cameraModes = new List<CameraMode>();
-        /*
-         * {
-            new DocumentationMode(),
-            new InhibitionMode(),
-            new UVMode(),
-            new FutureMode()
+
+    }
+
+    private void Update()
+    {
+        //Testeo para probar que funcione
+        if (Input.GetKeyDown(KeyCode.Alpha1)) 
+        {
+            SetMode(cameraModes[0]);
+            currentActiveCamera = cameraModes[0].transform;
+            normalCamera.GetComponent<Camera>().enabled = false;
         }
-        */
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            normalCamera.GetComponent<Camera>().enabled = true;
+            currentActiveCamera = normalCamera;
+            DeactivateMode();
+        }
     }
 
     //Funcion para activar el modo de la camera deseado

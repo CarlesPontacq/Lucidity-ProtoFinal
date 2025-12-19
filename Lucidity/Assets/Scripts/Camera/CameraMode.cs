@@ -1,15 +1,27 @@
 using UnityEngine;
 
-public abstract class CameraMode
+public abstract class CameraMode : MonoBehaviour
 {
     public bool isUnlocked;
     public bool isActive = false;
+    protected bool unlocked;
+
+    protected void Start()
+    {
+
+    }
+
+    protected void Update()
+    {
+        
+    }
 
     //Funcion para activar la camara
     public virtual void ActivateMode()
     {
         isActive = true;
         //Poner efectos visuales
+        SetActiveSelf();
     }
 
     //Funcion para desactivar la camara
@@ -17,5 +29,11 @@ public abstract class CameraMode
     {
         isActive = false;
         //Quitar efectos visuales
+        SetActiveSelf();
+    }
+
+    private void SetActiveSelf()
+    {
+        gameObject.GetComponent<Camera>().enabled = isActive;
     }
 }

@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &62053357 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1286198257110702750, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+  m_PrefabInstance: {fileID: 8671005974829145265}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1155823747 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2157895780906986769, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
@@ -273,7 +278,7 @@ GameObject:
   - component: {fileID: 1615675896}
   - component: {fileID: 1615675895}
   - component: {fileID: 1615675894}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -555,6 +560,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraHolder
       objectReference: {fileID: 0}
+    - target: {fileID: 4235695428001675150, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 1273559232}
+    - target: {fileID: 4235695428001675150, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: inputObserver
+      value: 
+      objectReference: {fileID: 1238287783}
     - target: {fileID: 5501578503862164270, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -595,6 +608,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6317666999984352736, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 39
+      objectReference: {fileID: 0}
     - target: {fileID: 7795568537833020718, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: body
       value: 
@@ -603,6 +620,14 @@ PrefabInstance:
       propertyPath: inputObserver
       value: 
       objectReference: {fileID: 1238287783}
+    - target: {fileID: 8172359253978911886, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: normalCamera
+      value: 
+      objectReference: {fileID: 62053357}
+    - target: {fileID: 8172359253978911886, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: currentActiveCamera
+      value: 
+      objectReference: {fileID: 62053357}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

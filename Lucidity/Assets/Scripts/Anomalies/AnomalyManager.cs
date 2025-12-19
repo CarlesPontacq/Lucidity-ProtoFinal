@@ -21,9 +21,15 @@ public class AnomalyManager : MonoBehaviour
     {
         RefillAndShuffleBag();
     }
+    private void Start()
+    {
+        Debug.Log("AnomalyManager Start");
+        SpawnNextRandomNoRepeat();
+    }
 
     public void SpawnNextRandomNoRepeat()
     {
+        Debug.Log("SpawnNextRandomNoRepeat CALLED");
         if (entries.Count == 0) return;
 
         if (bag.Count == 0)

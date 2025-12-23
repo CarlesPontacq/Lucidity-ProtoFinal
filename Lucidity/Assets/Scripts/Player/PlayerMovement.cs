@@ -6,7 +6,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody rigidbodyRef;
     [SerializeField] private Transform bodyRef;
     [SerializeField] private PlayerInputObserver inputObserver;
-    [SerializeField] private float movementSpeed;
+    [SerializeField] private float walkingSpeed;
+    [SerializeField] private float runningSpeed;
 
     void FixedUpdate()
     {
@@ -17,7 +18,11 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 inputMovementDir = inputObserver.movement.normalized;
         Vector3 realMovementDir = bodyRef.right * inputMovementDir.x + bodyRef.forward * inputMovementDir.y;
-        
-        rigidbodyRef.linearVelocity = realMovementDir * movementSpeed;
+
+        float speed = walkingSpeed;
+        if (inputObserver.IsPressingRun)
+            speed = runningSpeed;
+
+        rigidbodyRef.linearVelocity = realMovementDir * speed;
     }
 }

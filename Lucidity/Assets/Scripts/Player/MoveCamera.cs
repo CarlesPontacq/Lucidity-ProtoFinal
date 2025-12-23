@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class MoveCamera : MonoBehaviour
@@ -17,6 +18,9 @@ public class MoveCamera : MonoBehaviour
     [SerializeField] private float smoothSpeed;
     [SerializeField] private float stoppingSpeed;
 
+    [SerializeField] private float runningAmountMultiplier;
+    [SerializeField] private float runningFrequencyMultiplier;
+
     private void Start()
     {
         startingLocalPositionCamera = cameraRef.localPosition;
@@ -26,15 +30,20 @@ public class MoveCamera : MonoBehaviour
     {
         transform.position = headRef.position;
 
-        if (headBob)
+        if (!headBob) return;
+
+        if (inputObserver.movement.magnitude > 0)
         {
-            if (inputObserver.movement.magnitude > 0)
-                StartHeadBob();
-            StopHeadBob();
+            if (inputObserver.IsPressingRun)
+                StartHeadBob(amount * runningAmountMultiplier, frequency * runningFrequencyMultiplier);
+            else
+                StartHeadBob(amount, frequency);
         }
+
+        StopHeadBob();
     }
 
-    private void StartHeadBob()
+    private void StartHeadBob(float amount, float frequency)
     {
         Vector3 pos = Vector3.zero;
 

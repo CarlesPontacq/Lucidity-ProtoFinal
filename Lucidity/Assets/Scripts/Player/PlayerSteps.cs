@@ -3,31 +3,61 @@ using UnityEngine.Audio;
 
 public class PlayerSteps : MonoBehaviour
 {
+    private enum StepsType { Walking, Running }
+
     [SerializeField] private Rigidbody playerRef;
+    [SerializeField] private PlayerInputObserver inputObserver;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioResource walkingSound;
     [SerializeField] private AudioResource runningSound;
 
-    const float MinVelocity = 0.1f;
+    private const float MinVelocity = 0.1f;
 
-    private bool isPlayingFootsteps;
+    private StepsType currentStepsType;
 
     void Update()
     {
-        Vector3 horizontalVelocity = playerRef.linearVelocity;
-        horizontalVelocity.y = 0f;
-
-        float speed = horizontalVelocity.magnitude;
-
-        if (!isPlayingFootsteps && speed > MinVelocity)
+        if (!IsMoving())
         {
+            StopFootsteps();
+            return;
+        }
+
+        StepsType desiredStepsType = inputObserver.IsPressingRun ? StepsType.Running : StepsType.Walking;
+
+        UpdateStepsType(desiredStepsType);
+        PlayFootstepsIfNeeded();
+    }
+
+    private bool IsMoving()
+    {
+        Vector3 velocity = playerRef.linearVelocity;
+        velocity.y = 0f;
+        return velocity.magnitude > MinVelocity;
+    }
+
+    private void UpdateStepsType(StepsType newType)
+    {
+        if (newType == currentStepsType)
+            return;
+
+        audioSource.resource = newType == StepsType.Running ? runningSound : walkingSound;
+
+        currentStepsType = newType;
+
+        if (audioSource.isPlaying)
             audioSource.Play();
-            isPlayingFootsteps = true;
-        }
-        else if (isPlayingFootsteps && speed <= MinVelocity)
-        {
+    }
+
+    private void PlayFootstepsIfNeeded()
+    {
+        if (!audioSource.isPlaying)
+            audioSource.Play();
+    }
+
+    private void StopFootsteps()
+    {
+        if (audioSource.isPlaying)
             audioSource.Stop();
-            isPlayingFootsteps = false;
-        }
     }
 }

@@ -15,6 +15,7 @@ public class Sound
 
 public class SFXManager : MonoBehaviour
 {
+    enum SoundType { Global, Spatial};
     public static SFXManager Instance { get; private set; }
 
     [SerializeField] private AudioSource sfxObject;
@@ -67,6 +68,7 @@ public class SFXManager : MonoBehaviour
         source.Stop();
         source.clip = null;
         source.gameObject.SetActive(false);
+        source.transform.position = Vector3.zero;
     }
 
     private void OnDestroyPooledObject(AudioSource source)
@@ -74,13 +76,32 @@ public class SFXManager : MonoBehaviour
         Destroy(source.gameObject);
     }
 
-    public void PlaySound(string soundName, float volume)
+    public void PlayGlobalSound(string soundName, float volume)
+    {
+        Sound sound = Array.Find(sounds, s => s.name == soundName);
+        if (sound == null) return;
+
+        AudioSource audioSource = sfxObjectPool.Get();
+        audioSource.spatialBlend = 0;
+
+        PlaySound(audioSource, sound, volume); 
+    }
+
+    public void PlaySpatialSound(string soundName, Vector3 position, float volume)
     {
         Sound sound = Array.Find(sounds, s => s.name == soundName);
         if (sound == null) return;
 
         AudioSource audioSource = sfxObjectPool.Get();
 
+        audioSource.transform.position = position;
+        audioSource.spatialBlend = 1;
+
+        PlaySound(audioSource, sound, volume);
+    }
+
+    private void PlaySound(AudioSource audioSource, Sound sound, float volume)
+    {
         audioSource.resource = sound.audio;
         audioSource.volume = volume;
         audioSource.Play();
@@ -106,31 +127,20 @@ public class SFXManager : MonoBehaviour
         sfxObjectPool.Release(source);
     }
 
-    private IEnumerator DestroyWhenFinished(AudioSource source)
-    {
-        while (source.isPlaying)
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
-        Destroy(source.gameObject);
-    }
-
-
-
     // TEST
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            PlaySound("simpleAudioTest", 1f);
+            PlayGlobalSound("simpleAudioTest", 1f);
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            PlaySound("clipVariantsTest", 1f);
+            PlayGlobalSound("clipVariantsTest", 1f);
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            PlaySound("randomPitchVolumeTest", 1f);
+            PlayGlobalSound("randomPitchVolumeTest", 1f);
         }
     }
 }

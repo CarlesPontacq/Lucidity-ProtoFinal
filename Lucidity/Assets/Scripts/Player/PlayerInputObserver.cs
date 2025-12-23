@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,8 @@ public class PlayerInputObserver : MonoBehaviour
 
     public Vector2 movement { get; private set; } = Vector2.zero;
     public Vector2 cameraMovement { get; private set; } = Vector2.zero;
+    public bool IsPressingRun { get; private set; } = false;
+    public Action onRun;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -21,5 +24,19 @@ public class PlayerInputObserver : MonoBehaviour
         cameraMovement = context.ReadValue<Vector2>();
 
         Debug.Log("Camera: " + cameraMovement);
+    }
+
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            onRun?.Invoke();
+            IsPressingRun = true;
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            onRun?.Invoke();
+            IsPressingRun = false;
+        }
     }
 }

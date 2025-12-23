@@ -287,7 +287,6 @@ MonoBehaviour:
   audioSource: {fileID: 937172757125034732}
   walkingSound: {fileID: 6418180475301049370, guid: 3f455990ac2bf894a9f9a96cc3377904, type: 2}
   runningSound: {fileID: 6418180475301049370, guid: caab60ac008b3a241b006e2484917d2d, type: 2}
-  stepDistance: 2
 --- !u!1 &5173845278349125517
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,7 +367,8 @@ MonoBehaviour:
   rigidbodyRef: {fileID: 1449685980255826998}
   bodyRef: {fileID: 6571654658688338291}
   inputObserver: {fileID: 995986189016646433}
-  movementSpeed: 5
+  walkingSpeed: 2.5
+  runningSpeed: 5
 --- !u!114 &995986189016646433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,6 +443,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d70daa21-7b85-43ee-8848-9672ddc6b5c4
     m_ActionName: 'Player/Look[/Mouse/delta,/Pen/delta]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 995986189016646433}
+        m_TargetAssemblyTypeName: PlayerInputObserver, Assembly-CSharp
+        m_MethodName: OnRun
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3c8b5356-d624-4b14-96e3-8eed8686d5b1
+    m_ActionName: 'Player/Run[/Keyboard/leftShift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

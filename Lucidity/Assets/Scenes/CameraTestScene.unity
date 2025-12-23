@@ -558,7 +558,7 @@ Transform:
   m_GameObject: {fileID: 434489315}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.27, y: 0, z: -0.349}
+  m_LocalPosition: {x: 1.27, y: 0, z: 0.27}
   m_LocalScale: {x: 0.7, y: 0.9, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -875,9 +875,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorPivot: {fileID: 408243089}
+  objectToInteractWith: {fileID: 408243089}
   player: {fileID: 434489319}
-  interactionDistance: 10
+  interactionDistance: 2.5
   lookDotThreshold: 0.5
   openAngle: 90
   openSpeed: 5

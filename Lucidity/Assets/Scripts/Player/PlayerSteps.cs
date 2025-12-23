@@ -1,15 +1,16 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerSteps : MonoBehaviour
 {
-    [SerializeField] private AudioSource audioSource;
     [SerializeField] private Rigidbody playerRef;
-
-    [SerializeField] private float stepDistance = 2f;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioResource walkingSound;
+    [SerializeField] private AudioResource runningSound;
 
     const float MinVelocity = 0.1f;
 
-    private float distanceAccumulator;
+    private bool isPlayingFootsteps;
 
     void Update()
     {
@@ -18,18 +19,15 @@ public class PlayerSteps : MonoBehaviour
 
         float speed = horizontalVelocity.magnitude;
 
-        if (speed < MinVelocity)
-        {
-            distanceAccumulator = 0f;
-            return;
-        }
-
-        distanceAccumulator += speed * Time.deltaTime;
-
-        if (distanceAccumulator >= stepDistance)
+        if (!isPlayingFootsteps && speed > MinVelocity)
         {
             audioSource.Play();
-            distanceAccumulator = 0f;
+            isPlayingFootsteps = true;
+        }
+        else if (isPlayingFootsteps && speed <= MinVelocity)
+        {
+            audioSource.Stop();
+            isPlayingFootsteps = false;
         }
     }
 }

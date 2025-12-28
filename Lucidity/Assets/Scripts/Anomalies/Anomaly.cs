@@ -32,7 +32,7 @@ public abstract class Anomaly : MonoBehaviour, ICameraModeListener
     {
         if(mode is DocumentationMode)
         {
-            OnActivate();
+            OnDeactivate();
         }
     }
 
@@ -40,7 +40,7 @@ public abstract class Anomaly : MonoBehaviour, ICameraModeListener
     {
         if (mode is DocumentationMode)
         {
-            OnDeactivate();
+            OnActivate();
         }
     }
 }

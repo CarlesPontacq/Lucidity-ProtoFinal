@@ -21,7 +21,7 @@ public abstract class CameraMode : MonoBehaviour
     {
         isActive = true;
         //Poner efectos visuales
-        SetActiveSelf();
+        OnActivated();
     }
 
     //Funcion para desactivar la camara
@@ -29,11 +29,10 @@ public abstract class CameraMode : MonoBehaviour
     {
         isActive = false;
         //Quitar efectos visuales
-        SetActiveSelf();
+        OnDeactivated();
     }
 
-    private void SetActiveSelf()
-    {
-        gameObject.GetComponent<Camera>().enabled = isActive;
-    }
+    protected virtual void OnActivated() { }
+
+    protected virtual void OnDeactivated() { }
 }

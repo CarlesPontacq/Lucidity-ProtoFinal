@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     public Transform normalCamera;
-    public Transform currentActiveCamera;
     public CameraMode currentMode;
+
     public List<CameraMode> cameraModes;
 
     void Start()
@@ -20,14 +20,10 @@ public class CameraManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1)) 
         {
             SetMode(cameraModes[0]);
-            currentActiveCamera = cameraModes[0].transform;
-            normalCamera.GetComponent<Camera>().enabled = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            normalCamera.GetComponent<Camera>().enabled = true;
-            currentActiveCamera = normalCamera;
             DeactivateMode();
         }
     }
@@ -37,20 +33,34 @@ public class CameraManager : MonoBehaviour
     {
         DeactivateMode();
 
-        if (mode.isUnlocked)
-        {
-            currentMode = mode;
-            currentMode.ActivateMode();
-        }
+        if (!mode.isUnlocked) return;
+
+        currentMode = mode;
+        currentMode.ActivateMode();
+
+        NotifyModeActivated(mode);
     }
 
     //Funcion para desactivar el modo de la camera
     public void DeactivateMode()
     {
-        if (currentMode != null)
-        {
-            currentMode.DeactivateMode();
-            currentMode = null;
-        }
+        if (currentMode == null) return;
+        
+        NotifyModeDeactivated(currentMode);
+        currentMode.DeactivateMode();
+        currentMode = null;
+        
+    }
+
+    private void NotifyModeActivated(CameraMode mode)
+    {
+        foreach (var anomaly in FindObjectsOfType<Anomaly>())
+            anomaly.OnCameraModeActivated(mode);
+    }
+
+    private void NotifyModeDeactivated(CameraMode mode)
+    {
+        foreach (var anomaly in FindObjectsOfType<Anomaly>())
+            anomaly.OnCameraModeDeactivated(mode);
     }
 }

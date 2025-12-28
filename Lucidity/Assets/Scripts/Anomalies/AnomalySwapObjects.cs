@@ -7,12 +7,14 @@ public class AnomalySwapObjects : Anomaly
 
     protected override void OnActivate()
     {
+        base.OnActivate();
         if (normalRoot) normalRoot.SetActive(false);
         if (anomalyRoot) anomalyRoot.SetActive(true);
     }
 
     protected override void OnDeactivate()
     {
+        base.OnDeactivate();
         if (normalRoot) normalRoot.SetActive(true);
         if (anomalyRoot) anomalyRoot.SetActive(false);
     }

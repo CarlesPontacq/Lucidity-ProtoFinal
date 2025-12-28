@@ -6,11 +6,13 @@ public class AnomalyDisappear : Anomaly
 
     protected override void OnActivate()
     {
+        base.OnActivate();
         if (targetToHide) targetToHide.SetActive(false);
     }
 
     protected override void OnDeactivate()
     {
+        base.OnDeactivate();
         if (targetToHide) targetToHide.SetActive(true);
     }
 }

@@ -11,6 +11,8 @@ public class DocumentationMode : CameraMode
 
     private Coroutine flashCoroutine;
 
+    private Camera docCamera;
+
     void Start()
     {
         base.Start();
@@ -27,6 +29,7 @@ public class DocumentationMode : CameraMode
 
     protected override void OnActivated()
     {
+        docCamera = GetComponent<Camera>();
         base.OnActivated();
 
         if(flashCoroutine != null)
@@ -47,6 +50,27 @@ public class DocumentationMode : CameraMode
     {
         yield return new WaitForSeconds(flasDuration);
 
+        CaptureAnomalies();
+
         FindObjectOfType<CameraManager>().DeactivateMode();
+    }
+
+    private void CaptureAnomalies()
+    {
+        var anomalyManager = FindObjectOfType<AnomalyManager>();
+        if (anomalyManager == null || docCamera == null) return;
+
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(docCamera);
+
+        foreach(var anomaly in FindObjectsOfType<Anomaly>())
+        {
+            Collider col = anomaly.GetComponentInChildren<Collider>();
+            if (col == null) continue;
+
+            if(GeometryUtility.TestPlanesAABB(planes, col.bounds))
+            {
+                anomalyManager.RegisterDocumentation(anomaly);
+            }
+        }
     }
 }

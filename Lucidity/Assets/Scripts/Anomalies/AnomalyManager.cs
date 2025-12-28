@@ -17,6 +17,8 @@ public class AnomalyManager : MonoBehaviour
     private readonly List<int> bag = new();
     private Anomaly current;
 
+    [SerializeField] private HashSet<string> documentedAnomalies = new();
+
     private void Awake()
     {
         RefillAndShuffleBag();
@@ -63,6 +65,21 @@ public class AnomalyManager : MonoBehaviour
         {
             int j = UnityEngine.Random.Range(0, i + 1);
             (bag[i], bag[j]) = (bag[j], bag[i]);
+        }
+    }
+
+    public bool IsDocumented(string anomalyId)
+    {
+        return documentedAnomalies.Contains(anomalyId);
+    }
+
+    public void RegisterDocumentation(Anomaly anomaly)
+    {
+        if (anomaly == null) return;
+
+        if (documentedAnomalies.Add(anomaly.Id))
+        {
+            Debug.Log($"Anomalía documentada: {anomaly.Id}");
         }
     }
 }

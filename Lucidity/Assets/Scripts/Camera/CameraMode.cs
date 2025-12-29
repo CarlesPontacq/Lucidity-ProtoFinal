@@ -20,7 +20,6 @@ public abstract class CameraMode : MonoBehaviour
     public virtual void ActivateMode()
     {
         isActive = true;
-        //Poner efectos visuales
         OnActivated();
     }
 
@@ -28,9 +27,10 @@ public abstract class CameraMode : MonoBehaviour
     public virtual void DeactivateMode() 
     {
         isActive = false;
-        //Quitar efectos visuales
         OnDeactivated();
     }
+
+    public virtual void PerformCameraAction() { }
 
     protected virtual void OnActivated() { }
 

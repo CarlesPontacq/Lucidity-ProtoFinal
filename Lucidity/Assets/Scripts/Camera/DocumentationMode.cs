@@ -31,11 +31,28 @@ public class DocumentationMode : CameraMode
     {
         docCamera = GetComponent<Camera>();
         base.OnActivated();
+    }
 
-        if(flashCoroutine != null)
-            StopCoroutine(flashCoroutine);
+    public override void PerformCameraAction()
+    {
+        base.PerformCameraAction();
 
-        flashCoroutine = StartCoroutine(FlashCoroutine());
+            if (flashCoroutine != null)
+                StopCoroutine(flashCoroutine);
+
+
+        if (currentReels > 0)
+        {   
+            currentReels--;
+
+            CameraUIHandler ui = FindAnyObjectByType<CameraUIHandler>();
+            ui.ActualizeRemainingReelsIndicator(currentReels);
+            flashCoroutine = StartCoroutine(FlashCoroutine());
+        }
+        else
+        {
+            FindObjectOfType<CameraManager>().EndCameraAction();
+        }
     }
 
     protected override void OnDeactivated()
@@ -52,7 +69,7 @@ public class DocumentationMode : CameraMode
 
         CaptureAnomalies();
 
-        FindObjectOfType<CameraManager>().DeactivateMode();
+        FindObjectOfType<CameraManager>().EndCameraAction();
     }
 
     private void CaptureAnomalies()

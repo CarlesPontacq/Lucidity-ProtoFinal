@@ -33,4 +33,15 @@ public class CameraRotation : MonoBehaviour
         transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
         body.rotation = Quaternion.Euler(0f, currentRotation.y, 0f);
     }
+
+    public void ApplyRotationOffset(Quaternion rotationOffset)
+    {
+        Vector3 eulerOffset = rotationOffset.eulerAngles;
+
+        rotation.y += eulerOffset.y;
+        currentRotation.y += eulerOffset.y;
+
+        rotation.x += eulerOffset.x;
+        currentRotation.x += eulerOffset.x;
+    }
 }

@@ -16,14 +16,14 @@ public class PlayerInputObserver : MonoBehaviour
         movement = context.ReadValue<Vector2>();
         movement = new Vector2(Mathf.RoundToInt(movement.x), Mathf.RoundToInt(movement.y));
 
-        Debug.Log("Movement: " + movement);
+        //Debug.Log("Movement: " + movement);
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
         cameraMovement = context.ReadValue<Vector2>();
 
-        Debug.Log("Camera: " + cameraMovement);
+        //Debug.Log("Camera: " + cameraMovement);
     }
 
     public void OnRun(InputAction.CallbackContext context)

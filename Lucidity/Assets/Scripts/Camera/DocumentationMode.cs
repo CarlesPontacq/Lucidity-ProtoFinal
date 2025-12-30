@@ -13,12 +13,15 @@ public class DocumentationMode : CameraMode
 
     private Camera docCamera;
 
+    private ScreenshotManager screenshotManager;
+
     void Start()
     {
         base.Start();
 
         currentReels = maxReels;
         isUnlocked = true;
+        screenshotManager = GetComponent<ScreenshotManager>();
     }
 
 
@@ -65,6 +68,7 @@ public class DocumentationMode : CameraMode
 
     private IEnumerator FlashCoroutine()
     {
+        screenshotManager.CaptureScreenshot();
         yield return new WaitForSeconds(flasDuration);
 
         CaptureAnomalies();

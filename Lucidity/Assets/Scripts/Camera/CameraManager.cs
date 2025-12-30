@@ -72,6 +72,7 @@ public class CameraManager : MonoBehaviour
         if (currentMode == null) return;
 
         NotifyModeActivated(currentMode);
+        ui.ShowCameraFlash(true);
         currentMode.PerformCameraAction();
     }
 
@@ -80,6 +81,7 @@ public class CameraManager : MonoBehaviour
         if (currentMode == null) return;
 
         NotifyModeDeactivated(currentMode);
+        ui.ShowCameraFlash(false);
     }
 
     //Funcion para activar el modo de la camera deseado

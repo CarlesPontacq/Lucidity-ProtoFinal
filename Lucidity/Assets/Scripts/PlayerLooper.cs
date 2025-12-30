@@ -15,6 +15,9 @@ public class PlayerLooper : MonoBehaviour
 
             playerRb.transform.position = teleportDestination.TransformPoint(localOffset);
             cameraRotationRef.ApplyRotationOffset(relativeRotation);
+
+            // Por ahora se suma siempre
+            GameManager.Instance.AddLoopToCount();
         }
     }
 }

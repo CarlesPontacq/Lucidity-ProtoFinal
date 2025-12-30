@@ -19,7 +19,8 @@ public class CameraManager : MonoBehaviour
 
     void Start()
     {
-        ui.ShowReelIndicator(lookingThroughCamera);
+        SetMode(cameraModes[0]);
+        ui.ShowReelIndicator(true);
     }
 
     private void Update()
@@ -34,22 +35,6 @@ public class CameraManager : MonoBehaviour
                     PerformCameraAction();
                 }
             }
-        }
-        else
-        {
-            //Testeo de no tener ningun modo seleccionado
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                DeactivateMode();
-                ui.ShowReelIndicator(false);
-            }
-        }
-
-        //Seleccionar el primer modo
-        if (Input.GetKeyDown(KeyCode.Alpha1)) 
-        {
-            SetMode(cameraModes[0]);
-            ui.ShowReelIndicator(true);
         }
 
         //Poner/Usar la vista de camara camara

@@ -13,20 +13,27 @@ public abstract class Anomaly : MonoBehaviour, ICameraModeListener
     public void Activate() => OnActivate();
     public void Deactivate() => OnDeactivate();
 
-    protected virtual void OnActivate() 
+    protected virtual void OnActivate()
     {
-        if (NormalObject != null)
-        {
-            NormalObject.GetComponent<MeshRenderer>().enabled = false;
-        }
+        SetNormalRenderersEnabled(false);
     }
-    protected virtual void OnDeactivate() 
+
+    protected virtual void OnDeactivate()
     {
-        if (NormalObject != null)
-        {
-            NormalObject.GetComponent<MeshRenderer>().enabled = true;
-        }
+        SetNormalRenderersEnabled(true);
     }
+
+    private void SetNormalRenderersEnabled(bool enabled)
+    {
+        if (NormalObject == null) return;
+
+        var renderers = NormalObject.GetComponentsInChildren<Renderer>(true);
+        if (renderers == null || renderers.Length == 0) return;
+
+        foreach (var r in renderers)
+            r.enabled = enabled;
+    }
+
 
     public virtual void OnCameraModeActivated(CameraMode mode)
     {

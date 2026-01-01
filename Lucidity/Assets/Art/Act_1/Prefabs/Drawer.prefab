@@ -88,13 +88,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: Drawer
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 89a2af4ddaacd224f8250c405c215b27, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 89a2af4ddaacd224f8250c405c215b27, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8844317425305470536}
   m_SourcePrefab: {fileID: 100100000, guid: 89a2af4ddaacd224f8250c405c215b27, type: 3}
 --- !u!4 &554405772727181489 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 89a2af4ddaacd224f8250c405c215b27, type: 3}
   m_PrefabInstance: {fileID: 16638229086799706}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &935189273326664203 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 89a2af4ddaacd224f8250c405c215b27, type: 3}
+  m_PrefabInstance: {fileID: 16638229086799706}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &8844317425305470536
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935189273326664203}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0942765, y: 1.0185189, z: 1.0263691}
+  m_Center: {x: 0.54713804, y: -0.5092592, z: 0.5151814}

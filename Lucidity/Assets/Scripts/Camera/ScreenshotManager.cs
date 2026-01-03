@@ -5,15 +5,17 @@ using UnityEngine.UI;
 
 public class ScreenshotManager : MonoBehaviour
 {
+    [SerializeField] private Camera photoCamera;
+    [SerializeField] private Camera normalCamera;
+    [SerializeField] private RenderTexture renderTexture;
+
     private CameraUIHandler ui;
-    public Camera mainCamera;
-    private string folderName = "Screenshots";
 
     private void Start()
     {
         ui = FindAnyObjectByType<CameraUIHandler>();
     }
-
+    
     public void CaptureScreenshot()
     {
         StartCoroutine(CaptureRoutine());
@@ -21,43 +23,31 @@ public class ScreenshotManager : MonoBehaviour
 
     private IEnumerator CaptureRoutine()
     {
-        ui.ShowCameraUI(false);
-
         yield return new WaitForEndOfFrame();
 
-        if (!System.IO.Directory.Exists(Application.persistentDataPath + "/" + folderName))
-            System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/" + folderName);
+        photoCamera.targetTexture = renderTexture;
 
-        string path = Application.persistentDataPath + "/" + folderName + "/screenshot_" + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".png";
-        ScreenCapture.CaptureScreenshot(path);
-        Debug.Log("Captura guardada en: " + path);
+        RenderTexture current = RenderTexture.active;
+        RenderTexture.active = renderTexture;
 
-        yield return null;
+        photoCamera.Render();
 
-        LoadLatestScreenshot();
+        Texture2D tex = new Texture2D(
+            renderTexture.width,
+            renderTexture.height,
+            TextureFormat.RGB24,
+            false
+        );
 
-        ui.ShowCameraUI(true);
-    }
+        tex.ReadPixels(
+            new Rect(0, 0, renderTexture.width, renderTexture.height),
+            0, 0
+        );
+        tex.Apply();
 
-    public void LoadLatestScreenshot()
-    {
-        string path = Application.persistentDataPath + "/" + folderName;
-        DirectoryInfo dir = new DirectoryInfo(path);
-        FileInfo[] files = dir.GetFiles("*.png");
-        if (files.Length > 0)
-        {
-            FileInfo latestFile = files[0];
-            foreach (FileInfo file in files)
-            {
-                if (file.LastWriteTime > latestFile.LastWriteTime)
-                    latestFile = file;
-            }
+        RenderTexture.active = current;
+        photoCamera.targetTexture = null;
 
-            byte[] fileData = File.ReadAllBytes(latestFile.FullName);
-            Texture2D tex = new Texture2D(2, 2);
-            tex.LoadImage(fileData);
-
-            ui.ActualizeLastPhoto(tex);
-        }
-    }
+        ui.ActualizeLastPhoto(tex);
+    } 
 }

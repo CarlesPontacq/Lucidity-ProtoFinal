@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-3841955436415749397
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: thunder3_{-3841955436415749397}
+  m_AudioClip: {fileID: 8300000, guid: d0459045db08f384fadff34d4d21a27e, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &1908476208530360447
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: thunder2_{1908476208530360447}
+  m_AudioClip: {fileID: 8300000, guid: dd2e97531be7ebc42a3d6326bae2afa1, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &2964883749843370294
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: thunder5_{2964883749843370294}
+  m_AudioClip: {fileID: 8300000, guid: 3d82845d3f3f79747b250b13a47a4499, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5622871391347355620
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 334047__drukalo__badweatherrec_{5622871391347355620}
+  m_AudioClip: {fileID: 8300000, guid: b07b19b974ed3004a9ba863354619254, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Thunders
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0.6
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: -2, y: 2}
+  m_PitchRandomizationRange: {x: -2, y: 2}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: 1908476208530360447}
+  - {fileID: -3841955436415749397}
+  - {fileID: 5622871391347355620}
+  - {fileID: 2964883749843370294}
+  m_AvoidRepeatingLast: 2
+  m_PlaybackMode: 2
+  m_TriggerMode: 1
+  m_AutomaticTriggerMode: 0
+  m_LoopMode: 1
+  m_VolumeRandomizationEnabled: 1
+  m_PitchRandomizationEnabled: 1
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0

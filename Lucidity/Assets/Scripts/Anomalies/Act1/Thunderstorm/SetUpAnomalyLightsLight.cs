@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class SetUpAnomalyLightsLight : MonoBehaviour
 {
-    [SerializeField] private Light normalLight;
+    [SerializeField] private AnomalySwapObjects swap;
 
 
     void Start()
     {
-        normalLight.enabled = false;
+        swap.GetNormalObjectOverride().GetComponent<Light>().enabled = false;
     }
 }

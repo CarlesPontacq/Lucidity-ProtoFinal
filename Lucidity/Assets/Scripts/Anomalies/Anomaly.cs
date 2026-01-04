@@ -50,4 +50,9 @@ public abstract class Anomaly : MonoBehaviour, ICameraModeListener
             OnActivate();
         }
     }
+
+    public GameObject GetNormalObjectOverride()
+    {
+        return normalObjectOverride;
+    }
 }

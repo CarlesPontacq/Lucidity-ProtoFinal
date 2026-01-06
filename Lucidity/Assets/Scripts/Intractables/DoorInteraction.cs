@@ -14,12 +14,16 @@ public class DoorInteraction : ObjectInteraction
     private Quaternion closedRotation;
     private Quaternion targetRotation;
 
+    Vector3 soundPosition;
+
     protected override void Start()
     {
         base.Start();
 
         closedRotation = pivot.rotation;
         targetRotation = closedRotation;
+
+        soundPosition = transform.position;
     }
 
     protected override void Update()
@@ -31,6 +35,7 @@ public class DoorInteraction : ObjectInteraction
 
     public override void Interact()
     {
+        Debug.Log("Interactua");
         ToogleDoor();
     }
 
@@ -47,10 +52,12 @@ public class DoorInteraction : ObjectInteraction
             float direction = side > 0 ? -1f : 1f;
 
             targetRotation = closedRotation * Quaternion.Euler(0, openAngle * direction, 0);
+            SFXManager.Instance.PlaySpatialSound("openDoor", soundPosition, 1f);
         }
         else
         {
             targetRotation = closedRotation;
+            SFXManager.Instance.PlaySpatialSound("closeDoor", soundPosition, 1f);
         }
 
         hasToApplyRotation = true;

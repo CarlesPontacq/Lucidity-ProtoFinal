@@ -44,6 +44,9 @@ public class PlayerInputObserver : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        onInteract?.Invoke();
+        if (context.phase == InputActionPhase.Started)
+        {
+            onInteract?.Invoke();
+        }
     }
 }

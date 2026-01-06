@@ -1,20 +1,29 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjectInteraction : MonoBehaviour
 {
-    protected virtual void Start() { }
+    private Material outline;
+
+    protected virtual void Start()
+    {
+        outline = GetComponent<Renderer>().materials[1];       
+    }
+
     protected virtual void Update() { }
 
     public virtual void Interact() { }
 
     public virtual void OnFocusEnter()
     {
-        Debug.Log("Seleccionado");
+        outline.SetFloat("_Enabled", 1f);
+
+        SFXManager.Instance.PlayGlobalSound("objectHover", 0.5f);
     }
     
     public virtual void OnFocusExit()
     {
-        Debug.Log("Deseleccionado");
+        outline.SetFloat("_Enabled", 0f);
     }
 }

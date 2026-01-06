@@ -1,55 +1,29 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjectInteraction : MonoBehaviour
 {
-    [Header("Base Object Interaction")]
-    public Transform objectToInteractWith;
-    public Transform player;
-
-    public float interactionDistance = 2.5f;
-    public float lookDotThreshold = 0.5f;
-
-    protected bool canInteract = false;
-    protected bool hasToApplyInteraction = false;
+    private Material outline;
 
     protected virtual void Start()
     {
-        
+        outline = GetComponent<Renderer>().materials[1];       
     }
 
-    protected virtual void Update()
+    protected virtual void Update() { }
+
+    public virtual void Interact() { }
+
+    public virtual void OnFocusEnter()
     {
-        //---------Need to adapt this to new input system
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TryToInteract();
-        }
+        outline.SetFloat("_Enabled", 1f);
+
+        SFXManager.Instance.PlayGlobalSound("objectHover", 0.5f);
     }
-
-    //Checks if the player can interact with the door
-    protected virtual void TryToInteract()
+    
+    public virtual void OnFocusExit()
     {
-        canInteract = false;
-
-        if (!IsPlayerClose()) return;
-        if (!IsPlayerLooking()) return;
-
-        canInteract = true;
-    }
-
-    //Checks if the player is near the door
-    bool IsPlayerClose()
-    {
-        float distance = Vector3.Distance(player.position, transform.position);
-        return distance <= interactionDistance;
-    }
-
-    //Checks if the player is looking in the general direction of the door
-    bool IsPlayerLooking()
-    {
-        Vector3 dirToDoor = (transform.position - player.position).normalized;
-        float dot = Vector3.Dot(player.forward, dirToDoor);
-
-        return dot >= lookDotThreshold;
+        outline.SetFloat("_Enabled", 0f);
     }
 }

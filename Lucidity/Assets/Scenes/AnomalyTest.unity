@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 268003756}
   - component: {fileID: 268003755}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Anomaly Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,10 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b11e621d27aec44d838bba59085ecb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entries:
-  - id: 02
-    prefab: {fileID: 4295948862430669663, guid: aec6d049cdecbf444821cd5b4319612c, type: 3}
-    anchor: {fileID: 0}
+  anomalyPrefabs: []
+  anchors: []
 --- !u!4 &268003756
 Transform:
   m_ObjectHideFlags: 0

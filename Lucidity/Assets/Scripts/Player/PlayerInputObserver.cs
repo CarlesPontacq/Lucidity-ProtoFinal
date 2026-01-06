@@ -11,19 +11,21 @@ public class PlayerInputObserver : MonoBehaviour
     public bool IsPressingRun { get; private set; } = false;
     public Action onRun;
 
+    public Action onInteract;
+
     public void OnMove(InputAction.CallbackContext context)
     {
         movement = context.ReadValue<Vector2>();
         movement = new Vector2(Mathf.RoundToInt(movement.x), Mathf.RoundToInt(movement.y));
 
-        Debug.Log("Movement: " + movement);
+        //Debug.Log("Movement: " + movement);
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
         cameraMovement = context.ReadValue<Vector2>();
 
-        Debug.Log("Camera: " + cameraMovement);
+        //Debug.Log("Camera: " + cameraMovement);
     }
 
     public void OnRun(InputAction.CallbackContext context)
@@ -37,6 +39,14 @@ public class PlayerInputObserver : MonoBehaviour
         {
             onRun?.Invoke();
             IsPressingRun = false;
+        }
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            onInteract?.Invoke();
         }
     }
 }

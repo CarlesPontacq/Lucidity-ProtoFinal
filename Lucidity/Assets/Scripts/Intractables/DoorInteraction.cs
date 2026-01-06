@@ -35,7 +35,6 @@ public class DoorInteraction : ObjectInteraction
 
     public override void Interact()
     {
-        Debug.Log("Interactua");
         ToogleDoor();
     }
 

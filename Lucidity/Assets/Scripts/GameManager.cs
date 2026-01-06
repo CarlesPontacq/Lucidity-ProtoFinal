@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public static GameObject PlayerRef { get; private set; }
 
     [SerializeField] private LoopCounter loopCounterUI;
     private int currentLoop = 0;
@@ -18,6 +19,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+    }
+
+    private void Start()
+    {
+        PlayerRef = GameObject.FindGameObjectWithTag("Player");
     }
 
     public void AddLoopToCount()

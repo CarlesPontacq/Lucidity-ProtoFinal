@@ -11,6 +11,8 @@ public class PlayerInputObserver : MonoBehaviour
     public bool IsPressingRun { get; private set; } = false;
     public Action onRun;
 
+    public Action onInteract;
+
     public void OnMove(InputAction.CallbackContext context)
     {
         movement = context.ReadValue<Vector2>();
@@ -38,5 +40,10 @@ public class PlayerInputObserver : MonoBehaviour
             onRun?.Invoke();
             IsPressingRun = false;
         }
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        onInteract?.Invoke();
     }
 }

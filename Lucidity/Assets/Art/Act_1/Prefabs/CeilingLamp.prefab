@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1025440571526769094
+--- !u!1 &2143175229111738954
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4820375999115792511}
-  - component: {fileID: 5887969844113402057}
-  - component: {fileID: 8595356763207581585}
+  - component: {fileID: 5597385266880145795}
+  - component: {fileID: 1874161403669555109}
+  - component: {fileID: 3328215618804721210}
   m_Layer: 0
-  m_Name: Point Light
+  m_Name: Area Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4820375999115792511
+--- !u!4 &5597385266880145795
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1025440571526769094}
+  m_GameObject: {fileID: 2143175229111738954}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.63, y: -0.11, z: -0.004}
+  m_LocalPosition: {x: 0.787, y: -0.085, z: 0.034}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 898537461051452622}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!108 &5887969844113402057
+--- !u!108 &1874161403669555109
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1025440571526769094}
+  m_GameObject: {fileID: 2143175229111738954}
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 0.6431373, g: 0.85098046, b: 0.75294125, a: 1}
-  m_Intensity: 7
-  m_Range: 3.5
-  m_SpotAngle: 168.06863
-  m_InnerSpotAngle: 114.17262
+  m_Color: {r: 0.7301032, g: 0.96981126, b: 0.80285543, a: 1}
+  m_Intensity: 3
+  m_Range: 4
+  m_SpotAngle: 168.06871
+  m_InnerSpotAngle: 147.57248
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -85,8 +85,8 @@ Light:
   m_RenderingLayerMask: 1
   m_Lightmapping: 2
   m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1.7701724, y: 0.21823002}
-  m_BounceIntensity: 3
+  m_AreaSize: {x: 0.25618288, y: 0.18665496}
+  m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -98,13 +98,13 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &8595356763207581585
+--- !u!114 &3328215618804721210
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1025440571526769094}
+  m_GameObject: {fileID: 2143175229111738954}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
@@ -146,16 +146,16 @@ Transform:
   m_GameObject: {fileID: 4198698120953839328}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.003, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8945808847269257218}
-  - {fileID: 4820375999115792511}
-  - {fileID: 2216467907655825492}
+  - {fileID: 5597385266880145795}
+  - {fileID: 5379702778125966052}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6760004782414156570
+--- !u!1 &4600559678663160488
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,46 +163,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2216467907655825492}
-  - component: {fileID: 5479687485365611556}
-  - component: {fileID: 3521558375112997560}
+  - component: {fileID: 5379702778125966052}
+  - component: {fileID: 252211402698099845}
+  - component: {fileID: 3810204719329270531}
   m_Layer: 0
-  m_Name: Point Light (1)
+  m_Name: Area Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2216467907655825492
+--- !u!4 &5379702778125966052
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6760004782414156570}
+  m_GameObject: {fileID: 4600559678663160488}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.77, y: -0.11, z: -0.004}
+  m_LocalPosition: {x: -0.882, y: -0.085, z: 0.034}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 898537461051452622}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!108 &5479687485365611556
+--- !u!108 &252211402698099845
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6760004782414156570}
+  m_GameObject: {fileID: 4600559678663160488}
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 0
-  m_Color: {r: 0.6431373, g: 0.85098046, b: 0.75294125, a: 1}
-  m_Intensity: 7
-  m_Range: 3.5
-  m_SpotAngle: 168.06863
-  m_InnerSpotAngle: 114.17262
+  m_Color: {r: 0.7301032, g: 0.96981126, b: 0.80285543, a: 1}
+  m_Intensity: 3
+  m_Range: 4
+  m_SpotAngle: 168.06871
+  m_InnerSpotAngle: 147.57248
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -240,8 +240,8 @@ Light:
   m_RenderingLayerMask: 1
   m_Lightmapping: 2
   m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1.7701724, y: 0.21823002}
-  m_BounceIntensity: 3
+  m_AreaSize: {x: 0.25618288, y: 0.18665496}
+  m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -253,13 +253,13 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &3521558375112997560
+--- !u!114 &3810204719329270531
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6760004782414156570}
+  m_GameObject: {fileID: 4600559678663160488}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}

@@ -15261,7 +15261,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teleportDestination: {fileID: 978223943}
   playerRb: {fileID: 2013668899}
-  cameraRotationRef: {fileID: 2140830289}
+  playerBodyRef: {fileID: 1922791612}
+  playerCameraRotationRef: {fileID: 2140830289}
+  cameraCameraRotationRef: {fileID: 1508752749}
 --- !u!43 &1164707022
 Mesh:
   m_ObjectHideFlags: 0
@@ -17880,6 +17882,17 @@ Transform:
   - {fileID: 1608889723}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1508752749 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8555045754497542684, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+  m_PrefabInstance: {fileID: 1918388900}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77743da7eec2172478c1655adc23739c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1512597433
 Mesh:
   m_ObjectHideFlags: 0
@@ -20924,6 +20937,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+--- !u!1 &1922791612 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 915884292051239957, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+  m_PrefabInstance: {fileID: 1277785580}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1941106439
 GameObject:
   m_ObjectHideFlags: 0

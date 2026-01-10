@@ -1,29 +1,31 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ReportSheetOverlayUI : MonoBehaviour
 {
+    [Header("UI")]
     [SerializeField] private GameObject sheetPanel;
     [SerializeField] private TMP_InputField numberInput;
-    [SerializeField] private TMP_Text feedbackText;
+    [SerializeField] private Image signatureStamp; 
+    [SerializeField] private TMP_Text feedbackText; 
 
+    [Header("Game")]
     [SerializeField] private AnomalyManager anomalyManager;
-    [SerializeField] private LoopManager loopManager;
+    [SerializeField] private LoopManager loopManager; 
 
     private bool open;
+    private bool signedThisAttempt;
 
     private void Awake()
     {
         SetOpen(false);
-        numberInput.contentType = TMP_InputField.ContentType.IntegerNumber;
 
-        numberInput.onSubmit.AddListener(_ => Submit());
-        numberInput.onEndEdit.AddListener(_ =>
-        {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-                Submit();
-        });
+        if (numberInput)
+            numberInput.contentType = TMP_InputField.ContentType.IntegerNumber;
 
+        if (signatureStamp)
+            signatureStamp.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -31,36 +33,25 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
             SetOpen(!open);
 
-        if (open && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
-            ValidateAndLog();
+        if (open && Input.GetKeyDown(KeyCode.Escape))
+            SetOpen(false);
     }
 
-    private void ValidateAndLog()
+    public void OnSignatureClicked()
     {
-        Debug.Log($"[UI] anomalyManager={anomalyManager.name} id={anomalyManager.GetInstanceID()} ActiveSpawnedCount={anomalyManager.ActiveSpawnedCount} EntryCount={anomalyManager.EntryCount}");
+        if (!open) return;
+        if (signedThisAttempt) return;
 
-        if (!int.TryParse(numberInput.text, out int guess) || guess < 0)
-        {
-            Debug.Log("Número inválido en el documento.");
-            return;
-        }
+        signedThisAttempt = true;
 
-        int expected = anomalyManager.ActiveSpawnedCount; 
+        if (signatureStamp) signatureStamp.gameObject.SetActive(true);
 
-
-        if (guess == expected)
-            Debug.Log($"Correcto: {guess} (Loop total = {expected})");
-        else
-            Debug.Log($"Incorrecto: pusiste {guess}, pero el total es {expected}");
-    }
-
-
-
-    public void Submit()
-    {
+        // Validar número
         if (!int.TryParse(numberInput.text, out int guess) || guess < 0)
         {
             SetFeedback("Introduce un número válido.");
+            signedThisAttempt = false;
+            if (signatureStamp) signatureStamp.gameObject.SetActive(false);
             return;
         }
 
@@ -68,15 +59,33 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (guess == expected)
         {
+            Debug.Log($"Firmado y correcto. Puesto={guess}, Esperado={expected}");
             SetFeedback("Correcto.");
-            SetOpen(false);
-            loopManager.StartNextLoop();
+
+            // avanza al siguiente loop 
+            if (loopManager != null)
+                loopManager.StartNextLoop();
+
+            // espera 2s 
+            StartCoroutine(CloseAfterSeconds(0.5f));
         }
         else
         {
+            Debug.Log($"Firmado pero incorrecto. Puesto={guess}, Esperado={expected}");
             SetFeedback("Incorrecto. Sigues en el mismo loop.");
+
+            // Permite reintentar
+            signedThisAttempt = false;
+            if (signatureStamp) signatureStamp.gameObject.SetActive(false);
         }
     }
+
+    private System.Collections.IEnumerator CloseAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        SetOpen(false);
+    }
+
 
 
     private void SetOpen(bool value)
@@ -89,9 +98,12 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (open)
         {
+            signedThisAttempt = false;
+            if (signatureStamp) signatureStamp.gameObject.SetActive(false);
+
             SetFeedback("");
-            numberInput.ActivateInputField();
-            numberInput.Select();
+            numberInput?.ActivateInputField();
+            numberInput?.Select();
         }
     }
 

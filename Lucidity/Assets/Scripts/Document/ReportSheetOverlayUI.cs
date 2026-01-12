@@ -20,6 +20,9 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [Header("Exit Blocker (optional)")]
     [SerializeField] private ExitDoorBlocker exitBlocker;
 
+    [Header("Exit Lamp (optional)")]
+    [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
+
     [Header("Input")]
     [SerializeField] private KeyCode toggleKey = KeyCode.Q;
 
@@ -65,6 +68,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
         signedThisAttempt = true;
         if (signatureStamp) signatureStamp.gameObject.SetActive(true);
 
+        // Validar número
         if (!int.TryParse(numberInput.text, out int guess) || guess < 0)
         {
             SetFeedback("Introduce un número válido.");
@@ -76,14 +80,26 @@ public class ReportSheetOverlayUI : MonoBehaviour
         int expected = (anomalyManager != null) ? anomalyManager.ActiveSpawnedCount : 0;
         bool correct = (guess == expected);
 
+        // Guardar resultado
         if (reportState != null)
             reportState.Submit(correct);
 
+        // Desbloquear puerta/paso (siempre al firmar)
         if (exitDoor != null)
             exitDoor.UnlockExitDoor();
 
         if (exitBlocker != null)
             exitBlocker.UnlockPassage();
+
+        // Cambiar lámpara a verde (siempre al firmar)
+        if (exitLamp != null)
+        {
+            exitLamp.SetCanPass(true);
+        }
+        else
+        {
+            Debug.LogWarning("ReportSheetOverlayUI: exitLamp NO asignada (no puedo poner la luz en verde).");
+        }
 
         if (correct)
         {
@@ -114,11 +130,9 @@ public class ReportSheetOverlayUI : MonoBehaviour
         open = value;
         if (sheetPanel) sheetPanel.SetActive(open);
 
-        // Cursor para UI
         Cursor.visible = open;
         Cursor.lockState = open ? CursorLockMode.None : CursorLockMode.Locked;
 
-        // Pausa / reanuda tiempo
         if (pauseGameWhenOpen)
         {
             if (open)
@@ -132,7 +146,6 @@ public class ReportSheetOverlayUI : MonoBehaviour
             }
         }
 
-        // Bloquear interacciones del mundo
         SetWorldInteractionsEnabled(!open);
 
         if (open)

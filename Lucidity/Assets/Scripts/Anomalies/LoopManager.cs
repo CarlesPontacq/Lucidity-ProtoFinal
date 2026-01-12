@@ -6,7 +6,16 @@ public class LoopManager : MonoBehaviour
     [SerializeField] private ReportResultState reportState;
     [SerializeField] private DoorInteraction exitDoor;
 
+    [Header("Optional")]
+    [SerializeField] private ExitDoorBlocker exitBlocker;
+    [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
+
+    [Header("Safety")]
+    [Tooltip("Evita avanzar múltiples loops por doble trigger.")]
+    [SerializeField] private float nextLoopCooldown = 0.25f;
+
     private int loopIndex = 0;
+    private float nextAllowedTime = 0f;
 
     private void Start()
     {
@@ -15,17 +24,26 @@ public class LoopManager : MonoBehaviour
 
     public void StartNextLoop()
     {
+        if (Time.unscaledTime < nextAllowedTime)
+            return;
+
+        nextAllowedTime = Time.unscaledTime + nextLoopCooldown;
         loopIndex++;
 
-        // 1) Reset del resultado del documento
         if (reportState != null)
             reportState.ResetForNewLoop();
 
-        // 2) Bloquear la puerta de salida otra vez
         if (exitDoor != null)
             exitDoor.LockExitDoor();
 
-        // 3) Spawnear anomalías del loop
+        if (exitBlocker != null)
+            exitBlocker.LockPassage();
+
+        if (exitLamp != null)
+            exitLamp.SetCanPass(false);
+        else
+            Debug.LogWarning("LoopManager: exitLamp NO asignada (no puedo poner la luz en rojo).");
+
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();
 

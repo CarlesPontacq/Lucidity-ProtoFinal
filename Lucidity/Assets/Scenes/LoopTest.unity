@@ -7847,6 +7847,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8566057502488477297, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
       insertIndex: -1
       addedObject: {fileID: 353865392}
+    - targetCorrespondingSourceObject: {fileID: 5142321455952335462, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1161643234}
   m_SourcePrefab: {fileID: 100100000, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
 --- !u!43 &17673306
 Mesh:
@@ -11145,6 +11148,9 @@ MonoBehaviour:
   anomalyManager: {fileID: 980516674}
   reportState: {fileID: 0}
   exitDoor: {fileID: 0}
+  exitBlocker: {fileID: 0}
+  exitLamp: {fileID: 0}
+  nextLoopCooldown: 0.25
 --- !u!4 &374127247
 Transform:
   m_ObjectHideFlags: 0
@@ -14540,6 +14546,7 @@ MonoBehaviour:
   exitDoor: {fileID: 353865392}
   reportState: {fileID: 980516676}
   exitBlocker: {fileID: 1919718252}
+  exitLamp: {fileID: 1161643234}
   toggleKey: 113
   closeDelaySeconds: 0.5
   pauseGameWhenOpen: 1
@@ -15981,6 +15988,33 @@ MonoBehaviour:
   playerBodyRef: {fileID: 1922791612}
   playerCameraRotationRef: {fileID: 2140830289}
   cameraCameraRotationRef: {fileID: 1508752749}
+--- !u!1 &1161643230 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5142321455952335462, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+  m_PrefabInstance: {fileID: 15475508}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1161643232 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6655702797243593651, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+  m_PrefabInstance: {fileID: 15475508}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1161643234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1161643230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba2c26e399d1d4641ad4a2b244a50987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetRenderer: {fileID: 1161643232}
+  materialIndex: 1
+  blockedColor: {r: 1, g: 0, b: 0, a: 1}
+  unlockedColor: {r: 0, g: 1, b: 0, a: 1}
+  emissionIntensity: 4
 --- !u!43 &1164707022
 Mesh:
   m_ObjectHideFlags: 0

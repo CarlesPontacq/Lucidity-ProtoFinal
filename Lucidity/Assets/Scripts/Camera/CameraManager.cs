@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 
 public class CameraManager : MonoBehaviour
 {
@@ -17,6 +17,8 @@ public class CameraManager : MonoBehaviour
     [Header("UI")]
     public CameraUIHandler ui;
 
+    private bool lastDocOpen = false;
+
     void Start()
     {
         SetMode(cameraModes[0]);
@@ -25,22 +27,40 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
+        bool docOpen = ReportSheetOverlayUI.IsOpen;
+
+        //Si se acaba de abrir el documento, sale de la camara automaticamente
+        if (docOpen && !lastDocOpen)
+        {
+            if (lookingThroughCamera)
+            {
+                StopLookingThroughCamera();
+                ui.ShowCameraFlash(false);
+            }
+        }
+        lastDocOpen = docOpen;
+
+        //Mientras el documento este abierto, no proceses inputs de camara
+        if (docOpen)
+            return;
+
+        //Si el puntero esta encima de UI, ignora clicks del mundo/camara
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (lookingThroughCamera)
         {
-            //Hacer el Flash
+            // Hacer el Flash / acción de cámara
             if (Input.GetButtonDown("Fire2"))
             {
-                if (lookingThroughCamera)
-                {
-                    PerformCameraAction();
-                }
+                PerformCameraAction();
             }
         }
 
-        //Poner/Usar la vista de camara camara
+        // Poner/Usar la vista de cámara
         if (Input.GetButtonDown("Fire1"))
         {
-            if(!lookingThroughCamera)
+            if (!lookingThroughCamera)
             {
                 LookThroughCamera();
             }
@@ -51,7 +71,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    //Funcion para hacer la acción correspondiente de la camara seleccionada
+    // Funcion para hacer la acción correspondiente de la camara seleccionada
     private void PerformCameraAction()
     {
         if (currentMode == null) return;
@@ -69,7 +89,7 @@ public class CameraManager : MonoBehaviour
         ui.ShowCameraFlash(false);
     }
 
-    //Funcion para activar el modo de la camera deseado
+    // Funcion para activar el modo de la camera deseado
     public void SetMode(CameraMode mode)
     {
         DeactivateMode();
@@ -79,22 +99,21 @@ public class CameraManager : MonoBehaviour
         currentMode = mode;
     }
 
-    //Funcion para desactivar el modo de la camera
+    // Funcion para desactivar el modo de la camera
     public void DeactivateMode()
     {
         if (currentMode == null) return;
-        
+
         NotifyModeDeactivated(currentMode);
         StopLookingThroughCamera();
         currentMode.DeactivateMode();
         currentMode = null;
-       
     }
 
-    //Funcion para mirar/usar la camara
+    // Funcion para mirar/usar la camara
     private void LookThroughCamera()
     {
-        if(currentMode == null) return;
+        if (currentMode == null) return;
 
         currentMode.ActivateMode();
 
@@ -102,16 +121,16 @@ public class CameraManager : MonoBehaviour
         {
             case DocumentationMode:
                 ui.ShowCameraAspect(true);
-            break;
+                break;
             case null:
                 Debug.Log("Null Camera Mode");
-            break;
+                break;
         }
 
         lookingThroughCamera = true;
     }
 
-    //Funcion para dejar de mirar/usar la camara
+    // Funcion para dejar de mirar/usar la camara
     private void StopLookingThroughCamera()
     {
         if (currentMode == null) return;
@@ -129,17 +148,17 @@ public class CameraManager : MonoBehaviour
         lookingThroughCamera = false;
     }
 
-    //Funcion para avisar a las anomalias de lo que tengan que hacer cuando se activa el modo de camera
+    // Funcion para avisar a las anomalias de lo que tengan que hacer cuando se activa el modo de camera
     private void NotifyModeActivated(CameraMode mode)
     {
-        foreach (var anomaly in FindObjectsOfType<Anomaly>())
+        foreach (var anomaly in FindObjectsByType<Anomaly>(FindObjectsSortMode.None))
             anomaly.OnCameraModeActivated(mode);
     }
 
-    //Funcion para avisar a las anomalias de lo que tengan que hacer cuando se desactiva el modo de camera
+    // Funcion para avisar a las anomalias de lo que tengan que hacer cuando se desactiva el modo de camera
     private void NotifyModeDeactivated(CameraMode mode)
     {
-        foreach (var anomaly in FindObjectsOfType<Anomaly>())
+        foreach (var anomaly in FindObjectsByType<Anomaly>(FindObjectsSortMode.None))
             anomaly.OnCameraModeDeactivated(mode);
     }
 }

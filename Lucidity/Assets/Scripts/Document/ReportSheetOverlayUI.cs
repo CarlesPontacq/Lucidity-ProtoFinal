@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class ReportSheetOverlayUI : MonoBehaviour
 {
+    public static bool IsOpen { get; private set; }
+
     [Header("UI")]
     [SerializeField] private GameObject sheetPanel;
     [SerializeField] private TMP_InputField numberInput;
@@ -16,7 +18,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [SerializeField] private ReportResultState reportState;
 
     [Header("Exit Blocker (optional)")]
-    [SerializeField] private ExitDoorBlocker exitBlocker; 
+    [SerializeField] private ExitDoorBlocker exitBlocker;
 
     [Header("Input")]
     [SerializeField] private KeyCode toggleKey = KeyCode.Q;
@@ -24,9 +26,16 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [Header("Timing")]
     [SerializeField] private float closeDelaySeconds = 2f;
 
+    [Header("Pause")]
+    [SerializeField] private bool pauseGameWhenOpen = true;
+
+    [Header("Disable mouse/world interactions while open")]
+    [SerializeField] private MonoBehaviour[] disableWhileOpen;
+
     private bool open;
     private bool signedThisAttempt;
     private Coroutine closeRoutine;
+    private float previousTimeScale = 1f;
 
     private void Awake()
     {
@@ -54,10 +63,8 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (signedThisAttempt) return;
 
         signedThisAttempt = true;
-
         if (signatureStamp) signatureStamp.gameObject.SetActive(true);
 
-        // Validar número
         if (!int.TryParse(numberInput.text, out int guess) || guess < 0)
         {
             SetFeedback("Introduce un número válido.");
@@ -90,23 +97,43 @@ public class ReportSheetOverlayUI : MonoBehaviour
         }
 
         if (closeRoutine != null) StopCoroutine(closeRoutine);
-        closeRoutine = StartCoroutine(CloseAfterSeconds(closeDelaySeconds));
+        closeRoutine = StartCoroutine(CloseAfterSecondsRealtime(closeDelaySeconds));
     }
 
-    private System.Collections.IEnumerator CloseAfterSeconds(float seconds)
+    private System.Collections.IEnumerator CloseAfterSecondsRealtime(float seconds)
     {
-        yield return new WaitForSeconds(seconds);
+        yield return new WaitForSecondsRealtime(seconds);
         SetOpen(false);
         closeRoutine = null;
     }
 
     private void SetOpen(bool value)
     {
+        IsOpen = value;
+
         open = value;
         if (sheetPanel) sheetPanel.SetActive(open);
 
+        // Cursor para UI
         Cursor.visible = open;
         Cursor.lockState = open ? CursorLockMode.None : CursorLockMode.Locked;
+
+        // Pausa / reanuda tiempo
+        if (pauseGameWhenOpen)
+        {
+            if (open)
+            {
+                previousTimeScale = Time.timeScale;
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                Time.timeScale = previousTimeScale;
+            }
+        }
+
+        // Bloquear interacciones del mundo
+        SetWorldInteractionsEnabled(!open);
 
         if (open)
         {
@@ -119,8 +146,29 @@ public class ReportSheetOverlayUI : MonoBehaviour
         }
     }
 
+    private void SetWorldInteractionsEnabled(bool enabled)
+    {
+        if (disableWhileOpen == null) return;
+
+        for (int i = 0; i < disableWhileOpen.Length; i++)
+        {
+            if (disableWhileOpen[i] != null)
+                disableWhileOpen[i].enabled = enabled;
+        }
+    }
+
     private void SetFeedback(string msg)
     {
         if (feedbackText) feedbackText.text = msg;
+    }
+
+    private void OnDisable()
+    {
+        IsOpen = false;
+
+        if (pauseGameWhenOpen && open)
+            Time.timeScale = previousTimeScale;
+
+        SetWorldInteractionsEnabled(true);
     }
 }

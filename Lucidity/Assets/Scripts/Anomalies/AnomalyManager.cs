@@ -74,7 +74,6 @@ public class AnomalyManager : MonoBehaviour
         foreach (var e in selectedEntriesThisLoop)
         {
             if(e == null || e.prefab == null || e.anchor == null) continue;
-                Debug.Log("TEST");
 
             var instance = Instantiate(e.prefab, e.anchor.position, e.anchor.rotation, e.anchor);
             instance.Activate();
@@ -149,7 +148,7 @@ public class AnomalyManager : MonoBehaviour
 
         for(int i = 0; i < count; i++)
         {
-            int index = UnityEngine.Random.Range(0, entries.Count);
+            int index = UnityEngine.Random.Range(0, bag.Count);
             selectedEntriesThisLoop.Add(bag[index]);
             bag.RemoveAt(index);
         }

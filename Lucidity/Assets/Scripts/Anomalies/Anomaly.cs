@@ -23,6 +23,11 @@ public abstract class Anomaly : MonoBehaviour, ICameraModeListener
         SetNormalRenderersEnabled(true);
     }
 
+    protected virtual void OnDestroy()
+    {
+        Deactivate();
+    }
+
     private void SetNormalRenderersEnabled(bool enabled)
     {
         if (NormalObject == null) return;

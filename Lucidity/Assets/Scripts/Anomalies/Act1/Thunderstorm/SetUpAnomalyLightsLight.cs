@@ -6,7 +6,7 @@ public class SetUpAnomalyLightsLight : MonoBehaviour
     [SerializeField] private AnomalySwapObjects swap;
 
 
-    void Start()
+    void Awake()
     {
         swap.GetNormalObjectOverride().GetComponent<Light>().enabled = false;
     }

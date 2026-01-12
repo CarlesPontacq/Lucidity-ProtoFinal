@@ -122,7 +122,10 @@ public class AnomalyManager : MonoBehaviour
         for (int i = 0; i < spawnedThisLoop.Count; i++)
         {
             if (spawnedThisLoop[i] != null)
+            {
                 Destroy(spawnedThisLoop[i].gameObject);
+
+            }
         }
         spawnedThisLoop.Clear();
     }

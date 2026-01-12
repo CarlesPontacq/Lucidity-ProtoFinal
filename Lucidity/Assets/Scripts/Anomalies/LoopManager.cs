@@ -49,4 +49,13 @@ public class LoopManager : MonoBehaviour
 
         Debug.Log($"Loop {loopIndex} started");
     }
+
+    private void Update()
+    {
+        if (GameManager.Instance.GetNewLoop())
+        {
+            StartNextLoop();
+            GameManager.Instance.SetNewLoop(false);
+        }
+    }
 }

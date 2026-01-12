@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private LoopCounter loopCounterUI;
     private int currentLoop = 0;
+    private bool newLoop = false;
 
     private void Awake()
     {
@@ -31,11 +32,23 @@ public class GameManager : MonoBehaviour
     {
         currentLoop++;
         loopCounterUI.SetLoopCounterText(currentLoop);
+        newLoop = true;
     }
 
     public void ResetLoops()
     {
         currentLoop = 0;
         loopCounterUI.SetLoopCounterText(currentLoop);
+        newLoop= false;
+    }
+
+    public bool GetNewLoop()
+    {
+        return newLoop;
+    }
+
+    public void SetNewLoop(bool loopCondition)
+    {
+        newLoop = loopCondition;
     }
 }

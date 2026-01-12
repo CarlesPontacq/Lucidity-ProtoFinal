@@ -26,7 +26,7 @@ public class AnomalyManager : MonoBehaviour
     [Header("Loop Selection")]
     [SerializeField] private int anomaliesPerLoop = 3;
 
-    private readonly List<Entry> selectedEntriesThisLoop = new();
+    private List<Entry> selectedEntriesThisLoop = new();
 
     // Instancias vivas REALES en escena (limpia nulos)
     public int ActiveSpawnedCount
@@ -65,9 +65,16 @@ public class AnomalyManager : MonoBehaviour
 
     void SpawnSelectedEntries()
     {
+        if (selectedEntriesThisLoop == null || selectedEntriesThisLoop.Count == 0)
+        {
+            Debug.LogWarning($"[AnomalyManager {GetInstanceID()}] selectedEntriesThisLoop is empty!");
+            return;
+        }
+
         foreach (var e in selectedEntriesThisLoop)
         {
-            if(e == null || e.prefab == null || e.anchor) continue;
+            if(e == null || e.prefab == null || e.anchor == null) continue;
+                Debug.Log("TEST");
 
             var instance = Instantiate(e.prefab, e.anchor.position, e.anchor.rotation, e.anchor);
             instance.Activate();
@@ -78,6 +85,7 @@ public class AnomalyManager : MonoBehaviour
         }
     }
 
+    /*
     private void SpawnAllEntries()
     {
         if (entries == null || entries.Count == 0)
@@ -108,6 +116,7 @@ public class AnomalyManager : MonoBehaviour
             Debug.Log($"spawnedThisLoop.Count = {spawnedThisLoop.Count}");
         }
     }
+    */
 
     public void ClearSpawned()
     {
@@ -137,7 +146,6 @@ public class AnomalyManager : MonoBehaviour
 
         List<Entry> bag = new(entries);
 
-        Debug.Log(bag.Count);
 
         for(int i = 0; i < count; i++)
         {

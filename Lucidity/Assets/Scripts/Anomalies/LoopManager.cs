@@ -81,6 +81,8 @@ public class LoopManager : MonoBehaviour
         if (exitLamp != null)
             exitLamp.SetCanPass(false);
 
+        Debug.Log("Test");
+
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();
         else

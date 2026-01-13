@@ -2,19 +2,27 @@ using UnityEngine;
 
 public class ExitLightEmissionMapSwitcher : MonoBehaviour
 {
+    [Header("Renderer / Material")]
     [SerializeField] private Renderer targetRenderer;
-    [SerializeField] private int materialIndex = 0;
+    [SerializeField] private int materialIndex = 1; // bombilla
+
+    [Header("Point Light (optional)")]
+    [SerializeField] private Light pointLight;
+    [SerializeField] private bool changeLightIntensity = false;
+    [SerializeField] private float blockedIntensity = 2f;
+    [SerializeField] private float unlockedIntensity = 2f;
 
     [Header("Emission Map Colors")]
     [SerializeField] private Color blockedColor = Color.red;
     [SerializeField] private Color unlockedColor = Color.green;
 
-    [Header("Emission Color (kept constant so map shows)")]
+    [Header("Emission Strength (HDR)")]
     [SerializeField] private float emissionIntensity = 2f;
 
-    private Material matInstance;
     private Texture2D texRed;
     private Texture2D texGreen;
+
+    private MaterialPropertyBlock mpb;
 
     private static readonly int EmissionMapId = Shader.PropertyToID("_EmissionMap");
     private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
@@ -24,39 +32,54 @@ public class ExitLightEmissionMapSwitcher : MonoBehaviour
         if (targetRenderer == null)
             targetRenderer = GetComponentInChildren<Renderer>();
 
+        if (pointLight == null)
+            pointLight = GetComponentInChildren<Light>();
+
         if (targetRenderer == null)
         {
-            Debug.LogWarning("ExitLightEmissionMapSwitcher: no Renderer.");
+            Debug.LogWarning("[ExitLamp] No Renderer encontrado.");
             enabled = false;
             return;
         }
 
-        // Crea material instanciado (no modificar sharedMaterial)
-        var mats = targetRenderer.materials;
-        if (materialIndex < 0 || materialIndex >= mats.Length)
+        var mats = targetRenderer.sharedMaterials;
+        if (materialIndex < 0 || materialIndex >= mats.Length || mats[materialIndex] == null)
         {
-            Debug.LogWarning("ExitLightEmissionMapSwitcher: materialIndex fuera de rango.");
+            Debug.LogWarning($"[ExitLamp] materialIndex fuera de rango o material null. index={materialIndex}, mats={mats.Length}");
             enabled = false;
             return;
         }
 
-        matInstance = mats[materialIndex];
-        matInstance.EnableKeyword("_EMISSION");
-        matInstance.SetColor(EmissionColorId, Color.white * emissionIntensity);
+        mats[materialIndex].EnableKeyword("_EMISSION");
 
-        // Crear 2 texturas 1x1 en runtime
+        mpb = new MaterialPropertyBlock();
+
         texRed = Make1x1(blockedColor);
         texGreen = Make1x1(unlockedColor);
 
-        SetCanPass(false); // rojo por defecto
+        SetCanPass(false); 
     }
 
     public void SetCanPass(bool canPass)
     {
-        if (matInstance == null) return;
+        if (targetRenderer == null) return;
 
-        matInstance.SetTexture(EmissionMapId, canPass ? texGreen : texRed);
-        matInstance.EnableKeyword("_EMISSION");
+        Color emissionBase = Color.white * emissionIntensity;
+
+        mpb.Clear();
+        mpb.SetTexture(EmissionMapId, canPass ? texGreen : texRed);
+        mpb.SetColor(EmissionColorId, emissionBase);
+
+        targetRenderer.SetPropertyBlock(mpb, materialIndex);
+
+        // --- Point Light
+        if (pointLight != null)
+        {
+            pointLight.color = canPass ? unlockedColor : blockedColor;
+
+            if (changeLightIntensity)
+                pointLight.intensity = canPass ? unlockedIntensity : blockedIntensity;
+        }
     }
 
     private Texture2D Make1x1(Color c)

@@ -62,13 +62,14 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     public void OnSignatureClicked()
     {
+        Debug.Log("[UI] OnSignatureClicked()");
+
         if (!open) return;
         if (signedThisAttempt) return;
 
         signedThisAttempt = true;
         if (signatureStamp) signatureStamp.gameObject.SetActive(true);
 
-        // Validar número
         if (!int.TryParse(numberInput.text, out int guess) || guess < 0)
         {
             SetFeedback("Introduce un número válido.");
@@ -80,35 +81,32 @@ public class ReportSheetOverlayUI : MonoBehaviour
         int expected = (anomalyManager != null) ? anomalyManager.ActiveSpawnedCount : 0;
         bool correct = (guess == expected);
 
-        // Guardar resultado
         if (reportState != null)
             reportState.Submit(correct);
 
-        // Desbloquear puerta/paso (siempre al firmar)
         if (exitDoor != null)
             exitDoor.UnlockExitDoor();
 
         if (exitBlocker != null)
             exitBlocker.UnlockPassage();
 
-        // Cambiar lámpara a verde (siempre al firmar)
+        // ✅ Si no está asignada, intenta encontrarla en escena
+        if (exitLamp == null)
+            exitLamp = FindAnyObjectByType<ExitLightEmissionMapSwitcher>();
+
         if (exitLamp != null)
-        {
             exitLamp.SetCanPass(true);
-        }
         else
-        {
-            Debug.LogWarning("ReportSheetOverlayUI: exitLamp NO asignada (no puedo poner la luz en verde).");
-        }
+            Debug.LogWarning("[UI] exitLamp NO encontrada/asignada. No puedo poner verde.");
 
         if (correct)
         {
-            Debug.Log($"Firmado y correcto. Puesto={guess}, Esperado={expected}");
+            Debug.Log($"✅ Firmado y correcto. Puesto={guess}, Esperado={expected}");
             SetFeedback("Correcto.");
         }
         else
         {
-            Debug.Log($"Firmado pero incorrecto. Puesto={guess}, Esperado={expected}");
+            Debug.Log($"❌ Firmado pero incorrecto. Puesto={guess}, Esperado={expected}");
             SetFeedback("Incorrecto. Ya puedes pasar por la puerta.");
         }
 

@@ -8,7 +8,9 @@ public class ObjectInteraction : MonoBehaviour
 
     protected virtual void Start()
     {
-        outline = GetComponent<Renderer>().materials[1];       
+        outline = GetComponent<Renderer>().materials[1];
+        if (outline == null)
+            Debug.LogError("Falta material de outline en objeto interactuable: " + gameObject.name);
     }
 
     protected virtual void Update() { }

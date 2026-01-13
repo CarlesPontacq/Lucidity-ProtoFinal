@@ -14499,6 +14499,7 @@ GameObject:
   - component: {fileID: 980516674}
   - component: {fileID: 980516675}
   - component: {fileID: 980516676}
+  - component: {fileID: 980516677}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -14549,7 +14550,7 @@ MonoBehaviour:
   entries:
   - id: 01
     prefab: {fileID: 7739749172363548354, guid: 5faf263b0e387514a85e4e96f8abc435, type: 3}
-    anchor: {fileID: 1776915997}
+    anchor: {fileID: 0}
   - id: 02
     prefab: {fileID: 3118194181478342108, guid: 31134ae4384a51445aad859c601ee401, type: 3}
     anchor: {fileID: 377366486}
@@ -14567,7 +14568,7 @@ MonoBehaviour:
     anchor: {fileID: 496788574}
   - id: 07
     prefab: {fileID: 3118194181478342108, guid: 31134ae4384a51445aad859c601ee401, type: 3}
-    anchor: {fileID: 117833768}
+    anchor: {fileID: 0}
   anomaliesPerLoop: 6
 --- !u!114 &980516675
 MonoBehaviour:
@@ -14607,6 +14608,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55f6d4eb384116b47a44bb65a400ab05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &980516677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980516671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ec09b991a1c1924c9e15a78a3bd8be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &984555324 stripped
@@ -20874,11 +20887,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!4 &1776915997 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5953837333078035501, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
-  m_PrefabInstance: {fileID: 15475508}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1810090606
 Mesh:
   m_ObjectHideFlags: 0

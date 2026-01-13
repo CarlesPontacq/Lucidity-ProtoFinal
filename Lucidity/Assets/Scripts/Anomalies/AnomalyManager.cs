@@ -17,13 +17,18 @@ public class AnomalyManager : MonoBehaviour
     // Instancias vivas del loop
     private readonly List<Anomaly> spawnedThisLoop = new();
 
-    // Documentadas (si lo sigues usando)
+    // Documentadas
     private readonly HashSet<string> documentedAnomalies = new();
 
     // Número de entries configuradas
     public int EntryCount => entries != null ? entries.Count : 0;
 
-    // ✅ Instancias vivas REALES en escena (limpia nulos)
+    [Header("Loop Selection")]
+    [SerializeField] private int anomaliesPerLoop = 3;
+
+    private List<Entry> selectedEntriesThisLoop = new();
+
+    // Instancias vivas REALES en escena (limpia nulos)
     public int ActiveSpawnedCount
     {
         get
@@ -50,11 +55,36 @@ public class AnomalyManager : MonoBehaviour
 
         documentedAnomalies.Clear();
         ClearSpawned();
-        SpawnAllEntries();
+
+        SelectEntriesForThisLoop();
+        //SpawnAllEntries();
+        SpawnSelectedEntries();
 
         Debug.Log($"[AnomalyManager {GetInstanceID()}] After SpawnAllEntries. ActiveSpawnedCount={ActiveSpawnedCount} listCount={spawnedThisLoop.Count}");
     }
 
+    void SpawnSelectedEntries()
+    {
+        if (selectedEntriesThisLoop == null || selectedEntriesThisLoop.Count == 0)
+        {
+            Debug.LogWarning($"[AnomalyManager {GetInstanceID()}] selectedEntriesThisLoop is empty!");
+            return;
+        }
+
+        foreach (var e in selectedEntriesThisLoop)
+        {
+            if(e == null || e.prefab == null || e.anchor == null) continue;
+
+            var instance = Instantiate(e.prefab, e.anchor.position, e.anchor.rotation, e.anchor);
+            instance.Activate();
+
+            spawnedThisLoop.Add(instance);
+            Debug.Log($"Instantiated: {instance.name} active={instance.gameObject.activeInHierarchy}");
+
+        }
+    }
+
+    /*
     private void SpawnAllEntries()
     {
         if (entries == null || entries.Count == 0)
@@ -85,13 +115,17 @@ public class AnomalyManager : MonoBehaviour
             Debug.Log($"spawnedThisLoop.Count = {spawnedThisLoop.Count}");
         }
     }
+    */
 
     public void ClearSpawned()
     {
         for (int i = 0; i < spawnedThisLoop.Count; i++)
         {
             if (spawnedThisLoop[i] != null)
+            {
                 Destroy(spawnedThisLoop[i].gameObject);
+
+            }
         }
         spawnedThisLoop.Clear();
     }
@@ -102,5 +136,24 @@ public class AnomalyManager : MonoBehaviour
     {
         if (anomaly == null) return;
         documentedAnomalies.Add(anomaly.Id);
+    }
+
+    private void SelectEntriesForThisLoop()
+    {
+        selectedEntriesThisLoop.Clear();
+
+        if(entries == null || entries.Count == 0 ) return;
+
+        int count = Mathf.Min(anomaliesPerLoop, entries.Count);
+
+        List<Entry> bag = new(entries);
+
+
+        for(int i = 0; i < count; i++)
+        {
+            int index = UnityEngine.Random.Range(0, bag.Count);
+            selectedEntriesThisLoop.Add(bag[index]);
+            bag.RemoveAt(index);
+        }
     }
 }

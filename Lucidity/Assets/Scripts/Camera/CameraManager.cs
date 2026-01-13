@@ -154,13 +154,19 @@ public class CameraManager : MonoBehaviour
 
     private void NotifyModeActivated(CameraMode mode)
     {
-        foreach (var anomaly in FindObjectsByType<Anomaly>(FindObjectsSortMode.None))
+        var manager = FindAnyObjectByType<AnomalyManager>();
+        if (manager == null) return;
+
+        foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
             anomaly.OnCameraModeActivated(mode);
     }
 
     private void NotifyModeDeactivated(CameraMode mode)
     {
-        foreach (var anomaly in FindObjectsByType<Anomaly>(FindObjectsSortMode.None))
+        var manager = FindAnyObjectByType<AnomalyManager>();
+        if (manager == null) return;
+
+        foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
             anomaly.OnCameraModeDeactivated(mode);
     }
 }

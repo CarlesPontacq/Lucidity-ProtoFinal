@@ -59,6 +59,8 @@ public class DoorInteraction : ObjectInteraction
     {
         if (requiresReportToOpen)
             isLocked = true;
+
+        CloseDoor(false);
     }
 
     void ToggleDoor()
@@ -94,6 +96,23 @@ public class DoorInteraction : ObjectInteraction
         {
             pivot.localRotation = targetLocalRotation;
             hasToApplyRotation = false;
+        }
+    }
+
+    public void CloseDoor(bool animate)
+    {
+        isOpen = false;
+        targetLocalRotation = closedLocalRotation;
+
+        if (animate)
+        {
+            hasToApplyRotation = true;
+            SFXManager.Instance.PlaySpatialSound("closeDoor", soundPosition, 1f);
+        }
+        else
+        {
+            hasToApplyRotation = false;
+            pivot.localRotation = closedLocalRotation;
         }
     }
 }

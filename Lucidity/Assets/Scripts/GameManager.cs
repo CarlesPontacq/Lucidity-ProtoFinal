@@ -6,8 +6,8 @@ public class GameManager : MonoBehaviour
     public static GameObject PlayerRef { get; private set; }
 
     [SerializeField] private LoopCounter loopCounterUI;
+    [SerializeField] private LoopManager loopManager;
     private int currentLoop = 0;
-    private bool newLoop = false;
 
     private void Awake()
     {
@@ -28,27 +28,21 @@ public class GameManager : MonoBehaviour
         PlayerRef = GameObject.FindGameObjectWithTag("Player");
     }
 
+    public void ResetAndStartNextLoop()
+    {
+        Debug.Log("ResetAndStartNextLoop se ejecuta");
+        loopManager.StartNextLoop();
+    }
+
     public void AddLoopToCount()
     {
         currentLoop++;
         loopCounterUI.SetLoopCounterText(currentLoop);
-        newLoop = true;
     }
 
     public void ResetLoops()
     {
         currentLoop = 0;
         loopCounterUI.SetLoopCounterText(currentLoop);
-        newLoop= false;
-    }
-
-    public bool GetNewLoop()
-    {
-        return newLoop;
-    }
-
-    public void SetNewLoop(bool loopCondition)
-    {
-        newLoop = loopCondition;
     }
 }

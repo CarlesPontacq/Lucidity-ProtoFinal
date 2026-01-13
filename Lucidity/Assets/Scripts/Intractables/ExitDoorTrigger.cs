@@ -24,7 +24,6 @@ public class ExitDoorTrigger : MonoBehaviour
         if (reportState.WasCorrect)
         {
             Debug.Log("Documento correcto: pasando al siguiente loop.");
-            loopManager.StartNextLoop();
         }
         else
         {

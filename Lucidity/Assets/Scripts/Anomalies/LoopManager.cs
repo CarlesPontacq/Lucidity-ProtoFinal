@@ -1,10 +1,13 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class LoopManager : MonoBehaviour
 {
     [SerializeField] private AnomalyManager anomalyManager;
     [SerializeField] private ReportResultState reportState;
     [SerializeField] private DoorInteraction exitDoor;
+    [SerializeField] private List<DoorInteraction> interactableDoors;
+    [SerializeField] private DocumentationMode documentationMode;
 
     [Header("Optional")]
     [SerializeField] private ExitDoorBlocker exitBlocker;
@@ -31,13 +34,36 @@ public class LoopManager : MonoBehaviour
         loopIndex++;
 
         if (reportState != null)
+        {
+            Debug.Log("Report state no null");
+
+            if (reportState.WasCorrect)
+            {
+                Debug.Log("Report state correcto");
+               GameManager.Instance.AddLoopToCount();
+            }
+            else
+                GameManager.Instance.ResetLoops();
+
             reportState.ResetForNewLoop();
+        }
+        else
+        {
+            Debug.Log("Report state null");
+
+        }
 
         if (exitDoor != null)
             exitDoor.LockExitDoor();
 
+        for (int i = 0; i < interactableDoors.Count; i++)
+            interactableDoors[i].CloseDoor(false);
+
         if (exitBlocker != null)
             exitBlocker.LockPassage();
+
+        if (documentationMode != null)
+            documentationMode.ResetReels();
 
         if (exitLamp != null)
             exitLamp.SetCanPass(false);
@@ -48,14 +74,5 @@ public class LoopManager : MonoBehaviour
             anomalyManager.StartNewLoop();
 
         Debug.Log($"Loop {loopIndex} started");
-    }
-
-    private void Update()
-    {
-        if (GameManager.Instance.GetNewLoop())
-        {
-            StartNextLoop();
-            GameManager.Instance.SetNewLoop(false);
-        }
     }
 }

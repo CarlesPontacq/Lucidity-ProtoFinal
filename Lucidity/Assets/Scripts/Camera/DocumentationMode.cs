@@ -97,4 +97,12 @@ public class DocumentationMode : CameraMode
             }
         }
     }
+
+    public void ResetReels()
+    {
+        currentReels = maxReels;
+        CameraUIHandler ui = FindAnyObjectByType<CameraUIHandler>();
+        if (ui != null)
+            ui.ActualizeRemainingReelsIndicator(currentReels);
+    }
 }

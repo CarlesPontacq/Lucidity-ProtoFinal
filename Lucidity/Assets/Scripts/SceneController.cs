@@ -21,7 +21,6 @@ public class SceneController : MonoBehaviour
         }
 
         currentScene = SceneManager.GetActiveScene().buildIndex;
-        Debug.Log(currentScene);
     }
 
 

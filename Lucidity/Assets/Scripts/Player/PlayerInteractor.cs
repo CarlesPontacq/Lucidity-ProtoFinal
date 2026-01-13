@@ -7,7 +7,7 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] float interactionDistance = 2.5f;
     [SerializeField] float interactionRadius = 0.5f;
 
-    ObjectInteraction currentInteractionTarget = null;
+    public ObjectInteraction currentInteractionTarget = null;
 
     private void Start()
     {

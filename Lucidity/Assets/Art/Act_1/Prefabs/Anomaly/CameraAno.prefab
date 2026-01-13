@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4604996259543248722}
-  m_Layer: 0
+  - component: {fileID: 8665474631625892965}
+  m_Layer: 3
   m_Name: CameraAno
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,6 +34,21 @@ Transform:
   - {fileID: 614089051040890579}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8665474631625892965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5462071033148882201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de486454da40a944b46832e0ac04f9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  rotationSpeed: 3
+  rotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &1085112150718077240
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92,6 +108,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3c9be07259e3be94885948160ea6f37c, type: 3}
       propertyPath: m_Name
       value: Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3c9be07259e3be94885948160ea6f37c, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3c9be07259e3be94885948160ea6f37c, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -162,6 +182,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a27e7c5e43732094e92a021ebfd4872f, type: 3}
       propertyPath: m_Name
       value: WallStand
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a27e7c5e43732094e92a021ebfd4872f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a27e7c5e43732094e92a021ebfd4872f, type: 3}
       propertyPath: m_StaticEditorFlags

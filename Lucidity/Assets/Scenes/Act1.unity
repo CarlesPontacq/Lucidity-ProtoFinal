@@ -1024,74 +1024,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7126023484953243791, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
   m_PrefabInstance: {fileID: 368735917}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &190424717
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 190424720}
-  - component: {fileID: 190424719}
-  - component: {fileID: 190424718}
-  m_Layer: 0
-  m_Name: ExitDoorTrigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &190424718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 190424717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c15239ff810c874a94b86884914d67b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reportState: {fileID: 1758223928}
-  loopManager: {fileID: 1146919884}
---- !u!65 &190424719
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 190424717}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!4 &190424720
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 190424717}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.900001, y: 0.55, z: 7.4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &203202166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2157895780906986769, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
@@ -5239,9 +5171,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anomalyManager: {fileID: 1758223927}
   reportState: {fileID: 0}
-  exitDoor: {fileID: 0}
+  exitDoor: {fileID: 1326264524}
   exitBlocker: {fileID: 0}
-  exitLamp: {fileID: 0}
+  exitLamp: {fileID: 627909402}
   nextLoopCooldown: 0.25
 --- !u!4 &1146919885
 Transform:
@@ -10013,7 +9945,6 @@ SceneRoots:
   - {fileID: 1326264523}
   - {fileID: 1415356121}
   - {fileID: 465829420}
-  - {fileID: 190424720}
   - {fileID: 1290058892}
   - {fileID: 423939892}
   - {fileID: 1157575911}

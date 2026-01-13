@@ -151,14 +151,20 @@ public class CameraManager : MonoBehaviour
     // Funcion para avisar a las anomalias de lo que tengan que hacer cuando se activa el modo de camera
     private void NotifyModeActivated(CameraMode mode)
     {
-        foreach (var anomaly in FindObjectsByType<Anomaly>(FindObjectsSortMode.None))
+        var manager = FindAnyObjectByType<AnomalyManager>();
+        if (manager == null) return;
+
+        foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
             anomaly.OnCameraModeActivated(mode);
     }
 
     // Funcion para avisar a las anomalias de lo que tengan que hacer cuando se desactiva el modo de camera
     private void NotifyModeDeactivated(CameraMode mode)
     {
-        foreach (var anomaly in FindObjectsByType<Anomaly>(FindObjectsSortMode.None))
+        var manager = FindAnyObjectByType<AnomalyManager>();
+        if (manager == null) return;
+
+        foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
             anomaly.OnCameraModeDeactivated(mode);
     }
 }

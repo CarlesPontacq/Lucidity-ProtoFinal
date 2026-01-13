@@ -7,6 +7,7 @@ public class LoopManager : MonoBehaviour
     [SerializeField] private ReportResultState reportState;
     [SerializeField] private DoorInteraction exitDoor;
     [SerializeField] private List<DoorInteraction> interactableDoors;
+    [SerializeField] private DocumentationMode documentationMode;
 
     [Header("Optional")]
     [SerializeField] private ExitDoorBlocker exitBlocker;
@@ -43,6 +44,9 @@ public class LoopManager : MonoBehaviour
 
         if (exitBlocker != null)
             exitBlocker.LockPassage();
+
+        if (documentationMode != null)
+            documentationMode.ResetReels();
 
         if (exitLamp != null)
             exitLamp.SetCanPass(false);

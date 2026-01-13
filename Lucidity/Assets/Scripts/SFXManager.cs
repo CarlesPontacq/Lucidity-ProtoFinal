@@ -126,21 +126,4 @@ public class SFXManager : MonoBehaviour
         }
         sfxObjectPool.Release(source);
     }
-
-    // TEST
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            PlayGlobalSound("simpleAudioTest", 1f);
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            PlayGlobalSound("clipVariantsTest", 1f);
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            PlayGlobalSound("randomPitchVolumeTest", 1f);
-        }
-    }
 }

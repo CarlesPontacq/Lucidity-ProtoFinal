@@ -78,7 +78,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
             return;
         }
 
-        int expected = (anomalyManager != null) ? anomalyManager.ActiveSpawnedCount : 0;
+        int expected = (anomalyManager != null) ? anomalyManager.GetExpectedAnomalies() : 0;
         bool correct = (guess == expected);
 
         if (reportState != null)
@@ -108,6 +108,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
         {
             Debug.Log($"❌ Firmado pero incorrecto. Puesto={guess}, Esperado={expected}");
             SetFeedback("Incorrecto. Ya puedes pasar por la puerta.");
+            GameManager.Instance.ResetLoops();
         }
 
         if (closeRoutine != null) StopCoroutine(closeRoutine);

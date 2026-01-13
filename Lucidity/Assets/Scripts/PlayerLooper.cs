@@ -19,8 +19,7 @@ public class PlayerLooper : MonoBehaviour
             playerCameraRotationRef.ApplyRotationOffset(relativeRotation);
             cameraCameraRotationRef.ApplyRotationOffset(relativeRotation);
 
-            // Por ahora se suma siempre
-            GameManager.Instance.AddLoopToCount();
+            GameManager.Instance.ResetAndStartNextLoop();
         }
     }
 }

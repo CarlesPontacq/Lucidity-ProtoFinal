@@ -40,6 +40,11 @@ public class AnomalyManager : MonoBehaviour
         }
     }
 
+    public int GetExpectedAnomalies()
+    {
+        return anomaliesPerLoop;
+    }
+
     private void Start()
     {
         Debug.Log($"[AnomalyManager {GetInstanceID()}] Start() called. EntryCount={EntryCount}");

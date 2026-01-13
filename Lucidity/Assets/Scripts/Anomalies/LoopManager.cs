@@ -34,7 +34,24 @@ public class LoopManager : MonoBehaviour
         loopIndex++;
 
         if (reportState != null)
+        {
+            Debug.Log("Report state no null");
+
+            if (reportState.WasCorrect)
+            {
+                Debug.Log("Report state correcto");
+               GameManager.Instance.AddLoopToCount();
+            }
+            else
+                GameManager.Instance.ResetLoops();
+
             reportState.ResetForNewLoop();
+        }
+        else
+        {
+            Debug.Log("Report state null");
+
+        }
 
         if (exitDoor != null)
             exitDoor.LockExitDoor();
@@ -57,14 +74,5 @@ public class LoopManager : MonoBehaviour
             anomalyManager.StartNewLoop();
 
         Debug.Log($"Loop {loopIndex} started");
-    }
-
-    private void Update()
-    {
-        if (GameManager.Instance.GetNewLoop())
-        {
-            StartNextLoop();
-            GameManager.Instance.SetNewLoop(false);
-        }
     }
 }

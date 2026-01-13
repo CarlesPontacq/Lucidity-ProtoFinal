@@ -4,7 +4,9 @@ public class PlayerLooper : MonoBehaviour
 {
     [SerializeField] private Transform teleportDestination;
     [SerializeField] private Rigidbody playerRb;
-    [SerializeField] private CameraRotation cameraRotationRef;
+    [SerializeField] private GameObject playerBodyRef;
+    [SerializeField] private CameraRotation playerCameraRotationRef;
+    [SerializeField] private CameraRotation cameraCameraRotationRef;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,7 +16,8 @@ public class PlayerLooper : MonoBehaviour
             Quaternion relativeRotation = teleportDestination.rotation * Quaternion.Inverse(transform.rotation);
 
             playerRb.transform.position = teleportDestination.TransformPoint(localOffset);
-            cameraRotationRef.ApplyRotationOffset(relativeRotation);
+            playerCameraRotationRef.ApplyRotationOffset(relativeRotation);
+            cameraCameraRotationRef.ApplyRotationOffset(relativeRotation);
 
             // Por ahora se suma siempre
             GameManager.Instance.AddLoopToCount();

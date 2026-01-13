@@ -9,10 +9,16 @@ public class DoorInteraction : ObjectInteraction
     public float openAngle = 90f;
     public float openSpeed = 5f;
 
+    [Header("Exit Door (optional)")]
+    [SerializeField] private bool requiresReportToOpen = false;
+    [SerializeField] private ReportResultState reportState;
+    [SerializeField] private bool isLocked = true;
+
     private bool isOpen = false;
     private bool hasToApplyRotation = false;
-    private Quaternion closedRotation;
-    private Quaternion targetRotation;
+
+    private Quaternion closedLocalRotation;
+    private Quaternion targetLocalRotation;
 
     Vector3 soundPosition;
 
@@ -20,26 +26,42 @@ public class DoorInteraction : ObjectInteraction
     {
         base.Start();
 
-        closedRotation = pivot.rotation;
-        targetRotation = closedRotation;
+        closedLocalRotation = pivot.localRotation;
+        targetLocalRotation = closedLocalRotation;
+
+        pivot.localRotation = closedLocalRotation;
 
         soundPosition = transform.position;
+
+        if (!requiresReportToOpen) isLocked = false;
     }
 
     protected override void Update()
     {
         base.Update();
-
         ApplyRotation();
     }
 
     public override void Interact()
     {
-        ToogleDoor();
+        if (requiresReportToOpen && isLocked)
+        {
+            Debug.Log("Puerta bloqueada: firma el documento primero.");
+            return;
+        }
+
+        ToggleDoor();
     }
 
-    //Sets up rotation and direction to apply it later
-    void ToogleDoor()
+    public void UnlockExitDoor() => isLocked = false;
+
+    public void LockExitDoor()
+    {
+        if (requiresReportToOpen)
+            isLocked = true;
+    }
+
+    void ToggleDoor()
     {
         isOpen = !isOpen;
 
@@ -50,29 +72,28 @@ public class DoorInteraction : ObjectInteraction
             float side = Vector3.Cross(pivot.right, doorToPlayer).y;
             float direction = side > 0 ? -1f : 1f;
 
-            targetRotation = closedRotation * Quaternion.Euler(0, openAngle * direction, 0);
+            targetLocalRotation = closedLocalRotation * Quaternion.Euler(0f, openAngle * direction, 0f);
             SFXManager.Instance.PlaySpatialSound("openDoor", soundPosition, 1f);
         }
         else
         {
-            targetRotation = closedRotation;
+            targetLocalRotation = closedLocalRotation;
             SFXManager.Instance.PlaySpatialSound("closeDoor", soundPosition, 1f);
         }
 
         hasToApplyRotation = true;
     }
 
-    //Checks if it has to apply rotation and of it has to, then it LERPs to that rotation
     void ApplyRotation()
     {
-        if (hasToApplyRotation)
-        {
-            pivot.localRotation = Quaternion.Lerp(pivot.localRotation, targetRotation, Time.deltaTime * openSpeed);
+        if (!hasToApplyRotation) return;
 
-            if (pivot.rotation == targetRotation)
-            {
-                hasToApplyRotation = false;
-            }
+        pivot.localRotation = Quaternion.Lerp(pivot.localRotation, targetLocalRotation, Time.deltaTime * openSpeed);
+
+        if (Quaternion.Angle(pivot.localRotation, targetLocalRotation) < 0.1f)
+        {
+            pivot.localRotation = targetLocalRotation;
+            hasToApplyRotation = false;
         }
     }
 }

@@ -12,7 +12,6 @@ public class DocumentationMode : CameraMode
     private Coroutine flashCoroutine;
 
     private Camera docCamera;
-
     private ScreenshotManager screenshotManager;
 
     void Start()
@@ -23,7 +22,6 @@ public class DocumentationMode : CameraMode
         isUnlocked = true;
         screenshotManager = GetComponent<ScreenshotManager>();
     }
-
 
     void Update()
     {
@@ -40,21 +38,23 @@ public class DocumentationMode : CameraMode
     {
         base.PerformCameraAction();
 
-            if (flashCoroutine != null)
-                StopCoroutine(flashCoroutine);
-
+        if (flashCoroutine != null)
+            StopCoroutine(flashCoroutine);
 
         if (currentReels > 0)
-        {   
+        {
             currentReels--;
 
             CameraUIHandler ui = FindAnyObjectByType<CameraUIHandler>();
-            ui.ActualizeRemainingReelsIndicator(currentReels);
+            if (ui != null)
+                ui.ActualizeRemainingReelsIndicator(currentReels);
+
             flashCoroutine = StartCoroutine(FlashCoroutine());
         }
         else
         {
-            FindObjectOfType<CameraManager>().EndCameraAction();
+            var cm = FindAnyObjectByType<CameraManager>();
+            if (cm != null) cm.EndCameraAction();
         }
     }
 
@@ -62,33 +62,36 @@ public class DocumentationMode : CameraMode
     {
         base.OnDeactivated();
 
-        if(flashCoroutine != null)
+        if (flashCoroutine != null)
             StopCoroutine(flashCoroutine);
     }
 
     private IEnumerator FlashCoroutine()
     {
-        screenshotManager.CaptureScreenshot();
+        if (screenshotManager != null)
+            screenshotManager.CaptureScreenshot();
+
         yield return new WaitForSeconds(flasDuration);
 
         CaptureAnomalies();
 
-        FindObjectOfType<CameraManager>().EndCameraAction();
+        var cm = FindAnyObjectByType<CameraManager>();
+        if (cm != null) cm.EndCameraAction();
     }
 
     private void CaptureAnomalies()
     {
-        var anomalyManager = FindObjectOfType<AnomalyManager>();
+        var anomalyManager = FindAnyObjectByType<AnomalyManager>();
         if (anomalyManager == null || docCamera == null) return;
 
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(docCamera);
 
-        foreach(var anomaly in FindObjectsOfType<Anomaly>())
+        foreach (var anomaly in FindObjectsByType<Anomaly>(FindObjectsSortMode.None))
         {
             Collider col = anomaly.GetComponentInChildren<Collider>();
             if (col == null) continue;
 
-            if(GeometryUtility.TestPlanesAABB(planes, col.bounds))
+            if (GeometryUtility.TestPlanesAABB(planes, col.bounds))
             {
                 anomalyManager.RegisterDocumentation(anomaly);
             }

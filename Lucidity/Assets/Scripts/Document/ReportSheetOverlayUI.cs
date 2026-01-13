@@ -1,102 +1,187 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ReportSheetOverlayUI : MonoBehaviour
 {
+    public static bool IsOpen { get; private set; }
+
+    [Header("UI")]
     [SerializeField] private GameObject sheetPanel;
     [SerializeField] private TMP_InputField numberInput;
+    [SerializeField] private Image signatureStamp;
     [SerializeField] private TMP_Text feedbackText;
 
+    [Header("Game")]
     [SerializeField] private AnomalyManager anomalyManager;
-    [SerializeField] private LoopManager loopManager;
+    [SerializeField] private DoorInteraction exitDoor;
+    [SerializeField] private ReportResultState reportState;
+
+    [Header("Exit Blocker (optional)")]
+    [SerializeField] private ExitDoorBlocker exitBlocker;
+
+    [Header("Exit Lamp (optional)")]
+    [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
+
+    [Header("Input")]
+    [SerializeField] private KeyCode toggleKey = KeyCode.Q;
+
+    [Header("Timing")]
+    [SerializeField] private float closeDelaySeconds = 2f;
+
+    [Header("Pause")]
+    [SerializeField] private bool pauseGameWhenOpen = true;
+
+    [Header("Disable mouse/world interactions while open")]
+    [SerializeField] private MonoBehaviour[] disableWhileOpen;
 
     private bool open;
+    private bool signedThisAttempt;
+    private Coroutine closeRoutine;
+    private float previousTimeScale = 1f;
 
     private void Awake()
     {
         SetOpen(false);
-        numberInput.contentType = TMP_InputField.ContentType.IntegerNumber;
 
-        numberInput.onSubmit.AddListener(_ => Submit());
-        numberInput.onEndEdit.AddListener(_ =>
-        {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-                Submit();
-        });
+        if (numberInput)
+            numberInput.contentType = TMP_InputField.ContentType.IntegerNumber;
 
+        if (signatureStamp)
+            signatureStamp.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(toggleKey))
             SetOpen(!open);
 
-        if (open && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
-            ValidateAndLog();
-    }
-
-    private void ValidateAndLog()
-    {
-        Debug.Log($"[UI] anomalyManager={anomalyManager.name} id={anomalyManager.GetInstanceID()} ActiveSpawnedCount={anomalyManager.ActiveSpawnedCount} EntryCount={anomalyManager.EntryCount}");
-
-        if (!int.TryParse(numberInput.text, out int guess) || guess < 0)
-        {
-            Debug.Log("Número inválido en el documento.");
-            return;
-        }
-
-        int expected = anomalyManager.ActiveSpawnedCount; 
-
-
-        if (guess == expected)
-            Debug.Log($"Correcto: {guess} (Loop total = {expected})");
-        else
-            Debug.Log($"Incorrecto: pusiste {guess}, pero el total es {expected}");
-    }
-
-
-
-    public void Submit()
-    {
-        if (!int.TryParse(numberInput.text, out int guess) || guess < 0)
-        {
-            SetFeedback("Introduce un número válido.");
-            return;
-        }
-
-        int expected = anomalyManager.ActiveSpawnedCount;
-
-        if (guess == expected)
-        {
-            SetFeedback("Correcto.");
+        if (open && Input.GetKeyDown(KeyCode.Escape))
             SetOpen(false);
-            loopManager.StartNextLoop();
+    }
+
+    public void OnSignatureClicked()
+    {
+        if (!open) return;
+        if (signedThisAttempt) return;
+
+        signedThisAttempt = true;
+        if (signatureStamp) signatureStamp.gameObject.SetActive(true);
+
+        // Validar nÃºmero
+        if (!int.TryParse(numberInput.text, out int guess) || guess < 0)
+        {
+            SetFeedback("Introduce un nÃºmero vÃ¡lido.");
+            signedThisAttempt = false;
+            if (signatureStamp) signatureStamp.gameObject.SetActive(false);
+            return;
+        }
+
+        int expected = (anomalyManager != null) ? anomalyManager.ActiveSpawnedCount : 0;
+        bool correct = (guess == expected);
+
+        // Guardar resultado
+        if (reportState != null)
+            reportState.Submit(correct);
+
+        // Desbloquear puerta/paso (siempre al firmar)
+        if (exitDoor != null)
+            exitDoor.UnlockExitDoor();
+
+        if (exitBlocker != null)
+            exitBlocker.UnlockPassage();
+
+        // Cambiar lÃ¡mpara a verde (siempre al firmar)
+        if (exitLamp != null)
+        {
+            exitLamp.SetCanPass(true);
         }
         else
         {
-            SetFeedback("Incorrecto. Sigues en el mismo loop.");
+            Debug.LogWarning("ReportSheetOverlayUI: exitLamp NO asignada (no puedo poner la luz en verde).");
         }
+
+        if (correct)
+        {
+            Debug.Log($"Firmado y correcto. Puesto={guess}, Esperado={expected}");
+            SetFeedback("Correcto.");
+        }
+        else
+        {
+            Debug.Log($"Firmado pero incorrecto. Puesto={guess}, Esperado={expected}");
+            SetFeedback("Incorrecto. Ya puedes pasar por la puerta.");
+        }
+
+        if (closeRoutine != null) StopCoroutine(closeRoutine);
+        closeRoutine = StartCoroutine(CloseAfterSecondsRealtime(closeDelaySeconds));
     }
 
+    private System.Collections.IEnumerator CloseAfterSecondsRealtime(float seconds)
+    {
+        yield return new WaitForSecondsRealtime(seconds);
+        SetOpen(false);
+        closeRoutine = null;
+    }
 
     private void SetOpen(bool value)
     {
+        IsOpen = value;
+
         open = value;
-        sheetPanel.SetActive(open);
+        if (sheetPanel) sheetPanel.SetActive(open);
 
         Cursor.visible = open;
         Cursor.lockState = open ? CursorLockMode.None : CursorLockMode.Locked;
 
+        if (pauseGameWhenOpen)
+        {
+            if (open)
+            {
+                previousTimeScale = Time.timeScale;
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                Time.timeScale = previousTimeScale;
+            }
+        }
+
+        SetWorldInteractionsEnabled(!open);
+
         if (open)
         {
+            signedThisAttempt = false;
+            if (signatureStamp) signatureStamp.gameObject.SetActive(false);
+
             SetFeedback("");
-            numberInput.ActivateInputField();
-            numberInput.Select();
+            numberInput?.ActivateInputField();
+            numberInput?.Select();
+        }
+    }
+
+    private void SetWorldInteractionsEnabled(bool enabled)
+    {
+        if (disableWhileOpen == null) return;
+
+        for (int i = 0; i < disableWhileOpen.Length; i++)
+        {
+            if (disableWhileOpen[i] != null)
+                disableWhileOpen[i].enabled = enabled;
         }
     }
 
     private void SetFeedback(string msg)
     {
         if (feedbackText) feedbackText.text = msg;
+    }
+
+    private void OnDisable()
+    {
+        IsOpen = false;
+
+        if (pauseGameWhenOpen && open)
+            Time.timeScale = previousTimeScale;
+
+        SetWorldInteractionsEnabled(true);
     }
 }

@@ -1269,6 +1269,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6571654658688338291, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
   m_PrefabInstance: {fileID: 465829420}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &315033207 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9004695201238947326, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
+  m_PrefabInstance: {fileID: 659543669}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &333910196
 Mesh:
   m_ObjectHideFlags: 0
@@ -4744,6 +4755,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 367419109645762550, guid: a44559ab7fff74a418ebceca04ff97dc, type: 3}
   m_PrefabInstance: {fileID: 1084099376}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1093267538 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9004695201238947326, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
+  m_PrefabInstance: {fileID: 368735917}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1093796192
 Mesh:
   m_ObjectHideFlags: 0
@@ -5172,6 +5194,10 @@ MonoBehaviour:
   anomalyManager: {fileID: 1758223927}
   reportState: {fileID: 0}
   exitDoor: {fileID: 1326264524}
+  interactableDoors:
+  - {fileID: 1093267538}
+  - {fileID: 315033207}
+  - {fileID: 1326264524}
   exitBlocker: {fileID: 0}
   exitLamp: {fileID: 627909402}
   nextLoopCooldown: 0.25

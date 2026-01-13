@@ -1,10 +1,12 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class LoopManager : MonoBehaviour
 {
     [SerializeField] private AnomalyManager anomalyManager;
     [SerializeField] private ReportResultState reportState;
     [SerializeField] private DoorInteraction exitDoor;
+    [SerializeField] private List<DoorInteraction> interactableDoors;
 
     [Header("Optional")]
     [SerializeField] private ExitDoorBlocker exitBlocker;
@@ -35,6 +37,9 @@ public class LoopManager : MonoBehaviour
 
         if (exitDoor != null)
             exitDoor.LockExitDoor();
+
+        for (int i = 0; i < interactableDoors.Count; i++)
+            interactableDoors[i].CloseDoor(false);
 
         if (exitBlocker != null)
             exitBlocker.LockPassage();

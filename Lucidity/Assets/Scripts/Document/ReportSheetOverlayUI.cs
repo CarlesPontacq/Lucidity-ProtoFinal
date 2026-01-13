@@ -78,7 +78,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
             return;
         }
 
-        int expected = (anomalyManager != null) ? anomalyManager.GetExpectedAnomalies() : 0;
+        int expected = anomalyManager.GetExpectedAnomalies(); 
         bool correct = (guess == expected);
 
         if (reportState != null)

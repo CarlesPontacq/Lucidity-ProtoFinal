@@ -1,12 +1,12 @@
 using TMPro;
 using UnityEngine;
 
-public class Number1to10Input : MonoBehaviour
+public class NumberBlocker : MonoBehaviour
 {
     [SerializeField] private TMP_InputField input;
 
     public int Value { get; private set; } = -1;
-    public bool IsValid => Value >= 1 && Value <= 10;
+    public bool IsValid => Value >= 0 && Value <= 99;
 
     private void Reset()
     {
@@ -26,13 +26,14 @@ public class Number1to10Input : MonoBehaviour
 
     private void OnChanged(string text)
     {
-        // limpia cosas raras (por si pegan texto)
+        // Si está vacío, no hay valor
         if (string.IsNullOrEmpty(text))
         {
             Value = -1;
             return;
         }
 
+        // Si no es número, invalida
         if (!int.TryParse(text, out var n))
         {
             Value = -1;
@@ -44,7 +45,7 @@ public class Number1to10Input : MonoBehaviour
 
     private void OnEndEdit(string text)
     {
-        // clamp final (cuando el jugador termina)
+        // Clamp final al terminar
         if (!int.TryParse(text, out var n))
         {
             input.text = "";
@@ -52,8 +53,7 @@ public class Number1to10Input : MonoBehaviour
             return;
         }
 
-        if (n < 1) n = 1;
-        if (n > 10) n = 10;
+        n = Mathf.Clamp(n, 0, 99);
 
         Value = n;
         input.text = n.ToString();

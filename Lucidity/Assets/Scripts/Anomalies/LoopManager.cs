@@ -22,7 +22,7 @@ public class LoopManager : MonoBehaviour
 
     private void Start()
     {
-        StartNextLoop();
+        StartLoopFresh();
     }
 
     public void StartNextLoop()
@@ -31,33 +31,46 @@ public class LoopManager : MonoBehaviour
             return;
 
         nextAllowedTime = Time.unscaledTime + nextLoopCooldown;
-        loopIndex++;
 
-        if (reportState != null)
+        if (reportState != null && reportState.HasSubmittedReport)
         {
-            Debug.Log("Report state no null");
-
             if (reportState.WasCorrect)
             {
-                Debug.Log("Report state correcto");
-               GameManager.Instance.AddLoopToCount();
+                Debug.Log("Report correcto -> sumo loop");
+                GameManager.Instance.AddLoopToCount();
             }
             else
+            {
+                Debug.Log("Report incorrecto -> reseteo loops");
                 GameManager.Instance.ResetLoops();
-
-            reportState.ResetForNewLoop();
+            }
         }
         else
         {
-            Debug.Log("Report state null");
-
+            Debug.Log("Sin reporte enviado (primer loop o no firmó) -> no toco el contador");
         }
+
+        StartLoopFresh();
+    }
+
+    private void StartLoopFresh()
+    {
+        loopIndex++;
+
+        if (reportState != null)
+            reportState.ResetForNewLoop();
 
         if (exitDoor != null)
             exitDoor.LockExitDoor();
 
-        for (int i = 0; i < interactableDoors.Count; i++)
-            interactableDoors[i].CloseDoor(false);
+        if (interactableDoors != null)
+        {
+            for (int i = 0; i < interactableDoors.Count; i++)
+            {
+                if (interactableDoors[i] != null)
+                    interactableDoors[i].CloseDoor(false);
+            }
+        }
 
         if (exitBlocker != null)
             exitBlocker.LockPassage();
@@ -67,12 +80,12 @@ public class LoopManager : MonoBehaviour
 
         if (exitLamp != null)
             exitLamp.SetCanPass(false);
-        else
-            Debug.LogWarning("LoopManager: exitLamp NO asignada (no puedo poner la luz en rojo).");
 
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();
+        else
+            Debug.LogWarning("LoopManager: anomalyManager es null (no puedo spawnear anomalías).");
 
-        Debug.Log($"Loop {loopIndex} started");
+        Debug.Log($"Loop {loopIndex} started (fresh)");
     }
 }

@@ -26,9 +26,15 @@ public class AnomalyManager : MonoBehaviour
     [Header("Loop Selection")]
     [SerializeField] private int anomaliesPerLoop = 3;
 
-    private List<Entry> selectedEntriesThisLoop = new();
+    [Header("Auto Start")]
+    [Tooltip("Si LoopManager ya llama StartNewLoop(), desactiva esto para evitar doble arranque.")]
+    [SerializeField] private bool autoStartOnBegin = false;
 
-    // Instancias vivas REALES en escena (limpia nulos)
+    private readonly List<Entry> selectedEntriesThisLoop = new();
+
+    public int ExpectedAnomaliesThisLoop { get; private set; } = 0;
+
+    // Instancias vivas REALES en escena
     public int ActiveSpawnedCount
     {
         get
@@ -42,17 +48,20 @@ public class AnomalyManager : MonoBehaviour
 
     public int GetExpectedAnomalies()
     {
-        return anomaliesPerLoop;
+        return ExpectedAnomaliesThisLoop;
     }
 
     private void Start()
     {
         Debug.Log($"[AnomalyManager {GetInstanceID()}] Start() called. EntryCount={EntryCount}");
-        StartNewLoop();
+
+        if (autoStartOnBegin)
+            StartNewLoop();
     }
 
     /// <summary>
-    /// Empieza un loop: spawnea 1 instancia por Entry (todas a la vez).
+    /// Empieza un loop: selecciona entries y spawnea.
+    /// ExpectedAnomaliesThisLoop queda fijado al número REAL spawneado.
     /// </summary>
     public void StartNewLoop()
     {
@@ -62,14 +71,15 @@ public class AnomalyManager : MonoBehaviour
         ClearSpawned();
 
         SelectEntriesForThisLoop();
-        //SpawnAllEntries();
         SpawnSelectedEntries();
 
-        Debug.Log($"[AnomalyManager {GetInstanceID()}] After SpawnAllEntries. ActiveSpawnedCount={ActiveSpawnedCount} listCount={spawnedThisLoop.Count}");
+        Debug.Log($"[AnomalyManager {GetInstanceID()}] Loop ready. Expected={ExpectedAnomaliesThisLoop} ActiveSpawnedCount={ActiveSpawnedCount}");
     }
 
-    void SpawnSelectedEntries()
+    private void SpawnSelectedEntries()
     {
+        ExpectedAnomaliesThisLoop = 0;
+
         if (selectedEntriesThisLoop == null || selectedEntriesThisLoop.Count == 0)
         {
             Debug.LogWarning($"[AnomalyManager {GetInstanceID()}] selectedEntriesThisLoop is empty!");
@@ -78,50 +88,17 @@ public class AnomalyManager : MonoBehaviour
 
         foreach (var e in selectedEntriesThisLoop)
         {
-            if(e == null || e.prefab == null || e.anchor == null) continue;
+            if (e == null || e.prefab == null || e.anchor == null)
+                continue;
 
             var instance = Instantiate(e.prefab, e.anchor.position, e.anchor.rotation, e.anchor);
-            Debug.Log(instance.name);
             instance.MarkSpawned();
             instance.Activate();
-            spawnedThisLoop.Add(instance);
-            Debug.Log($"Instantiated: {instance.name} active={instance.gameObject.activeInHierarchy}");
-
-        }
-    }
-
-    /*
-    private void SpawnAllEntries()
-    {
-        if (entries == null || entries.Count == 0)
-        {
-            Debug.LogWarning($"[AnomalyManager {GetInstanceID()}] entries is empty!");
-            return;
-        }
-
-        for (int i = 0; i < entries.Count; i++)
-        {
-            var e = entries[i];
-            if (e == null)
-            {
-                Debug.LogWarning($"[AnomalyManager] Entry {i} is NULL");
-                continue;
-            }
-
-            Debug.Log($"[AnomalyManager] Entry {i}: prefab={(e.prefab ? e.prefab.name : "NULL")} anchor={(e.anchor ? e.anchor.name : "NULL")}");
-
-            if (e.prefab == null || e.anchor == null) continue;
-
-            var instance = Instantiate(e.prefab, e.anchor.position, e.anchor.rotation, e.anchor);
-            Debug.Log($"Instantiated: {instance.name} active={instance.gameObject.activeInHierarchy}");
-
-            instance.Activate();
 
             spawnedThisLoop.Add(instance);
-            Debug.Log($"spawnedThisLoop.Count = {spawnedThisLoop.Count}");
+            ExpectedAnomaliesThisLoop++; 
         }
     }
-    */
 
     public void ClearSpawned()
     {
@@ -135,6 +112,7 @@ public class AnomalyManager : MonoBehaviour
             }
         }
         spawnedThisLoop.Clear();
+        ExpectedAnomaliesThisLoop = 0; 
     }
 
     public bool IsDocumented(string anomalyId) => documentedAnomalies.Contains(anomalyId);
@@ -149,14 +127,13 @@ public class AnomalyManager : MonoBehaviour
     {
         selectedEntriesThisLoop.Clear();
 
-        if(entries == null || entries.Count == 0 ) return;
+        if (entries == null || entries.Count == 0) return;
 
         int count = Mathf.Min(anomaliesPerLoop, entries.Count);
 
         List<Entry> bag = new(entries);
 
-
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             int index = UnityEngine.Random.Range(0, bag.Count);
             selectedEntriesThisLoop.Add(bag[index]);

@@ -34,7 +34,7 @@ public class ObjectInteraction : MonoBehaviour
     public virtual void OnFocusEnter()
     {
         UIManager.Instance.MakeReticleBigger();
-        transform.localScale = originalScale * scaleMultiplier;
+        //transform.localScale = originalScale * scaleMultiplier;
 
         SFXManager.Instance.PlayGlobalSound("objectHover", 0.5f);
     }
@@ -42,6 +42,6 @@ public class ObjectInteraction : MonoBehaviour
     public virtual void OnFocusExit()
     {
         UIManager.Instance.ReturnReticleToNormalSize();
-        transform.localScale = originalScale;
+        //transform.localScale = originalScale;
     }
 }

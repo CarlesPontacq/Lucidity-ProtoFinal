@@ -5,12 +5,11 @@ using UnityEngine;
 public class ObjectInteraction : MonoBehaviour
 {
     private Material outline;
+    private const int OUTLINE_MAT_INDEX = 1;
 
     protected virtual void Start()
     {
-        outline = GetComponent<Renderer>().materials[1];
-        if (outline == null)
-            Debug.LogError("Falta material de outline en objeto interactuable: " + gameObject.name);
+        outline = GetComponent<Renderer>().materials[OUTLINE_MAT_INDEX];
     }
 
     protected virtual void Update() { }

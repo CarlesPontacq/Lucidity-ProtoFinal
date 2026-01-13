@@ -15,7 +15,7 @@ public class AnomalyManager : MonoBehaviour
     [SerializeField] private List<Entry> entries = new();
 
     // Instancias vivas del loop
-    private readonly List<Anomaly> spawnedThisLoop = new();
+    private List<Anomaly> spawnedThisLoop = new();
 
     // Documentadas
     private readonly HashSet<string> documentedAnomalies = new();
@@ -24,7 +24,9 @@ public class AnomalyManager : MonoBehaviour
     public int EntryCount => entries != null ? entries.Count : 0;
 
     [Header("Loop Selection")]
-    [SerializeField] private int anomaliesPerLoop = 3;
+    [SerializeField] private int anomaliesPerLoop = 0;
+    [SerializeField] private int minAnomaliesPerLoop = 2;
+    [SerializeField] private int maxAnomaliesPerLoop = 3;
 
     [Header("Auto Start")]
     [Tooltip("Si LoopManager ya llama StartNewLoop(), desactiva esto para evitar doble arranque.")]
@@ -65,6 +67,7 @@ public class AnomalyManager : MonoBehaviour
     /// </summary>
     public void StartNewLoop()
     {
+        anomaliesPerLoop = UnityEngine.Random.Range(minAnomaliesPerLoop, maxAnomaliesPerLoop);
         Debug.Log($"[AnomalyManager {GetInstanceID()}] StartNewLoop() called. EntryCount={EntryCount}");
 
         documentedAnomalies.Clear();

@@ -21,6 +21,7 @@ public class SceneController : MonoBehaviour
         }
 
         currentScene = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log(currentScene);
     }
 
 
@@ -32,7 +33,9 @@ public class SceneController : MonoBehaviour
     public void LoadNextScene()
     {
         if (currentScene == SceneManager.sceneCount || currentScene < 0) return;
-        
+
+        currentScene = SceneManager.GetActiveScene().buildIndex;
+
         int nextScene = ++currentScene;
         SceneManager.LoadScene(nextScene);
     }
@@ -42,5 +45,10 @@ public class SceneController : MonoBehaviour
         int creditsScene = SceneManager.sceneCountInBuildSettings - 1;
 
         SceneManager.LoadScene(creditsScene);
+    }
+
+    public void LoadMainMenuScene()
+    {
+        SceneManager.LoadScene(0);
     }
 }

@@ -91,11 +91,24 @@ public class DocumentationMode : CameraMode
             Collider col = anomaly.GetComponentInChildren<Collider>();
             if (col == null) continue;
 
-            if (GeometryUtility.TestPlanesAABB(planes, col.bounds))
+            if (GeometryUtility.TestPlanesAABB(planes, col.bounds) && CheckIfAnomalyIsSpawned(anomaly))
             {
                 anomalyManager.RegisterDocumentation(anomaly);
             }
         }
+    }
+
+    private bool CheckIfAnomalyIsSpawned(Anomaly anomaly)
+    {
+        var anomalyManager = FindAnyObjectByType<AnomalyManager>();
+        if (anomalyManager == null) return false;
+
+        foreach(Anomaly a in anomalyManager.GetSpawnedEnemiesThisLoop())
+        {
+            if(a == anomaly) return true;
+        }
+
+        return false;
     }
 
     public void ResetReels()

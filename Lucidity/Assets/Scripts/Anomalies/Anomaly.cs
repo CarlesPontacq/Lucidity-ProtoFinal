@@ -5,6 +5,8 @@ public abstract class Anomaly : MonoBehaviour, ICameraModeListener
     [SerializeField] private string anomalyId;
     public string Id => anomalyId;
 
+    public bool IsSpawnedThisLoop {  get; private set; }
+
     [Header("Normal Object")]
     [SerializeField] private GameObject normalObjectOverride;
 
@@ -42,22 +44,32 @@ public abstract class Anomaly : MonoBehaviour, ICameraModeListener
 
     public virtual void OnCameraModeActivated(CameraMode mode)
     {
-        if(mode is DocumentationMode)
-        {
+        if (!IsSpawnedThisLoop) return;
+
+        if (mode is DocumentationMode)
             OnDeactivate();
-        }
     }
 
     public virtual void OnCameraModeDeactivated(CameraMode mode)
     {
+        if (!IsSpawnedThisLoop) return;
+
         if (mode is DocumentationMode)
-        {
             OnActivate();
-        }
     }
 
     public GameObject GetNormalObjectOverride()
     {
         return normalObjectOverride;
+    }
+
+    public virtual void MarkSpawned()
+    {
+        IsSpawnedThisLoop = true;
+    }
+
+    public virtual void MarkUnspawned()
+    {
+        IsSpawnedThisLoop = false;
     }
 }

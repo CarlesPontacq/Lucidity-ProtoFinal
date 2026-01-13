@@ -81,8 +81,9 @@ public class AnomalyManager : MonoBehaviour
             if(e == null || e.prefab == null || e.anchor == null) continue;
 
             var instance = Instantiate(e.prefab, e.anchor.position, e.anchor.rotation, e.anchor);
+            Debug.Log(instance.name);
+            instance.MarkSpawned();
             instance.Activate();
-
             spawnedThisLoop.Add(instance);
             Debug.Log($"Instantiated: {instance.name} active={instance.gameObject.activeInHierarchy}");
 
@@ -128,8 +129,9 @@ public class AnomalyManager : MonoBehaviour
         {
             if (spawnedThisLoop[i] != null)
             {
+                spawnedThisLoop[i].Deactivate();
+                spawnedThisLoop[i].MarkUnspawned();
                 Destroy(spawnedThisLoop[i].gameObject);
-
             }
         }
         spawnedThisLoop.Clear();
@@ -160,5 +162,10 @@ public class AnomalyManager : MonoBehaviour
             selectedEntriesThisLoop.Add(bag[index]);
             bag.RemoveAt(index);
         }
+    }
+
+    public List<Anomaly> GetSpawnedEnemiesThisLoop()
+    {
+        return spawnedThisLoop;
     }
 }

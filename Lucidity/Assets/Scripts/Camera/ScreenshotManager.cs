@@ -36,6 +36,7 @@ public class ScreenshotManager : MonoBehaviour
             renderTexture.width,
             renderTexture.height,
             TextureFormat.RGB24,
+            false,
             false
         );
 
@@ -43,6 +44,17 @@ public class ScreenshotManager : MonoBehaviour
             new Rect(0, 0, renderTexture.width, renderTexture.height),
             0, 0
         );
+
+        Color[] pixels = tex.GetPixels();
+        for (int i = 0; i < pixels.Length; i++)
+        {
+            pixels[i].r = Mathf.LinearToGammaSpace(pixels[i].r);
+            pixels[i].g = Mathf.LinearToGammaSpace(pixels[i].g);
+            pixels[i].b = Mathf.LinearToGammaSpace(pixels[i].b);
+        }
+        tex.SetPixels(pixels);
+        tex.Apply();
+
         tex.Apply();
 
         RenderTexture.active = current;

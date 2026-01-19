@@ -75,7 +75,5 @@ public class AnomalySwapObjects : Anomaly
         obj.layer = layer;
         foreach (Transform child in obj.transform)
             SetLayerRecursive(child.gameObject, layer);
-
-        Debug.Log(obj.layer);
     }
 }

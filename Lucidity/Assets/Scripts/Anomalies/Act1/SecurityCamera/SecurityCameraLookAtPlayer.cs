@@ -19,6 +19,8 @@ public class SecurityCameraLookAtPlayer : MonoBehaviour
     {
         if (player == null) return;
 
+        Debug.Log("Looking");
+
         Vector3 direction = player.position - transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(direction);
 

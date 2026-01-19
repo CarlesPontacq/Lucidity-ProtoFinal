@@ -35,7 +35,7 @@ public class ScreenshotManager : MonoBehaviour
         Texture2D tex = new Texture2D(
             renderTexture.width,
             renderTexture.height,
-            TextureFormat.RGB24,
+            TextureFormat.RGBA32,
             false,
             false
         );
@@ -53,7 +53,9 @@ public class ScreenshotManager : MonoBehaviour
             pixels[i].b = Mathf.LinearToGammaSpace(pixels[i].b);
         }
         tex.SetPixels(pixels);
-        tex.Apply();
+
+        tex.filterMode = FilterMode.Bilinear;
+        tex.wrapMode = TextureWrapMode.Clamp;
 
         tex.Apply();
 

@@ -78,7 +78,16 @@ public class ReportSheetOverlayUI : MonoBehaviour
             return;
         }
 
-        int expected = anomalyManager.GetExpectedAnomalies(); 
+        if (anomalyManager == null)
+        {
+            Debug.LogWarning("[UI] anomalyManager es null.");
+            SetFeedback("Error: AnomalyManager no asignado.");
+            signedThisAttempt = false;
+            if (signatureStamp) signatureStamp.gameObject.SetActive(false);
+            return;
+        }
+
+        int expected = anomalyManager.GetExpectedAnomalies();
         bool correct = (guess == expected);
 
         if (reportState != null)
@@ -90,7 +99,6 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (exitBlocker != null)
             exitBlocker.UnlockPassage();
 
-        // ✅ Si no está asignada, intenta encontrarla en escena
         if (exitLamp == null)
             exitLamp = FindAnyObjectByType<ExitLightEmissionMapSwitcher>();
 
@@ -101,14 +109,13 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (correct)
         {
-            Debug.Log($"✅ Firmado y correcto. Puesto={guess}, Esperado={expected}");
-            SetFeedback("Correcto.");
+            Debug.Log($"Firmado y correcto. Puesto={guess}, Esperado={expected}");
+            SetFeedback("Correcto. Ya puedes pasar por la puerta.");
         }
         else
         {
-            Debug.Log($"❌ Firmado pero incorrecto. Puesto={guess}, Esperado={expected}");
+            Debug.Log($"Firmado pero incorrecto. Puesto={guess}, Esperado={expected}");
             SetFeedback("Incorrecto. Ya puedes pasar por la puerta.");
-            GameManager.Instance.ResetLoops();
         }
 
         if (closeRoutine != null) StopCoroutine(closeRoutine);

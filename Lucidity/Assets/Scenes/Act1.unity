@@ -1291,8 +1291,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 146.21, y: -64.535}
-  m_SizeDelta: {x: -333.62003, y: -172.07}
+  m_AnchoredPosition: {x: 146.70181, y: -64.77299}
+  m_SizeDelta: {x: -334.6036, y: -174.5131}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &255352823
 MonoBehaviour:
@@ -1314,7 +1314,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 1b83dcd162f627e47835b5bfa196ec1c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1941,7 +1941,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.7, y: -2.2}
+  m_AnchoredPosition: {x: 9.516033, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &407690357
@@ -6900,7 +6900,7 @@ MonoBehaviour:
     anchor: {fileID: 1844133217}
   anomaliesPerLoop: 2
   minAnomaliesPerLoop: 2
-  maxAnomaliesPerLoop: 3
+  maxAnomaliesPerLoop: 4
   autoStartOnBegin: 1
 --- !u!4 &1423677013
 Transform:
@@ -7442,6 +7442,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 509518466}
     m_Modifications:
+    - target: {fileID: 2127459960713987246, guid: e8cdcaca0845d774fa9c1ca71b4ef447, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2127459960713987246, guid: e8cdcaca0845d774fa9c1ca71b4ef447, type: 3}
+      propertyPath: rotationOffset.x
+      value: -123
+      objectReference: {fileID: 0}
     - target: {fileID: 4604996259543248722, guid: e8cdcaca0845d774fa9c1ca71b4ef447, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

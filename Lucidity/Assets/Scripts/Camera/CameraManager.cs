@@ -9,6 +9,10 @@ public class CameraManager : MonoBehaviour
     public Transform normalCamera;
     public CameraMode currentMode;
     public List<CameraMode> cameraModes;
+    private int currentModeIndex = 0;
+
+    private int documentationModeIndex = 0;
+    private int ultravioletModeIndex = 1;
 
     [Header("State")]
     public bool lookingThroughCamera = false;
@@ -23,8 +27,17 @@ public class CameraManager : MonoBehaviour
 
     private bool lastDocOpen = false;
 
+    [Header("Input")]
+    [SerializeField] private PlayerInputObserver input;
+
+
     void Start()
     {
+        input.onCameraToggle += HandleCameraToggle;
+        input.onCameraAction += HandleCameraAction;
+        input.onSetDocumentationMode += HandleSetDocumentationMode;
+        input.onSetUltravioletMode += HandleSetUltravioletMode;
+
         SetMode(cameraModes[0]);
         ui.ShowReelIndicator(true);
     }
@@ -33,36 +46,59 @@ public class CameraManager : MonoBehaviour
     {
         bool docOpen = ReportSheetOverlayUI.IsOpen;
 
-        if (docOpen && !lastDocOpen)
+        if (docOpen && !lastDocOpen && lookingThroughCamera)
         {
-            if (lookingThroughCamera)
-            {
-                StopLookingThroughCamera();
-                ui.ShowCameraFlash(false);
-            }
+            StopLookingThroughCamera();
+            ui.ShowCameraFlash(false);
         }
+
         lastDocOpen = docOpen;
+    }
 
-        if (docOpen)
-            return;
+    private void HandleCameraToggle()
+    {
+        if (ReportSheetOverlayUI.IsOpen) return;
 
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
+        if (!lookingThroughCamera)
+            LookThroughCamera();
+        else
+            StopLookingThroughCamera();
+    }
 
-        if (lookingThroughCamera)
-        {
-            if (Input.GetButtonDown("Fire2"))
-            {
-                PlayPhotoSfx();          
-                PerformCameraAction();
-            }
-        }
+    private void HandleCameraAction()
+    {
+        if (!lookingThroughCamera || currentMode == null) return;
 
-        if (Input.GetButtonDown("Fire1"))
-        {
-            if (!lookingThroughCamera) LookThroughCamera();
-            else StopLookingThroughCamera();
-        }
+        if(currentMode != cameraModes[documentationModeIndex]) return;
+
+        PlayPhotoSfx();
+        PerformCameraAction();
+    }
+
+    private void HandleSetDocumentationMode()
+    {
+        if (cameraModes == null || cameraModes.Count == 0) return;
+
+        int newcurrentModeIndex = documentationModeIndex;
+
+        if (!cameraModes[newcurrentModeIndex].isUnlocked) return;
+
+        currentModeIndex = newcurrentModeIndex;
+
+        SetMode(cameraModes[currentModeIndex]);
+    }
+    
+    private void HandleSetUltravioletMode()
+    {
+        if (cameraModes == null || cameraModes.Count == 0) return;
+
+        int newcurrentModeIndex = ultravioletModeIndex;
+
+        if (!cameraModes[newcurrentModeIndex].isUnlocked) return;
+
+        currentModeIndex = newcurrentModeIndex;
+
+        SetMode(cameraModes[currentModeIndex]);
     }
 
     private void PlayPhotoSfx()

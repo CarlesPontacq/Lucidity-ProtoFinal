@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputObserver : MonoBehaviour
 {
+    [Header("Player Input")]
     [SerializeField] private PlayerInput playerInputRef;
 
     public Vector2 movement { get; private set; } = Vector2.zero;
@@ -14,6 +15,12 @@ public class PlayerInputObserver : MonoBehaviour
     public Action onInteract;
 
     public Action onToggleSheet;
+
+    [Header("Camera Input")]
+    public Action onCameraToggle;
+    public Action onCameraAction;
+    public Action onSetDocumentationMode;
+    public Action onSetUltravioletMode;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -58,5 +65,28 @@ public class PlayerInputObserver : MonoBehaviour
         {
             onToggleSheet?.Invoke();
         }
+    }
+
+    public void OnCameraToggle(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+            onCameraToggle?.Invoke();
+    }
+
+    public void OnCameraAction(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+            onCameraAction?.Invoke();
+    }
+
+    public void OnSetDocumentationMode(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+            onSetDocumentationMode?.Invoke();
+    }
+    public void OnSetUltravioletMode(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+            onSetUltravioletMode?.Invoke();
     }
 }

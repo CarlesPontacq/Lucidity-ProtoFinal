@@ -12,8 +12,9 @@ public class PlayerInputObserver : MonoBehaviour
     public Action onRun;
 
     public Action onInteract;
-
     public Action onToggleSheet;
+    public Action onToggleCamera;
+    public Action onTakePhoto;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -57,6 +58,22 @@ public class PlayerInputObserver : MonoBehaviour
         if (context.phase == InputActionPhase.Started)
         {
             onToggleSheet?.Invoke();
+        }
+    }
+
+    public void OnToggleCamera(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            onToggleCamera?.Invoke();
+        }
+    }
+
+    public void OnTakePhoto(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            onTakePhoto?.Invoke();
         }
     }
 }

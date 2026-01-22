@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class CameraManager : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class CameraManager : MonoBehaviour
 
     [Header("State")]
     public bool lookingThroughCamera = false;
+
+    [Header("Input")]
+    [SerializeField] PlayerInputObserver playerInput;
 
     [Header("UI")]
     public CameraUIHandler ui;
@@ -25,6 +29,9 @@ public class CameraManager : MonoBehaviour
 
     void Start()
     {
+        playerInput.onTakePhoto += OnTryToTakePhoto;
+        playerInput.onToggleCamera += OnToggleCamera;
+
         SetMode(cameraModes[0]);
         ui.ShowReelIndicator(true);
     }
@@ -48,21 +55,20 @@ public class CameraManager : MonoBehaviour
 
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             return;
+    }
 
+    void OnTryToTakePhoto()
+    {
         if (lookingThroughCamera)
         {
-            if (Input.GetButtonDown("Fire2"))
-            {
-                PlayPhotoSfx();          
-                PerformCameraAction();
-            }
+            PerformCameraAction();
         }
+    }
 
-        if (Input.GetButtonDown("Fire1"))
-        {
-            if (!lookingThroughCamera) LookThroughCamera();
-            else StopLookingThroughCamera();
-        }
+    void OnToggleCamera()
+    {
+        if (!lookingThroughCamera) LookThroughCamera();
+        else StopLookingThroughCamera();
     }
 
     private void PlayPhotoSfx()
@@ -74,7 +80,7 @@ public class CameraManager : MonoBehaviour
             if (spatialPhotoSfx)
                 SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume);
             else
-                SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume); 
+                SFXManager.Instance.PlayGlobalSound(photoSfxId, photoSfxVolume); 
 
             return;
         }
@@ -88,7 +94,9 @@ public class CameraManager : MonoBehaviour
 
         NotifyModeActivated(currentMode);
         ui.ShowCameraFlash(true);
-        currentMode.PerformCameraAction();
+        bool successfulAction = currentMode.PerformCameraAction();
+        if (successfulAction)
+            PlayPhotoSfx();
     }
 
     public void EndCameraAction()

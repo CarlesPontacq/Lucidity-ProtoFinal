@@ -24,7 +24,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
 
     [Header("Input")]
-    [SerializeField] private KeyCode toggleKey = KeyCode.Q;
+    [SerializeField] PlayerInputObserver playerInput;
 
     [Header("Timing")]
     [SerializeField] private float closeDelaySeconds = 2f;
@@ -42,6 +42,8 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     private void Awake()
     {
+        playerInput.onToggleSheet += ToggleSheet;
+
         SetOpen(false);
 
         if (numberInput)
@@ -53,11 +55,14 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(toggleKey))
-            SetOpen(!open);
-
         if (open && Input.GetKeyDown(KeyCode.Escape))
             SetOpen(false);
+    }
+
+    void ToggleSheet()
+    {
+        SFXManager.Instance.PlayGlobalSound("paper", 0.3f);
+        SetOpen(!open);
     }
 
     public void OnSignatureClicked()

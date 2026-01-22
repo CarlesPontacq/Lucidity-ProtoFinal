@@ -2116,6 +2116,46 @@ PrefabInstance:
       propertyPath: playerCameraRef
       value: 
       objectReference: {fileID: 631850996}
+    - target: {fileID: 4698449138421371559, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698449138421371559, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionId
+      value: 014879c4-7c53-482b-9d0f-c5b965d283bf
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698449138421371559, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionName
+      value: 'Player/ToggleSheet[/Keyboard/q,/Keyboard/tab]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698449138421371559, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698449138421371559, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698449138421371559, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2076784865}
+    - target: {fileID: 4698449138421371559, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698449138421371559, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnToggleSheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698449138421371559, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerInputObserver, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698449138421371559, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5173845278349125517, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
       propertyPath: m_Name
       value: Player
@@ -7562,7 +7602,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1620746307}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00c7b96435b84664199cd0dd1a0bc21c, type: 3}
   m_Name: 
@@ -8498,6 +8538,8 @@ MonoBehaviour:
     audio: {fileID: 6418180475301049370, guid: 5f1c0cabd1935af46aeda3685e88b21c, type: 2}
   - name: leaking
     audio: {fileID: 6418180475301049370, guid: a01d99fa26cfb414bb402df67a71c762, type: 2}
+  - name: paper
+    audio: {fileID: 8300000, guid: a4ff5bdb1ccc19f44a8f57d64f7b29b5, type: 3}
 --- !u!4 &1725315410
 Transform:
   m_ObjectHideFlags: 0
@@ -8814,7 +8856,7 @@ MonoBehaviour:
   reportState: {fileID: 1758223928}
   exitBlocker: {fileID: 1326264525}
   exitLamp: {fileID: 627909402}
-  toggleKey: 113
+  playerInput: {fileID: 2076784865}
   closeDelaySeconds: 0.5
   pauseGameWhenOpen: 1
   disableWhileOpen:
@@ -10315,3 +10357,4 @@ SceneRoots:
   - {fileID: 423939892}
   - {fileID: 1049652292}
   - {fileID: 1665097136}
+  - {fileID: 312993493}

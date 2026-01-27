@@ -99,7 +99,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
             reportState.Submit(correct);
 
         if (exitDoor != null)
-            exitDoor.UnlockExitDoor();
+            exitDoor.Unlock();
 
         if (exitBlocker != null)
             exitBlocker.UnlockPassage();

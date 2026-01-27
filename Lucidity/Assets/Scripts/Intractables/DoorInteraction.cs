@@ -4,6 +4,7 @@ using UnityEngine;
 public class DoorInteraction : ObjectInteraction
 {
     [SerializeField] Transform pivot;
+    [SerializeField] private bool isLocked = true;
 
     [Header("Door Rotation")]
     public float openAngle = 90f;
@@ -12,7 +13,6 @@ public class DoorInteraction : ObjectInteraction
     [Header("Exit Door (optional)")]
     [SerializeField] private bool requiresReportToOpen = false;
     [SerializeField] private ReportResultState reportState;
-    [SerializeField] private bool isLocked = true;
 
     private bool isOpen = false;
     private bool hasToApplyRotation = false;
@@ -32,8 +32,6 @@ public class DoorInteraction : ObjectInteraction
         pivot.localRotation = closedLocalRotation;
 
         soundPosition = transform.position;
-
-        if (!requiresReportToOpen) isLocked = false;
     }
 
     protected override void Update()
@@ -50,10 +48,14 @@ public class DoorInteraction : ObjectInteraction
             return;
         }
 
-        ToggleDoor();
+        if (!isLocked)
+            ToggleDoor();
+        else
+            Debug.Log("Puerta bloqueada");
     }
 
-    public void UnlockExitDoor() => isLocked = false;
+    public void Unlock() => isLocked = false;
+    public void Lock() => isLocked = true;
 
     public void LockExitDoor()
     {

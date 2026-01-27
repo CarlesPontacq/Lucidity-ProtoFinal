@@ -34,6 +34,11 @@ public class GameManager : MonoBehaviour
         loopManager.StartNextLoop();
     }
 
+    public int GetCurrentLoopIndex()
+    {
+        return currentLoop;
+    }
+
     public void AddLoopToCount()
     {
         currentLoop++;

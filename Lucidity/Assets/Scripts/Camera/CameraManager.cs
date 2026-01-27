@@ -59,6 +59,15 @@ public class CameraManager : MonoBehaviour
     {
         if (ReportSheetOverlayUI.IsOpen) return;
 
+        if(currentMode == cameraModes[ultravioletModeIndex])
+        {
+            UltravioletMode uv = currentMode as UltravioletMode;
+
+            Debug.Log(uv.isUvLightOn);
+
+            if (uv.isUvLightOn) return;
+        }
+
         if (!lookingThroughCamera)
             LookThroughCamera();
         else
@@ -69,9 +78,11 @@ public class CameraManager : MonoBehaviour
     {
         if (!lookingThroughCamera || currentMode == null) return;
 
-        if(currentMode != cameraModes[documentationModeIndex]) return;
+        if (currentMode == cameraModes[documentationModeIndex])
+        {
+            PlayPhotoSfx();
+        }
 
-        PlayPhotoSfx();
         PerformCameraAction();
     }
 
@@ -122,8 +133,12 @@ public class CameraManager : MonoBehaviour
     {
         if (currentMode == null) return;
 
-        NotifyModeActivated(currentMode);
-        ui.ShowCameraFlash(true);
+        if (currentMode == cameraModes[documentationModeIndex])
+        {
+            NotifyModeActivated(currentMode);
+            ui.ShowCameraFlash(true);
+        }
+
         currentMode.PerformCameraAction();
     }
 
@@ -140,6 +155,7 @@ public class CameraManager : MonoBehaviour
         DeactivateMode();
         if (!mode.isUnlocked) return;
         currentMode = mode;
+        ui.SetCameraModeUI(currentMode);
     }
 
     public void DeactivateMode()
@@ -161,9 +177,12 @@ public class CameraManager : MonoBehaviour
         switch (currentMode)
         {
             case DocumentationMode:
-                ui.ShowCameraAspect(true);
+                ui.ShowDocumentationCameraAspect(true);
                 break;
-            case null:
+            case UltravioletMode:
+                ui.ShowUvCameraAspect(true);
+                break;
+            default:
                 Debug.Log("Null Camera Mode");
                 break;
         }
@@ -178,9 +197,12 @@ public class CameraManager : MonoBehaviour
         switch (currentMode)
         {
             case DocumentationMode:
-                ui.ShowCameraAspect(false);
+                ui.ShowDocumentationCameraAspect(false);
                 break;
-            case null:
+            case UltravioletMode:
+                ui.ShowUvCameraAspect(false);
+                break;
+            default:
                 Debug.Log("Null Camera Mode");
                 break;
         }

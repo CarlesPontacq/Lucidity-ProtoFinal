@@ -7,11 +7,14 @@ public class CameraUIHandler : MonoBehaviour
 {
     [Header("Documentation Mode")]
     [SerializeField] private Image documentationAspect;
+    [SerializeField] private Image uvAspect;
     [SerializeField] private Image cameraFlash;
     [SerializeField] private Image photo;
     [SerializeField] private GameObject remainingReelTexts;
     [SerializeField] private TextMeshProUGUI remainingReels;
     [SerializeField] private Canvas uiCanvas;
+    [SerializeField] private GameObject documentationModeUI;
+    [SerializeField] private GameObject uvModeUI;
 
 
     internal void ShowCameraUI(bool showUI)
@@ -19,9 +22,14 @@ public class CameraUIHandler : MonoBehaviour
         uiCanvas.enabled = showUI;
     }
 
-    internal void ShowCameraAspect(bool showAspect)
+    internal void ShowDocumentationCameraAspect(bool showAspect)
     {
         documentationAspect.enabled = showAspect;
+    }
+    
+    internal void ShowUvCameraAspect(bool showAspect)
+    {
+        uvAspect.enabled = showAspect;
     }
 
     internal void ShowCameraFlash(bool showAspect)
@@ -50,5 +58,24 @@ public class CameraUIHandler : MonoBehaviour
         );
 
         photo.sprite = sprite;
+    }
+
+    internal void SetCameraModeUI(CameraMode mode)
+    {
+        if(mode == null) return;
+
+        switch (mode)
+        {
+            case DocumentationMode:
+                documentationModeUI.SetActive(true);
+                uvModeUI.SetActive(false);
+                break;
+            case UltravioletMode:
+                uvModeUI.SetActive(true);
+                documentationModeUI.SetActive(false);
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -52,18 +52,36 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleCamera",
+                    "name": "CameraToggle",
                     "type": "Button",
-                    "id": "174f0458-0083-419b-ba0a-b1d9f75164ad",
+                    "id": "9c577ccf-dd75-4efe-b514-922ca7429b1f",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "TakePhoto",
+                    "name": "CameraAction",
                     "type": "Button",
-                    "id": "8d644109-fbaa-4282-ad33-207bc9d81cb9",
+                    "id": "5d42afe4-5323-443c-966d-0d2b8a07fb78",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SetUltravioletMode",
+                    "type": "Button",
+                    "id": "8c9e1a7a-8aed-4adf-8800-4554089f7249",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SetDocumentationMode",
+                    "type": "Button",
+                    "id": "e7ee5fb5-45b3-4887-81af-89c51421ff5a",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -293,23 +311,45 @@
                 },
                 {
                     "name": "",
-                    "id": "d4915e1d-38ea-4864-b589-bfe21ce5c606",
+                    "id": "b4ca6cb1-8601-46cc-8d3f-a5227eabafc3",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ToggleCamera",
+                    "action": "CameraToggle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "0d4ba4c8-c688-4559-a709-a22843a7c3dc",
+                    "id": "7579bae7-cf8f-4391-b420-bac1806305c1",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TakePhoto",
+                    "action": "CameraAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "27180d7a-1a61-4380-9c45-2ca014de805b",
+                    "path": "<Keyboard>/#(2)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SetUltravioletMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2d3447bb-9f59-4f85-b78f-75b342853624",
+                    "path": "<Keyboard>/#(1)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SetDocumentationMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 public class CameraManager : MonoBehaviour
 {
@@ -10,12 +9,13 @@ public class CameraManager : MonoBehaviour
     public Transform normalCamera;
     public CameraMode currentMode;
     public List<CameraMode> cameraModes;
+    private int currentModeIndex = 0;
+
+    private int documentationModeIndex = 0;
+    private int ultravioletModeIndex = 1;
 
     [Header("State")]
     public bool lookingThroughCamera = false;
-
-    [Header("Input")]
-    [SerializeField] PlayerInputObserver playerInput;
 
     [Header("UI")]
     public CameraUIHandler ui;
@@ -27,10 +27,16 @@ public class CameraManager : MonoBehaviour
 
     private bool lastDocOpen = false;
 
+    [Header("Input")]
+    [SerializeField] private PlayerInputObserver input;
+
+
     void Start()
     {
-        playerInput.onTakePhoto += OnTryToTakePhoto;
-        playerInput.onToggleCamera += OnToggleCamera;
+        input.onCameraToggle += HandleCameraToggle;
+        input.onCameraAction += HandleCameraAction;
+        input.onSetDocumentationMode += HandleSetDocumentationMode;
+        input.onSetUltravioletMode += HandleSetUltravioletMode;
 
         SetMode(cameraModes[0]);
         ui.ShowReelIndicator(true);
@@ -40,35 +46,65 @@ public class CameraManager : MonoBehaviour
     {
         bool docOpen = ReportSheetOverlayUI.IsOpen;
 
-        if (docOpen && !lastDocOpen)
+        if (docOpen && !lastDocOpen && lookingThroughCamera)
         {
-            if (lookingThroughCamera)
-            {
-                StopLookingThroughCamera();
-                ui.ShowCameraFlash(false);
-            }
+            StopLookingThroughCamera();
+            ui.ShowCameraFlash(false);
         }
+
         lastDocOpen = docOpen;
-
-        if (docOpen)
-            return;
-
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
     }
 
-    void OnTryToTakePhoto()
+    private void HandleCameraToggle()
     {
-        if (lookingThroughCamera)
+        if (ReportSheetOverlayUI.IsOpen) return;
+
+        if (currentMode == cameraModes[ultravioletModeIndex])
         {
-            PerformCameraAction();
+            UltravioletMode uv = currentMode as UltravioletMode;
+
+            Debug.Log(uv.isUvLightOn);
+
+            if (uv.isUvLightOn) return;
         }
+
+        if (!lookingThroughCamera)
+            LookThroughCamera();
+        else
+            StopLookingThroughCamera();
     }
 
-    void OnToggleCamera()
+    private void HandleCameraAction()
     {
-        if (!lookingThroughCamera) LookThroughCamera();
-        else StopLookingThroughCamera();
+        if (!lookingThroughCamera || currentMode == null) return;
+
+        PerformCameraAction();
+    }
+
+    private void HandleSetDocumentationMode()
+    {
+        if (cameraModes == null || cameraModes.Count == 0) return;
+
+        int newcurrentModeIndex = documentationModeIndex;
+
+        if (!cameraModes[newcurrentModeIndex].isUnlocked) return;
+
+        currentModeIndex = newcurrentModeIndex;
+
+        SetMode(cameraModes[currentModeIndex]);
+    }
+
+    private void HandleSetUltravioletMode()
+    {
+        if (cameraModes == null || cameraModes.Count == 0) return;
+
+        int newcurrentModeIndex = ultravioletModeIndex;
+
+        if (!cameraModes[newcurrentModeIndex].isUnlocked) return;
+
+        currentModeIndex = newcurrentModeIndex;
+
+        SetMode(cameraModes[currentModeIndex]);
     }
 
     private void PlayPhotoSfx()
@@ -80,7 +116,7 @@ public class CameraManager : MonoBehaviour
             if (spatialPhotoSfx)
                 SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume);
             else
-                SFXManager.Instance.PlayGlobalSound(photoSfxId, photoSfxVolume); 
+                SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume);
 
             return;
         }
@@ -92,11 +128,17 @@ public class CameraManager : MonoBehaviour
     {
         if (currentMode == null) return;
 
-        NotifyModeActivated(currentMode);
-        ui.ShowCameraFlash(true);
-        bool successfulAction = currentMode.PerformCameraAction();
-        if (successfulAction)
+        if (currentMode == cameraModes[documentationModeIndex])
+        {
+            NotifyModeActivated(currentMode);
+            ui.ShowCameraFlash(true);
+        }
+
+        bool successfulCameraAction = currentMode.PerformCameraAction();
+        if (successfulCameraAction && currentMode == cameraModes[documentationModeIndex])
+        {
             PlayPhotoSfx();
+        }
     }
 
     public void EndCameraAction()
@@ -112,6 +154,7 @@ public class CameraManager : MonoBehaviour
         DeactivateMode();
         if (!mode.isUnlocked) return;
         currentMode = mode;
+        ui.SetCameraModeUI(currentMode);
     }
 
     public void DeactivateMode()
@@ -133,9 +176,12 @@ public class CameraManager : MonoBehaviour
         switch (currentMode)
         {
             case DocumentationMode:
-                ui.ShowCameraAspect(true);
+                ui.ShowDocumentationCameraAspect(true);
                 break;
-            case null:
+            case UltravioletMode:
+                ui.ShowUvCameraAspect(true);
+                break;
+            default:
                 Debug.Log("Null Camera Mode");
                 break;
         }
@@ -150,9 +196,12 @@ public class CameraManager : MonoBehaviour
         switch (currentMode)
         {
             case DocumentationMode:
-                ui.ShowCameraAspect(false);
+                ui.ShowDocumentationCameraAspect(false);
                 break;
-            case null:
+            case UltravioletMode:
+                ui.ShowUvCameraAspect(false);
+                break;
+            default:
                 Debug.Log("Null Camera Mode");
                 break;
         }

@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputObserver : MonoBehaviour
 {
+    public enum ActionMap { Player, ReportSheet, UI }
+
     [SerializeField] private PlayerInput playerInputRef;
 
     public Vector2 movement { get; private set; } = Vector2.zero;
@@ -75,5 +77,28 @@ public class PlayerInputObserver : MonoBehaviour
         {
             onTakePhoto?.Invoke();
         }
+    }
+
+    public void SwitchActionMap(ActionMap actionMap)
+    {
+        playerInputRef.SwitchCurrentActionMap(GetActionMapString(actionMap));
+    }
+
+    private string GetActionMapString(ActionMap actionMap)
+    {
+        string actionMapString = "";
+        switch (actionMap)
+        {
+            case ActionMap.Player:
+                actionMapString = "Player";
+                break;
+            case ActionMap.ReportSheet:
+                actionMapString = "ReportSheet";
+                break;
+            case ActionMap.UI:
+                actionMapString = "UI";
+                break;
+        }
+        return actionMapString;
     }
 }

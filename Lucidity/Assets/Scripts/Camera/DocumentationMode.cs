@@ -34,10 +34,8 @@ public class DocumentationMode : CameraMode
         base.OnActivated();
     }
 
-    public override void PerformCameraAction()
+    public override bool PerformCameraAction()
     {
-        base.PerformCameraAction();
-
         if (flashCoroutine != null)
             StopCoroutine(flashCoroutine);
 
@@ -50,12 +48,17 @@ public class DocumentationMode : CameraMode
                 ui.ActualizeRemainingReelsIndicator(currentReels);
 
             flashCoroutine = StartCoroutine(FlashCoroutine());
+
+            return true;
         }
         else
         {
             var cm = FindAnyObjectByType<CameraManager>();
             if (cm != null) cm.EndCameraAction();
+
         }
+
+        return false;
     }
 
     protected override void OnDeactivated()

@@ -45,4 +45,10 @@ public class GameManager : MonoBehaviour
         currentLoop = 0;
         loopCounterUI.SetLoopCounterText(currentLoop);
     }
+
+    public void OnExitDoorCrossed()
+    {
+        loopManager.StartNextLoop();
+    }
+
 }

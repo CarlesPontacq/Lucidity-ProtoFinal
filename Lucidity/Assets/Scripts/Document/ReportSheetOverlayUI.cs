@@ -24,7 +24,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
 
     [Header("Input")]
-    [SerializeField] private KeyCode toggleKey = KeyCode.Q;
+    [SerializeField] PlayerInputObserver playerInput;
 
     [Header("Timing")]
     [SerializeField] private float closeDelaySeconds = 2f;
@@ -42,6 +42,8 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     private void Awake()
     {
+        playerInput.onToggleSheet += ToggleSheet;
+
         SetOpen(false);
 
         if (numberInput)
@@ -53,11 +55,14 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(toggleKey))
-            SetOpen(!open);
-
         if (open && Input.GetKeyDown(KeyCode.Escape))
             SetOpen(false);
+    }
+
+    void ToggleSheet()
+    {
+        SFXManager.Instance.PlayGlobalSound("paper", 0.3f);
+        SetOpen(!open);
     }
 
     public void OnSignatureClicked()
@@ -78,7 +83,16 @@ public class ReportSheetOverlayUI : MonoBehaviour
             return;
         }
 
-        int expected = anomalyManager.GetExpectedAnomalies(); 
+        if (anomalyManager == null)
+        {
+            Debug.LogWarning("[UI] anomalyManager es null.");
+            SetFeedback("Error: AnomalyManager no asignado.");
+            signedThisAttempt = false;
+            if (signatureStamp) signatureStamp.gameObject.SetActive(false);
+            return;
+        }
+
+        int expected = anomalyManager.GetExpectedAnomalies();
         bool correct = (guess == expected);
 
         if (reportState != null)
@@ -90,7 +104,6 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (exitBlocker != null)
             exitBlocker.UnlockPassage();
 
-        // ✅ Si no está asignada, intenta encontrarla en escena
         if (exitLamp == null)
             exitLamp = FindAnyObjectByType<ExitLightEmissionMapSwitcher>();
 
@@ -101,14 +114,13 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (correct)
         {
-            Debug.Log($"✅ Firmado y correcto. Puesto={guess}, Esperado={expected}");
-            SetFeedback("Correcto.");
+            Debug.Log($"Firmado y correcto. Puesto={guess}, Esperado={expected}");
+            SetFeedback("Correcto. Ya puedes pasar por la puerta.");
         }
         else
         {
-            Debug.Log($"❌ Firmado pero incorrecto. Puesto={guess}, Esperado={expected}");
+            Debug.Log($"Firmado pero incorrecto. Puesto={guess}, Esperado={expected}");
             SetFeedback("Incorrecto. Ya puedes pasar por la puerta.");
-            GameManager.Instance.ResetLoops();
         }
 
         if (closeRoutine != null) StopCoroutine(closeRoutine);

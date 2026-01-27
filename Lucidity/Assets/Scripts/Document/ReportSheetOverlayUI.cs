@@ -179,6 +179,11 @@ public class ReportSheetOverlayUI : MonoBehaviour
             if (disableWhileOpen[i] != null)
                 disableWhileOpen[i].enabled = enabled;
         }
+
+        if (enabled)
+            playerInput.SwitchActionMap(PlayerInputObserver.ActionMap.Player);
+        else
+            playerInput.SwitchActionMap(PlayerInputObserver.ActionMap.ReportSheet);
     }
 
     private void SetFeedback(string msg)

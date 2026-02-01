@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class LoopManager : MonoBehaviour
 {
+    [SerializeField] private ZonesManager zonesManager;
     [SerializeField] private AnomalyManager anomalyManager;
     [SerializeField] private ReportResultState reportState;
     [SerializeField] private DoorInteraction exitDoor;
@@ -17,7 +18,6 @@ public class LoopManager : MonoBehaviour
     [Tooltip("Evita avanzar múltiples loops por doble trigger.")]
     [SerializeField] private float nextLoopCooldown = 0.25f;
 
-    private int loopIndex = 0;
     private float nextAllowedTime = 0f;
 
     private void Start()
@@ -55,8 +55,6 @@ public class LoopManager : MonoBehaviour
 
     private void StartLoopFresh()
     {
-        loopIndex++;
-
         if (reportState != null)
             reportState.ResetForNewLoop();
 
@@ -81,13 +79,14 @@ public class LoopManager : MonoBehaviour
         if (exitLamp != null)
             exitLamp.SetCanPass(false);
 
+        if (zonesManager != null)
+            zonesManager.UpdateZoneDoors(GameManager.Instance.GetCurrentLoopIndex());
+
         Debug.Log("Test");
 
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();
         else
             Debug.LogWarning("LoopManager: anomalyManager es null (no puedo spawnear anomalías).");
-
-        Debug.Log($"Loop {loopIndex} started (fresh)");
     }
 }

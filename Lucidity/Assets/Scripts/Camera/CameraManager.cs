@@ -59,7 +59,7 @@ public class CameraManager : MonoBehaviour
     {
         if (ReportSheetOverlayUI.IsOpen) return;
 
-        if(currentMode == cameraModes[ultravioletModeIndex])
+        if (currentMode == cameraModes[ultravioletModeIndex])
         {
             UltravioletMode uv = currentMode as UltravioletMode;
 
@@ -78,11 +78,6 @@ public class CameraManager : MonoBehaviour
     {
         if (!lookingThroughCamera || currentMode == null) return;
 
-        if (currentMode == cameraModes[documentationModeIndex])
-        {
-            PlayPhotoSfx();
-        }
-
         PerformCameraAction();
     }
 
@@ -98,7 +93,7 @@ public class CameraManager : MonoBehaviour
 
         SetMode(cameraModes[currentModeIndex]);
     }
-    
+
     private void HandleSetUltravioletMode()
     {
         if (cameraModes == null || cameraModes.Count == 0) return;
@@ -121,7 +116,7 @@ public class CameraManager : MonoBehaviour
             if (spatialPhotoSfx)
                 SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume);
             else
-                SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume); 
+                SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume);
 
             return;
         }
@@ -139,7 +134,11 @@ public class CameraManager : MonoBehaviour
             ui.ShowCameraFlash(true);
         }
 
-        currentMode.PerformCameraAction();
+        bool successfulCameraAction = currentMode.PerformCameraAction();
+        if (successfulCameraAction && currentMode == cameraModes[documentationModeIndex])
+        {
+            PlayPhotoSfx();
+        }
     }
 
     public void EndCameraAction()

@@ -312,7 +312,7 @@
                 {
                     "name": "",
                     "id": "b4ca6cb1-8601-46cc-8d3f-a5227eabafc3",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -323,7 +323,7 @@
                 {
                     "name": "",
                     "id": "7579bae7-cf8f-4391-b420-bac1806305c1",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -350,6 +350,45 @@
                     "processors": "",
                     "groups": "",
                     "action": "SetDocumentationMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "ReportSheet",
+            "id": "42f22ae6-0b90-4243-ac04-938e5601fc70",
+            "actions": [
+                {
+                    "name": "ToggleSheet",
+                    "type": "Button",
+                    "id": "7e9280ef-754a-4c17-b635-070158113430",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e9ace57d-f8bc-4dd4-af8c-64d3e2fb2e84",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleSheet",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b42492ea-5a3f-489e-9c6d-7bbbfdfd0325",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleSheet",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

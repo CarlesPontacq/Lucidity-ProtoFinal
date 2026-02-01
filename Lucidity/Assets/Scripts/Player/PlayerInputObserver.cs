@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputObserver : MonoBehaviour
 {
+    public enum ActionMap { Player, ReportSheet, UI }
+
     [Header("Player Input")]
     [SerializeField] private PlayerInput playerInputRef;
 
@@ -13,8 +15,9 @@ public class PlayerInputObserver : MonoBehaviour
     public Action onRun;
 
     public Action onInteract;
-
     public Action onToggleSheet;
+    public Action onToggleCamera;
+    public Action onTakePhoto;
 
     [Header("Camera Input")]
     public Action onCameraToggle;
@@ -88,5 +91,28 @@ public class PlayerInputObserver : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
             onSetUltravioletMode?.Invoke();
+    }
+
+    public void SwitchActionMap(ActionMap actionMap)
+    {
+        playerInputRef.SwitchCurrentActionMap(GetActionMapString(actionMap));
+    }
+
+    private string GetActionMapString(ActionMap actionMap)
+    {
+        string actionMapString = "";
+        switch (actionMap)
+        {
+            case ActionMap.Player:
+                actionMapString = "Player";
+                break;
+            case ActionMap.ReportSheet:
+                actionMapString = "ReportSheet";
+                break;
+            case ActionMap.UI:
+                actionMapString = "UI";
+                break;
+        }
+        return actionMapString;
     }
 }

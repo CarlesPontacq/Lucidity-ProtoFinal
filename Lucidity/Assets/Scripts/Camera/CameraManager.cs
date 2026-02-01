@@ -39,7 +39,7 @@ public class CameraManager : MonoBehaviour
         input.onSetUltravioletMode += HandleSetUltravioletMode;
 
         SetMode(cameraModes[0]);
-        ui.ShowReelIndicator(true);
+        //ui.ShowReelIndicator(true);
     }
 
     private void Update()

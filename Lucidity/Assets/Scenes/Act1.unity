@@ -5025,6 +5025,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1055394485
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1055394487}
+  - component: {fileID: 1055394486}
+  m_Layer: 0
+  m_Name: Zones Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1055394486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055394485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1228b8a7ea180c46843831558dc1434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unlockableZones:
+  - zoneId: 0
+    doorToUnlock: {fileID: 1093267538}
+    unlockLoopNumber: 4
+--- !u!4 &1055394487
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055394485}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.252155, y: 1.8572878, z: 11.260464}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1066090151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7155,50 +7203,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b11e621d27aec44d838bba59085ecb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zonesManager: {fileID: 1055394486}
   entries:
   - id: 01
+    zoneId: 1
     prefab: {fileID: 1071576265}
     anchor: {fileID: 509518466}
   - id: 02
+    zoneId: 1
     prefab: {fileID: 495577953}
     anchor: {fileID: 635592693}
   - id: 03
+    zoneId: 1
     prefab: {fileID: 743415963}
     anchor: {fileID: 1912787582}
   - id: 04
+    zoneId: 1
     prefab: {fileID: 729426398}
     anchor: {fileID: 1402854727}
   - id: 05
+    zoneId: 1
     prefab: {fileID: 1788415392}
     anchor: {fileID: 282953409}
   - id: 06
+    zoneId: 0
     prefab: {fileID: 1850000103}
     anchor: {fileID: 842261095}
   - id: 07
+    zoneId: 1
     prefab: {fileID: 2088034138}
     anchor: {fileID: 2075626280}
   - id: 08
+    zoneId: 1
     prefab: {fileID: 794603550}
     anchor: {fileID: 903067122}
   - id: 09
+    zoneId: 1
     prefab: {fileID: 1732711933}
     anchor: {fileID: 1238858844}
   - id: 10
+    zoneId: 1
     prefab: {fileID: 904777055}
     anchor: {fileID: 822445818}
   - id: 11
+    zoneId: 1
     prefab: {fileID: 1735135742}
     anchor: {fileID: 1317187136}
   - id: 12
+    zoneId: 1
     prefab: {fileID: 541884355}
     anchor: {fileID: 724996896}
   - id: 13
+    zoneId: 1
     prefab: {fileID: 1792736984}
     anchor: {fileID: 1977384097}
   - id: 14
+    zoneId: 0
     prefab: {fileID: 656959943}
     anchor: {fileID: 637583700}
   - id: 15
+    zoneId: 1
     prefab: {fileID: 969029259552115660, guid: 043cfb24246c04a47bdab3d64c9ca6ae, type: 3}
     anchor: {fileID: 1844133217}
   anomaliesPerLoop: 2
@@ -9180,9 +9244,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1228b8a7ea180c46843831558dc1434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loopManager: {fileID: 1146919884}
   unlockableZones:
-  - doorToUnlock: {fileID: 1093267538}
+  - zoneId: 0
+    doorToUnlock: {fileID: 1093267538}
     unlockLoopNumber: 4
 --- !u!1001 &1788415390
 PrefabInstance:
@@ -10638,3 +10702,4 @@ SceneRoots:
   - {fileID: 1049652292}
   - {fileID: 1665097136}
   - {fileID: 312993493}
+  - {fileID: 1055394487}

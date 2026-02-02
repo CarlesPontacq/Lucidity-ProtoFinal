@@ -63,8 +63,6 @@ public class CameraManager : MonoBehaviour
         {
             UltravioletMode uv = currentMode as UltravioletMode;
 
-            Debug.Log(uv.isUvLightOn);
-
             if (uv.isUvLightOn) return;
         }
 

@@ -10,7 +10,7 @@ public class CameraUIHandler : MonoBehaviour
     [SerializeField] private Image uvAspect;
     [SerializeField] private Image cameraFlash;
     [SerializeField] private Image photo;
-    [SerializeField] private GameObject remainingReelTexts;
+    [SerializeField] private GameObject polaroid;
     [SerializeField] private TextMeshProUGUI remainingReels;
     [SerializeField] private Canvas uiCanvas;
     [SerializeField] private GameObject documentationModeUI;
@@ -25,6 +25,8 @@ public class CameraUIHandler : MonoBehaviour
     internal void ShowDocumentationCameraAspect(bool showAspect)
     {
         documentationAspect.enabled = showAspect;
+        remainingReels.enabled = showAspect;
+        polaroid.SetActive(!showAspect);
     }
     
     internal void ShowUvCameraAspect(bool showAspect)
@@ -35,11 +37,6 @@ public class CameraUIHandler : MonoBehaviour
     internal void ShowCameraFlash(bool showAspect)
     {
         cameraFlash.enabled = showAspect;
-    }
-
-    internal void ShowReelIndicator(bool showRemainingReels)
-    {
-        remainingReelTexts.SetActive(showRemainingReels);
     }
 
     internal void ActualizeRemainingReelsIndicator(int newRemainingReels)

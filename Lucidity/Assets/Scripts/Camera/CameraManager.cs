@@ -39,7 +39,7 @@ public class CameraManager : MonoBehaviour
         input.onSetUltravioletMode += HandleSetUltravioletMode;
 
         SetMode(cameraModes[0]);
-        ui.ShowReelIndicator(true);
+        //ui.ShowReelIndicator(true);
     }
 
     private void Update()
@@ -62,8 +62,6 @@ public class CameraManager : MonoBehaviour
         if (currentMode == cameraModes[ultravioletModeIndex])
         {
             UltravioletMode uv = currentMode as UltravioletMode;
-
-            Debug.Log(uv.isUvLightOn);
 
             if (uv.isUvLightOn) return;
         }

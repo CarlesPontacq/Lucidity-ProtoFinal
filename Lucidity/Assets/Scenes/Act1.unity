@@ -9449,8 +9449,6 @@ GameObject:
   - component: {fileID: 1758223931}
   - component: {fileID: 1758223929}
   - component: {fileID: 1758223928}
-  - component: {fileID: 1758223930}
-  - component: {fileID: 1758223933}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -9498,18 +9496,6 @@ MonoBehaviour:
   - {fileID: 1928008041}
   - {fileID: 355708876}
   - {fileID: 1735276961}
---- !u!114 &1758223930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758223926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ec09b991a1c1924c9e15a78a3bd8be6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1758223931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9539,22 +9525,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1758223933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758223926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1228b8a7ea180c46843831558dc1434, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unlockableZones:
-  - zoneId: 0
-    doorToUnlock: {fileID: 1093267538}
-    unlockLoopNumber: 4
 --- !u!1001 &1788415390
 PrefabInstance:
   m_ObjectHideFlags: 0

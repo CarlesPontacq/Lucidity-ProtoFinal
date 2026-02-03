@@ -148,6 +148,7 @@ public class AnomalyManager : MonoBehaviour
                 continue;
             }
 
+            Debug.Log("Anomalia : " + e.prefab.name);
             var instance = Instantiate(e.prefab, e.anchor.position, e.anchor.rotation, e.anchor);
             instance.MarkSpawned();
             instance.Activate();

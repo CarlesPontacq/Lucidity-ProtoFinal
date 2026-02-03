@@ -103,6 +103,8 @@ public class DoorInteraction : ObjectInteraction
 
     public void CloseDoor(bool animate)
     {
+        if (!isOpen && animate) return;
+
         isOpen = false;
         targetLocalRotation = closedLocalRotation;
 

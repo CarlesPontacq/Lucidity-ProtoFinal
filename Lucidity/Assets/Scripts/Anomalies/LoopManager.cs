@@ -18,6 +18,9 @@ public class LoopManager : MonoBehaviour
     [Tooltip("Evita avanzar múltiples loops por doble trigger.")]
     [SerializeField] private float nextLoopCooldown = 0.25f;
 
+    [SerializeField] private EnemySpawner enemySpawner;
+
+
     private float nextAllowedTime = 0f;
 
     private void Start()
@@ -88,5 +91,9 @@ public class LoopManager : MonoBehaviour
             anomalyManager.StartNewLoop();
         else
             Debug.LogWarning("LoopManager: anomalyManager es null (no puedo spawnear anomalías).");
+
+        if (enemySpawner != null)
+            enemySpawner.SpawnForNewLoop();
+
     }
 }

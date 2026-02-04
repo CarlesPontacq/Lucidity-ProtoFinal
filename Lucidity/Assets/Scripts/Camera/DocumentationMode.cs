@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DocumentationMode : CameraMode
 {
+    [Header("Documentation Mode")]
     public int maxReels = 5;
     public int currentReels;
 
@@ -12,7 +13,8 @@ public class DocumentationMode : CameraMode
     private Coroutine flashCoroutine;
 
     private Camera docCamera;
-    private ScreenshotManager screenshotManager;
+    [SerializeField] private ScreenshotManager screenshotManager;
+    [SerializeField] private CameraAudioHandler audioHandler;
 
     void Start()
     {
@@ -20,7 +22,6 @@ public class DocumentationMode : CameraMode
 
         currentReels = maxReels;
         isUnlocked = true;
-        screenshotManager = GetComponent<ScreenshotManager>();
     }
 
     void Update()
@@ -48,6 +49,8 @@ public class DocumentationMode : CameraMode
                 ui.ActualizeRemainingReelsIndicator(currentReels);
 
             flashCoroutine = StartCoroutine(FlashCoroutine());
+
+            audioHandler.PlayPhotoSfx();
 
             return true;
         }

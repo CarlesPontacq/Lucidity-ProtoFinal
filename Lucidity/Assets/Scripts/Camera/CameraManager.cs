@@ -20,15 +20,11 @@ public class CameraManager : MonoBehaviour
     [Header("UI")]
     public CameraUIHandler ui;
 
-    [Header("SFX")]
-    [SerializeField] private string photoSfxId = "cameraShutter";
-    [SerializeField] private float photoSfxVolume = 1f;
-    [SerializeField] private bool spatialPhotoSfx = false;
-
     private bool lastDocOpen = false;
 
     [Header("Input")]
     [SerializeField] private PlayerInputObserver input;
+    [SerializeField] private CameraEventBroadcaster eventBroadcaster;
 
 
     void Start()
@@ -97,22 +93,7 @@ public class CameraManager : MonoBehaviour
         SetMode(cameraModes[currentModeIndex]);
     }
 
-    private void PlayPhotoSfx()
-    {
-        if (string.IsNullOrEmpty(photoSfxId)) return;
-
-        if (SFXManager.Instance != null)
-        {
-            if (spatialPhotoSfx)
-                SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume);
-            else
-                SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume);
-
-            return;
-        }
-    }
-
-    private void PerformCameraAction()
+    private void PerformCameraAction() //<-- Idea de la funcion esta bien pero no deberia de depender del modo
     {
         if (currentMode == null) return;
 
@@ -120,14 +101,9 @@ public class CameraManager : MonoBehaviour
 
         if (currentMode == cameraModes[documentationModeIndex])
         {
-            NotifyModeActivated(currentMode);
+            eventBroadcaster.NotifyModeActivated(currentMode);
             ui.ShowCameraFlash(true);
             successfulCameraAction = currentMode.PerformCameraAction();
-        }
-
-        if (successfulCameraAction && currentMode == cameraModes[documentationModeIndex])
-        {
-            PlayPhotoSfx();
         }
     }
 
@@ -135,7 +111,7 @@ public class CameraManager : MonoBehaviour
     {
         if (currentMode == null) return;
 
-        NotifyModeDeactivated(currentMode);
+        eventBroadcaster.NotifyModeDeactivated(currentMode);
         ui.ShowCameraFlash(false);
     }
 
@@ -152,13 +128,13 @@ public class CameraManager : MonoBehaviour
     {
         if (currentMode == null) return;
 
-        NotifyModeDeactivated(currentMode);
+        eventBroadcaster.NotifyModeDeactivated(currentMode);
         StopLookingThroughCamera();
         currentMode.DeactivateMode();
         currentMode = null;
     }
 
-    private void LookThroughCamera()
+    private void LookThroughCamera() //<- No debería depender del modo de la cámara, seguramente con el nuevo ui se solucione o medio solucione
     {
         if (currentMode == null) return;
 
@@ -181,7 +157,7 @@ public class CameraManager : MonoBehaviour
         lookingThroughCamera = true;
     }
 
-    private void StopLookingThroughCamera()
+    private void StopLookingThroughCamera() //<- No debería depender del modo de la cámara, seguramente con el nuevo ui se solucione o medio solucione
     {
         if (currentMode == null) return;
 
@@ -201,23 +177,5 @@ public class CameraManager : MonoBehaviour
         }
 
         lookingThroughCamera = false;
-    }
-
-    private void NotifyModeActivated(CameraMode mode)
-    {
-        var manager = FindAnyObjectByType<AnomalyManager>();
-        if (manager == null) return;
-
-        foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
-            anomaly.OnCameraModeActivated(mode);
-    }
-
-    private void NotifyModeDeactivated(CameraMode mode)
-    {
-        var manager = FindAnyObjectByType<AnomalyManager>();
-        if (manager == null) return;
-
-        foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
-            anomaly.OnCameraModeDeactivated(mode);
     }
 }

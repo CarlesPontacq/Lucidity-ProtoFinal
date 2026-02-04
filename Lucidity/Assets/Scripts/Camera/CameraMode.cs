@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class CameraMode : MonoBehaviour
 {
+    [Header("Basic Mode")]
     public bool isUnlocked;
     public bool isActive { get; private set; }
 

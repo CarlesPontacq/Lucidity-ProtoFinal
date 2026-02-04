@@ -11,21 +11,21 @@ public class CameraEventBroadcaster : MonoBehaviour
             manager = GameObject.FindAnyObjectByType<AnomalyManager>();
     }
 
-    public void NotifyModeActivated(CameraMode mode)
+    public void NotifyModeActivated()
     {
         manager = FindAnyObjectByType<AnomalyManager>();
         if (manager == null) return;
 
         foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
-            anomaly.OnCameraModeActivated(mode);
+            anomaly.OnCameraModeActivated();
     }
 
-    public void NotifyModeDeactivated(CameraMode mode)
+    public void NotifyModeDeactivated()
     {
         manager = FindAnyObjectByType<AnomalyManager>();
         if (manager == null) return;
 
         foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
-            anomaly.OnCameraModeDeactivated(mode);
+            anomaly.OnCameraModeDeactivated();
     }
 }

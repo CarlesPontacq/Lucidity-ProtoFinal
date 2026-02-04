@@ -58,15 +58,13 @@ public class UltravioletMode : CameraMode
         base.DeactivateMode();
     }
 
-    public override bool PerformCameraAction() 
+    public override void PerformCameraAction() 
     {
-        if (uvLight == null) return false;
+        if (uvLight == null) return;
 
         uvLight.enabled = !uvLight.isActiveAndEnabled;
 
         isUvLightOn = uvLight.enabled;
-
-        return true;
     }
 
     protected override void OnActivated() { }

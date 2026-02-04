@@ -32,7 +32,7 @@ public abstract class CameraMode : MonoBehaviour
         OnDeactivated();
     }
 
-    public abstract bool PerformCameraAction();
+    public abstract void PerformCameraAction();
 
     protected virtual void OnActivated() { }
 

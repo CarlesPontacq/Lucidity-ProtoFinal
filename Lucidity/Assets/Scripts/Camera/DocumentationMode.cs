@@ -15,6 +15,7 @@ public class DocumentationMode : CameraMode
     private Camera docCamera;
     [SerializeField] private ScreenshotManager screenshotManager;
     [SerializeField] private CameraAudioHandler audioHandler;
+    [SerializeField] private CameraEventBroadcaster eventBroadcaster;
 
     void Start()
     {
@@ -35,7 +36,7 @@ public class DocumentationMode : CameraMode
         base.OnActivated();
     }
 
-    public override bool PerformCameraAction()
+    public override void PerformCameraAction()
     {
         if (flashCoroutine != null)
             StopCoroutine(flashCoroutine);
@@ -51,17 +52,16 @@ public class DocumentationMode : CameraMode
             flashCoroutine = StartCoroutine(FlashCoroutine());
 
             audioHandler.PlayPhotoSfx();
-
-            return true;
         }
         else
         {
             var cm = FindAnyObjectByType<CameraManager>();
             if (cm != null) cm.EndCameraAction();
+            eventBroadcaster.NotifyModeDeactivated();
 
         }
 
-        return false;
+        return;
     }
 
     protected override void OnDeactivated()

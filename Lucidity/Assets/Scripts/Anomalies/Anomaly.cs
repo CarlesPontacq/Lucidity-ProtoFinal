@@ -42,20 +42,18 @@ public abstract class Anomaly : MonoBehaviour, ICameraModeListener
     }
 
 
-    public virtual void OnCameraModeActivated(CameraMode mode)
+    public virtual void OnCameraModeActivated()
     {
         if (!IsSpawnedThisLoop) return;
 
-        if (mode is DocumentationMode)
-            OnDeactivate();
+        OnDeactivate();
     }
 
-    public virtual void OnCameraModeDeactivated(CameraMode mode)
+    public virtual void OnCameraModeDeactivated()
     {
         if (!IsSpawnedThisLoop) return;
 
-        if (mode is DocumentationMode)
-            OnActivate();
+        OnActivate();
     }
 
     public GameObject GetNormalObjectOverride()

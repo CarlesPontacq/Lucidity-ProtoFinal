@@ -24,7 +24,6 @@ public class CameraManager : MonoBehaviour
 
     [Header("Input")]
     [SerializeField] private PlayerInputObserver input;
-    [SerializeField] private CameraEventBroadcaster eventBroadcaster;
 
 
     void Start()
@@ -97,7 +96,10 @@ public class CameraManager : MonoBehaviour
     {
         if (currentMode == null) return;
 
-        bool successfulCameraAction = false;
+        currentMode.PerformCameraAction();
+        
+        /*
+         * bool successfulCameraAction = false;
 
         if (currentMode == cameraModes[documentationModeIndex])
         {
@@ -105,13 +107,13 @@ public class CameraManager : MonoBehaviour
             ui.ShowCameraFlash(true);
             successfulCameraAction = currentMode.PerformCameraAction();
         }
+        */
     }
 
     public void EndCameraAction()
     {
         if (currentMode == null) return;
 
-        eventBroadcaster.NotifyModeDeactivated(currentMode);
         ui.ShowCameraFlash(false);
     }
 
@@ -128,7 +130,7 @@ public class CameraManager : MonoBehaviour
     {
         if (currentMode == null) return;
 
-        eventBroadcaster.NotifyModeDeactivated(currentMode);
+        //eventBroadcaster.NotifyModeDeactivated(currentMode);
         StopLookingThroughCamera();
         currentMode.DeactivateMode();
         currentMode = null;

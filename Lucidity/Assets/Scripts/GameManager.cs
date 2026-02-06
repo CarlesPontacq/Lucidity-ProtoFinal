@@ -56,4 +56,36 @@ public class GameManager : MonoBehaviour
         loopManager.StartNextLoop();
     }
 
+    public void PlayerDied()
+    {
+        Debug.Log("Player murio -> reset loops y reinicio loop");
+
+        ResetLoops();                 // contador a 0
+        loopManager.StartNextLoop();  // reinicia sistema de loop
+        TeleportPlayerToStart();
+    }
+
+    private void TeleportPlayerToStart()
+    {
+        GameObject player = PlayerRef;
+        if (player == null) return;
+
+        Transform spawnPoint = GameObject.FindWithTag("PlayerSpawn")?.transform;
+        if (spawnPoint == null)
+        {
+            Debug.LogWarning("No hay PlayerSpawn en la escena.");
+            return;
+        }
+
+        CharacterController cc = player.GetComponent<CharacterController>();
+        if (cc != null)
+            cc.enabled = false;
+
+        player.transform.position = spawnPoint.position;
+        player.transform.rotation = spawnPoint.rotation;
+
+        if (cc != null)
+            cc.enabled = true;
+    }
+
 }

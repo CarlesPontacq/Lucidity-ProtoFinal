@@ -156,6 +156,7 @@ public class AnomalyManager : MonoBehaviour
             spawnedThisLoop.Add(instance);
             ExpectedAnomaliesThisLoop++;
         }
+
     }
 
     public void ClearSpawned()

@@ -40,6 +40,7 @@ public class UltravioletMode : CameraMode
         {
             uvBattery += uvLightRecoverySpeed;
             uvBattery = Mathf.Clamp(uvBattery, minUvBattery, maxUvBattery);
+            uvLight.enabled = false;
         }
     }
 

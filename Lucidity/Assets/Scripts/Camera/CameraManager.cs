@@ -24,14 +24,17 @@ public class CameraManager : MonoBehaviour
 
     [Header("Input")]
     [SerializeField] private PlayerInputObserver input;
+    private float lastScrollTime;
+    [SerializeField] private float scrollCooldown = 0.15f;
 
 
     void Start()
     {
         input.onCameraToggle += HandleCameraToggle;
         input.onCameraAction += HandleCameraAction;
-        input.onSetDocumentationMode += HandleSetDocumentationMode;
-        input.onSetUltravioletMode += HandleSetUltravioletMode;
+        //input.onSetDocumentationMode += HandleSetDocumentationMode;
+        //input.onSetUltravioletMode += HandleSetUltravioletMode;
+        input.onChangeCameraMode += HandleChangeCameraMode;
 
         SetMode(cameraModes[0]);
     }
@@ -47,6 +50,22 @@ public class CameraManager : MonoBehaviour
         }
 
         lastDocOpen = docOpen;
+    }
+
+    private void PerformCameraAction()
+    {
+        if (currentMode == null) return;
+
+        currentMode.PerformCameraAction();
+    }
+
+    public void SetMode(CameraMode mode)
+    {
+        if (lookingThroughCamera) return;
+        DeactivateMode();
+        if (!mode.isUnlocked) return;
+        currentMode = mode;
+        ui.SetCameraModeUI(currentMode);
     }
 
     private void HandleCameraToggle()
@@ -66,6 +85,7 @@ public class CameraManager : MonoBehaviour
         PerformCameraAction();
     }
 
+    /*
     private void HandleSetDocumentationMode()
     {
         if (cameraModes == null || cameraModes.Count == 0) return;
@@ -78,7 +98,9 @@ public class CameraManager : MonoBehaviour
 
         SetMode(cameraModes[currentModeIndex]);
     }
+    */
 
+    /*
     private void HandleSetUltravioletMode()
     {
         if (cameraModes == null || cameraModes.Count == 0) return;
@@ -91,21 +113,31 @@ public class CameraManager : MonoBehaviour
 
         SetMode(cameraModes[currentModeIndex]);
     }
+    */
 
-    private void PerformCameraAction()
-    {
-        if (currentMode == null) return;
-
-        currentMode.PerformCameraAction();
-    }
-
-    public void SetMode(CameraMode mode)
+    private void HandleChangeCameraMode(int direction)
     {
         if (lookingThroughCamera) return;
-        DeactivateMode();
-        if (!mode.isUnlocked) return;
-        currentMode = mode;
-        ui.SetCameraModeUI(currentMode);
+        if (cameraModes == null || cameraModes.Count == 0) return;
+
+        if (Time.time - lastScrollTime < scrollCooldown) return;
+        lastScrollTime = Time.time;
+
+        int startIndex = currentModeIndex;
+        int index = currentModeIndex;
+
+        do
+        {
+            index = (index + direction + cameraModes.Count) % cameraModes.Count;
+
+            if (cameraModes[index].isUnlocked)
+            {
+                currentModeIndex = index;
+                SetMode(cameraModes[currentModeIndex]);
+                return;
+            }
+
+        } while (index != startIndex);
     }
 
     public void DeactivateMode()
@@ -124,11 +156,11 @@ public class CameraManager : MonoBehaviour
         currentMode.ActivateMode();
 
         lookingThroughCamera = true;
-        
+
         currentMode.LookThroughCamera(lookingThroughCamera);
     }
 
-    private void StopLookingThroughCamera() //<- No debería depender del modo de la cámara, seguramente con el nuevo ui se solucione o medio solucione
+    private void StopLookingThroughCamera()
     {
         if (currentMode == null) return;
 

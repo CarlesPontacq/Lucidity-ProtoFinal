@@ -2,17 +2,20 @@ using UnityEngine;
 
 public abstract class CameraMode : MonoBehaviour
 {
-    [Header("Basic Mode")]
+    [Header("General")]
     public bool isUnlocked;
     public bool isActive { get; private set; }
 
     protected bool unlocked;
 
     [SerializeField] protected CameraUIHandler ui;
+    [SerializeField] protected CameraAudioHandler audioHandler;
+
 
     protected void Start()
     {
         ui = FindAnyObjectByType<CameraUIHandler>();
+        audioHandler = FindAnyObjectByType<CameraAudioHandler>();
     }
 
     protected void Update()

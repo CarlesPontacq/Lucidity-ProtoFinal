@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraAudioHandler : MonoBehaviour
 {
-    [Header("SFX")]
+    [Header("Photo")]
     [SerializeField] private string photoSfxId = "cameraShutter";
     [SerializeField] private float photoSfxVolume = 1f;
     [SerializeField] private bool spatialPhotoSfx = false;

@@ -5,15 +5,20 @@ using UnityEngine.UI;
 
 public class CameraUIHandler : MonoBehaviour
 {
+
+    [Header("General")]
+    [SerializeField] private Canvas uiCanvas;
+
     [Header("Documentation Mode")]
     [SerializeField] private Image documentationAspect;
-    [SerializeField] private Image uvAspect;
     [SerializeField] private Image cameraFlash;
     [SerializeField] private Image photo;
     [SerializeField] private GameObject polaroid;
     [SerializeField] private TextMeshProUGUI remainingReels;
-    [SerializeField] private Canvas uiCanvas;
     [SerializeField] private GameObject documentationModeUI;
+
+    [Header("Ultraviolet Mode")]
+    [SerializeField] private Image uvAspect;
     [SerializeField] private GameObject uvModeUI;
 
 

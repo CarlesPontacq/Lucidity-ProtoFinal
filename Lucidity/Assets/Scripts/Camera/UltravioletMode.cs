@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UltravioletMode : CameraMode
 {
-    [Header("Ultraviolet Mode")]
+    [Header("Ultraviolet")]
     [Range(0f, 100f)]
     public float uvBattery = 100f;
     private float minUvBattery = 0f;

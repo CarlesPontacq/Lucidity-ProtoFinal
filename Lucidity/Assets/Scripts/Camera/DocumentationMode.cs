@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DocumentationMode : CameraMode
 {
-    [Header("Documentation Mode")]
+    [Header("Documentation")]
     public int maxReels = 5;
     public int currentReels;
 
@@ -14,7 +14,6 @@ public class DocumentationMode : CameraMode
 
     private Camera docCamera;
     [SerializeField] private ScreenshotManager screenshotManager;
-    [SerializeField] private CameraAudioHandler audioHandler;
     [SerializeField] private CameraEventBroadcaster eventBroadcaster;
 
     void Start()

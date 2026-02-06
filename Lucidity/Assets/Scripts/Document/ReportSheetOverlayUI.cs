@@ -40,6 +40,8 @@ public class ReportSheetOverlayUI : MonoBehaviour
     private Coroutine closeRoutine;
     private float previousTimeScale = 1f;
 
+    private bool canOpen = false;
+
     private void Awake()
     {
         playerInput.onToggleSheet += ToggleSheet;
@@ -59,8 +61,15 @@ public class ReportSheetOverlayUI : MonoBehaviour
             SetOpen(false);
     }
 
+    public void Grab()
+    {
+        canOpen = true;
+    }
+
     void ToggleSheet()
     {
+        if (!canOpen) return;
+
         SFXManager.Instance.PlayGlobalSound("paper", 0.3f);
         SetOpen(!open);
     }

@@ -31,6 +31,7 @@ public class LoopManager : MonoBehaviour
     public void StartNextLoop()
     {
         GameManager.Instance.CameraGrabbed();
+        GameManager.Instance.ReportSheetGrabbed();
 
         if (Time.unscaledTime < nextAllowedTime)
             return;

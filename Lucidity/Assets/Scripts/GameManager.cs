@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LoopManager loopManager;
     private int currentLoop = 0;
 
+    [SerializeField] CameraManager cameraManager;
     [SerializeField] DocumentationMode documentationMode;
+    [SerializeField] ReportSheetOverlayUI reportSheet;
     private bool cameraGrabbed = false; 
     private bool reportSheetGrabbed = false; 
 
@@ -65,11 +67,13 @@ public class GameManager : MonoBehaviour
     {
         cameraGrabbed = true;
         documentationMode.isUnlocked = true;
+        cameraManager.SetMode(cameraManager.cameraModes[0]);
     }
 
     public void ReportSheetGrabbed()
     {
         reportSheetGrabbed = true;
+        reportSheet.Grab();
     }
 
 }

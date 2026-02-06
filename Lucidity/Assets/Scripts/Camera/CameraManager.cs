@@ -37,8 +37,6 @@ public class CameraManager : MonoBehaviour
         input.onCameraAction += HandleCameraAction;
         input.onSetDocumentationMode += HandleSetDocumentationMode;
         input.onSetUltravioletMode += HandleSetUltravioletMode;
-
-        SetMode(cameraModes[0]);
     }
 
     private void Update()

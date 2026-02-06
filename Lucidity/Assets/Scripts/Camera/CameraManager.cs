@@ -117,48 +117,23 @@ public class CameraManager : MonoBehaviour
         currentMode = null;
     }
 
-    private void LookThroughCamera() //<- No debería depender del modo de la cámara, seguramente con el nuevo ui se solucione o medio solucione
+    private void LookThroughCamera()
     {
         if (currentMode == null) return;
 
         currentMode.ActivateMode();
 
-        switch (currentMode)
-        {
-            case DocumentationMode:
-                ui.ShowDocumentationCameraAspect(true);
-                break;
-            case UltravioletMode:
-                ui.ShowUvCameraAspect(true);
-                currentMode.PerformCameraAction();
-                break;
-            default:
-                Debug.Log("Null Camera Mode");
-                break;
-        }
-
         lookingThroughCamera = true;
+        
+        currentMode.LookThroughCamera(lookingThroughCamera);
     }
 
     private void StopLookingThroughCamera() //<- No debería depender del modo de la cámara, seguramente con el nuevo ui se solucione o medio solucione
     {
         if (currentMode == null) return;
 
-        switch (currentMode)
-        {
-            case DocumentationMode:
-                ui.ShowDocumentationCameraAspect(false);
-                break;
-            case UltravioletMode:
-                ui.ShowUvCameraAspect(false);
-                UltravioletMode uvMode = currentMode as UltravioletMode;
-                uvMode.isUvLightOn = false;
-                break;
-            default:
-                Debug.Log("Null Camera Mode");
-                break;
-        }
-
         lookingThroughCamera = false;
+
+        currentMode.LookThroughCamera(lookingThroughCamera);
     }
 }

@@ -8,9 +8,11 @@ public abstract class CameraMode : MonoBehaviour
 
     protected bool unlocked;
 
+    [SerializeField] protected CameraUIHandler ui;
+
     protected void Start()
     {
-
+        ui = FindAnyObjectByType<CameraUIHandler>();
     }
 
     protected void Update()
@@ -33,6 +35,8 @@ public abstract class CameraMode : MonoBehaviour
     }
 
     public abstract void PerformCameraAction();
+
+    public abstract void LookThroughCamera(bool look);
 
     protected virtual void OnActivated() { }
 

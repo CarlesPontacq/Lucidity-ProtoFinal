@@ -16,7 +16,6 @@ public class DocumentationMode : CameraMode
     [SerializeField] private ScreenshotManager screenshotManager;
     [SerializeField] private CameraAudioHandler audioHandler;
     [SerializeField] private CameraEventBroadcaster eventBroadcaster;
-    [SerializeField] private CameraUIHandler ui;
 
     void Start()
     {
@@ -24,7 +23,6 @@ public class DocumentationMode : CameraMode
 
         currentReels = maxReels;
         isUnlocked = true;
-        ui = FindAnyObjectByType<CameraUIHandler>();
 
     }
 
@@ -122,5 +120,10 @@ public class DocumentationMode : CameraMode
         CameraUIHandler ui = FindAnyObjectByType<CameraUIHandler>();
         if (ui != null)
             ui.ActualizeRemainingReelsIndicator(currentReels);
+    }
+
+    public override void LookThroughCamera(bool look)
+    {
+        ui.ShowDocumentationCameraAspect(look);
     }
 }

@@ -70,4 +70,18 @@ public class UltravioletMode : CameraMode
     protected override void OnActivated() { }
 
     protected override void OnDeactivated() { }
+
+    public override void LookThroughCamera(bool look)
+    {
+        ui.ShowUvCameraAspect(look);
+
+        if (look)
+        {
+            PerformCameraAction();
+        }
+        else
+        {
+            isUvLightOn = false;
+        }
+    }
 }

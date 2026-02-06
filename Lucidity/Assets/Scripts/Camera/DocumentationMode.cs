@@ -16,6 +16,7 @@ public class DocumentationMode : CameraMode
     [SerializeField] private ScreenshotManager screenshotManager;
     [SerializeField] private CameraAudioHandler audioHandler;
     [SerializeField] private CameraEventBroadcaster eventBroadcaster;
+    [SerializeField] private CameraUIHandler ui;
 
     void Start()
     {
@@ -23,6 +24,8 @@ public class DocumentationMode : CameraMode
 
         currentReels = maxReels;
         isUnlocked = true;
+        ui = FindAnyObjectByType<CameraUIHandler>();
+
     }
 
     void Update()
@@ -38,6 +41,7 @@ public class DocumentationMode : CameraMode
 
     public override void PerformCameraAction()
     {
+
         if (flashCoroutine != null)
             StopCoroutine(flashCoroutine);
 
@@ -45,20 +49,14 @@ public class DocumentationMode : CameraMode
         {
             currentReels--;
 
-            CameraUIHandler ui = FindAnyObjectByType<CameraUIHandler>();
+            ui.ShowCameraFlash(true);
+            flashCoroutine = StartCoroutine(FlashCoroutine());
+            eventBroadcaster.NotifyModeActivated();
+
             if (ui != null)
                 ui.ActualizeRemainingReelsIndicator(currentReels);
 
-            flashCoroutine = StartCoroutine(FlashCoroutine());
-
             audioHandler.PlayPhotoSfx();
-        }
-        else
-        {
-            var cm = FindAnyObjectByType<CameraManager>();
-            if (cm != null) cm.EndCameraAction();
-            eventBroadcaster.NotifyModeDeactivated();
-
         }
 
         return;
@@ -79,10 +77,11 @@ public class DocumentationMode : CameraMode
 
         yield return new WaitForSeconds(flasDuration);
 
-        CaptureAnomalies();
+        eventBroadcaster.NotifyModeDeactivated();
 
-        var cm = FindAnyObjectByType<CameraManager>();
-        if (cm != null) cm.EndCameraAction();
+        ui.ShowCameraFlash(false);
+
+        CaptureAnomalies();
     }
 
     private void CaptureAnomalies()

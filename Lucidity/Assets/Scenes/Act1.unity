@@ -7288,9 +7288,17 @@ PrefabInstance:
       value: CameraHolder
       objectReference: {fileID: 0}
     - target: {fileID: 3653492422873578228, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: ui
+      value: 
+      objectReference: {fileID: 1735276968}
+    - target: {fileID: 3653492422873578228, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: audioHandler
       value: 
       objectReference: {fileID: 1735276965}
+    - target: {fileID: 3653492422873578228, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: eventBroadcaster
+      value: 
+      objectReference: {fileID: 1735276966}
     - target: {fileID: 3653492422873578228, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: screenshotManager
       value: 
@@ -9457,7 +9465,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8875db24ee2742d41b92a455cb5da9d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
+  manager: {fileID: 1423677012}
+--- !u!114 &1735276968 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8572510722767480966, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+  m_PrefabInstance: {fileID: 1415356121}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493276195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05bca00abd11d544c94efec6e682508a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1737502417
 PrefabInstance:
   m_ObjectHideFlags: 0

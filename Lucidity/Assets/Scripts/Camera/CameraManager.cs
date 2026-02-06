@@ -92,29 +92,11 @@ public class CameraManager : MonoBehaviour
         SetMode(cameraModes[currentModeIndex]);
     }
 
-    private void PerformCameraAction() //<-- Idea de la funcion esta bien pero no deberia de depender del modo
+    private void PerformCameraAction()
     {
         if (currentMode == null) return;
 
         currentMode.PerformCameraAction();
-        
-        /*
-         * bool successfulCameraAction = false;
-
-        if (currentMode == cameraModes[documentationModeIndex])
-        {
-            eventBroadcaster.NotifyModeActivated(currentMode);
-            ui.ShowCameraFlash(true);
-            successfulCameraAction = currentMode.PerformCameraAction();
-        }
-        */
-    }
-
-    public void EndCameraAction()
-    {
-        if (currentMode == null) return;
-
-        ui.ShowCameraFlash(false);
     }
 
     public void SetMode(CameraMode mode)
@@ -130,7 +112,6 @@ public class CameraManager : MonoBehaviour
     {
         if (currentMode == null) return;
 
-        //eventBroadcaster.NotifyModeDeactivated(currentMode);
         StopLookingThroughCamera();
         currentMode.DeactivateMode();
         currentMode = null;

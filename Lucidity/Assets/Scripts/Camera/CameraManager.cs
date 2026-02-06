@@ -20,23 +20,21 @@ public class CameraManager : MonoBehaviour
     [Header("UI")]
     public CameraUIHandler ui;
 
-    [Header("SFX")]
-    [SerializeField] private string photoSfxId = "cameraShutter";
-    [SerializeField] private float photoSfxVolume = 1f;
-    [SerializeField] private bool spatialPhotoSfx = false;
-
     private bool lastDocOpen = false;
 
     [Header("Input")]
     [SerializeField] private PlayerInputObserver input;
+    private float lastScrollTime;
+    [SerializeField] private float scrollCooldown = 0.15f;
 
 
     void Start()
     {
         input.onCameraToggle += HandleCameraToggle;
         input.onCameraAction += HandleCameraAction;
-        input.onSetDocumentationMode += HandleSetDocumentationMode;
-        input.onSetUltravioletMode += HandleSetUltravioletMode;
+        //input.onSetDocumentationMode += HandleSetDocumentationMode;
+        //input.onSetUltravioletMode += HandleSetUltravioletMode;
+        input.onChangeCameraMode += HandleChangeCameraMode;
 
         SetMode(cameraModes[0]);
     }
@@ -52,6 +50,22 @@ public class CameraManager : MonoBehaviour
         }
 
         lastDocOpen = docOpen;
+    }
+
+    private void PerformCameraAction()
+    {
+        if (currentMode == null) return;
+
+        currentMode.PerformCameraAction();
+    }
+
+    public void SetMode(CameraMode mode)
+    {
+        if (lookingThroughCamera) return;
+        DeactivateMode();
+        if (!mode.isUnlocked) return;
+        currentMode = mode;
+        ui.SetCameraModeUI(currentMode);
     }
 
     private void HandleCameraToggle()
@@ -71,6 +85,7 @@ public class CameraManager : MonoBehaviour
         PerformCameraAction();
     }
 
+    /*
     private void HandleSetDocumentationMode()
     {
         if (cameraModes == null || cameraModes.Count == 0) return;
@@ -83,7 +98,9 @@ public class CameraManager : MonoBehaviour
 
         SetMode(cameraModes[currentModeIndex]);
     }
+    */
 
+    /*
     private void HandleSetUltravioletMode()
     {
         if (cameraModes == null || cameraModes.Count == 0) return;
@@ -96,63 +113,37 @@ public class CameraManager : MonoBehaviour
 
         SetMode(cameraModes[currentModeIndex]);
     }
+    */
 
-    private void PlayPhotoSfx()
-    {
-        if (string.IsNullOrEmpty(photoSfxId)) return;
-
-        if (SFXManager.Instance != null)
-        {
-            if (spatialPhotoSfx)
-                SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume);
-            else
-                SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume);
-
-            return;
-        }
-    }
-
-    private void PerformCameraAction()
-    {
-        if (currentMode == null) return;
-
-        bool successfulCameraAction = false;
-
-        if (currentMode == cameraModes[documentationModeIndex])
-        {
-            NotifyModeActivated(currentMode);
-            ui.ShowCameraFlash(true);
-            successfulCameraAction = currentMode.PerformCameraAction();
-        }
-
-        if (successfulCameraAction && currentMode == cameraModes[documentationModeIndex])
-        {
-            PlayPhotoSfx();
-        }
-    }
-
-    public void EndCameraAction()
-    {
-        if (currentMode == null) return;
-
-        NotifyModeDeactivated(currentMode);
-        ui.ShowCameraFlash(false);
-    }
-
-    public void SetMode(CameraMode mode)
+    private void HandleChangeCameraMode(int direction)
     {
         if (lookingThroughCamera) return;
-        DeactivateMode();
-        if (!mode.isUnlocked) return;
-        currentMode = mode;
-        ui.SetCameraModeUI(currentMode);
+        if (cameraModes == null || cameraModes.Count == 0) return;
+
+        if (Time.time - lastScrollTime < scrollCooldown) return;
+        lastScrollTime = Time.time;
+
+        int startIndex = currentModeIndex;
+        int index = currentModeIndex;
+
+        do
+        {
+            index = (index + direction + cameraModes.Count) % cameraModes.Count;
+
+            if (cameraModes[index].isUnlocked)
+            {
+                currentModeIndex = index;
+                SetMode(cameraModes[currentModeIndex]);
+                return;
+            }
+
+        } while (index != startIndex);
     }
 
     public void DeactivateMode()
     {
         if (currentMode == null) return;
 
-        NotifyModeDeactivated(currentMode);
         StopLookingThroughCamera();
         currentMode.DeactivateMode();
         currentMode = null;
@@ -164,60 +155,17 @@ public class CameraManager : MonoBehaviour
 
         currentMode.ActivateMode();
 
-        switch (currentMode)
-        {
-            case DocumentationMode:
-                ui.ShowDocumentationCameraAspect(true);
-                break;
-            case UltravioletMode:
-                ui.ShowUvCameraAspect(true);
-                currentMode.PerformCameraAction();
-                break;
-            default:
-                Debug.Log("Null Camera Mode");
-                break;
-        }
-
         lookingThroughCamera = true;
+
+        currentMode.LookThroughCamera(lookingThroughCamera);
     }
 
     private void StopLookingThroughCamera()
     {
         if (currentMode == null) return;
 
-        switch (currentMode)
-        {
-            case DocumentationMode:
-                ui.ShowDocumentationCameraAspect(false);
-                break;
-            case UltravioletMode:
-                ui.ShowUvCameraAspect(false);
-                UltravioletMode uvMode = currentMode as UltravioletMode;
-                uvMode.isUvLightOn = false;
-                break;
-            default:
-                Debug.Log("Null Camera Mode");
-                break;
-        }
-
         lookingThroughCamera = false;
-    }
 
-    private void NotifyModeActivated(CameraMode mode)
-    {
-        var manager = FindAnyObjectByType<AnomalyManager>();
-        if (manager == null) return;
-
-        foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
-            anomaly.OnCameraModeActivated(mode);
-    }
-
-    private void NotifyModeDeactivated(CameraMode mode)
-    {
-        var manager = FindAnyObjectByType<AnomalyManager>();
-        if (manager == null) return;
-
-        foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
-            anomaly.OnCameraModeDeactivated(mode);
+        currentMode.LookThroughCamera(lookingThroughCamera);
     }
 }

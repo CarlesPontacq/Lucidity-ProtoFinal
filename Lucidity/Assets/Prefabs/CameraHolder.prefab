@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8407977235855981212}
   - component: {fileID: 3052963556102865238}
-  - component: {fileID: 6669544096456587987}
   - component: {fileID: 247179815839382193}
   - component: {fileID: 2588325535155523862}
   - component: {fileID: 6177127620467473891}
@@ -89,14 +88,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &6669544096456587987
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2081242053931431542}
-  m_Enabled: 1
 --- !u!114 &247179815839382193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +158,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUnlocked: 1
+  ui: {fileID: 8572510722767480966}
+  audioHandler: {fileID: 588726753737900789}
   uvBattery: 100
   maxUvBattery: 100
   uvLightExhaustionSpeed: 0.05
@@ -272,6 +265,8 @@ GameObject:
   - component: {fileID: 1666927474045786133}
   - component: {fileID: 8172359253978911886}
   - component: {fileID: 8572510722767480966}
+  - component: {fileID: 588726753737900789}
+  - component: {fileID: 6033562226488872808}
   m_Layer: 0
   m_Name: CameraHolder
   m_TagString: Untagged
@@ -340,10 +335,8 @@ MonoBehaviour:
   - {fileID: 6177127620467473891}
   lookingThroughCamera: 0
   ui: {fileID: 8572510722767480966}
-  photoSfxId: cameraShutter
-  photoSfxVolume: 1
-  spatialPhotoSfx: 0
   input: {fileID: 0}
+  scrollCooldown: 0.15
 --- !u!114 &8572510722767480966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,11 +353,39 @@ MonoBehaviour:
   uvAspect: {fileID: 0}
   cameraFlash: {fileID: 0}
   photo: {fileID: 0}
-  remainingReelTexts: {fileID: 0}
+  polaroid: {fileID: 0}
   remainingReels: {fileID: 0}
   uiCanvas: {fileID: 0}
   documentationModeUI: {fileID: 0}
   uvModeUI: {fileID: 0}
+--- !u!114 &588726753737900789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463732054080317445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd23b91056c51d4ead755a463111b1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  photoSfxId: cameraShutter
+  photoSfxVolume: 1
+  spatialPhotoSfx: 0
+--- !u!114 &6033562226488872808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463732054080317445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8875db24ee2742d41b92a455cb5da9d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 0}
 --- !u!1 &3804164579405143643
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,9 +556,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUnlocked: 1
+  ui: {fileID: 8572510722767480966}
+  audioHandler: {fileID: 588726753737900789}
   maxReels: 5
   currentReels: 0
   flasDuration: 0.3
+  screenshotManager: {fileID: 1195699540973328539}
+  eventBroadcaster: {fileID: 6033562226488872808}
 --- !u!114 &1195699540973328539
 MonoBehaviour:
   m_ObjectHideFlags: 0

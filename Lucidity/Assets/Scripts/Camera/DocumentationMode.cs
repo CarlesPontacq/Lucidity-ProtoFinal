@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DocumentationMode : CameraMode
 {
+    [Header("Documentation")]
     public int maxReels = 5;
     public int currentReels;
 
@@ -12,7 +13,8 @@ public class DocumentationMode : CameraMode
     private Coroutine flashCoroutine;
 
     private Camera docCamera;
-    private ScreenshotManager screenshotManager;
+    [SerializeField] private ScreenshotManager screenshotManager;
+    [SerializeField] private CameraEventBroadcaster eventBroadcaster;
 
     void Start()
     {
@@ -20,7 +22,7 @@ public class DocumentationMode : CameraMode
 
         currentReels = maxReels;
         isUnlocked = true;
-        screenshotManager = GetComponent<ScreenshotManager>();
+
     }
 
     void Update()
@@ -34,8 +36,9 @@ public class DocumentationMode : CameraMode
         base.OnActivated();
     }
 
-    public override bool PerformCameraAction()
+    public override void PerformCameraAction()
     {
+
         if (flashCoroutine != null)
             StopCoroutine(flashCoroutine);
 
@@ -43,22 +46,17 @@ public class DocumentationMode : CameraMode
         {
             currentReels--;
 
-            CameraUIHandler ui = FindAnyObjectByType<CameraUIHandler>();
+            ui.ShowCameraFlash(true);
+            flashCoroutine = StartCoroutine(FlashCoroutine());
+            eventBroadcaster.NotifyModeActivated();
+
             if (ui != null)
                 ui.ActualizeRemainingReelsIndicator(currentReels);
 
-            flashCoroutine = StartCoroutine(FlashCoroutine());
-
-            return true;
-        }
-        else
-        {
-            var cm = FindAnyObjectByType<CameraManager>();
-            if (cm != null) cm.EndCameraAction();
-
+            audioHandler.PlayPhotoSfx();
         }
 
-        return false;
+        return;
     }
 
     protected override void OnDeactivated()
@@ -76,10 +74,11 @@ public class DocumentationMode : CameraMode
 
         yield return new WaitForSeconds(flasDuration);
 
-        CaptureAnomalies();
+        eventBroadcaster.NotifyModeDeactivated();
 
-        var cm = FindAnyObjectByType<CameraManager>();
-        if (cm != null) cm.EndCameraAction();
+        ui.ShowCameraFlash(false);
+
+        CaptureAnomalies();
     }
 
     private void CaptureAnomalies()
@@ -120,5 +119,10 @@ public class DocumentationMode : CameraMode
         CameraUIHandler ui = FindAnyObjectByType<CameraUIHandler>();
         if (ui != null)
             ui.ActualizeRemainingReelsIndicator(currentReels);
+    }
+
+    public override void LookThroughCamera(bool look)
+    {
+        ui.ShowDocumentationCameraAspect(look);
     }
 }

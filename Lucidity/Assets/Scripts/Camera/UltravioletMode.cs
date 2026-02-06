@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class UltravioletMode : CameraMode
 {
+    [Header("Ultraviolet")]
     [Range(0f, 100f)]
     public float uvBattery = 100f;
     private float minUvBattery = 0f;
@@ -57,18 +58,30 @@ public class UltravioletMode : CameraMode
         base.DeactivateMode();
     }
 
-    public override bool PerformCameraAction() 
+    public override void PerformCameraAction() 
     {
-        if (uvLight == null) return false;
+        if (uvLight == null) return;
 
         uvLight.enabled = !uvLight.isActiveAndEnabled;
 
         isUvLightOn = uvLight.enabled;
-
-        return true;
     }
 
     protected override void OnActivated() { }
 
     protected override void OnDeactivated() { }
+
+    public override void LookThroughCamera(bool look)
+    {
+        ui.ShowUvCameraAspect(look);
+
+        if (look)
+        {
+            PerformCameraAction();
+        }
+        else
+        {
+            isUvLightOn = false;
+        }
+    }
 }

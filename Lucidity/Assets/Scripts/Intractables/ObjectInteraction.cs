@@ -13,12 +13,12 @@ public class ObjectInteraction : MonoBehaviour
 
     public virtual void OnFocusEnter()
     {
-        UIManager.Instance.MakeReticleBigger();
+        ReticleController.Instance.MakeReticleBigger();
         SFXManager.Instance.PlayGlobalSound("objectHover", 0.5f);
     }
     
     public virtual void OnFocusExit()
     {
-        UIManager.Instance.ReturnReticleToNormalSize();
+        ReticleController.Instance.ReturnReticleToNormalSize();
     }
 }

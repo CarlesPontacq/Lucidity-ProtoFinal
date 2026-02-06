@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LoopManager loopManager;
     private int currentLoop = 0;
 
+    [SerializeField] DocumentationMode documentationMode;
+    private bool cameraGrabbed = false; 
+    private bool reportSheetGrabbed = false; 
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -54,6 +59,17 @@ public class GameManager : MonoBehaviour
     public void OnExitDoorCrossed()
     {
         loopManager.StartNextLoop();
+    }
+
+    public void CameraGrabbed()
+    {
+        cameraGrabbed = true;
+        documentationMode.isUnlocked = true;
+    }
+
+    public void ReportSheetGrabbed()
+    {
+        reportSheetGrabbed = true;
     }
 
 }

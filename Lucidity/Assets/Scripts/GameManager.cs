@@ -6,19 +6,18 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
 
-    [Header("Loop")]
     [SerializeField] private LoopCounter loopCounterUI;
     [SerializeField] private LoopManager loopManager;
-
-    [Header("Death FX")]
-    [SerializeField] private DeathCameraEffect deathEffect;          
-    [SerializeField] private MonoBehaviour[] disableOnDeath;       
-    [SerializeField] private string playerSpawnTag = "PlayerSpawn";  
-
-    [Header("Death Timing")]
-    [SerializeField] private float extraDelayAfterFlash = 0.05f;     
-
     private int currentLoop = 0;
+
+    [Header("Death Sequence")]
+    [SerializeField] private DeathCameraEffect deathEffect;        // en la cámara del player
+    [SerializeField] private MonoBehaviour[] disableOnDeath;       // scripts de input/mov/cámara/interacción
+    [SerializeField] private string playerSpawnTag = "PlayerSpawn";
+
+    [Header("Death Slow Motion")]
+    [SerializeField, Range(0.02f, 1f)] private float deathTimeScale = 0.2f;
+
     private bool isDying = false;
 
     private void Awake()
@@ -38,8 +37,9 @@ public class GameManager : MonoBehaviour
     {
         PlayerRef = GameObject.FindGameObjectWithTag("Player");
 
+        // fallback si no lo asignaste
         if (deathEffect == null && PlayerRef != null)
-            deathEffect = PlayerRef.GetComponentInChildren<DeathCameraEffect>();
+            deathEffect = PlayerRef.GetComponentInChildren<DeathCameraEffect>(true);
     }
 
     public void ResetAndStartNextLoop()
@@ -73,36 +73,48 @@ public class GameManager : MonoBehaviour
     public void PlayerDied()
     {
         if (isDying) return;
-        StartCoroutine(PlayerDiedRoutine());
+        StartCoroutine(DeathRoutine());
     }
 
-    private IEnumerator PlayerDiedRoutine()
+    private IEnumerator DeathRoutine()
     {
         isDying = true;
 
-        Time.timeScale = 1f;
+        // Guardar estado de tiempo
+        float prevTimeScale = Time.timeScale;
+        float prevFixedDelta = Time.fixedDeltaTime;
 
+        // 1) bloquear control del jugador (pantalla quieta)
         SetPlayerControlEnabled(false);
 
+        // 2) activar slowmo del mundo
+        Time.timeScale = deathTimeScale;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
+        // 3) efectos (cámara + flash) en tiempo real (no slowmo)
         if (deathEffect != null)
             yield return deathEffect.PlayDeathSequence();
         else
             Debug.LogWarning("[GameManager] deathEffect no asignado/encontrado.");
 
-        if (extraDelayAfterFlash > 0f)
-            yield return new WaitForSecondsRealtime(extraDelayAfterFlash);
+        // 4) volver a velocidad normal ANTES de respawn/restart
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
 
+        // 5) reset del juego
         ResetLoops();
-
         if (loopManager != null)
             loopManager.StartNextLoop();
-        else
-            Debug.LogWarning("[GameManager] loopManager es null.");
 
         TeleportPlayerToStart();
 
+        // 6) restaurar FX y control
         deathEffect?.Restore();
         SetPlayerControlEnabled(true);
+
+        // 7) restaurar por si antes del death usabas otro timeScale
+        Time.timeScale = prevTimeScale;
+        Time.fixedDeltaTime = prevFixedDelta;
 
         isDying = false;
     }

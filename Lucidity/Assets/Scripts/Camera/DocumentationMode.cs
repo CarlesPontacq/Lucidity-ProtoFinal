@@ -65,6 +65,8 @@ public class DocumentationMode : CameraMode
 
         if (flashCoroutine != null)
             StopCoroutine(flashCoroutine);
+
+        ui.ShowCameraFlash(false);
     }
 
     private IEnumerator FlashCoroutine()
@@ -119,15 +121,5 @@ public class DocumentationMode : CameraMode
         CameraUIHandler ui = FindAnyObjectByType<CameraUIHandler>();
         if (ui != null)
             ui.ActualizeRemainingReelsIndicator(currentReels);
-    }
-
-    public override void LookThroughCamera(bool look)
-    {
-        ui.ShowDocumentationCameraAspect(look);
-    }
-
-    public override void SetCameraModeUI()
-    {
-        ui.ShowDocumentationCameraAspect(true);
     }
 }

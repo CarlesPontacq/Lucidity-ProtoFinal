@@ -39,10 +39,6 @@ public abstract class CameraMode : MonoBehaviour
 
     public abstract void PerformCameraAction();
 
-    public abstract void LookThroughCamera(bool look);
-
-    public abstract void SetCameraModeUI();
-
     protected virtual void OnActivated() { }
 
     protected virtual void OnDeactivated() { }

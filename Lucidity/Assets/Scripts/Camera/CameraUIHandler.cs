@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,23 +16,11 @@ public class CameraUIHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI remainingReels;
 
     [Header("Mode Indicator")]
-    [SerializeField] private GameObject indicatorPositions;
+    [SerializeField] private List<GameObject> indicatorPositions;
     [SerializeField] private RectTransform indicator;
 
     [SerializeField] private float indicatorMoveSpeed = 10f;
     private Coroutine indicatorCoroutine;
-
-    internal void ShowCameraUI(bool showUI)
-    {
-        uiCanvas.enabled = showUI;
-    }
-
-    internal void ShowDocumentationCameraAspect(bool showAspect)
-    {
-        ShowCameraAspect(showAspect);
-
-        SetIndicatorPosition(0);
-    }
 
     internal void ShowCameraAspect(bool showAspect)
     {
@@ -39,13 +28,6 @@ public class CameraUIHandler : MonoBehaviour
         indicator.GetComponent<Image>().enabled = showAspect;
         remainingReels.enabled = showAspect;
         polaroid.SetActive(!showAspect);
-    }
-
-    internal void ShowUvCameraAspect(bool showAspect)
-    {
-        ShowDocumentationCameraAspect(!showAspect);
-        ShowCameraAspect(showAspect);
-        SetIndicatorPosition(1);
     }
 
     internal void ShowCameraFlash(bool showAspect)
@@ -74,19 +56,16 @@ public class CameraUIHandler : MonoBehaviour
     internal void SetIndicatorPosition(int modeIndex)
     {
         if (indicator == null || indicatorPositions == null) return;
-        if (modeIndex < 0 || modeIndex >= indicatorPositions.transform.childCount)
+        if (modeIndex < 0 || modeIndex > indicatorPositions.Count)
             return;
 
         RectTransform indicatorRT = indicator.GetComponent<RectTransform>();
-        RectTransform targetRT =
-            indicatorPositions.transform.GetChild(modeIndex).GetComponent<RectTransform>();
+        RectTransform targetRT = indicatorPositions[modeIndex].GetComponent<RectTransform>();
 
         if (indicatorCoroutine != null)
             StopCoroutine(indicatorCoroutine);
 
-        indicatorCoroutine = StartCoroutine(
-            MoveIndicator(indicatorRT, targetRT.anchoredPosition)
-        );
+        indicatorCoroutine = StartCoroutine(MoveIndicator(indicatorRT, targetRT.anchoredPosition));
     }
 
     private IEnumerator MoveIndicator(RectTransform indicatorRT, Vector2 targetPos)
@@ -103,23 +82,4 @@ public class CameraUIHandler : MonoBehaviour
 
         indicatorRT.anchoredPosition = targetPos;
     }
-
-    //internal void SetCameraModeUI(CameraMode mode)
-    //{
-    //    if(mode == null) return;
-
-    //    switch (mode)
-    //    {
-    //        case DocumentationMode:
-    //            documentationModeUI.SetActive(true);
-    //            uvModeUI.SetActive(false);
-    //            break;
-    //        case UltravioletMode:
-    //            uvModeUI.SetActive(true);
-    //            documentationModeUI.SetActive(false);
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //}
 }

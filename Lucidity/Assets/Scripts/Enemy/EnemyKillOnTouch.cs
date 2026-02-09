@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class EnemyKillOnTouch : MonoBehaviour
 {
+    private bool triggered = false;
+
     private void OnTriggerEnter(Collider other)
     {
+        if (triggered) return;
         if (!other.CompareTag("Player")) return;
 
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.PlayerDied();
-        }
+        triggered = true;
+        GameManager.Instance?.PlayerDied();
     }
 }

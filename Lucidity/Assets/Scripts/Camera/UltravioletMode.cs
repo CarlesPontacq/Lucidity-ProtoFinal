@@ -48,14 +48,18 @@ public class UltravioletMode : CameraMode
     //Funcion para activar la camara
     public override void ActivateMode()
     {
+        base.ActivateMode();
         uvLight = GetComponent<Light>();
-        base .ActivateMode();
+        uvLight.enabled = true;
+        isUvLightOn = true;
     }
 
     //Funcion para desactivar la camara
     public override void DeactivateMode()
     {
         base.DeactivateMode();
+        uvLight.enabled = false;
+        isUvLightOn = false;
     }
 
     public override void PerformCameraAction() 
@@ -70,18 +74,4 @@ public class UltravioletMode : CameraMode
     protected override void OnActivated() { }
 
     protected override void OnDeactivated() { }
-
-    public override void LookThroughCamera(bool look)
-    {
-        ui.ShowUvCameraAspect(look);
-
-        if (look)
-        {
-            PerformCameraAction();
-        }
-        else
-        {
-            isUvLightOn = false;
-        }
-    }
 }

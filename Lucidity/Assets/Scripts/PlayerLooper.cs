@@ -19,7 +19,7 @@ public class PlayerLooper : MonoBehaviour
             playerCameraRotationRef.ApplyRotationOffset(relativeRotation);
             cameraCameraRotationRef.ApplyRotationOffset(relativeRotation);
 
-            GameManager.Instance.ResetAndStartNextLoop();
+            //GameManager.Instance.ResetAndStartNextLoop();
         }
     }
 }

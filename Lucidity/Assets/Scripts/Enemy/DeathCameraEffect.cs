@@ -6,82 +6,89 @@ using UnityEngine.Rendering.Universal;
 
 public class DeathCameraEffect : MonoBehaviour
 {
-    [Header("Which transform rotates up? (assign your camera OR vertical pivot)")]
+    [Header("Transform que rota (pitch)")]
     [SerializeField] private Transform pitchTarget;
 
-    [Header("Flash UI")]
+    [Header("UI Flash Blanco")]
     [SerializeField] private Image flashImage;
 
-    [Header("Black & White (URP Volume)")]
+    [Header("UI Fade Negro")]
+    [SerializeField] private Image blackFadeImage;
+
+    [Header("Post Process")]
     [SerializeField] private Volume globalVolume;
 
     [Header("Look Up")]
     [SerializeField] private float lookUpAngle = -80f;
-    [SerializeField] private float lookUpDuration = 0.45f;
+    [SerializeField] private float lookUpDuration = 0.6f;
+
+    [Header("Fade Black")]
+    [SerializeField] private float fadeToBlackDuration = 0.6f;
 
     [Header("Flash Timing")]
-    [SerializeField] private float flashIn = 0.08f;
-    [SerializeField] private float flashHold = 0.06f;
-    [SerializeField] private float flashOut = 0.14f;
+    [SerializeField] private float flashIn = 0.1f;
+    [SerializeField] private float flashHold = 0.05f;
+    [SerializeField] private float flashOut = 0.15f;
 
     private ColorAdjustments colorAdjustments;
-    private Quaternion originalPitchLocalRot;
+    private Quaternion originalPitchRot;
 
     private void Awake()
     {
         if (pitchTarget == null)
-            pitchTarget = transform; // fallback
+            pitchTarget = transform;
 
-        originalPitchLocalRot = pitchTarget.localRotation;
+        originalPitchRot = pitchTarget.localRotation;
 
-        if (flashImage != null)
-        {
-            var c = flashImage.color;
-            c.a = 0f;
-            flashImage.color = c;
-            flashImage.gameObject.SetActive(true);
-            flashImage.raycastTarget = false;
-        }
+        SetupImage(flashImage);
+        SetupImage(blackFadeImage);
 
         if (globalVolume != null && globalVolume.profile != null)
             globalVolume.profile.TryGet(out colorAdjustments);
     }
 
+    private void SetupImage(Image img)
+    {
+        if (img == null) return;
+        var c = img.color;
+        c.a = 0f;
+        img.color = c;
+        img.gameObject.SetActive(true);
+        img.raycastTarget = false;
+    }
+
     public IEnumerator PlayDeathSequence()
     {
-        // Guardar rot inicial del target real
-        originalPitchLocalRot = pitchTarget.localRotation;
+        originalPitchRot = pitchTarget.localRotation;
 
-        Debug.Log($"[DeathFX] PlayDeathSequence pitchTarget={pitchTarget.name}");
-
-        // BN ON
         SetBlackAndWhite(true);
 
-        // mirar al techo
         yield return LookUpRoutine();
-
-        // flash
+        yield return FadeToBlack();
         yield return FlashRoutine();
     }
 
     public void Restore()
     {
-        pitchTarget.localRotation = originalPitchLocalRot;
+        pitchTarget.localRotation = originalPitchRot;
         SetBlackAndWhite(false);
 
-        if (flashImage != null)
-        {
-            var c = flashImage.color;
-            c.a = 0f;
-            flashImage.color = c;
-        }
+        ResetImage(flashImage);
+        ResetImage(blackFadeImage);
+    }
+
+    private void ResetImage(Image img)
+    {
+        if (img == null) return;
+        var c = img.color;
+        c.a = 0f;
+        img.color = c;
     }
 
     private void SetBlackAndWhite(bool enabled)
     {
         if (colorAdjustments == null) return;
 
-        // URP suele ser -100..100
         colorAdjustments.saturation.overrideState = true;
         colorAdjustments.saturation.value = enabled ? -100f : 0f;
     }
@@ -100,7 +107,6 @@ public class DeathCameraEffect : MonoBehaviour
             t += Time.unscaledDeltaTime;
             float a = Mathf.Clamp01(t / lookUpDuration);
             float pitch = Mathf.Lerp(startPitch, targetPitch, a);
-
             pitchTarget.localRotation = Quaternion.Euler(pitch, e.y, e.z);
             yield return null;
         }
@@ -108,31 +114,51 @@ public class DeathCameraEffect : MonoBehaviour
         pitchTarget.localRotation = Quaternion.Euler(targetPitch, e.y, e.z);
     }
 
+    private IEnumerator FadeToBlack()
+    {
+        if (blackFadeImage == null) yield break;
+
+        float t = 0f;
+        Color c = blackFadeImage.color;
+
+        while (t < fadeToBlackDuration)
+        {
+            t += Time.unscaledDeltaTime;
+            float a = Mathf.Clamp01(t / fadeToBlackDuration);
+            c.a = a;
+            blackFadeImage.color = c;
+            yield return null;
+        }
+
+        c.a = 1f;
+        blackFadeImage.color = c;
+    }
+
     private IEnumerator FlashRoutine()
     {
         if (flashImage == null) yield break;
 
-        yield return FadeAlpha(0f, 1f, flashIn);
+        yield return FadeAlpha(flashImage, 0f, 1f, flashIn);
         yield return WaitRealtime(flashHold);
-        yield return FadeAlpha(1f, 0f, flashOut);
+        yield return FadeAlpha(flashImage, 1f, 0f, flashOut);
     }
 
-    private IEnumerator FadeAlpha(float from, float to, float duration)
+    private IEnumerator FadeAlpha(Image img, float from, float to, float duration)
     {
         float t = 0f;
-        Color c = flashImage.color;
+        Color c = img.color;
 
         while (t < duration)
         {
             t += Time.unscaledDeltaTime;
             float a = duration <= 0f ? 1f : Mathf.Clamp01(t / duration);
             c.a = Mathf.Lerp(from, to, a);
-            flashImage.color = c;
+            img.color = c;
             yield return null;
         }
 
         c.a = to;
-        flashImage.color = c;
+        img.color = c;
     }
 
     private IEnumerator WaitRealtime(float seconds)

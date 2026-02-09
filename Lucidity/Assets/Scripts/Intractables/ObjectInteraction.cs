@@ -21,4 +21,9 @@ public class ObjectInteraction : MonoBehaviour
     {
         UIManager.Instance.ReturnReticleToNormalSize();
     }
+
+    private void OnDestroy()
+    {
+        OnFocusExit();
+    }
 }

@@ -11,12 +11,12 @@ public class GameManager : MonoBehaviour
     private int currentLoop = 0;
 
     [Header("Death Sequence")]
-    [SerializeField] private DeathCameraEffect deathEffect;        // en la cámara del player
-    [SerializeField] private MonoBehaviour[] disableOnDeath;       // scripts de input/mov/cámara/interacción
+    [SerializeField] private DeathCameraEffect deathEffect;        
+    [SerializeField] private MonoBehaviour[] disableOnDeath;       
     [SerializeField] private string playerSpawnTag = "PlayerSpawn";
 
     [Header("Death Slow Motion")]
-    [SerializeField, Range(0.02f, 1f)] private float deathTimeScale = 0.2f;
+    [SerializeField, Range(0.02f, 1f)] private float deathTimeScale = 0.15f;
 
     private bool isDying = false;
 
@@ -35,23 +35,28 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        CachePlayerRoot();
+    }
+
+    private void CachePlayerRoot()
+    {
+        var pm = FindAnyObjectByType<PlayerMovement>();
+        if (pm != null)
+        {
+            PlayerRef = pm.gameObject;
+
+            if (deathEffect == null)
+                deathEffect = PlayerRef.GetComponentInChildren<DeathCameraEffect>(true);
+
+            Debug.Log($"[GM] PlayerRef set to PlayerMovement root: {PlayerRef.name}");
+            return;
+        }
+
         PlayerRef = GameObject.FindGameObjectWithTag("Player");
-
-        // fallback si no lo asignaste
-        if (deathEffect == null && PlayerRef != null)
-            deathEffect = PlayerRef.GetComponentInChildren<DeathCameraEffect>(true);
+        Debug.LogWarning($"[GM] No encontrï¿½ PlayerMovement. Fallback PlayerRef={(PlayerRef ? PlayerRef.name : "NULL")}");
     }
 
-    public void ResetAndStartNextLoop()
-    {
-        Debug.Log("ResetAndStartNextLoop se ejecuta");
-        loopManager.StartNextLoop();
-    }
-
-    public int GetCurrentLoopIndex()
-    {
-        return currentLoop;
-    }
+    public int GetCurrentLoopIndex() => currentLoop;
 
     public void AddLoopToCount()
     {
@@ -73,6 +78,10 @@ public class GameManager : MonoBehaviour
     public void PlayerDied()
     {
         if (isDying) return;
+
+        if (PlayerRef == null)
+            CachePlayerRoot();
+
         StartCoroutine(DeathRoutine());
     }
 
@@ -80,39 +89,31 @@ public class GameManager : MonoBehaviour
     {
         isDying = true;
 
-        // Guardar estado de tiempo
         float prevTimeScale = Time.timeScale;
         float prevFixedDelta = Time.fixedDeltaTime;
 
-        // 1) bloquear control del jugador (pantalla quieta)
         SetPlayerControlEnabled(false);
 
-        // 2) activar slowmo del mundo
         Time.timeScale = deathTimeScale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
 
-        // 3) efectos (cámara + flash) en tiempo real (no slowmo)
         if (deathEffect != null)
             yield return deathEffect.PlayDeathSequence();
         else
-            Debug.LogWarning("[GameManager] deathEffect no asignado/encontrado.");
+            Debug.LogWarning("[GM] deathEffect no asignado/encontrado.");
 
-        // 4) volver a velocidad normal ANTES de respawn/restart
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
 
-        // 5) reset del juego
         ResetLoops();
         if (loopManager != null)
             loopManager.StartNextLoop();
 
-        TeleportPlayerToStart();
+        TeleportPlayerToStart_Rigidbody();
 
-        // 6) restaurar FX y control
         deathEffect?.Restore();
         SetPlayerControlEnabled(true);
 
-        // 7) restaurar por si antes del death usabas otro timeScale
         Time.timeScale = prevTimeScale;
         Time.fixedDeltaTime = prevFixedDelta;
 
@@ -130,10 +131,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void TeleportPlayerToStart()
+    private void TeleportPlayerToStart_Rigidbody()
     {
-        GameObject player = PlayerRef;
-        if (player == null) return;
+        if (PlayerRef == null) return;
 
         GameObject sp = GameObject.FindGameObjectWithTag(playerSpawnTag);
         if (sp == null)
@@ -144,12 +144,18 @@ public class GameManager : MonoBehaviour
 
         Transform spawnPoint = sp.transform;
 
-        CharacterController cc = player.GetComponent<CharacterController>();
-        if (cc != null) cc.enabled = false;
+        Rigidbody rb = PlayerRef.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
 
-        player.transform.position = spawnPoint.position;
-        player.transform.rotation = spawnPoint.rotation;
-
-        if (cc != null) cc.enabled = true;
+            rb.position = spawnPoint.position;
+            rb.rotation = spawnPoint.rotation;
+        }
+        else
+        {
+            PlayerRef.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
+        }
     }
 }

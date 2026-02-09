@@ -125,4 +125,9 @@ public class DocumentationMode : CameraMode
     {
         ui.ShowDocumentationCameraAspect(look);
     }
+
+    public override void SetCameraModeUI()
+    {
+        ui.ShowDocumentationCameraAspect(true);
+    }
 }

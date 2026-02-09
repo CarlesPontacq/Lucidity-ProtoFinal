@@ -1,26 +1,25 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CameraUIHandler : MonoBehaviour
 {
-
-    [Header("General")]
+    [Header("Camera UI")]
     [SerializeField] private Canvas uiCanvas;
-
-    [Header("Documentation Mode")]
-    [SerializeField] private Image documentationAspect;
+    [SerializeField] private Image cameraAspect;
     [SerializeField] private Image cameraFlash;
     [SerializeField] private Image photo;
     [SerializeField] private GameObject polaroid;
     [SerializeField] private TextMeshProUGUI remainingReels;
-    [SerializeField] private GameObject documentationModeUI;
 
-    [Header("Ultraviolet Mode")]
-    [SerializeField] private Image uvAspect;
-    [SerializeField] private GameObject uvModeUI;
+    [Header("Mode Indicator")]
+    [SerializeField] private GameObject indicatorPositions;
+    [SerializeField] private RectTransform indicator;
 
+    [SerializeField] private float indicatorMoveSpeed = 10f;
+    private Coroutine indicatorCoroutine;
 
     internal void ShowCameraUI(bool showUI)
     {
@@ -29,14 +28,24 @@ public class CameraUIHandler : MonoBehaviour
 
     internal void ShowDocumentationCameraAspect(bool showAspect)
     {
-        documentationAspect.enabled = showAspect;
+        ShowCameraAspect(showAspect);
+
+        SetIndicatorPosition(0);
+    }
+
+    internal void ShowCameraAspect(bool showAspect)
+    {
+        cameraAspect.enabled = showAspect;
+        indicator.GetComponent<Image>().enabled = showAspect;
         remainingReels.enabled = showAspect;
         polaroid.SetActive(!showAspect);
     }
-    
+
     internal void ShowUvCameraAspect(bool showAspect)
     {
-        uvAspect.enabled = showAspect;
+        ShowDocumentationCameraAspect(!showAspect);
+        ShowCameraAspect(showAspect);
+        SetIndicatorPosition(1);
     }
 
     internal void ShowCameraFlash(bool showAspect)
@@ -62,22 +71,55 @@ public class CameraUIHandler : MonoBehaviour
         photo.sprite = sprite;
     }
 
-    internal void SetCameraModeUI(CameraMode mode)
+    internal void SetIndicatorPosition(int modeIndex)
     {
-        if(mode == null) return;
+        if (indicator == null || indicatorPositions == null) return;
+        if (modeIndex < 0 || modeIndex >= indicatorPositions.transform.childCount)
+            return;
 
-        switch (mode)
-        {
-            case DocumentationMode:
-                documentationModeUI.SetActive(true);
-                uvModeUI.SetActive(false);
-                break;
-            case UltravioletMode:
-                uvModeUI.SetActive(true);
-                documentationModeUI.SetActive(false);
-                break;
-            default:
-                break;
-        }
+        RectTransform indicatorRT = indicator.GetComponent<RectTransform>();
+        RectTransform targetRT =
+            indicatorPositions.transform.GetChild(modeIndex).GetComponent<RectTransform>();
+
+        if (indicatorCoroutine != null)
+            StopCoroutine(indicatorCoroutine);
+
+        indicatorCoroutine = StartCoroutine(
+            MoveIndicator(indicatorRT, targetRT.anchoredPosition)
+        );
     }
+
+    private IEnumerator MoveIndicator(RectTransform indicatorRT, Vector2 targetPos)
+    {
+        while (Vector2.Distance(indicatorRT.anchoredPosition, targetPos) > 0.5f)
+        {
+            indicatorRT.anchoredPosition = Vector2.Lerp(
+                indicatorRT.anchoredPosition,
+                targetPos,
+                Time.deltaTime * indicatorMoveSpeed
+            );
+            yield return null;
+        }
+
+        indicatorRT.anchoredPosition = targetPos;
+    }
+
+    //internal void SetCameraModeUI(CameraMode mode)
+    //{
+    //    if(mode == null) return;
+
+    //    switch (mode)
+    //    {
+    //        case DocumentationMode:
+    //            documentationModeUI.SetActive(true);
+    //            uvModeUI.SetActive(false);
+    //            break;
+    //        case UltravioletMode:
+    //            uvModeUI.SetActive(true);
+    //            documentationModeUI.SetActive(false);
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //}
 }

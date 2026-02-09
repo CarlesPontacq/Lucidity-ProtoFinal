@@ -61,11 +61,11 @@ public class CameraManager : MonoBehaviour
 
     public void SetMode(CameraMode mode)
     {
-        if (lookingThroughCamera) return;
+        //if (lookingThroughCamera) return;
         DeactivateMode();
         if (!mode.isUnlocked) return;
         currentMode = mode;
-        ui.SetCameraModeUI(currentMode);
+        currentMode.SetCameraModeUI();
     }
 
     private void HandleCameraToggle()

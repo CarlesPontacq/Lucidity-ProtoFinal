@@ -84,4 +84,9 @@ public class UltravioletMode : CameraMode
             isUvLightOn = false;
         }
     }
+
+    public override void SetCameraModeUI()
+    {
+        ui.ShowUvCameraAspect(true);
+    }
 }

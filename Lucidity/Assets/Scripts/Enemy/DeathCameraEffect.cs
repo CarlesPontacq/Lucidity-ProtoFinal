@@ -14,8 +14,8 @@ public class DeathCameraEffect : MonoBehaviour
     [SerializeField] private float lookUpAngle = -80f;
 
     [Header("UI (opcional)")]
-    [SerializeField] private Image blackFadeImage; 
-    [SerializeField] private Image flashImage;     
+    [SerializeField] private Image blackFadeImage;
+    [SerializeField] private Image flashImage;
 
     [Header("Fade/Flash (opcional)")]
     [SerializeField] private float fadeToBlackDuration = 1.0f;
@@ -77,29 +77,33 @@ public class DeathCameraEffect : MonoBehaviour
 
     private IEnumerator LookUpRoutine(float duration)
     {
-        Quaternion start = pitchTarget.localRotation;
-        Vector3 e = start.eulerAngles;
-
-        float startPitch = NormalizePitch(e.x);
+        Vector3 startEuler = pitchTarget.localEulerAngles;
+        float startPitch = NormalizePitch(startEuler.x);
         float targetPitch = lookUpAngle;
 
         float t = 0f;
         while (t < duration)
         {
-            t += Time.unscaledDeltaTime; 
+            t += Time.unscaledDeltaTime;
             float a = duration <= 0f ? 1f : Mathf.Clamp01(t / duration);
 
             float pitch = Mathf.Lerp(startPitch, targetPitch, a);
 
-            Quaternion rot = Quaternion.Euler(pitch, e.y, e.z);
+            Vector3 e = pitchTarget.localEulerAngles;
+            e.x = pitch;
 
-            lockedLocalRot = rot;           
+            Quaternion rot = Quaternion.Euler(e);
+
+            lockedLocalRot = rot;
             pitchTarget.localRotation = rot;
 
             yield return null;
         }
 
-        lockedLocalRot = Quaternion.Euler(targetPitch, e.y, e.z);
+        Vector3 endEuler = pitchTarget.localEulerAngles;
+        endEuler.x = targetPitch;
+
+        lockedLocalRot = Quaternion.Euler(endEuler);
         pitchTarget.localRotation = lockedLocalRot;
     }
 

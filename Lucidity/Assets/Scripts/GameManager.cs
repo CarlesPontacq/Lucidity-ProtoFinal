@@ -6,18 +6,20 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
 
+    [Header("References")]
     [SerializeField] private LoopCounter loopCounterUI;
     [SerializeField] private LoopManager loopManager;
-    private int currentLoop = 0;
 
-    [Header("Death Sequence")]
-    [SerializeField] private DeathCameraEffect deathEffect;        
-    [SerializeField] private MonoBehaviour[] disableOnDeath;       
+    [Header("Death FX")]
+    [SerializeField] private DeathCameraEffect deathEffect;
+
+    [Header("Disable while dead (NO metas Rigidbody/Colliders aquí)")]
+    [SerializeField] private MonoBehaviour[] disableOnDeath;
+
+    [Header("Spawn")]
     [SerializeField] private string playerSpawnTag = "PlayerSpawn";
 
-    [Header("Death Slow Motion")]
-    [SerializeField, Range(0.02f, 1f)] private float deathTimeScale = 0.15f;
-
+    private int currentLoop = 0;
     private bool isDying = false;
 
     private void Awake()
@@ -48,14 +50,17 @@ public class GameManager : MonoBehaviour
             if (deathEffect == null)
                 deathEffect = PlayerRef.GetComponentInChildren<DeathCameraEffect>(true);
 
-            Debug.Log($"[GM] PlayerRef set to PlayerMovement root: {PlayerRef.name}");
-            return;
+            Debug.Log($"[GM] PlayerRef = {PlayerRef.name}");
         }
-
-        PlayerRef = GameObject.FindGameObjectWithTag("Player");
-        Debug.LogWarning($"[GM] No encontr� PlayerMovement. Fallback PlayerRef={(PlayerRef ? PlayerRef.name : "NULL")}");
+        else
+        {
+            Debug.LogWarning("[GM] No encontré PlayerMovement. PlayerRef no asignado.");
+        }
     }
 
+    // ====================
+    // LOOP COUNTER
+    // ====================
     public int GetCurrentLoopIndex() => currentLoop;
 
     public void AddLoopToCount()
@@ -75,6 +80,9 @@ public class GameManager : MonoBehaviour
         loopManager.StartNextLoop();
     }
 
+    // ====================
+    // DEATH
+    // ====================
     public void PlayerDied()
     {
         if (isDying) return;
@@ -89,33 +97,25 @@ public class GameManager : MonoBehaviour
     {
         isDying = true;
 
-        float prevTimeScale = Time.timeScale;
-        float prevFixedDelta = Time.fixedDeltaTime;
-
         SetPlayerControlEnabled(false);
-
-        Time.timeScale = deathTimeScale;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
 
         if (deathEffect != null)
             yield return deathEffect.PlayDeathSequence();
         else
-            Debug.LogWarning("[GM] deathEffect no asignado/encontrado.");
-
-        Time.timeScale = 1f;
-        Time.fixedDeltaTime = 0.02f;
+            yield return new WaitForSecondsRealtime(5f);
 
         ResetLoops();
-        if (loopManager != null)
-            loopManager.StartNextLoop();
+        loopManager?.StartNextLoop();
 
-        TeleportPlayerToStart_Rigidbody();
+        TeleportPlayerToStart_RigidbodySafe();
 
-        deathEffect?.Restore();
+        if (deathEffect != null)
+        {
+            deathEffect.ClearOverlays();
+            deathEffect.RestoreAfterRespawn();
+        }
+
         SetPlayerControlEnabled(true);
-
-        Time.timeScale = prevTimeScale;
-        Time.fixedDeltaTime = prevFixedDelta;
 
         isDying = false;
     }
@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void TeleportPlayerToStart_Rigidbody()
+    private void TeleportPlayerToStart_RigidbodySafe()
     {
         if (PlayerRef == null) return;
 
@@ -142,20 +142,35 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        Transform spawnPoint = sp.transform;
+        Transform spawn = sp.transform;
+
+        var cols = PlayerRef.GetComponentsInChildren<Collider>(true);
+        for (int i = 0; i < cols.Length; i++)
+        {
+            cols[i].enabled = true;
+        }
 
         Rigidbody rb = PlayerRef.GetComponent<Rigidbody>();
         if (rb != null)
         {
+            rb.detectCollisions = true;
+            rb.isKinematic = false;
+
+            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
-            rb.position = spawnPoint.position;
-            rb.rotation = spawnPoint.rotation;
+            rb.position = spawn.position;
+            rb.rotation = spawn.rotation;
+
+            rb.WakeUp();
         }
         else
         {
-            PlayerRef.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
+            PlayerRef.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
         }
+
+        Physics.SyncTransforms();
     }
 }

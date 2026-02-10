@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyKillOnTouch : MonoBehaviour
 {
-    private bool triggered = false;
+    public bool triggered = false;
 
     private void OnTriggerEnter(Collider other)
     {

@@ -46,6 +46,8 @@ public class EnemySpawner : MonoBehaviour
         Transform sp = spawnPoints[index];
         currentEnemy = Instantiate(enemyPrefab, sp.position, sp.rotation);
 
+        enemyPrefab.GetComponent<EnemyKillOnTouch>().triggered = false;
+
         Debug.Log($"[EnemySpawner] Spawned enemy at {sp.name}");
     }
 

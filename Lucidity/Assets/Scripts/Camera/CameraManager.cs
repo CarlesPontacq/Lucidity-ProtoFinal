@@ -33,7 +33,7 @@ public class CameraManager : MonoBehaviour
         //input.onSetUltravioletMode += HandleSetUltravioletMode;
         input.onChangeCameraMode += HandleChangeCameraMode;
 
-        currentMode = cameraModes[0];
+        //currentMode = cameraModes[0];
     }
 
     private void Update()
@@ -168,5 +168,10 @@ public class CameraManager : MonoBehaviour
         currentMode.DeactivateMode();
 
         ui.ShowCameraAspect(false);
+    }
+
+    public void SetStartingCameraMode()
+    {
+        currentMode = cameraModes[0];
     }
 }

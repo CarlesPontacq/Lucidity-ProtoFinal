@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LoopCounter loopCounterUI;
     [SerializeField] private LoopManager loopManager;
     private int currentLoop = 0;
+
+    [SerializeField] CameraManager cameraManager;
+    [SerializeField] DocumentationMode documentationMode;
+    [SerializeField] ReportSheetOverlayUI reportSheet;
+    private bool cameraGrabbed = false; 
+    private bool reportSheetGrabbed = false; 
 
     private void Awake()
     {
@@ -54,6 +61,29 @@ public class GameManager : MonoBehaviour
     public void OnExitDoorCrossed()
     {
         loopManager.StartNextLoop();
+    }
+
+    public void CameraGrabbed()
+    {
+        cameraGrabbed = true;
+        documentationMode.isUnlocked = true;
+        cameraManager.SetStartingCameraMode();
+    }
+
+    public void ReportSheetGrabbed()
+    {
+        reportSheetGrabbed = true;
+        reportSheet.Grab();
+    }
+
+    public bool GetCameraGrabbed()
+    {
+        return cameraGrabbed;
+    }
+
+    public bool GetReportSheetGrabbed()
+    {
+        return reportSheetGrabbed;
     }
 
 }

@@ -26,6 +26,7 @@ public class CameraUIHandler : MonoBehaviour
     {
         cameraAspect.enabled = showAspect;
         indicator.GetComponent<Image>().enabled = showAspect;
+        Debug.Log(indicator.name + " - " + indicator.GetComponent<Image>().enabled);
         remainingReels.enabled = showAspect;
         polaroid.SetActive(!showAspect);
     }

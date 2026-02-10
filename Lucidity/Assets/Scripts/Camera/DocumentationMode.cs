@@ -21,8 +21,8 @@ public class DocumentationMode : CameraMode
         base.Start();
 
         currentReels = maxReels;
+        screenshotManager = GetComponent<ScreenshotManager>();
         isUnlocked = true;
-
     }
 
     void Update()

@@ -1,8 +1,10 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class LoopManager : MonoBehaviour
 {
+    public static event Action<int> OnLoopStarted;
     [SerializeField] private ZonesManager zonesManager;
     [SerializeField] private AnomalyManager anomalyManager;
     [SerializeField] private ReportResultState reportState;
@@ -25,7 +27,7 @@ public class LoopManager : MonoBehaviour
 
     private void Start()
     {
-        StartLoopFresh();
+        StartBaseLoop();
     }
 
     public void StartNextLoop()
@@ -35,17 +37,26 @@ public class LoopManager : MonoBehaviour
 
         nextAllowedTime = Time.unscaledTime + nextLoopCooldown;
 
+        if (GameManager.Instance.GetCurrentLoopIndex() == 0)
+        {
+            Debug.Log("Loop 0 -> se avanza directamente");
+            GameManager.Instance.AddLoopToCount();
+            StartLoopFresh();
+        }
+
         if (reportState != null && reportState.HasSubmittedReport)
         {
             if (reportState.WasCorrect)
             {
                 Debug.Log("Report correcto -> sumo loop");
                 GameManager.Instance.AddLoopToCount();
+                StartLoopFresh();
             }
             else
             {
                 Debug.Log("Report incorrecto -> reseteo loops");
                 GameManager.Instance.ResetLoops();
+                StartBaseLoop();
             }
         }
         else
@@ -53,7 +64,38 @@ public class LoopManager : MonoBehaviour
             Debug.Log("Sin reporte enviado (primer loop o no firmó) -> no toco el contador");
         }
 
-        StartLoopFresh();
+    }
+
+    private void StartBaseLoop()
+    {
+        if (reportState != null)
+            reportState.ResetForNewLoop();
+
+        if (interactableDoors != null)
+        {
+            for (int i = 0; i < interactableDoors.Count; i++)
+            {
+                if (interactableDoors[i] != null)
+                    interactableDoors[i].CloseDoor(false);
+            }
+        }
+
+        if (documentationMode != null)
+            documentationMode.ResetReels();
+
+        if (exitLamp != null)
+            exitLamp.SetCanPass(true);
+
+        if (zonesManager != null)
+            zonesManager.UpdateZoneDoors(GameManager.Instance.GetCurrentLoopIndex());
+
+        if (anomalyManager != null)
+            anomalyManager.ClearSpawned();
+
+        if (exitDoor != null)
+        {
+            exitDoor.Unlock();        }
+
     }
 
     private void StartLoopFresh()
@@ -85,8 +127,6 @@ public class LoopManager : MonoBehaviour
         if (zonesManager != null)
             zonesManager.UpdateZoneDoors(GameManager.Instance.GetCurrentLoopIndex());
 
-        Debug.Log("Test");
-
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();
         else
@@ -95,5 +135,6 @@ public class LoopManager : MonoBehaviour
         if (enemySpawner != null)
             enemySpawner.SpawnForNewLoop();
 
+        OnLoopStarted?.Invoke(GameManager.Instance.GetCurrentLoopIndex());
     }
 }

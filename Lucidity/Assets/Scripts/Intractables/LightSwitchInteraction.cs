@@ -5,9 +5,14 @@ public class LightSwitchInteraction : ObjectInteraction
 {
     [SerializeField] CeilingLampController ceilingLamp;
 
+    protected override void Start()
+    {
+        if (ceilingLamp == null)
+            Debug.LogWarning("Missing ceilingLamp in light switch: " + gameObject.name);
+    }
+
     public override void Interact()
     {
-        Debug.Log("Interaction detected");
         if (ceilingLamp.IsLightOn())
         {
             ceilingLamp.TurnOff();
@@ -19,5 +24,4 @@ public class LightSwitchInteraction : ObjectInteraction
             SFXManager.Instance.PlaySpatialSound("lightSwitchOn", transform.position, 1f);
         }
     }
-
 }

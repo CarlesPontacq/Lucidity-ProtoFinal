@@ -22,9 +22,9 @@ public class PlayerInputObserver : MonoBehaviour
     [Header("Camera Input")]
     public Action onCameraToggle;
     public Action onCameraAction;
-    public Action onSetDocumentationMode;
-    public Action onSetUltravioletMode;
-
+    //public Action onSetDocumentationMode;
+    //public Action onSetUltravioletMode;
+    public Action<int> onChangeCameraMode;
     public void OnMove(InputAction.CallbackContext context)
     {
         movement = context.ReadValue<Vector2>();
@@ -82,6 +82,7 @@ public class PlayerInputObserver : MonoBehaviour
             onCameraAction?.Invoke();
     }
 
+    /*
     public void OnSetDocumentationMode(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
@@ -91,6 +92,19 @@ public class PlayerInputObserver : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
             onSetUltravioletMode?.Invoke();
+    }
+    */
+
+    public void OnChangeCameraMode(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        Vector2 scroll = context.ReadValue<Vector2>();
+
+        if (Mathf.Abs(scroll.y) < 0.01f) return;
+
+        int direction = scroll.y > 0 ? 1 : -1;
+        onChangeCameraMode?.Invoke(direction);
     }
 
     public void SwitchActionMap(ActionMap actionMap)

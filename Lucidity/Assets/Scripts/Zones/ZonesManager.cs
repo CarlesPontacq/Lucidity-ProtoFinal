@@ -49,6 +49,8 @@ public class ZonesManager : MonoBehaviour
 
     public bool IsZoneUnlocked(ZoneId zoneId)
     {
+        if (zoneId == 0) return true;
+
         return unlockedZones.Contains(zoneId);
     }
 }

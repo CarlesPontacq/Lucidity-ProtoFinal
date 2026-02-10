@@ -11,9 +11,6 @@ public class CameraManager : MonoBehaviour
     public List<CameraMode> cameraModes;
     private int currentModeIndex = 0;
 
-    private int documentationModeIndex = 0;
-    private int ultravioletModeIndex = 1;
-
     [Header("State")]
     public bool lookingThroughCamera = false;
 
@@ -36,7 +33,7 @@ public class CameraManager : MonoBehaviour
         //input.onSetUltravioletMode += HandleSetUltravioletMode;
         input.onChangeCameraMode += HandleChangeCameraMode;
 
-        SetMode(cameraModes[0]);
+        //currentMode = cameraModes[0];
     }
 
     private void Update()
@@ -61,11 +58,15 @@ public class CameraManager : MonoBehaviour
 
     public void SetMode(CameraMode mode)
     {
-        if (lookingThroughCamera) return;
-        DeactivateMode();
+        if (!lookingThroughCamera) return;
         if (!mode.isUnlocked) return;
+        
+        DeactivateMode();
+        
         currentMode = mode;
-        ui.SetCameraModeUI(currentMode);
+        currentMode.ActivateMode();
+
+        ui.SetIndicatorPosition(cameraModes.IndexOf(mode));
     }
 
     private void HandleCameraToggle()
@@ -117,7 +118,7 @@ public class CameraManager : MonoBehaviour
 
     private void HandleChangeCameraMode(int direction)
     {
-        if (lookingThroughCamera) return;
+        if (!lookingThroughCamera) return;
         if (cameraModes == null || cameraModes.Count == 0) return;
 
         if (Time.time - lastScrollTime < scrollCooldown) return;
@@ -144,7 +145,7 @@ public class CameraManager : MonoBehaviour
     {
         if (currentMode == null) return;
 
-        StopLookingThroughCamera();
+        //StopLookingThroughCamera();
         currentMode.DeactivateMode();
         currentMode = null;
     }
@@ -153,11 +154,10 @@ public class CameraManager : MonoBehaviour
     {
         if (currentMode == null) return;
 
+        lookingThroughCamera = true;
         currentMode.ActivateMode();
 
-        lookingThroughCamera = true;
-
-        currentMode.LookThroughCamera(lookingThroughCamera);
+        ui.ShowCameraAspect(true);
     }
 
     private void StopLookingThroughCamera()
@@ -165,7 +165,13 @@ public class CameraManager : MonoBehaviour
         if (currentMode == null) return;
 
         lookingThroughCamera = false;
+        currentMode.DeactivateMode();
 
-        currentMode.LookThroughCamera(lookingThroughCamera);
+        ui.ShowCameraAspect(false);
+    }
+
+    public void SetStartingCameraMode()
+    {
+        currentMode = cameraModes[0];
     }
 }

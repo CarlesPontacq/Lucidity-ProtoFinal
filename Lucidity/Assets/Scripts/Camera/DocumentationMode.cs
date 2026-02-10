@@ -21,8 +21,8 @@ public class DocumentationMode : CameraMode
         base.Start();
 
         currentReels = maxReels;
+        screenshotManager = GetComponent<ScreenshotManager>();
         isUnlocked = true;
-
     }
 
     void Update()
@@ -65,6 +65,8 @@ public class DocumentationMode : CameraMode
 
         if (flashCoroutine != null)
             StopCoroutine(flashCoroutine);
+
+        ui.ShowCameraFlash(false);
     }
 
     private IEnumerator FlashCoroutine()
@@ -119,10 +121,5 @@ public class DocumentationMode : CameraMode
         CameraUIHandler ui = FindAnyObjectByType<CameraUIHandler>();
         if (ui != null)
             ui.ActualizeRemainingReelsIndicator(currentReels);
-    }
-
-    public override void LookThroughCamera(bool look)
-    {
-        ui.ShowDocumentationCameraAspect(look);
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -21,6 +21,12 @@ public class GameManager : MonoBehaviour
 
     private int currentLoop = 0;
     private bool isDying = false;
+
+    [SerializeField] CameraManager cameraManager;
+    [SerializeField] DocumentationMode documentationMode;
+    [SerializeField] ReportSheetOverlayUI reportSheet;
+    private bool cameraGrabbed = false; 
+    private bool reportSheetGrabbed = false; 
 
     private void Awake()
     {
@@ -80,97 +86,27 @@ public class GameManager : MonoBehaviour
         loopManager.StartNextLoop();
     }
 
-    // ====================
-    // DEATH
-    // ====================
-    public void PlayerDied()
+    public void CameraGrabbed()
     {
-        if (isDying) return;
-
-        if (PlayerRef == null)
-            CachePlayerRoot();
-
-        StartCoroutine(DeathRoutine());
+        cameraGrabbed = true;
+        documentationMode.isUnlocked = true;
+        cameraManager.SetStartingCameraMode();
     }
 
-    private IEnumerator DeathRoutine()
+    public void ReportSheetGrabbed()
     {
-        isDying = true;
-
-        SetPlayerControlEnabled(false);
-
-        if (deathEffect != null)
-            yield return deathEffect.PlayDeathSequence();
-        else
-            yield return new WaitForSecondsRealtime(5f);
-
-        ResetLoops();
-        loopManager?.StartNextLoop();
-
-        TeleportPlayerToStart_RigidbodySafe();
-
-        if (deathEffect != null)
-        {
-            deathEffect.ClearOverlays();
-            deathEffect.RestoreAfterRespawn();
-        }
-
-        SetPlayerControlEnabled(true);
-
-        isDying = false;
+        reportSheetGrabbed = true;
+        reportSheet.Grab();
     }
 
-    private void SetPlayerControlEnabled(bool enabled)
+    public bool GetCameraGrabbed()
     {
-        if (disableOnDeath == null) return;
-
-        for (int i = 0; i < disableOnDeath.Length; i++)
-        {
-            if (disableOnDeath[i] != null)
-                disableOnDeath[i].enabled = enabled;
-        }
+        return cameraGrabbed;
     }
 
-    private void TeleportPlayerToStart_RigidbodySafe()
+    public bool GetReportSheetGrabbed()
     {
-        if (PlayerRef == null) return;
-
-        GameObject sp = GameObject.FindGameObjectWithTag(playerSpawnTag);
-        if (sp == null)
-        {
-            Debug.LogWarning($"No hay objeto con tag {playerSpawnTag} en la escena.");
-            return;
-        }
-
-        Transform spawn = sp.transform;
-
-        var cols = PlayerRef.GetComponentsInChildren<Collider>(true);
-        for (int i = 0; i < cols.Length; i++)
-        {
-            cols[i].enabled = true;
-        }
-
-        Rigidbody rb = PlayerRef.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.detectCollisions = true;
-            rb.isKinematic = false;
-
-            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-
-            rb.position = spawn.position;
-            rb.rotation = spawn.rotation;
-
-            rb.WakeUp();
-        }
-        else
-        {
-            PlayerRef.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
-        }
-
-        Physics.SyncTransforms();
+        return reportSheetGrabbed;
     }
+
 }

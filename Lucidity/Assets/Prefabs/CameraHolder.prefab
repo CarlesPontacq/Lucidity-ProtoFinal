@@ -349,15 +349,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05bca00abd11d544c94efec6e682508a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  documentationAspect: {fileID: 0}
-  uvAspect: {fileID: 0}
+  uiCanvas: {fileID: 0}
+  cameraAspect: {fileID: 0}
   cameraFlash: {fileID: 0}
   photo: {fileID: 0}
   polaroid: {fileID: 0}
   remainingReels: {fileID: 0}
-  uiCanvas: {fileID: 0}
-  documentationModeUI: {fileID: 0}
-  uvModeUI: {fileID: 0}
+  indicatorPositions:
+  - {fileID: 0}
+  - {fileID: 0}
+  indicator: {fileID: 0}
+  indicatorMoveSpeed: 7
 --- !u!114 &588726753737900789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,7 +557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9a3776b10e6de42a820cdf718dc88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUnlocked: 1
+  isUnlocked: 0
   ui: {fileID: 8572510722767480966}
   audioHandler: {fileID: 588726753737900789}
   maxReels: 5

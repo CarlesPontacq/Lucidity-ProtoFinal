@@ -1,8 +1,10 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class LoopManager : MonoBehaviour
 {
+    public static event Action<int> OnLoopStarted;
     [SerializeField] private ZonesManager zonesManager;
     [SerializeField] private AnomalyManager anomalyManager;
     [SerializeField] private ReportResultState reportState;
@@ -30,9 +32,6 @@ public class LoopManager : MonoBehaviour
 
     public void StartNextLoop()
     {
-        GameManager.Instance.CameraGrabbed();
-        GameManager.Instance.ReportSheetGrabbed();
-
         if (Time.unscaledTime < nextAllowedTime)
             return;
 
@@ -136,5 +135,6 @@ public class LoopManager : MonoBehaviour
         if (enemySpawner != null)
             enemySpawner.SpawnForNewLoop();
 
+        OnLoopStarted?.Invoke(GameManager.Instance.GetCurrentLoopIndex());
     }
 }

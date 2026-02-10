@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -14,7 +15,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] ReportSheetOverlayUI reportSheet;
     private bool cameraGrabbed = false; 
     private bool reportSheetGrabbed = false; 
-
 
     private void Awake()
     {
@@ -74,6 +74,16 @@ public class GameManager : MonoBehaviour
     {
         reportSheetGrabbed = true;
         reportSheet.Grab();
+    }
+
+    public bool GetCameraGrabbed()
+    {
+        return cameraGrabbed;
+    }
+
+    public bool GetReportSheetGrabbed()
+    {
+        return reportSheetGrabbed;
     }
 
 }

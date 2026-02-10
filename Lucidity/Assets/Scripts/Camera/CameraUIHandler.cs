@@ -1,37 +1,34 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CameraUIHandler : MonoBehaviour
 {
-    [Header("Documentation Mode")]
-    [SerializeField] private Image documentationAspect;
-    [SerializeField] private Image uvAspect;
+    [Header("Camera UI")]
+    [SerializeField] private Canvas uiCanvas;
+    [SerializeField] private Image cameraAspect;
     [SerializeField] private Image cameraFlash;
     [SerializeField] private Image photo;
     [SerializeField] private GameObject polaroid;
     [SerializeField] private TextMeshProUGUI remainingReels;
-    [SerializeField] private Canvas uiCanvas;
-    [SerializeField] private GameObject documentationModeUI;
-    [SerializeField] private GameObject uvModeUI;
 
+    [Header("Mode Indicator")]
+    [SerializeField] private List<GameObject> indicatorPositions;
+    [SerializeField] private RectTransform indicator;
 
-    internal void ShowCameraUI(bool showUI)
+    [SerializeField] private float indicatorMoveSpeed = 10f;
+    private Coroutine indicatorCoroutine;
+
+    internal void ShowCameraAspect(bool showAspect)
     {
-        uiCanvas.enabled = showUI;
-    }
-
-    internal void ShowDocumentationCameraAspect(bool showAspect)
-    {
-        documentationAspect.enabled = showAspect;
+        cameraAspect.enabled = showAspect;
+        indicator.GetComponent<Image>().enabled = showAspect;
+        Debug.Log(indicator.name + " - " + indicator.GetComponent<Image>().enabled);
         remainingReels.enabled = showAspect;
         polaroid.SetActive(!showAspect);
-    }
-    
-    internal void ShowUvCameraAspect(bool showAspect)
-    {
-        uvAspect.enabled = showAspect;
     }
 
     internal void ShowCameraFlash(bool showAspect)
@@ -57,22 +54,33 @@ public class CameraUIHandler : MonoBehaviour
         photo.sprite = sprite;
     }
 
-    internal void SetCameraModeUI(CameraMode mode)
+    internal void SetIndicatorPosition(int modeIndex)
     {
-        if(mode == null) return;
+        if (indicator == null || indicatorPositions == null) return;
+        if (modeIndex < 0 || modeIndex > indicatorPositions.Count)
+            return;
 
-        switch (mode)
+        RectTransform indicatorRT = indicator.GetComponent<RectTransform>();
+        RectTransform targetRT = indicatorPositions[modeIndex].GetComponent<RectTransform>();
+
+        if (indicatorCoroutine != null)
+            StopCoroutine(indicatorCoroutine);
+
+        indicatorCoroutine = StartCoroutine(MoveIndicator(indicatorRT, targetRT.anchoredPosition));
+    }
+
+    private IEnumerator MoveIndicator(RectTransform indicatorRT, Vector2 targetPos)
+    {
+        while (Vector2.Distance(indicatorRT.anchoredPosition, targetPos) > 0.5f)
         {
-            case DocumentationMode:
-                documentationModeUI.SetActive(true);
-                uvModeUI.SetActive(false);
-                break;
-            case UltravioletMode:
-                uvModeUI.SetActive(true);
-                documentationModeUI.SetActive(false);
-                break;
-            default:
-                break;
+            indicatorRT.anchoredPosition = Vector2.Lerp(
+                indicatorRT.anchoredPosition,
+                targetPos,
+                Time.deltaTime * indicatorMoveSpeed
+            );
+            yield return null;
         }
+
+        indicatorRT.anchoredPosition = targetPos;
     }
 }

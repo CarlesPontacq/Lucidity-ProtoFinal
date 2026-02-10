@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3090440918093045446}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 2157895780906986769}
   m_Layer: 0
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 995986189016646433}
   - component: {fileID: 4698449138421371559}
   - component: {fileID: 2631214133251252798}
+  - component: {fileID: 1044035281577991197}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -319,7 +320,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 1, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6571654658688338291}
@@ -497,7 +498,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 995986189016646433}
         m_TargetAssemblyTypeName: PlayerInputObserver, Assembly-CSharp
-        m_MethodName: OnToggleCamera
+        m_MethodName: OnToggleSheet
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -507,13 +508,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 174f0458-0083-419b-ba0a-b1d9f75164ad
-    m_ActionName: 'Player/ToggleCamera[/Mouse/rightButton]'
+    m_ActionId: 7e9280ef-754a-4c17-b635-070158113430
+    m_ActionName: 'ReportSheet/ToggleSheet[/Keyboard/q,/Keyboard/tab]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 995986189016646433}
         m_TargetAssemblyTypeName: PlayerInputObserver, Assembly-CSharp
-        m_MethodName: OnTakePhoto
+        m_MethodName: OnCameraToggle
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -523,8 +524,56 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 8d644109-fbaa-4282-ad33-207bc9d81cb9
-    m_ActionName: 'Player/TakePhoto[/Mouse/leftButton]'
+    m_ActionId: 9c577ccf-dd75-4efe-b514-922ca7429b1f
+    m_ActionName: 'Player/CameraToggle[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 995986189016646433}
+        m_TargetAssemblyTypeName: PlayerInputObserver, Assembly-CSharp
+        m_MethodName: OnCameraAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5d42afe4-5323-443c-966d-0d2b8a07fb78
+    m_ActionName: 'Player/CameraAction[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 995986189016646433}
+        m_TargetAssemblyTypeName: PlayerInputObserver, Assembly-CSharp
+        m_MethodName: OnSetUltravioletMode
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8c9e1a7a-8aed-4adf-8800-4554089f7249
+    m_ActionName: 'Player/SetUltravioletMode[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 995986189016646433}
+        m_TargetAssemblyTypeName: PlayerInputObserver, Assembly-CSharp
+        m_MethodName: OnSetDocumentationMode
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e7ee5fb5-45b3-4887-81af-89c51421ff5a
+    m_ActionName: 'Player/SetDocumentationMode[/Keyboard/1]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -546,3 +595,18 @@ MonoBehaviour:
   playerInput: {fileID: 995986189016646433}
   interactionDistance: 2.5
   interactionRadius: 0.3
+--- !u!114 &1044035281577991197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5173845278349125517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fca38e37fde2aba409ba4578748ec921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTag: Enemy
+  useTrigger: 1
+  useControllerHit: 1

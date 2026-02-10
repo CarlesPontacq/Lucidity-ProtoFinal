@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class UIManager : MonoBehaviour
+public class ReticleController : MonoBehaviour
 {
-    public static UIManager Instance { get; private set; }
+    public static ReticleController Instance { get; private set; }
 
     [SerializeField] Image reticle;
     [SerializeField] float reticleRegularSize = 0.15f;

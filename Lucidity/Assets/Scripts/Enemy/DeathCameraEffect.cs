@@ -66,14 +66,25 @@ public class DeathCameraEffect : MonoBehaviour
         lockPitch = true;
         lockedLocalRot = pitchTarget.localRotation;
 
+        if (flashImage != null)
+            yield return FlashRoutine();
+
         yield return LookUpRoutine(lookUpDuration);
 
         if (blackFadeImage != null)
             yield return FadeToBlack(fadeToBlackDuration);
-
-        if (flashImage != null)
-            yield return FlashRoutine();
     }
+
+    private IEnumerator FlashRoutine()
+    {
+        if (flashImage != null)
+            flashImage.transform.SetAsLastSibling();
+
+        yield return FadeAlpha(flashImage, 0f, 1f, flashIn);
+        yield return WaitRealtime(flashHold);
+        yield return FadeAlpha(flashImage, 1f, 0f, flashOut);
+    }
+
 
     private IEnumerator LookUpRoutine(float duration)
     {
@@ -123,13 +134,6 @@ public class DeathCameraEffect : MonoBehaviour
 
         c.a = 1f;
         blackFadeImage.color = c;
-    }
-
-    private IEnumerator FlashRoutine()
-    {
-        yield return FadeAlpha(flashImage, 0f, 1f, flashIn);
-        yield return WaitRealtime(flashHold);
-        yield return FadeAlpha(flashImage, 1f, 0f, flashOut);
     }
 
     private IEnumerator FadeAlpha(Image img, float from, float to, float duration)

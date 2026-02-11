@@ -102,7 +102,7 @@ public class LoopManager : MonoBehaviour
 
     }
 
-    private void StartLoopFresh()
+    public void StartLoopFresh()
     {
         if (reportState != null)
             reportState.ResetForNewLoop();

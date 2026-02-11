@@ -158,8 +158,8 @@ public class GameManager : MonoBehaviour
 
         // Reset loops
         ResetLoops();
-        // if (loopManager != null)
-        // loopManager.StartNextLoop();
+        if (loopManager != null)
+        loopManager.StartLoopFresh();
 
         yield return TeleportAndRearmPhysics();
 

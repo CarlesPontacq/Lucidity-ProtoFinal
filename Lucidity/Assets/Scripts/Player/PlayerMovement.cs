@@ -25,4 +25,14 @@ public class PlayerMovement : MonoBehaviour
 
         rigidbodyRef.linearVelocity = realMovementDir * speed;
     }
+
+    public float GetWalkingSpeed()
+    {
+        return walkingSpeed;
+    }
+
+    public float GetRunningSpeed()
+    {
+        return runningSpeed;
+    }
 }

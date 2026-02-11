@@ -37,7 +37,7 @@ public class LoopManager : MonoBehaviour
 
         nextAllowedTime = Time.unscaledTime + nextLoopCooldown;
 
-        if (GameManager.Instance.GetCurrentLoopIndex() == 0)
+        if(GameManager.Instance.GetCurrentLoopIndex() == 0)
         {
             Debug.Log("Loop 0 -> se avanza directamente");
             GameManager.Instance.AddLoopToCount();

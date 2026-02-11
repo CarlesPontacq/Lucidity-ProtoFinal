@@ -4866,6 +4866,17 @@ MonoBehaviour:
   cameraObjectPrefab: {fileID: 1822227943412310092, guid: fe72c33055cd59e4eb03860a67c87a13, type: 3}
   reportSheetObjectPrefab: {fileID: 6977075569323202861, guid: f7c3188e94b0a02418d9c24955031f62, type: 3}
   loopManager: {fileID: 1146919884}
+--- !u!114 &1160926404 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4735020566297694205, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 6084432540919551881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1206500718
 GameObject:
   m_ObjectHideFlags: 0
@@ -6015,6 +6026,10 @@ PrefabInstance:
       propertyPath: flashImage
       value: 
       objectReference: {fileID: 318257581}
+    - target: {fileID: 7177479522922832892, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: deathBWVolume
+      value: 
+      objectReference: {fileID: 1160926404}
     - target: {fileID: 7177479522922832892, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: blackFadeImage
       value: 
@@ -9152,6 +9167,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 297872568965386532, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1928976898950949694, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: m_Name
       value: LeftCameraBorder
@@ -9249,6 +9268,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4590161386031267129, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4735020566297694205, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}

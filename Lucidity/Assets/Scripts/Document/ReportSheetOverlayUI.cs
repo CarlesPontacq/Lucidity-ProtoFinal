@@ -68,7 +68,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     void ToggleSheet()
     {
-        if (!canOpen) return;
+        if (!canOpen || reportState.HasSubmittedReport) return;
 
         SFXManager.Instance.PlayGlobalSound("paper", 0.3f);
         SetOpen(!open);

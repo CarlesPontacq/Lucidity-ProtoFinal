@@ -4,6 +4,7 @@ using UnityEngine;
 public class MoveCamera : MonoBehaviour
 {
     [SerializeField] private PlayerInputObserver inputObserver;
+    [SerializeField] private Rigidbody playerRigidbodyRef;
     [SerializeField] private Transform headRef;
     [SerializeField] private Transform cameraRef;
     private Vector3 startingLocalPositionCamera;
@@ -20,6 +21,7 @@ public class MoveCamera : MonoBehaviour
 
     [SerializeField] private float runningAmountMultiplier;
     [SerializeField] private float runningFrequencyMultiplier;
+    [SerializeField] private float minSpeedForHeadBob;
 
     private void Start()
     {
@@ -32,7 +34,7 @@ public class MoveCamera : MonoBehaviour
 
         if (!headBob) return;
 
-        if (inputObserver.movement.magnitude > 0)
+        if (inputObserver.movement.magnitude > 0 && playerRigidbodyRef.linearVelocity.magnitude >= minSpeedForHeadBob)
         {
             if (inputObserver.IsPressingRun)
                 StartHeadBob(amount * runningAmountMultiplier, frequency * runningFrequencyMultiplier);

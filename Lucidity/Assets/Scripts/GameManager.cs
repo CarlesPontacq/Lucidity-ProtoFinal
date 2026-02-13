@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     [Header("Disable while dead (NO metas Rigidbody/Colliders aquí)")]
     [SerializeField] private MonoBehaviour[] disableOnDeath;
 
+    [Header("Player Visuals")]
+    [SerializeField] private GameObject playerBody;
+
     [Header("Spawn")]
     [SerializeField] private string playerSpawnTag = "PlayerSpawn";
 
@@ -26,10 +29,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Death Safety")]
     [SerializeField] private float deathCooldown = 0.35f;
-
-    [Header("Physics Safety")]
-    [Tooltip("Layer que debe tener el Player root tras respawn (opcional). Déjalo en -1 para no tocar layer.")]
-    [SerializeField] private int forcePlayerLayer = -1;
 
     private int currentLoop = 0;
     private bool isDying = false;
@@ -45,7 +44,10 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
@@ -71,24 +73,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // ===============================
+    // LOOP SYSTEM
+    // ===============================
+
     public int GetCurrentLoopIndex() => currentLoop;
 
     public void AddLoopToCount()
     {
         currentLoop++;
-        if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
+        if (loopCounterUI != null)
+            loopCounterUI.SetLoopCounterText(currentLoop);
     }
 
     public void ResetLoops()
     {
         currentLoop = 0;
-        if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
+        if (loopCounterUI != null)
+            loopCounterUI.SetLoopCounterText(currentLoop);
     }
 
     public void OnExitDoorCrossed()
     {
-        if (loopManager != null) loopManager.StartNextLoop();
+        if (loopManager != null)
+            loopManager.StartNextLoop();
     }
+
+    // ===============================
+    // PICKUPS
+    // ===============================
 
     public void CameraGrabbed()
     {
@@ -104,9 +117,14 @@ public class GameManager : MonoBehaviour
     public void ReportSheetGrabbed()
     {
         reportSheetGrabbed = true;
+
         if (reportSheet != null)
             reportSheet.Grab();
     }
+
+    // ===============================
+    // DEATH SYSTEM
+    // ===============================
 
     public void PlayerDied()
     {
@@ -115,7 +133,9 @@ public class GameManager : MonoBehaviour
 
         nextAllowedDeathTime = Time.time + deathCooldown;
 
-        if (PlayerRef == null) CachePlayerRoot();
+        if (PlayerRef == null)
+            CachePlayerRoot();
+
         StartCoroutine(DeathRoutine());
     }
 
@@ -127,17 +147,19 @@ public class GameManager : MonoBehaviour
 
         SetPlayerControlEnabled(false);
 
-        if (deathEffect != null)
-        {
-            yield return deathEffect.PlayDeathSequence();
-        }
-        else
-        {
-            yield return new WaitForSecondsRealtime(5f);
-        }
+        // Ocultar body
+        SetPlayerBodyVisible(false);
 
+        // Animación de muerte
+        if (deathEffect != null)
+            yield return deathEffect.PlayDeathSequence();
+        else
+            yield return new WaitForSecondsRealtime(5f);
+
+        // Reset loops
         ResetLoops();
-        if (loopManager != null) loopManager.StartBaseLoop();
+        if (loopManager != null)
+        loopManager.StartLoopFresh();
 
         yield return TeleportAndRearmPhysics();
 
@@ -146,6 +168,8 @@ public class GameManager : MonoBehaviour
             deathEffect.ClearOverlays();
             deathEffect.RestoreAfterRespawn();
         }
+
+        SetPlayerBodyVisible(true);
 
         SetPlayerControlEnabled(true);
 
@@ -161,6 +185,15 @@ public class GameManager : MonoBehaviour
                 disableOnDeath[i].enabled = enabled;
     }
 
+    private void SetPlayerBodyVisible(bool visible)
+    {
+        if (playerBody == null) return;
+
+        Renderer[] renderers = playerBody.GetComponentsInChildren<Renderer>(true);
+        for (int i = 0; i < renderers.Length; i++)
+            renderers[i].enabled = visible;
+    }
+
     private IEnumerator TeleportAndRearmPhysics()
     {
         if (PlayerRef == null) yield break;
@@ -168,22 +201,15 @@ public class GameManager : MonoBehaviour
         GameObject sp = GameObject.FindGameObjectWithTag(playerSpawnTag);
         if (sp == null)
         {
-            Debug.LogWarning($"No hay objeto con tag {playerSpawnTag} en la escena.");
+            Debug.LogWarning($"No hay objeto con tag {playerSpawnTag}.");
             yield break;
         }
 
         Transform spawn = sp.transform;
 
-        if (forcePlayerLayer >= 0)
-        {
-            PlayerRef.layer = forcePlayerLayer;
-            foreach (Transform t in PlayerRef.GetComponentsInChildren<Transform>(true))
-                t.gameObject.layer = forcePlayerLayer;
-        }
-
         var cols = PlayerRef.GetComponentsInChildren<Collider>(true);
-        for (int i = 0; i < cols.Length; i++)
-            cols[i].enabled = true;
+        foreach (var col in cols)
+            col.enabled = true;
 
         Rigidbody rb = PlayerRef.GetComponent<Rigidbody>();
         if (rb != null)
@@ -209,22 +235,6 @@ public class GameManager : MonoBehaviour
         Physics.SyncTransforms();
 
         yield return null;
-
-        if (rb != null)
-        {
-            rb.detectCollisions = false;
-            yield return null;
-            rb.detectCollisions = true;
-            rb.WakeUp();
-        }
-
-        for (int i = 0; i < cols.Length; i++)
-            cols[i].enabled = false;
-        yield return null;
-        for (int i = 0; i < cols.Length; i++)
-            cols[i].enabled = true;
-
-        Physics.SyncTransforms();
     }
 
     public bool GetCameraGrabbed() => cameraGrabbed;

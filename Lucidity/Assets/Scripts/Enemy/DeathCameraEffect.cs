@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering; 
 
 public class DeathCameraEffect : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class DeathCameraEffect : MonoBehaviour
 
     [Header("Ángulo final (mirar al techo)")]
     [SerializeField] private float lookUpAngle = -80f;
+
+    [Header("Post Process (B/N)")]
+    [SerializeField] private Volume deathBWVolume; 
 
     [Header("UI (opcional)")]
     [SerializeField] private Image blackFadeImage;
@@ -37,6 +41,9 @@ public class DeathCameraEffect : MonoBehaviour
 
         SetupImage(blackFadeImage);
         SetupImage(flashImage);
+
+        if (deathBWVolume != null)
+            deathBWVolume.enabled = false;
     }
 
     private void LateUpdate()
@@ -66,14 +73,18 @@ public class DeathCameraEffect : MonoBehaviour
         lockPitch = true;
         lockedLocalRot = pitchTarget.localRotation;
 
+        if (deathBWVolume != null)
+            deathBWVolume.enabled = true;
+
+        if (flashImage != null)
+            yield return FlashRoutine();
+
         yield return LookUpRoutine(lookUpDuration);
 
         if (blackFadeImage != null)
             yield return FadeToBlack(fadeToBlackDuration);
-
-        if (flashImage != null)
-            yield return FlashRoutine();
     }
+
 
     private IEnumerator LookUpRoutine(float duration)
     {
@@ -127,6 +138,8 @@ public class DeathCameraEffect : MonoBehaviour
 
     private IEnumerator FlashRoutine()
     {
+        flashImage.transform.SetAsLastSibling();
+
         yield return FadeAlpha(flashImage, 0f, 1f, flashIn);
         yield return WaitRealtime(flashHold);
         yield return FadeAlpha(flashImage, 1f, 0f, flashOut);
@@ -174,7 +187,11 @@ public class DeathCameraEffect : MonoBehaviour
             pitchTarget.localRotation = preDeathLocalRot;
 
         lockedLocalRot = preDeathLocalRot;
+
+        if (deathBWVolume != null)
+            deathBWVolume.enabled = false;
     }
+
 
     private void ResetImage(Image img)
     {

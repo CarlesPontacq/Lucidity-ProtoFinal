@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
 
+
     [Header("References")]
     [SerializeField] private LoopCounter loopCounterUI;
     [SerializeField] private LoopManager loopManager;
@@ -30,12 +31,20 @@ public class GameManager : MonoBehaviour
     [Header("Death Safety")]
     [SerializeField] private float deathCooldown = 0.35f;
 
+    [Header("Physics Safety")]
+    [Tooltip("Layer que debe tener el Player root tras respawn (opcional). Déjalo en -1 para no tocar layer.")]
+    [SerializeField] private int forcePlayerLayer = -1;
+
+    [Header("Exit Loop")]
+    [SerializeField] private int lastLoop = 8;
+
     private int currentLoop = 0;
     private bool isDying = false;
     private float nextAllowedDeathTime = 0f;
 
     private bool cameraGrabbed = false;
     private bool reportSheetGrabbed = false;
+    public bool finishedLoops = false;
 
     private void Awake()
     {
@@ -53,6 +62,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         CachePlayerRoot();
+        finishedLoops = false;
     }
 
     private void CachePlayerRoot()
@@ -82,8 +92,9 @@ public class GameManager : MonoBehaviour
     public void AddLoopToCount()
     {
         currentLoop++;
-        if (loopCounterUI != null)
-            loopCounterUI.SetLoopCounterText(currentLoop);
+        if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
+
+        if(currentLoop >= lastLoop) finishedLoops = true;
     }
 
     public void ResetLoops()

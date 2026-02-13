@@ -37,7 +37,7 @@ public class LoopManager : MonoBehaviour
 
         nextAllowedTime = Time.unscaledTime + nextLoopCooldown;
 
-        if (GameManager.Instance.GetCurrentLoopIndex() == 0)
+        if(GameManager.Instance.GetCurrentLoopIndex() == 0)
         {
             Debug.Log("Loop 0 -> se avanza directamente");
             GameManager.Instance.AddLoopToCount();
@@ -76,7 +76,7 @@ public class LoopManager : MonoBehaviour
             for (int i = 0; i < interactableDoors.Count; i++)
             {
                 if (interactableDoors[i] != null)
-                    interactableDoors[i].CloseDoor(false);
+                    interactableDoors[i].Close(false);
             }
         }
 
@@ -115,7 +115,7 @@ public class LoopManager : MonoBehaviour
             for (int i = 0; i < interactableDoors.Count; i++)
             {
                 if (interactableDoors[i] != null)
-                    interactableDoors[i].CloseDoor(false);
+                    interactableDoors[i].Close(false);
             }
         }
 

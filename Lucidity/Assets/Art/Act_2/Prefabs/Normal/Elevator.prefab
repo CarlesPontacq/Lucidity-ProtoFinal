@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7137747156585303265
 Transform:
@@ -29,6 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7499959867300328849}
   - {fileID: 3840768113182842708}
   - {fileID: 5869625846604067270}
   m_Father: {fileID: 0}
@@ -82,12 +83,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: aad8e59705bde0c43ad231be6dc7504f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9a8d1fd15e821c74cb19fe08c5992ad1, type: 2}
+    - target: {fileID: -7511558181221131132, guid: aad8e59705bde0c43ad231be6dc7504f, type: 3}
       propertyPath: 'm_Materials.Array.data[2]'
       value: 
       objectReference: {fileID: 2100000, guid: a0e10acd3ac3f7d43a85e88c773ba0ba, type: 2}
     - target: {fileID: 919132149155446097, guid: aad8e59705bde0c43ad231be6dc7504f, type: 3}
       propertyPath: m_Name
       value: Elevator
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aad8e59705bde0c43ad231be6dc7504f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -98,6 +107,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aad8e59705bde0c43ad231be6dc7504f, type: 3}
   m_PrefabInstance: {fileID: 3659068330567039167}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5366365822475135180
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7137747156585303265}
+    m_Modifications:
+    - target: {fileID: 2480388881580711261, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388881580711261, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.172
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388881580711261, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388881580711261, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388881580711261, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388881580711261, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.0000004023313
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388881580711261, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388881580711261, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388881580711261, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2480388881580711261, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8051388704549057099, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+      propertyPath: m_Name
+      value: ElevatorLights
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+--- !u!4 &7499959867300328849 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2480388881580711261, guid: 75af589e751f1d049ae447de9866c931, type: 3}
+  m_PrefabInstance: {fileID: 5366365822475135180}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6268906118743070253
 PrefabInstance:
@@ -147,9 +218,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c6886cf5118a05941946484570ded050, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9a8d1fd15e821c74cb19fe08c5992ad1, type: 2}
     - target: {fileID: 919132149155446097, guid: c6886cf5118a05941946484570ded050, type: 3}
       propertyPath: m_Name
       value: PannelButtonIn
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c6886cf5118a05941946484570ded050, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -12,6 +12,8 @@ public class CameraRotation : MonoBehaviour
     private Vector2 rotation = Vector2.zero;
     private Vector2 currentRotation = Vector2.zero;
 
+    private bool controlEnabled = true;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -20,6 +22,8 @@ public class CameraRotation : MonoBehaviour
 
     void Update()
     {
+        if(!controlEnabled) return;
+
         Vector2 adaptedCameraMovement = inputObserver.cameraMovement * sensitivity;
 
         rotation.y += adaptedCameraMovement.x;
@@ -43,5 +47,10 @@ public class CameraRotation : MonoBehaviour
 
         rotation.x += eulerOffset.x;
         currentRotation.x += eulerOffset.x;
+    }
+
+    public void SetControlEnabled(bool enabled)
+    {
+        controlEnabled = enabled;
     }
 }

@@ -26,12 +26,17 @@ public class SceneController : MonoBehaviour
 
     void Update()
     {
-        
+        if (GameManager.Instance.finishedLoops)
+        {
+            LoadNextScene();
+        }
     }
 
     public void LoadNextScene()
     {
-        if (currentScene == SceneManager.sceneCount || currentScene < 0) return;
+        Debug.Log(SceneManager.sceneCountInBuildSettings);
+        if (currentScene == SceneManager.sceneCountInBuildSettings || currentScene < 0) return;
+
 
         currentScene = SceneManager.GetActiveScene().buildIndex;
 

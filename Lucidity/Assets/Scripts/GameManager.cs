@@ -38,12 +38,15 @@ public class GameManager : MonoBehaviour
     [Header("Exit Loop")]
     [SerializeField] private int lastLoop = 8;
 
+    [SerializeField] private CameraRotation cameraRotation;
+
     private int currentLoop = 0;
     private bool isDying = false;
     private float nextAllowedDeathTime = 0f;
 
     private bool cameraGrabbed = false;
     private bool reportSheetGrabbed = false;
+    private bool gunGrabbed = false;
     public bool finishedLoops = false;
 
     private void Awake()
@@ -55,13 +58,24 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            SetUpCharacterOnNewScene();
             Destroy(gameObject);
         }
+
     }
 
     private void Start()
     {
         CachePlayerRoot();
+        cameraRotation.SetControlEnabled(true);
+        SetPlayerControlEnabled(true);
+        finishedLoops = false;
+    }
+
+    private void SetUpCharacterOnNewScene()
+    {
+        cameraRotation.SetControlEnabled(true);
+        SetPlayerControlEnabled(true);
         finishedLoops = false;
     }
 
@@ -131,6 +145,15 @@ public class GameManager : MonoBehaviour
 
         if (reportSheet != null)
             reportSheet.Grab();
+    }
+
+    public void GunGrabbed()
+    {
+        gunGrabbed = true;
+        finishedLoops = true;
+
+        SetPlayerControlEnabled(false);
+        cameraRotation.SetControlEnabled(false);
     }
 
     // ===============================

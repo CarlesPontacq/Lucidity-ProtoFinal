@@ -53,4 +53,9 @@ public class CameraRotation : MonoBehaviour
     {
         controlEnabled = enabled;
     }
+
+    public void SetSensitivity(float newSensitivity)
+    {
+        sensitivity = newSensitivity;
+    }
 }

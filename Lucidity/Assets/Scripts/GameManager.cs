@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private DocumentationMode documentationMode;
     [SerializeField] private ReportSheetOverlayUI reportSheet;
+    [SerializeField] private ItemInfoOverlay itemInfoOverlay;
 
     [Header("Death Safety")]
     [SerializeField] private float deathCooldown = 0.35f;
@@ -128,12 +129,15 @@ public class GameManager : MonoBehaviour
     // PICKUPS
     // ===============================
 
-    public void CameraGrabbed()
+    public void CameraGrabbed(ItemData itemData)
     {
         cameraGrabbed = true;
 
         if (documentationMode != null)
             documentationMode.isUnlocked = true;
+
+        if (itemInfoOverlay != null)
+            itemInfoOverlay.OpenInfo(itemData);
 
         if (cameraManager != null)
             cameraManager.SetStartingCameraMode();

@@ -49,7 +49,7 @@ public class DoorInteraction : ObjectInteraction
         }
 
         if (!isLocked)
-            ToggleDoor();
+            Toggle();
         else
             Debug.Log("Puerta bloqueada");
     }
@@ -62,10 +62,10 @@ public class DoorInteraction : ObjectInteraction
         if (requiresReportToOpen)
             isLocked = true;
 
-        CloseDoor(false);
+        Close(false);
     }
 
-    void ToggleDoor()
+    void Toggle()
     {
         isOpen = !isOpen;
 
@@ -101,9 +101,9 @@ public class DoorInteraction : ObjectInteraction
         }
     }
 
-    public void CloseDoor(bool animate)
+    public void Close(bool animate)
     {
-        if (!isOpen && animate) return;
+        if (!isOpen) return;
 
         isOpen = false;
         targetLocalRotation = closedLocalRotation;

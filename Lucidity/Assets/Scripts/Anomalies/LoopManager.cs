@@ -37,7 +37,7 @@ public class LoopManager : MonoBehaviour
 
         nextAllowedTime = Time.unscaledTime + nextLoopCooldown;
 
-        if (GameManager.Instance.GetCurrentLoopIndex() == 0)
+        if(GameManager.Instance.GetCurrentLoopIndex() == 0)
         {
             Debug.Log("Loop 0 -> se avanza directamente");
             GameManager.Instance.AddLoopToCount();
@@ -66,7 +66,7 @@ public class LoopManager : MonoBehaviour
 
     }
 
-    private void StartBaseLoop()
+    public void StartBaseLoop()
     {
         if (reportState != null)
             reportState.ResetForNewLoop();
@@ -76,7 +76,7 @@ public class LoopManager : MonoBehaviour
             for (int i = 0; i < interactableDoors.Count; i++)
             {
                 if (interactableDoors[i] != null)
-                    interactableDoors[i].CloseDoor(false);
+                    interactableDoors[i].Close(false);
             }
         }
 
@@ -92,13 +92,17 @@ public class LoopManager : MonoBehaviour
         if (anomalyManager != null)
             anomalyManager.ClearSpawned();
 
+        if (enemySpawner != null) //<- Habra que quitarlo despues
+            enemySpawner.SpawnForNewLoop();
+
         if (exitDoor != null)
         {
-            exitDoor.Unlock();        }
+            exitDoor.Unlock();        
+        }
 
     }
 
-    private void StartLoopFresh()
+    public void StartLoopFresh()
     {
         if (reportState != null)
             reportState.ResetForNewLoop();
@@ -111,7 +115,7 @@ public class LoopManager : MonoBehaviour
             for (int i = 0; i < interactableDoors.Count; i++)
             {
                 if (interactableDoors[i] != null)
-                    interactableDoors[i].CloseDoor(false);
+                    interactableDoors[i].Close(false);
             }
         }
 

@@ -2,32 +2,33 @@ using UnityEngine;
 
 public class EnemyFollow : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 2.0f;
-    [SerializeField] private float stopDistance = 1.2f;
+    [SerializeField] private float moveSpeed = 1f;
+    [SerializeField] private float rotationSpeed = 5f;
 
-    private Transform target;
+    private Transform player;
+    private Rigidbody rb;
 
     private void Start()
     {
-        if (GameManager.PlayerRef != null)
-            target = GameManager.PlayerRef.transform;
+        rb = GetComponent<Rigidbody>();
+        player = GameManager.PlayerRef.transform;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (target == null) return;
+        if (player == null) return;
 
-        Vector3 toTarget = target.position - transform.position;
-        toTarget.y = 0f; 
+        Vector3 direction = (player.position - transform.position);
+        direction.y = 0f; 
 
-        float dist = toTarget.magnitude;
-        if (dist <= stopDistance) return;
+        Vector3 moveDir = direction.normalized;
 
-        Vector3 dir = toTarget / dist;
-        transform.position += dir * moveSpeed * Time.deltaTime;
+        rb.MovePosition(rb.position + moveDir * moveSpeed * Time.fixedDeltaTime);
 
-        //mirar hacia el jugador
-        if (dir.sqrMagnitude > 0.0001f)
-            transform.rotation = Quaternion.LookRotation(dir);
+        if (moveDir != Vector3.zero)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(moveDir);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime));
+        }
     }
 }

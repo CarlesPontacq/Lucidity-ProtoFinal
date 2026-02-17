@@ -14,6 +14,7 @@ public class CameraUIHandler : MonoBehaviour
     [SerializeField] private Image photo;
     [SerializeField] private GameObject polaroid;
     [SerializeField] private TextMeshProUGUI remainingReels;
+    [SerializeField] private List<Image> cameraAspectBorder;
 
     [Header("Mode Indicator")]
     [SerializeField] private List<GameObject> indicatorPositions;
@@ -25,6 +26,9 @@ public class CameraUIHandler : MonoBehaviour
     internal void ShowCameraAspect(bool showAspect)
     {
         cameraAspect.enabled = showAspect;
+        foreach (Image image in cameraAspectBorder)
+            image.enabled = showAspect;
+        
         indicator.GetComponent<Image>().enabled = showAspect;
         Debug.Log(indicator.name + " - " + indicator.GetComponent<Image>().enabled);
         remainingReels.enabled = showAspect;

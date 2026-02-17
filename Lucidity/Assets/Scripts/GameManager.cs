@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
+
 
     [Header("References")]
     [SerializeField] private LoopCounter loopCounterUI;
@@ -17,17 +17,37 @@ public class GameManager : MonoBehaviour
     [Header("Disable while dead (NO metas Rigidbody/Colliders aquí)")]
     [SerializeField] private MonoBehaviour[] disableOnDeath;
 
+    [Header("Player Visuals")]
+    [SerializeField] private GameObject playerBody;
+
     [Header("Spawn")]
     [SerializeField] private string playerSpawnTag = "PlayerSpawn";
 
+    [Header("Pickups / Systems")]
+    [SerializeField] private CameraManager cameraManager;
+    [SerializeField] private DocumentationMode documentationMode;
+    [SerializeField] private ReportSheetOverlayUI reportSheet;
+
+    [Header("Death Safety")]
+    [SerializeField] private float deathCooldown = 0.35f;
+
+    [Header("Physics Safety")]
+    [Tooltip("Layer que debe tener el Player root tras respawn (opcional). Déjalo en -1 para no tocar layer.")]
+    [SerializeField] private int forcePlayerLayer = -1;
+
+    [Header("Exit Loop")]
+    [SerializeField] private int lastLoop = 8;
+
+    [SerializeField] private CameraRotation cameraRotation;
+
     private int currentLoop = 0;
     private bool isDying = false;
+    private float nextAllowedDeathTime = 0f;
 
-    [SerializeField] CameraManager cameraManager;
-    [SerializeField] DocumentationMode documentationMode;
-    [SerializeField] ReportSheetOverlayUI reportSheet;
-    private bool cameraGrabbed = false; 
-    private bool reportSheetGrabbed = false; 
+    private bool cameraGrabbed = false;
+    private bool reportSheetGrabbed = false;
+    private bool gunGrabbed = false;
+    public bool finishedLoops = false;
 
     private void Awake()
     {
@@ -38,13 +58,25 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            SetUpCharacterOnNewScene();
             Destroy(gameObject);
         }
+
     }
 
     private void Start()
     {
         CachePlayerRoot();
+        cameraRotation.SetControlEnabled(true);
+        SetPlayerControlEnabled(true);
+        finishedLoops = false;
+    }
+
+    private void SetUpCharacterOnNewScene()
+    {
+        cameraRotation.SetControlEnabled(true);
+        SetPlayerControlEnabled(true);
+        finishedLoops = false;
     }
 
     private void CachePlayerRoot()
@@ -65,41 +97,75 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // ===============================
+    // LOOP SYSTEM
+    // ===============================
+
     public int GetCurrentLoopIndex() => currentLoop;
 
     public void AddLoopToCount()
     {
         currentLoop++;
-        loopCounterUI.SetLoopCounterText(currentLoop);
+        if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
+
+        if(currentLoop >= lastLoop) finishedLoops = true;
     }
 
     public void ResetLoops()
     {
         currentLoop = 0;
-        loopCounterUI.SetLoopCounterText(currentLoop);
+        if (loopCounterUI != null)
+            loopCounterUI.SetLoopCounterText(currentLoop);
     }
 
     public void OnExitDoorCrossed()
     {
-        loopManager.StartNextLoop();
+        if (loopManager != null)
+            loopManager.StartNextLoop();
     }
+
+    // ===============================
+    // PICKUPS
+    // ===============================
 
     public void CameraGrabbed()
     {
         cameraGrabbed = true;
-        documentationMode.isUnlocked = true;
-        cameraManager.SetStartingCameraMode();
+
+        if (documentationMode != null)
+            documentationMode.isUnlocked = true;
+
+        if (cameraManager != null)
+            cameraManager.SetStartingCameraMode();
     }
 
     public void ReportSheetGrabbed()
     {
         reportSheetGrabbed = true;
-        reportSheet.Grab();
+
+        if (reportSheet != null)
+            reportSheet.Grab();
     }
+
+    public void GunGrabbed()
+    {
+        gunGrabbed = true;
+        finishedLoops = true;
+
+        SetPlayerControlEnabled(false);
+        cameraRotation.SetControlEnabled(false);
+    }
+
+    // ===============================
+    // DEATH SYSTEM
+    // ===============================
 
     public void PlayerDied()
     {
         if (isDying) return;
+        if (Time.time < nextAllowedDeathTime) return;
+
+        nextAllowedDeathTime = Time.time + deathCooldown;
 
         if (PlayerRef == null)
             CachePlayerRoot();
@@ -111,23 +177,33 @@ public class GameManager : MonoBehaviour
     {
         isDying = true;
 
+        Time.timeScale = 1f;
+
         SetPlayerControlEnabled(false);
 
+        // Ocultar body
+        SetPlayerBodyVisible(false);
+
+        // Animación de muerte
         if (deathEffect != null)
             yield return deathEffect.PlayDeathSequence();
         else
             yield return new WaitForSecondsRealtime(5f);
 
+        // Reset loops
         ResetLoops();
-        loopManager?.StartNextLoop();
+        if (loopManager != null)
+        loopManager.StartLoopFresh();
 
-        TeleportPlayerToStart_RigidbodySafe();
+        yield return TeleportAndRearmPhysics();
 
         if (deathEffect != null)
         {
             deathEffect.ClearOverlays();
             deathEffect.RestoreAfterRespawn();
         }
+
+        SetPlayerBodyVisible(true);
 
         SetPlayerControlEnabled(true);
 
@@ -139,38 +215,43 @@ public class GameManager : MonoBehaviour
         if (disableOnDeath == null) return;
 
         for (int i = 0; i < disableOnDeath.Length; i++)
-        {
             if (disableOnDeath[i] != null)
                 disableOnDeath[i].enabled = enabled;
-        }
     }
 
-    private void TeleportPlayerToStart_RigidbodySafe()
+    private void SetPlayerBodyVisible(bool visible)
     {
-        if (PlayerRef == null) return;
+        if (playerBody == null) return;
+
+        Renderer[] renderers = playerBody.GetComponentsInChildren<Renderer>(true);
+        for (int i = 0; i < renderers.Length; i++)
+            renderers[i].enabled = visible;
+    }
+
+    private IEnumerator TeleportAndRearmPhysics()
+    {
+        if (PlayerRef == null) yield break;
 
         GameObject sp = GameObject.FindGameObjectWithTag(playerSpawnTag);
         if (sp == null)
         {
-            Debug.LogWarning($"No hay objeto con tag {playerSpawnTag} en la escena.");
-            return;
+            Debug.LogWarning($"No hay objeto con tag {playerSpawnTag}.");
+            yield break;
         }
 
         Transform spawn = sp.transform;
 
         var cols = PlayerRef.GetComponentsInChildren<Collider>(true);
-        for (int i = 0; i < cols.Length; i++)
-        {
-            cols[i].enabled = true;
-        }
+        foreach (var col in cols)
+            col.enabled = true;
 
         Rigidbody rb = PlayerRef.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.detectCollisions = true;
             rb.isKinematic = false;
-
+            rb.detectCollisions = true;
             rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
 
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
@@ -186,16 +267,10 @@ public class GameManager : MonoBehaviour
         }
 
         Physics.SyncTransforms();
+
+        yield return null;
     }
 
-    public bool GetCameraGrabbed()
-    {
-        return cameraGrabbed;
-    }
-
-    public bool GetReportSheetGrabbed()
-    {
-        return reportSheetGrabbed;
-    }
-
+    public bool GetCameraGrabbed() => cameraGrabbed;
+    public bool GetReportSheetGrabbed() => reportSheetGrabbed;
 }

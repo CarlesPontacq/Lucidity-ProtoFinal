@@ -1,16 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.Collections;
 
 public class ReticleController : MonoBehaviour
 {
     public static ReticleController Instance { get; private set; }
 
-    [SerializeField] Image reticle;
-    [SerializeField] float reticleRegularSize = 0.15f;
-    [SerializeField] float reticleFocusSize = 0.2f;
-    [SerializeField] float animationDuration = 0.15f;
-    [SerializeField] AnimationCurve sizingAnimationCurve;
+    [Header("Reticle")]
+    [SerializeField] private Image reticle;
+    [SerializeField] private float reticleRegularSize = 0.15f;
+    [SerializeField] private float reticleFocusSize = 0.2f;
+    [SerializeField] private float animationDuration = 0.15f;
+    [SerializeField] private AnimationCurve sizingAnimationCurve;
+
+    [Header("Interact Hint")]
+    [SerializeField] private TMP_Text interactText; // La "E"
 
     private Coroutine reticleSizeCoroutine;
 
@@ -25,26 +30,21 @@ public class ReticleController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
+        if (interactText != null)
+            interactText.gameObject.SetActive(false);
     }
 
     public void MakeReticleBigger()
     {
         StartSizeAnimation(reticle.rectTransform.localScale.x, reticleFocusSize);
+        ShowInteractHint(true);
     }
 
     public void ReturnReticleToNormalSize()
     {
         StartSizeAnimation(reticle.rectTransform.localScale.x, reticleRegularSize);
+        ShowInteractHint(false);
     }
 
     void StartSizeAnimation(float from, float to)
@@ -72,5 +72,12 @@ public class ReticleController : MonoBehaviour
         }
 
         reticle.rectTransform.localScale = Vector3.one * to;
+    }
+
+    private void ShowInteractHint(bool show)
+    {
+        if (interactText == null) return;
+
+        interactText.gameObject.SetActive(show);
     }
 }

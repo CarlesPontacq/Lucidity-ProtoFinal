@@ -183,6 +183,7 @@ public class GameManager : MonoBehaviour
 
         // Ocultar body
         SetPlayerBodyVisible(false);
+        cameraRotation.SetControlEnabled(false);
 
         // Animación de muerte
         if (deathEffect != null)
@@ -204,6 +205,7 @@ public class GameManager : MonoBehaviour
         }
 
         SetPlayerBodyVisible(true);
+        cameraRotation.SetControlEnabled(true);
 
         SetPlayerControlEnabled(true);
 

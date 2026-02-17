@@ -52,9 +52,9 @@ public class OptionsManager : MonoBehaviour
         soundVolume = PlayerPrefs.GetFloat(SOUND_VOL, 1f);
 
         isMusicMute = PlayerPrefs.GetInt(MUSIC_MUTE, 0) == 1;
-        musicVolume = PlayerPrefs.GetFloat(MUSIC_VOL, 1f);
+        musicVolume = PlayerPrefs.GetFloat(MUSIC_VOL, musicVolume);
 
-        mouseSensitivity = PlayerPrefs.GetFloat(MOUSE_SENS, 2f);
+        mouseSensitivity = PlayerPrefs.GetFloat(MOUSE_SENS, mouseSensitivity);
     }
 
     private void RefreshUI()

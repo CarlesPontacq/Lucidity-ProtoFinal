@@ -25,6 +25,8 @@ public class SFXManager : MonoBehaviour
     private const int DefaultCapacity = 10;
     private const int MaxSize = 50;
     private const bool CollectionCheck = true;
+    private float globalVolume = 1f;
+
 
     [Header("Sound Library")]
     public Sound[] sounds;
@@ -103,7 +105,7 @@ public class SFXManager : MonoBehaviour
     private void PlaySound(AudioSource audioSource, Sound sound, float volume)
     {
         audioSource.resource = sound.audio;
-        audioSource.volume = volume;
+        audioSource.volume = volume * globalVolume;
         audioSource.Play();
 
         if (sound.audio is AudioClip)
@@ -125,5 +127,10 @@ public class SFXManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         sfxObjectPool.Release(source);
+    }
+
+    public void SetVolume(float v)
+    {
+        globalVolume = v;
     }
 }

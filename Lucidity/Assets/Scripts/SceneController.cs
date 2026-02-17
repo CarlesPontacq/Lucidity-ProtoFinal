@@ -26,10 +26,7 @@ public class SceneController : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.finishedLoops)
-        {
-            LoadNextScene();
-        }
+
     }
 
     public void LoadNextScene()

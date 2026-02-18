@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputObserver : MonoBehaviour
 {
-    public enum ActionMap { Player, ReportSheet, UI }
+    public enum ActionMap { Player, ReportSheet, ItemInfo, UI }
 
     [Header("Player Input")]
     [SerializeField] private PlayerInput playerInputRef;
@@ -18,6 +18,8 @@ public class PlayerInputObserver : MonoBehaviour
     public Action onToggleSheet;
     public Action onToggleCamera;
     public Action onTakePhoto;
+
+    public Action onCloseItemInfo;
 
     [Header("Camera Input")]
     public Action onCameraToggle;
@@ -107,6 +109,12 @@ public class PlayerInputObserver : MonoBehaviour
         onChangeCameraMode?.Invoke(direction);
     }
 
+    public void OnCloseItemInfo(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+            onCloseItemInfo?.Invoke();
+    }
+
     public void SwitchActionMap(ActionMap actionMap)
     {
         playerInputRef.SwitchCurrentActionMap(GetActionMapString(actionMap));
@@ -122,6 +130,9 @@ public class PlayerInputObserver : MonoBehaviour
                 break;
             case ActionMap.ReportSheet:
                 actionMapString = "ReportSheet";
+                break;
+            case ActionMap.ItemInfo:
+                actionMapString = "ItemInfo";
                 break;
             case ActionMap.UI:
                 actionMapString = "UI";

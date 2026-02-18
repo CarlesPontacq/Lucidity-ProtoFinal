@@ -143,12 +143,15 @@ public class GameManager : MonoBehaviour
             cameraManager.SetStartingCameraMode();
     }
 
-    public void ReportSheetGrabbed()
+    public void ReportSheetGrabbed(ItemData itemData)
     {
         reportSheetGrabbed = true;
 
         if (reportSheet != null)
             reportSheet.Grab();
+
+        if (itemInfoOverlay != null)
+            itemInfoOverlay.OpenInfo(itemData);
     }
 
     public void GunGrabbed()

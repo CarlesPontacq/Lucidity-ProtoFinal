@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using NUnit.Framework;
 using TMPro;
 using UnityEditor.Search;
 using UnityEngine;
@@ -5,6 +7,9 @@ using UnityEngine.UI;
 
 public class ItemInfoOverlay : MonoBehaviour
 {
+    [SerializeField] PlayerInputObserver playerInput;
+    [SerializeField] List<GameObject> otherCanvasToHide;
+
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] TextMeshProUGUI descriptionText;
     [SerializeField] Image image;
@@ -13,12 +18,24 @@ public class ItemInfoOverlay : MonoBehaviour
     void Start()
     {
         Hide();
+        playerInput.onCloseItemInfo += CloseInfo;
     }
 
     public void OpenInfo(ItemData itemData)
     {
         SetInfo(itemData);
         Show();
+
+        Time.timeScale = 0f;
+        playerInput.SwitchActionMap(PlayerInputObserver.ActionMap.ItemInfo);
+    }
+
+    public void CloseInfo()
+    {
+        Hide();
+
+        Time.timeScale = 1f;
+        playerInput.SwitchActionMap(PlayerInputObserver.ActionMap.Player);
     }
 
     private void SetInfo(ItemData itemData)
@@ -34,6 +51,11 @@ public class ItemInfoOverlay : MonoBehaviour
         nameText.gameObject.SetActive(false);
         descriptionText.gameObject.SetActive(false);
         image.gameObject.SetActive(false);
+
+        foreach (GameObject otherCanvas in otherCanvasToHide)
+        {
+            otherCanvas.SetActive(true);
+        }
     }
 
     private void Show()
@@ -42,5 +64,10 @@ public class ItemInfoOverlay : MonoBehaviour
         nameText.gameObject.SetActive(true);
         descriptionText.gameObject.SetActive(true);
         image.gameObject.SetActive(true);
+
+        foreach (GameObject otherCanvas in otherCanvasToHide)
+        {
+            otherCanvas.SetActive(false);
+        }
     }
 }

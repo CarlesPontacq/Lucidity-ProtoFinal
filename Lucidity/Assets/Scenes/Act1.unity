@@ -356,6 +356,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6899caf5975b0e94d9b24fe5cd40cd04, type: 3}
+--- !u!1 &34516831 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3900276629467462014, guid: 6899caf5975b0e94d9b24fe5cd40cd04, type: 3}
+  m_PrefabInstance: {fileID: 34516830}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &53230689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1917,6 +1922,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1046410472357254623, guid: 7760bb9f8bcce7543bab3d4d055c9634, type: 3}
+      propertyPath: objectToShow
+      value: 
+      objectReference: {fileID: 1273858181}
     - target: {fileID: 4067852400273101543, guid: 7760bb9f8bcce7543bab3d4d055c9634, type: 3}
       propertyPath: m_Name
       value: A02_ReceptionV2
@@ -4886,13 +4895,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1489483300695968749, guid: b937175dd5318b14c9fc1810ccb49ff9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2768250379683069014, guid: b937175dd5318b14c9fc1810ccb49ff9, type: 3}
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3455101005021075318, guid: b937175dd5318b14c9fc1810ccb49ff9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.1500001
       objectReference: {fileID: 0}
     - target: {fileID: 3455101005021075318, guid: b937175dd5318b14c9fc1810ccb49ff9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6243,6 +6256,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8302037387817399217, guid: 868c93ea7b6d0d542b015090848b0ec2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6648,6 +6665,11 @@ PrefabInstance:
 --- !u!4 &1273858180 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8700457917638641160, guid: 33e71b4a1b1aa084790827137b3e4cf4, type: 3}
+  m_PrefabInstance: {fileID: 1273858179}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1273858181 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7962035728920405009, guid: 33e71b4a1b1aa084790827137b3e4cf4, type: 3}
   m_PrefabInstance: {fileID: 1273858179}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1290058892
@@ -7516,6 +7538,10 @@ PrefabInstance:
       propertyPath: anomalyId
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 819503258590751709, guid: 28d09ecd3f581e64e968817cc033a325, type: 3}
+      propertyPath: objectToShow
+      value: 
+      objectReference: {fileID: 34516831}
     - target: {fileID: 4443090394119826661, guid: 28d09ecd3f581e64e968817cc033a325, type: 3}
       propertyPath: m_Name
       value: A02_CorpseAnoV2

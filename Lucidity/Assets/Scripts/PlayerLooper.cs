@@ -7,7 +7,6 @@ public class PlayerLooper : MonoBehaviour
     [SerializeField] private Rigidbody playerRb;
     [SerializeField] private GameObject playerBodyRef;
     [SerializeField] private CameraRotation playerCameraRotationRef;
-    [SerializeField] private CameraRotation cameraCameraRotationRef;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,6 +18,7 @@ public class PlayerLooper : MonoBehaviour
                 return;
             }
 
+            GameManager.Instance.OnExitDoorCrossed();
             SetPlayerLoopPositionPosition();
         }
     }
@@ -30,7 +30,6 @@ public class PlayerLooper : MonoBehaviour
 
         playerRb.transform.position = teleportDestination.TransformPoint(localOffset);
         playerCameraRotationRef.ApplyRotationOffset(relativeRotation);
-        cameraCameraRotationRef.ApplyRotationOffset(relativeRotation);
 
         GameManager.Instance.OnExitDoorCrossed();
     }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5207152748949558004}
   m_Layer: 0
-  m_Name: Hands
+  m_Name: PlayerArms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,6 +40,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5207152748949558004}
     m_Modifications:
+    - target: {fileID: -8869622106520953371, guid: 91d1344faf17afa4cadf985da7abbeec, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 888595b759801b24ba2ebdea16e4ed50, type: 2}
     - target: {fileID: -8679921383154817045, guid: 91d1344faf17afa4cadf985da7abbeec, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -84,6 +88,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArmIdle_Normal
       objectReference: {fileID: 0}
+    - target: {fileID: 3425204602426273640, guid: 91d1344faf17afa4cadf985da7abbeec, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 746b70faa50394c4da32e796e5a919e3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -111,7 +119,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9069896959071745050}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: c57aaee5effe66746b71b9456bc77a98, type: 3}
   m_Controller: {fileID: 9100000, guid: 7f3b9cb21aca1cf43b6dbf08b5c6ed3a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0

@@ -1,4 +1,9 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class OptionsManager : MonoBehaviour
@@ -8,30 +13,32 @@ public class OptionsManager : MonoBehaviour
     [Header("Sound")]
     public bool isSoundMute = false;
     [Range(0f, 1f)] public float soundVolume = 1f;
+    [SerializeField] private Slider soundSlider;
+    [SerializeField] private Toggle soundMuteToggle;
 
     [Header("Music")]
     public bool isMusicMute = false;
     [Range(0f, 1f)] public float musicVolume = 1f;
-
-    [Header("Sensitivity")]
-    public float mouseSensitivity = 0.75f;
-
-    [Header("References")]
-    [SerializeField] private CameraRotation cameraRotation;
-
-    [SerializeField] private Slider soundSlider;
-    [SerializeField] private Toggle soundMuteToggle;
-
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Toggle musicMuteToggle;
 
+    [Header("Sensitivity")]
+    public float mouseSensitivity = 0.75f;
     [SerializeField] private Slider sensitivitySlider;
+
+    [Header("Language")]
+    public int languageIndex = 0;
+    [SerializeField] private TMP_Dropdown languageDropdown;
+
+    [Header("References")]
+    [SerializeField] private CameraRotation cameraRotation;
 
     private const string SOUND_MUTE = "sound_mute";
     private const string SOUND_VOL = "sound_vol";
     private const string MUSIC_MUTE = "music_mute";
     private const string MUSIC_VOL = "music_vol";
     private const string MOUSE_SENS = "mouse_sens";
+    private const string LANGUAGE = "language";
 
     private void Awake()
     {
@@ -41,6 +48,7 @@ public class OptionsManager : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(StartLocalization());
         LoadOptions();
         ApplyOptions();
         RefreshUI();
@@ -55,6 +63,8 @@ public class OptionsManager : MonoBehaviour
         musicVolume = PlayerPrefs.GetFloat(MUSIC_VOL, musicVolume);
 
         mouseSensitivity = PlayerPrefs.GetFloat(MOUSE_SENS, mouseSensitivity);
+
+        languageIndex = PlayerPrefs.GetInt(LANGUAGE, 0);
     }
 
     private void RefreshUI()
@@ -73,6 +83,9 @@ public class OptionsManager : MonoBehaviour
 
         if (sensitivitySlider != null)
             sensitivitySlider.SetValueWithoutNotify(mouseSensitivity);
+
+        if(languageDropdown != null)
+            languageDropdown.SetValueWithoutNotify(languageIndex);
     }
 
     public void SaveOptions()
@@ -85,13 +98,45 @@ public class OptionsManager : MonoBehaviour
 
         PlayerPrefs.SetFloat(MOUSE_SENS, mouseSensitivity);
 
+        PlayerPrefs.SetInt(LANGUAGE, languageIndex);
+
         PlayerPrefs.Save();
     }
 
     public void ApplyOptions()
     {
         ApplySound();
+        ApplyLanguage();
         ApplySensitivity();
+    }
+
+    private void ApplyLanguage()
+    {
+        throw new NotImplementedException();
+    }
+
+    IEnumerator StartLocalization()
+    {
+        yield return LocalizationSettings.InitializationOperation;
+
+        var options = new List<TMP_Dropdown.OptionData>();
+        int selected = 0;
+        for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; ++i)
+        {
+            var locale = LocalizationSettings.AvailableLocales.Locales[i];
+            if (LocalizationSettings.SelectedLocale == locale)
+                selected = i;
+            options.Add(new TMP_Dropdown.OptionData(locale.name));
+        }
+        languageDropdown.options = options;
+
+        languageDropdown.value = selected;
+        languageDropdown.onValueChanged.AddListener(LocaleSelected);
+    }
+
+    static void LocaleSelected(int index)
+    {
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
     }
 
     private void ApplySound()

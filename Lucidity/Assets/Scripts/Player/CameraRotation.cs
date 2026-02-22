@@ -31,8 +31,10 @@ public class CameraRotation : MonoBehaviour
 
         rotation.x = Mathf.Clamp(rotation.x, -verticalLimit, verticalLimit);
 
-        currentRotation.x = Mathf.Lerp(currentRotation.x, rotation.x, smoothSpeed * Time.deltaTime);
-        currentRotation.y = Mathf.Lerp(currentRotation.y, rotation.y, smoothSpeed * Time.deltaTime);
+        //currentRotation.x = Mathf.Lerp(currentRotation.x, rotation.x, smoothSpeed * Time.deltaTime);
+        currentRotation.x = Mathf.Lerp(currentRotation.x, rotation.x, smoothSpeed);
+        //currentRotation.y = Mathf.Lerp(currentRotation.y, rotation.y, smoothSpeed * Time.deltaTime);
+        currentRotation.y = Mathf.Lerp(currentRotation.y, rotation.y, smoothSpeed);
 
         transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
         body.rotation = Quaternion.Euler(0f, currentRotation.y, 0f);

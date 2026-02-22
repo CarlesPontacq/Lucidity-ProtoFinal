@@ -106,13 +106,7 @@ public class OptionsManager : MonoBehaviour
     public void ApplyOptions()
     {
         ApplySound();
-        ApplyLanguage();
         ApplySensitivity();
-    }
-
-    private void ApplyLanguage()
-    {
-        throw new NotImplementedException();
     }
 
     IEnumerator StartLocalization()

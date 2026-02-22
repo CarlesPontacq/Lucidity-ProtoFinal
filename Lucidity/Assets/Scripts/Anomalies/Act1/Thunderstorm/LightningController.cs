@@ -16,7 +16,8 @@ public class LightningController : MonoBehaviour
     public float nextLightningMaxWaiting = 7.7f;
 
     [Header("Thunder")]
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private string audioName = "Thunders";
+    [SerializeField] private float audioVolume = 1f;
 
     [SerializeField] private float thunderMinDelay = 0.5f;
     [SerializeField] private float thunderMaxDelay = 3.5f;
@@ -52,7 +53,7 @@ public class LightningController : MonoBehaviour
 
     private void CallThunderWithDelay()
     {
-        if (!audioSource) return;
+        if (SFXManager.Instance == null) return;
 
         float delay = Random.Range(thunderMinDelay, thunderMaxDelay);
         Invoke(nameof(PlayThunder), delay);
@@ -60,6 +61,7 @@ public class LightningController : MonoBehaviour
 
     private void PlayThunder()
     {
-        audioSource.Play();
+        if (SFXManager.Instance != null)
+            SFXManager.Instance.PlayGlobalSound(audioName, audioVolume);
     }
 }

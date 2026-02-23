@@ -35,7 +35,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [Header("Disable mouse/world interactions while open")]
     [SerializeField] private MonoBehaviour[] disableWhileOpen;
 
-    private bool open;
+    public bool open;
     private bool signedThisAttempt;
     private Coroutine closeRoutine;
     private float previousTimeScale = 1f;
@@ -57,7 +57,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     private void Update()
     {
-        if (open && Input.GetKeyDown(KeyCode.Escape))
+        if (open && Input.GetKeyDown(KeyCode.Tab))
             SetOpen(false);
     }
 
@@ -68,6 +68,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     void ToggleSheet()
     {
+        if (PauseMenuManager.IsOpen) return;
         if (!canOpen || reportState.HasSubmittedReport) return;
 
         SFXManager.Instance.PlayGlobalSound("paper", 0.3f);
@@ -145,6 +146,8 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     private void SetOpen(bool value)
     {
+        if (PauseMenuManager.IsOpen) return;
+
         IsOpen = value;
 
         open = value;

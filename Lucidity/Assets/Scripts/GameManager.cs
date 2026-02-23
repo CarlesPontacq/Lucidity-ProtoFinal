@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraRotation cameraRotation;
 
     private int currentLoop = 0;
-    private bool isDying = false;
+    public bool isDying = false;
     private float nextAllowedDeathTime = 0f;
 
     private bool cameraGrabbed = false;

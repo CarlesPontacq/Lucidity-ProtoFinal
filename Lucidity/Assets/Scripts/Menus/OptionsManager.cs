@@ -8,8 +8,6 @@ using UnityEngine.UI;
 
 public class OptionsManager : MonoBehaviour
 {
-    public static OptionsManager Instance { get; private set; }
-
     [Header("Sound")]
     public bool isSoundMute = false;
     [Range(0f, 1f)] public float soundVolume = 1f;
@@ -39,12 +37,6 @@ public class OptionsManager : MonoBehaviour
     private const string MUSIC_VOL = "music_vol";
     private const string MOUSE_SENS = "mouse_sens";
     private const string LANGUAGE = "language";
-
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
-    }
 
     void Start()
     {

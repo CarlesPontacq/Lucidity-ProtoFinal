@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseMenuManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class PauseMenuManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject optionsPanel;
+    [SerializeField] private Button returnToMainMenuButton;
 
     [Header("Input")]
     [SerializeField] private PlayerInputObserver playerInput;
@@ -22,6 +24,8 @@ public class PauseMenuManager : MonoBehaviour
     private void Awake()
     {
         playerInput.onPause += TogglePause;
+
+        returnToMainMenuButton.onClick.AddListener(SceneController.Instance.LoadMainMenuScene);
     }
 
     private void Update()

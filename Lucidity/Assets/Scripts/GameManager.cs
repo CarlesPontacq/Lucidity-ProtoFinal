@@ -216,6 +216,10 @@ public class GameManager : MonoBehaviour
 
         SetPlayerControlEnabled(true);
 
+        var deathTouch = PlayerRef.GetComponentInChildren<PlayerDeathOnEnemyTouch>(true);
+        if (deathTouch != null)
+            deathTouch.ResetDeathTrigger();
+
         isDying = false;
     }
 

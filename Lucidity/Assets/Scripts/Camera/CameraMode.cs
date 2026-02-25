@@ -11,6 +11,8 @@ public abstract class CameraMode : MonoBehaviour
     [SerializeField] protected CameraUIHandler ui;
     [SerializeField] protected CameraAudioHandler audioHandler;
 
+    [Header("Post-Process")]
+    [SerializeField] protected GameObject globalVolumeMode;
 
     protected void Start()
     {
@@ -27,6 +29,7 @@ public abstract class CameraMode : MonoBehaviour
     public virtual void ActivateMode()
     {
         isActive = true;
+        globalVolumeMode.SetActive(true);
         OnActivated();
     }
 
@@ -34,6 +37,7 @@ public abstract class CameraMode : MonoBehaviour
     public virtual void DeactivateMode() 
     {
         isActive = false;
+        globalVolumeMode.SetActive(false);
         OnDeactivated();
     }
 

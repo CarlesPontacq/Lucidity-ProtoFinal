@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class ScreenshotManager : MonoBehaviour
 {
-    [SerializeField] private Camera photoCamera;
-    [SerializeField] private Camera normalCamera;
     [SerializeField] private RenderTexture renderTexture;
 
     private CameraUIHandler ui;
@@ -16,21 +14,21 @@ public class ScreenshotManager : MonoBehaviour
         ui = FindAnyObjectByType<CameraUIHandler>();
     }
     
-    public void CaptureScreenshot()
+    public void CaptureScreenshot(Camera sourceCamera)
     {
-        StartCoroutine(CaptureRoutine());
+        StartCoroutine(CaptureRoutine(sourceCamera));
     }
 
-    private IEnumerator CaptureRoutine()
+    private IEnumerator CaptureRoutine(Camera sourceCamera)
     {
         yield return new WaitForEndOfFrame();
 
-        photoCamera.targetTexture = renderTexture;
+        sourceCamera.targetTexture = renderTexture;
 
         RenderTexture current = RenderTexture.active;
         RenderTexture.active = renderTexture;
 
-        photoCamera.Render();
+        sourceCamera.Render();
 
         Texture2D tex = new Texture2D(
             renderTexture.width,
@@ -60,7 +58,7 @@ public class ScreenshotManager : MonoBehaviour
         tex.Apply();
 
         RenderTexture.active = current;
-        photoCamera.targetTexture = null;
+        sourceCamera.targetTexture = null;
 
         ui.ActualizeLastPhoto(tex);
     } 

@@ -13,6 +13,7 @@ public class DocumentationMode : CameraMode
     private Coroutine flashCoroutine;
 
     private Camera docCamera;
+    [SerializeField] private Camera photoCamera;
     [SerializeField] private ScreenshotManager screenshotManager;
     [SerializeField] private CameraEventBroadcaster eventBroadcaster;
 
@@ -72,7 +73,7 @@ public class DocumentationMode : CameraMode
     private IEnumerator FlashCoroutine()
     {
         if (screenshotManager != null)
-            screenshotManager.CaptureScreenshot();
+            screenshotManager.CaptureScreenshot(photoCamera);
 
         yield return new WaitForSeconds(flasDuration);
 

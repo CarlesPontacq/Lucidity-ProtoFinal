@@ -41,7 +41,7 @@ public class StunMode : CameraMode
     private IEnumerator StunFlashCoroutine()
     {
         if (screenshotManager != null)
-            screenshotManager.CaptureScreenshot();
+            screenshotManager.CaptureScreenshot(stunCamera);
 
         yield return new WaitForSeconds(flashDuration);
         

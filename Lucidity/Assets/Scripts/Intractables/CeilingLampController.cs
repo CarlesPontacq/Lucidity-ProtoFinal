@@ -1,22 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CeilingLampController : MonoBehaviour
+public class CeilingLampController : SwitchableObject
 {
     [SerializeField] int materialIndex;
     [SerializeField] MeshRenderer meshRenderer;
     [SerializeField] Material materialLightOn;
     [SerializeField] Material materialLightOff;
     [SerializeField] List<GameObject> lights;
-    [SerializeField] bool startTurnedOn;
-    bool isOn;
-
-    void Start()
-    {
-        isOn = true;
-        if (!startTurnedOn)
-            TurnOff();
-    }
 
     void ChangeMaterial(Material material)
     {
@@ -25,7 +16,7 @@ public class CeilingLampController : MonoBehaviour
         meshRenderer.materials = mats;
     }
 
-    public void TurnOn()
+    public override void TurnOn()
     {
         if (isOn) return;
 
@@ -37,7 +28,7 @@ public class CeilingLampController : MonoBehaviour
         isOn = true;
     }
 
-    public void TurnOff()
+    public override void TurnOff()
     {
         if (!isOn) return;
 
@@ -47,10 +38,5 @@ public class CeilingLampController : MonoBehaviour
             lights[i].gameObject.SetActive(false);
 
         isOn = false;
-    }
-
-    public bool IsLightOn()
-    {
-        return isOn;
     }
 }

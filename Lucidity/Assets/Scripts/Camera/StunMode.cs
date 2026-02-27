@@ -8,6 +8,7 @@ public class StunMode : CameraMode
 
     private Coroutine flashCoroutine;
     private Camera stunCamera;
+    [SerializeField] private Camera cameraWithEnemy;
     [SerializeField] private ScreenshotManager screenshotManager;
 
 
@@ -40,14 +41,20 @@ public class StunMode : CameraMode
 
     private IEnumerator StunFlashCoroutine()
     {
+        Texture2D withEnemy = null;
+        Texture2D withoutEnemy = null;
+
         if (screenshotManager != null)
-            screenshotManager.CaptureScreenshot(stunCamera);
+            screenshotManager.CaptureStunScreenshots(cameraWithEnemy, stunCamera);
 
         yield return new WaitForSeconds(flashDuration);
-        
+
         ui.ShowCameraFlash(false);
 
-        TryStunEnemy();
+        if (screenshotManager != null)
+            screenshotManager.CaptureStunScreenshots(cameraWithEnemy, stunCamera);
+
+        //TryStunEnemy();
     }
 
     private void TryStunEnemy()

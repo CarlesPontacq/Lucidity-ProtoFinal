@@ -16,10 +16,10 @@ public class ScreenshotManager : MonoBehaviour
     
     public void CaptureScreenshot(Camera sourceCamera)
     {
-        StartCoroutine(CaptureRoutine(sourceCamera));
+        StartCoroutine(CaptureRoutine(sourceCamera, true));
     }
 
-    private IEnumerator CaptureRoutine(Camera sourceCamera)
+    private IEnumerator CaptureRoutine(Camera sourceCamera, bool mainPhoto)
     {
         yield return new WaitForEndOfFrame();
 
@@ -60,6 +60,15 @@ public class ScreenshotManager : MonoBehaviour
         RenderTexture.active = current;
         sourceCamera.targetTexture = null;
 
-        ui.ActualizeLastPhoto(tex);
-    } 
+        if(mainPhoto)
+            ui.ActualizeTopPhoto(tex);
+        else
+            ui.ActualizeBottomPhoto(tex);
+    }
+
+    public void CaptureStunScreenshots(Camera playerCamera, Camera stunCamera)
+    {
+        StartCoroutine(CaptureRoutine(playerCamera, true));
+        StartCoroutine(CaptureRoutine(stunCamera, false));
+    }
 }

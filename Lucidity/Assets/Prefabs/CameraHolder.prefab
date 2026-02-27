@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 3019037582982712108}
   - component: {fileID: 7895224099656843609}
   - component: {fileID: 7922168249541992693}
+  - component: {fileID: 5482443757158675312}
   m_Layer: 0
   m_Name: StunCamera
   m_TagString: MainCamera
@@ -410,6 +411,7 @@ MonoBehaviour:
   audioHandler: {fileID: 588726753737900789}
   globalVolumeMode: {fileID: 0}
   flashDuration: 0.3
+  cameraWithEnemy: {fileID: 9021954717483914808}
   screenshotManager: {fileID: 7922168249541992693}
 --- !u!114 &7922168249541992693
 MonoBehaviour:
@@ -424,6 +426,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderTexture: {fileID: 8400000, guid: afbc6b3f41b5ad04096390329da561d6, type: 2}
+--- !u!114 &5482443757158675312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453350378945652404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a73d0d532a16345ad1c782139129ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSeeCamera: {fileID: 1286198257110702750}
 --- !u!1 &3463732054080317445
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,7 +543,8 @@ MonoBehaviour:
   uiCanvas: {fileID: 0}
   cameraAspect: {fileID: 0}
   cameraFlash: {fileID: 0}
-  photo: {fileID: 0}
+  photoTop: {fileID: 0}
+  photoBottom: {fileID: 0}
   polaroid: {fileID: 0}
   remainingReels: {fileID: 0}
   cameraAspectBorder:
@@ -537,8 +553,10 @@ MonoBehaviour:
   indicatorPositions:
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   indicator: {fileID: 0}
   indicatorMoveSpeed: 7
+  duration: 2
 --- !u!114 &588726753737900789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,7 +684,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1343
+    m_Bits: 3391
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

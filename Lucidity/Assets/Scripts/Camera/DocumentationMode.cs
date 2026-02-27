@@ -78,7 +78,6 @@ public class DocumentationMode : CameraMode
         yield return new WaitForSeconds(flasDuration);
 
         eventBroadcaster.NotifyModeDeactivated();
-
         ui.ShowCameraFlash(false);
 
         CaptureAnomalies();

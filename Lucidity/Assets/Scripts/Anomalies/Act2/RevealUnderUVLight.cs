@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class RevealUnderUVLight : MonoBehaviour
 {
-    [SerializeField] private Material mat;
+    [SerializeField] private DecalProjector decalProjector;
     [SerializeField] private Light uvLight;
 
     static readonly int LightPosID = Shader.PropertyToID("_LightPos");
@@ -10,19 +11,27 @@ public class RevealUnderUVLight : MonoBehaviour
     static readonly int LightAngleID = Shader.PropertyToID("_LightAngle");
     static readonly int LightEnabledID = Shader.PropertyToID("_LightEnabled");
 
-    void Update()
+    Material runtimeMaterial;
+
+    void Awake()
     {
-        if (!mat || !uvLight) return;
-
-        bool enabled = uvLight.enabled;
-
-        mat.SetFloat(LightEnabledID, enabled ? 1f : 0f);
-
-        if (!enabled) return;
-
-        mat.SetVector(LightPosID, uvLight.transform.position.normalized);
-        mat.SetVector(LightDirID, uvLight.transform.forward.normalized);
-        mat.SetFloat(LightAngleID, uvLight.spotAngle);
+        // Creamos instancia para no modificar el asset
+        runtimeMaterial = Instantiate(decalProjector.material);
+        decalProjector.material = runtimeMaterial;
     }
 
+    void Update()
+    {
+        if (!runtimeMaterial || !uvLight) return;
+
+        bool lightOn = uvLight.enabled;
+
+        runtimeMaterial.SetFloat(LightEnabledID, lightOn ? 1f : 0f);
+
+        if (!lightOn) return;
+
+        runtimeMaterial.SetVector(LightPosID, uvLight.transform.position);
+        runtimeMaterial.SetVector(LightDirID, uvLight.transform.forward);
+        runtimeMaterial.SetFloat(LightAngleID, uvLight.spotAngle);
+    }
 }

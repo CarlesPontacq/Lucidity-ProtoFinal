@@ -11,6 +11,8 @@ public class UltravioletMode : CameraMode
     [SerializeField] private float uvLightExhaustionSpeed = .05f;
     [SerializeField] private float uvLightRecoverySpeed = .005f;
 
+    [SerializeField] private Camera normalCamera;
+
     public bool isUvLightOn = false;
 
     private Light uvLight;
@@ -52,6 +54,7 @@ public class UltravioletMode : CameraMode
         uvLight = GetComponent<Light>();
         uvLight.enabled = true;
         isUvLightOn = true;
+        normalCamera.enabled = false;
     }
 
     //Funcion para desactivar la camara
@@ -60,6 +63,7 @@ public class UltravioletMode : CameraMode
         base.DeactivateMode();
         uvLight.enabled = false;
         isUvLightOn = false;
+        normalCamera.enabled = true;
     }
 
     public override void PerformCameraAction() 

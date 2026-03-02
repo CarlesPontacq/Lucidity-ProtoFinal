@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour
         isDying = false;
     }
 
-    private void SetPlayerControlEnabled(bool enabled)
+    public void SetPlayerControlEnabled(bool enabled)
     {
         if (disableOnDeath == null) return;
 

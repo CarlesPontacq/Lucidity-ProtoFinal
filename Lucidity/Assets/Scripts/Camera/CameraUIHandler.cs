@@ -11,7 +11,8 @@ public class CameraUIHandler : MonoBehaviour
     [SerializeField] private Canvas uiCanvas;
     [SerializeField] private Image cameraAspect;
     [SerializeField] private Image cameraFlash;
-    [SerializeField] private Image photo;
+    [SerializeField] private Image photoTop;
+    [SerializeField] private Image photoBottom;
     [SerializeField] private GameObject polaroid;
     [SerializeField] private TextMeshProUGUI remainingReels;
     [SerializeField] private List<Image> cameraAspectBorder;
@@ -23,6 +24,9 @@ public class CameraUIHandler : MonoBehaviour
     [SerializeField] private float indicatorMoveSpeed = 10f;
     private Coroutine indicatorCoroutine;
 
+    [Header("Stun Photo")]
+    [SerializeField] private float duration = 2f;
+
     internal void ShowCameraAspect(bool showAspect)
     {
         cameraAspect.enabled = showAspect;
@@ -30,7 +34,6 @@ public class CameraUIHandler : MonoBehaviour
             image.enabled = showAspect;
         
         indicator.GetComponent<Image>().enabled = showAspect;
-        Debug.Log(indicator.name + " - " + indicator.GetComponent<Image>().enabled);
         remainingReels.enabled = showAspect;
         polaroid.SetActive(!showAspect);
     }
@@ -45,9 +48,11 @@ public class CameraUIHandler : MonoBehaviour
         remainingReels.text = newRemainingReels.ToString();
     }
 
-    internal void ActualizeLastPhoto(Texture2D tex)
+    internal void ActualizeTopPhoto(Texture2D tex)
     {
         if (tex == null) return;
+
+        photoTop.color = Color.white;
 
         Sprite sprite = Sprite.Create(
             tex,
@@ -55,7 +60,24 @@ public class CameraUIHandler : MonoBehaviour
             new Vector2(0.5f, 0.5f)
         );
 
-        photo.sprite = sprite;
+        photoTop.sprite = sprite;
+    }
+
+    internal void ActualizeBottomPhoto(Texture2D tex)
+    {
+        if (tex == null) return;
+
+        photoBottom.color = Color.white;
+
+        Sprite sprite = Sprite.Create(
+            tex,
+            new Rect(0, 0, tex.width, tex.height),
+            new Vector2(0.5f, 0.5f)
+        );
+
+        photoBottom.sprite = sprite;
+
+        StartCoroutine(FadeOutTopPhoto());
     }
 
     internal void SetIndicatorPosition(int modeIndex)
@@ -86,5 +108,22 @@ public class CameraUIHandler : MonoBehaviour
         }
 
         indicatorRT.anchoredPosition = targetPos;
+    }
+
+    private IEnumerator FadeOutTopPhoto()
+    {
+        float t = 0f;
+
+        while(t < duration)
+        {
+            t += Time.deltaTime;
+            float alpha = 1f - (t / duration);
+
+            Color c = photoTop.color;
+            c.a = alpha;
+            photoTop.color = c;
+
+            yield return null;
+        }
     }
 }

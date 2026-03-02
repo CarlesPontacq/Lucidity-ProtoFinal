@@ -25,6 +25,10 @@ public class PauseMenuManager : MonoBehaviour
     {
         playerInput.onPause += TogglePause;
 
+    }
+
+    private void Start()
+    {
         returnToMainMenuButton.onClick.AddListener(SceneController.Instance.LoadMainMenuScene);
     }
 

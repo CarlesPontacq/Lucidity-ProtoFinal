@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DocumentationMode documentationMode;
     [SerializeField] private ReportSheetOverlayUI reportSheet;
     [SerializeField] private ItemInfoOverlay itemInfoOverlay;
+    [SerializeField] private GameObject handsWithCamera;
 
     [Header("Death Safety")]
     [SerializeField] private float deathCooldown = 0.35f;
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
         cameraRotation.SetControlEnabled(true);
         SetPlayerControlEnabled(true);
         finishedLoops = false;
+        handsWithCamera.SetActive(false);
     }
 
     private void SetUpCharacterOnNewScene()
@@ -141,6 +143,8 @@ public class GameManager : MonoBehaviour
 
         if (cameraManager != null)
             cameraManager.SetStartingCameraMode();
+
+        handsWithCamera.SetActive(true);
     }
 
     public void ReportSheetGrabbed(ItemData itemData)
@@ -161,6 +165,11 @@ public class GameManager : MonoBehaviour
 
         SetPlayerControlEnabled(false);
         cameraRotation.SetControlEnabled(false);
+    }
+
+    public void SetHandsWithCameraVisibility(bool visibility)
+    {
+        handsWithCamera.SetActive(visibility);
     }
 
     // ===============================
@@ -219,7 +228,7 @@ public class GameManager : MonoBehaviour
         isDying = false;
     }
 
-    private void SetPlayerControlEnabled(bool enabled)
+    public void SetPlayerControlEnabled(bool enabled)
     {
         if (disableOnDeath == null) return;
 

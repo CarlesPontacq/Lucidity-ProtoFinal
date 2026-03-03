@@ -27,6 +27,7 @@ public class StunMode : CameraMode
     protected override void OnActivated()
     {
         stunCamera = GetComponent<Camera>();
+        ui.ShowStunCameraEffect(true);
         base.OnActivated();
     }
 
@@ -90,5 +91,6 @@ public class StunMode : CameraMode
             StopCoroutine(flashCoroutine);
 
         ui.ShowCameraFlash(false);
+        ui.ShowStunCameraEffect(false);
     }
 }

@@ -13,6 +13,8 @@ public class CameraUIHandler : MonoBehaviour
     [SerializeField] private Image cameraFlash;
     [SerializeField] private Image photoTop;
     [SerializeField] private Image photoBottom;
+    [SerializeField] private Image stunCameraEffect;
+    [SerializeField] private Image cameraUIIndicator;
     [SerializeField] private GameObject polaroid;
     [SerializeField] private TextMeshProUGUI remainingReels;
     [SerializeField] private List<Image> cameraAspectBorder;
@@ -36,6 +38,7 @@ public class CameraUIHandler : MonoBehaviour
         indicator.GetComponent<Image>().enabled = showAspect;
         remainingReels.enabled = showAspect;
         polaroid.SetActive(!showAspect);
+        cameraUIIndicator.enabled = showAspect;
     }
 
     internal void ShowCameraFlash(bool showAspect)
@@ -125,5 +128,10 @@ public class CameraUIHandler : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    internal void ShowStunCameraEffect(bool showEffect)
+    {
+        stunCameraEffect.enabled = showEffect;
     }
 }

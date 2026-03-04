@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4329217743425814012}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RegularLamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,11 +43,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 791206300102417113, guid: 067daa3629c3b374a9cc4c319b25ea02, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2720878598209047491, guid: 067daa3629c3b374a9cc4c319b25ea02, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2925284151768669892, guid: 067daa3629c3b374a9cc4c319b25ea02, type: 3}
       propertyPath: startTurnedOn
@@ -55,7 +55,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2940125071234386081, guid: 067daa3629c3b374a9cc4c319b25ea02, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6337933199288538188, guid: 067daa3629c3b374a9cc4c319b25ea02, type: 3}
       propertyPath: m_Name
@@ -144,10 +144,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4890367738140825479, guid: 72fa3b1ee304c7a41b343d4475752486, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8199463293375790129, guid: 72fa3b1ee304c7a41b343d4475752486, type: 3}
       propertyPath: ceilingLamp
+      value: 
+      objectReference: {fileID: 7167593418350453523}
+    - target: {fileID: 8199463293375790129, guid: 72fa3b1ee304c7a41b343d4475752486, type: 3}
+      propertyPath: switchableObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199463293375790129, guid: 72fa3b1ee304c7a41b343d4475752486, type: 3}
+      propertyPath: 'switchableObjects.Array.data[0]'
       value: 
       objectReference: {fileID: 7167593418350453523}
     - target: {fileID: 8693858521551566474, guid: 72fa3b1ee304c7a41b343d4475752486, type: 3}

@@ -29,11 +29,7 @@ public class CameraManager : MonoBehaviour
     {
         input.onCameraToggle += HandleCameraToggle;
         input.onCameraAction += HandleCameraAction;
-        //input.onSetDocumentationMode += HandleSetDocumentationMode;
-        //input.onSetUltravioletMode += HandleSetUltravioletMode;
         input.onChangeCameraMode += HandleChangeCameraMode;
-
-        //currentMode = cameraModes[0];
     }
 
     private void Update()
@@ -77,6 +73,8 @@ public class CameraManager : MonoBehaviour
             LookThroughCamera();
         else
             StopLookingThroughCamera();
+
+        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
     }
 
     private void HandleCameraAction()
@@ -85,36 +83,6 @@ public class CameraManager : MonoBehaviour
 
         PerformCameraAction();
     }
-
-    /*
-    private void HandleSetDocumentationMode()
-    {
-        if (cameraModes == null || cameraModes.Count == 0) return;
-
-        int newcurrentModeIndex = documentationModeIndex;
-
-        if (!cameraModes[newcurrentModeIndex].isUnlocked) return;
-
-        currentModeIndex = newcurrentModeIndex;
-
-        SetMode(cameraModes[currentModeIndex]);
-    }
-    */
-
-    /*
-    private void HandleSetUltravioletMode()
-    {
-        if (cameraModes == null || cameraModes.Count == 0) return;
-
-        int newcurrentModeIndex = ultravioletModeIndex;
-
-        if (!cameraModes[newcurrentModeIndex].isUnlocked) return;
-
-        currentModeIndex = newcurrentModeIndex;
-
-        SetMode(cameraModes[currentModeIndex]);
-    }
-    */
 
     private void HandleChangeCameraMode(int direction)
     {

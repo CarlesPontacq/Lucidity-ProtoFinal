@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class EnemySpawner : MonoBehaviour
 
     private GameObject currentEnemy;
     private int lastSpawnIndex = -1;
+
+    [SerializeField] private float respawnDelay = 2f;
 
     private void Start()
     {
@@ -46,6 +49,10 @@ public class EnemySpawner : MonoBehaviour
         Transform sp = spawnPoints[index];
         currentEnemy = Instantiate(enemyPrefab, sp.position, sp.rotation);
 
+        var stunner = currentEnemy.GetComponent<EnemyStunner>();
+        if (stunner != null)
+            stunner.Init(this);
+
         enemyPrefab.GetComponent<EnemyKillOnTouch>().triggered = false;
 
         Debug.Log($"[EnemySpawner] Spawned enemy at {sp.name}");
@@ -57,5 +64,17 @@ public class EnemySpawner : MonoBehaviour
             Destroy(currentEnemy);
         currentEnemy = null;
         lastSpawnIndex = -1;
+    }
+
+    public void OnEnemyCaptured()
+    {
+        StartCoroutine(RespawnRoutine());
+    }
+
+    private IEnumerator RespawnRoutine()
+    {
+        yield return new WaitForSeconds(respawnDelay);
+
+        SpawnForNewLoop();
     }
 }

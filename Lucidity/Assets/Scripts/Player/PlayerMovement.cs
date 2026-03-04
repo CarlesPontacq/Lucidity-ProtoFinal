@@ -9,9 +9,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float walkingSpeed;
     [SerializeField] private float runningSpeed;
 
+    public bool IsMoving { get; private set; }
+    public bool IsRunning { get; private set; }
+
     void FixedUpdate()
     {
         Move();
+        UpdatePublicVariables();
     }
 
     private void Move()
@@ -24,6 +28,16 @@ public class PlayerMovement : MonoBehaviour
             speed = runningSpeed;
 
         rigidbodyRef.linearVelocity = realMovementDir * speed;
+    }
+
+    private void UpdatePublicVariables()
+    {
+        Vector3 horizontalVelocity = rigidbodyRef.linearVelocity;
+        horizontalVelocity.y = 0f;
+        float currentSpeed = horizontalVelocity.magnitude;
+
+        IsMoving = currentSpeed > 0.01f;
+        IsRunning = IsMoving && currentSpeed > walkingSpeed + 0.01f;
     }
 
     public float GetWalkingSpeed()

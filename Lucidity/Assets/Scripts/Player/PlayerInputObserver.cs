@@ -27,6 +27,10 @@ public class PlayerInputObserver : MonoBehaviour
     public Action onCameraToggle;
     public Action onCameraAction;
     public Action<int> onChangeCameraMode;
+
+    [Header("Cheats")]
+    public Action onCheatNextScene;
+
     public void OnMove(InputAction.CallbackContext context)
     {
         movement = context.ReadValue<Vector2>();
@@ -90,6 +94,14 @@ public class PlayerInputObserver : MonoBehaviour
 
         int direction = scroll.y > 0 ? 1 : -1;
         onChangeCameraMode?.Invoke(direction);
+    }
+
+    public void OnCheatNextScene(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+             onCheatNextScene?.Invoke();
+        }
     }
 
     public void OnCloseItemInfo(InputAction.CallbackContext context)

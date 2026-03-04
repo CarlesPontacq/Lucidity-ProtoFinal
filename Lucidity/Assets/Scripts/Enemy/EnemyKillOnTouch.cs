@@ -4,9 +4,9 @@ public class EnemyKillOnTouch : MonoBehaviour
 {
     public bool triggered = false;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player"))
         {
             GameManager.Instance.PlayerDied();
         }

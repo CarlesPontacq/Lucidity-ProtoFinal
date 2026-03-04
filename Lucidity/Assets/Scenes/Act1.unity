@@ -2722,7 +2722,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b683c73ba492ee448560d6987473d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loopManager: {fileID: 1146919884}
   enemyPrefab: {fileID: 5533655514814115806, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
   spawnPoints:
   - {fileID: 955354088}
@@ -6284,7 +6283,7 @@ Transform:
   m_GameObject: {fileID: 955354087}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.21, y: -0.86, z: -14.876}
+  m_LocalPosition: {x: 0.94, y: -0.86, z: -9.764}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9367,6 +9366,10 @@ PrefabInstance:
       propertyPath: playerMovement
       value: 
       objectReference: {fileID: 2076784877}
+    - target: {fileID: 3052963556102865238, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 27967
+      objectReference: {fileID: 0}
     - target: {fileID: 3463732054080317445, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: m_Name
       value: CameraHolder
@@ -9415,6 +9418,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 1423677012}
+    - target: {fileID: 7171153268978117065, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 7255
+      objectReference: {fileID: 0}
     - target: {fileID: 7177479522922832892, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: flashImage
       value: 
@@ -9507,6 +9514,10 @@ PrefabInstance:
       propertyPath: 'indicatorPositions.Array.data[2]'
       value: 
       objectReference: {fileID: 1233527176}
+    - target: {fileID: 9021954717483914808, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 7487
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

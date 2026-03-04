@@ -3,10 +3,20 @@ using UnityEngine;
 public class PlayerDeathOnEnemyTouch : MonoBehaviour
 {
     [SerializeField] private string enemyTag = "Enemy";
-    [SerializeField] private bool useTrigger = true;   
-    [SerializeField] private bool useControllerHit = true; 
+    [SerializeField] private bool useTrigger = true;
+    [SerializeField] private bool useControllerHit = true;
 
     private bool triggered;
+
+    public void ResetDeathTrigger()
+    {
+        triggered = false;
+    }
+
+    private void OnEnable()
+    {
+        triggered = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,6 +34,7 @@ public class PlayerDeathOnEnemyTouch : MonoBehaviour
     private void TryKill(Collider other)
     {
         if (triggered) return;
+        if (other == null) return;
         if (!other.CompareTag(enemyTag)) return;
 
         triggered = true;

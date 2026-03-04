@@ -22,7 +22,6 @@ public class LoopManager : MonoBehaviour
 
     [SerializeField] private EnemySpawner enemySpawner;
 
-
     private float nextAllowedTime = 0f;
 
     private void Start()

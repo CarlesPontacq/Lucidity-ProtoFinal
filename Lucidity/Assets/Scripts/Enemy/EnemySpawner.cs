@@ -1,69 +1,56 @@
-using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("Refs")]
-    [SerializeField] private LoopManager loopManager;     
     [SerializeField] private GameObject enemyPrefab;
-
-    [Header("Spawn Points")]
-    [SerializeField] private List<Transform> spawnPoints = new();
+    [SerializeField] private Transform[] spawnPoints;
 
     private GameObject currentEnemy;
-    private int lastSpawnIndex = -1;
 
     [SerializeField] private float respawnDelay = 2f;
-
-    private void Start()
-    {
-        SpawnForNewLoop(); 
-    }
-
     public void SpawnForNewLoop()
     {
-        if (enemyPrefab == null)
+        int currentLoop = GameManager.Instance.GetCurrentLoopIndex();
+
+        if (currentLoop <= 0)
         {
-            Debug.LogWarning("[EnemySpawner] enemyPrefab es null.");
+            ClearEnemy();
+            Debug.Log("[EnemySpawner] Loop 0 -> no enemy");
             return;
         }
 
-        if (spawnPoints == null || spawnPoints.Count == 0)
-        {
-            Debug.LogWarning("[EnemySpawner] No hay spawnPoints.");
+        SpawnEnemy();
+    }
+
+    private void SpawnEnemy()
+    {
+        ClearEnemy();
+
+        if (enemyPrefab == null || spawnPoints.Length == 0)
             return;
-        }
 
-        if (currentEnemy != null)
-            Destroy(currentEnemy);
+        int index = Random.Range(0, spawnPoints.Length);
+        Transform point = spawnPoints[index];
 
-        int index = Random.Range(0, spawnPoints.Count);
-        if (spawnPoints.Count > 1)
-        {
-            while (index == lastSpawnIndex)
-                index = Random.Range(0, spawnPoints.Count);
-        }
-        lastSpawnIndex = index;
-
-        Transform sp = spawnPoints[index];
-        currentEnemy = Instantiate(enemyPrefab, sp.position, sp.rotation);
+        currentEnemy = Instantiate(enemyPrefab, point.position, point.rotation);
 
         var stunner = currentEnemy.GetComponent<EnemyStunner>();
         if (stunner != null)
             stunner.Init(this);
-
         enemyPrefab.GetComponent<EnemyKillOnTouch>().triggered = false;
 
-        Debug.Log($"[EnemySpawner] Spawned enemy at {sp.name}");
+        Debug.Log("[EnemySpawner] Spawned enemy at " + point.name);
     }
 
-    public void ClearEnemy()
+    private void ClearEnemy()
     {
         if (currentEnemy != null)
+        {
             Destroy(currentEnemy);
-        currentEnemy = null;
-        lastSpawnIndex = -1;
+            currentEnemy = null;
+        }
     }
 
     public void OnEnemyCaptured()

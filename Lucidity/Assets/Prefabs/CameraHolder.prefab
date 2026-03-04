@@ -208,7 +208,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 11583
+    m_Bits: 27967
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -542,7 +542,7 @@ MonoBehaviour:
   isUnlocked: 1
   ui: {fileID: 8572510722767480966}
   audioHandler: {fileID: 588726753737900789}
-  globalVolumeMode: {fileID: 0}
+  globalVolumeMode: {fileID: 952838819765055643}
   flashDuration: 0.3
   cameraWithEnemy: {fileID: 7171153268978117065}
   cameraRotation: {fileID: 7795568537833020718}
@@ -680,6 +680,8 @@ MonoBehaviour:
   cameraFlash: {fileID: 0}
   photoTop: {fileID: 0}
   photoBottom: {fileID: 0}
+  stunCameraEffect: {fileID: 0}
+  cameraUIIndicator: {fileID: 0}
   polaroid: {fileID: 0}
   remainingReels: {fileID: 0}
   cameraAspectBorder:
@@ -691,7 +693,7 @@ MonoBehaviour:
   - {fileID: 0}
   indicator: {fileID: 0}
   indicatorMoveSpeed: 7
-  duration: 2
+  duration: 5
 --- !u!114 &588726753737900789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -819,7 +821,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3391
+    m_Bits: 7487
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1057,7 +1059,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3159
+    m_Bits: 7255
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

@@ -67,6 +67,8 @@ public class CameraManager : MonoBehaviour
 
     private void HandleCameraToggle()
     {
+        if(currentMode == null) return;
+
         if (ReportSheetOverlayUI.IsOpen) return;
 
         if (!lookingThroughCamera)

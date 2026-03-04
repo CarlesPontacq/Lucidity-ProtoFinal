@@ -13,10 +13,7 @@ public class PlayerLooper : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             if (GameManager.Instance.finishedLoops)
-            {
-                Debug.Log("Finished Game");
                 return;
-            }
 
             GameManager.Instance.OnExitDoorCrossed();
             SetPlayerLoopPositionPosition();

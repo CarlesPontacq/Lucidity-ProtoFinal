@@ -105,22 +105,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
         int expected = anomalyManager.GetExpectedAnomalies();
         bool correct = (guess == expected);
 
-        if (reportState != null)
-            reportState.Submit(correct);
-
-        if (exitDoor != null)
-            exitDoor.Unlock();
-
-        if (exitBlocker != null)
-            exitBlocker.UnlockPassage();
-
-        if (exitLamp == null)
-            exitLamp = FindAnyObjectByType<ExitLightEmissionMapSwitcher>();
-
-        if (exitLamp != null)
-            exitLamp.SetCanPass(true);
-        else
-            Debug.LogWarning("[UI] exitLamp NO encontrada/asignada. No puedo poner verde.");
+        UnlockNextLoop(correct);
 
         if (correct)
         {
@@ -135,6 +120,26 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (closeRoutine != null) StopCoroutine(closeRoutine);
         closeRoutine = StartCoroutine(CloseAfterSecondsRealtime(closeDelaySeconds));
+    }
+
+    public void UnlockNextLoop(bool correctSubmission)
+    {
+        if (reportState != null)
+            reportState.Submit(correctSubmission);
+
+        if (exitDoor != null)
+            exitDoor.Unlock();
+
+        if (exitBlocker != null)
+            exitBlocker.UnlockPassage();
+
+        if (exitLamp == null)
+            exitLamp = FindAnyObjectByType<ExitLightEmissionMapSwitcher>();
+
+        if (exitLamp != null)
+            exitLamp.SetCanPass(true);
+        else
+            Debug.LogWarning("[UI] exitLamp NO encontrada/asignada. No puedo poner verde.");
     }
 
     private System.Collections.IEnumerator CloseAfterSecondsRealtime(float seconds)

@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour
     // ===============================
 
     public int GetCurrentLoopIndex() => currentLoop;
+    public void SetCurrentLoopIndex(int newIndex) => currentLoop = newIndex;
 
     public void AddLoopToCount()
     {
@@ -178,6 +179,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDied()
     {
+        if (CheatsManager.Instance != null && CheatsManager.Instance.currentlyImmortal) return;
         if (isDying) return;
         if (Time.time < nextAllowedDeathTime) return;
 

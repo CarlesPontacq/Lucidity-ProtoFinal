@@ -5147,6 +5147,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reportSheetScript: {fileID: 1758223929}
+  nextSceneKey: 110
+  openDoorKey: 111
+  immortalityKey: 105
   currentlyImmortal: 0
 --- !u!43 &778352852
 Mesh:
@@ -9360,6 +9363,10 @@ PrefabInstance:
       propertyPath: playerRigidbodyRef
       value: 
       objectReference: {fileID: 2076784869}
+    - target: {fileID: 3040421795101654195, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 2076784877}
     - target: {fileID: 3463732054080317445, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: m_Name
       value: CameraHolder

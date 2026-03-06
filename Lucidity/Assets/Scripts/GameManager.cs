@@ -224,6 +224,7 @@ public class GameManager : MonoBehaviour
 
         SetPlayerBodyVisible(true);
         cameraRotation.SetControlEnabled(true);
+        cameraRotation.ResetOrientation();
 
         SetPlayerControlEnabled(true);
 

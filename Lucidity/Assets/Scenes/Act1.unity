@@ -1173,6 +1173,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anomaly
       objectReference: {fileID: 0}
+    - target: {fileID: 7316381434662388037, guid: 913fe3651b4936a49b6a052d74f46785, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5243,6 +5247,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1120138022}
   - {fileID: 509518466}
   - {fileID: 635592693}
   - {fileID: 1912787582}
@@ -7425,6 +7430,59 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8764339348882767373, guid: 78526c0d765ddf347964898e04c72336, type: 3}
   m_PrefabInstance: {fileID: 1487040878}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1120138021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1120138022}
+  - component: {fileID: 1120138023}
+  m_Layer: 0
+  m_Name: Ano LightColor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1120138022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120138021}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11.060933, y: 1.2606763, z: 15.904943}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 783111351}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1120138023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120138021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c679b5582b8024693aa266ae083317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anomalyId: 18
+  normalObjectOverride: {fileID: 1816377514}
+  directionalLight: {fileID: 1844133219}
+  windowRenderer: {fileID: 1816377518}
+  windowMaterialIndex: 0
+  anomalyLightColor: {r: 1, g: 0, b: 0, a: 1}
+  anomalyWindowBaseColor: {r: 1, g: 0, b: 0, a: 1}
+  anomalyWindowEmissionColor: {r: 1, g: 0, b: 0, a: 1}
+  emissionIntensity: 0.6
 --- !u!1001 &1133591166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9669,10 +9727,14 @@ MonoBehaviour:
     zoneId: 3
     prefab: {fileID: 350739362}
     anchor: {fileID: 253131700}
-  - id: 16
+  - id: 17
     zoneId: 3
     prefab: {fileID: 1927312710}
     anchor: {fileID: 1708717279}
+  - id: 18
+    zoneId: 0
+    prefab: {fileID: 1120138023}
+    anchor: {fileID: 1120138022}
   anomaliesPerLoop: 15
   minAnomaliesPerLoop: 15
   maxAnomaliesPerLoop: 15
@@ -12509,9 +12571,24 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8960967133655252931, guid: e8d5c6424c93df04f9e2a194fa80c427, type: 3}
   m_PrefabInstance: {fileID: 1798492439}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1816377514 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2571706839764040794, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+  m_PrefabInstance: {fileID: 1720269723}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1816377518 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4665772858263109613, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+  m_PrefabInstance: {fileID: 1720269723}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1844133217 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6840284020075809177, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+  m_PrefabInstance: {fileID: 1720269723}
+  m_PrefabAsset: {fileID: 0}
+--- !u!108 &1844133219 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 1475172709801483857, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
   m_PrefabInstance: {fileID: 1720269723}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1850000101

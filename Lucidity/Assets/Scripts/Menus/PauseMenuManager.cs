@@ -61,8 +61,6 @@ public class PauseMenuManager : MonoBehaviour
         if (GameManager.Instance.isDying) return;
         if(isOptionsPanelOpen) return;
 
-        Debug.Log(isOptionsPanelOpen);
-
         openPausePanel = value;
         IsOpen = openPausePanel;
 

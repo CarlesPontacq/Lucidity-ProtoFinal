@@ -32,12 +32,25 @@ public class SceneController : MonoBehaviour
     public void LoadNextScene()
     {
         Debug.Log(SceneManager.sceneCountInBuildSettings);
-        if (currentScene == SceneManager.sceneCountInBuildSettings || currentScene < 0) return;
+        if (currentScene >= SceneManager.sceneCountInBuildSettings || currentScene < 0) return;
 
 
         currentScene = SceneManager.GetActiveScene().buildIndex;
 
         int nextScene = ++currentScene;
+        SceneManager.LoadScene(nextScene);
+    }
+
+    public void LoadPrevScene()
+    {
+        Debug.Log(SceneManager.sceneCountInBuildSettings);
+        if (currentScene > SceneManager.sceneCountInBuildSettings || currentScene <= 0) return;
+
+
+        currentScene = SceneManager.GetActiveScene().buildIndex;
+
+        int nextScene = --currentScene;
+
         SceneManager.LoadScene(nextScene);
     }
 

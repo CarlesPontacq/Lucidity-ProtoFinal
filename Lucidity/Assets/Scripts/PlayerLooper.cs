@@ -15,7 +15,6 @@ public class PlayerLooper : MonoBehaviour
             if (GameManager.Instance.finishedLoops)
                 return;
 
-            GameManager.Instance.OnExitDoorCrossed();
             SetPlayerLoopPositionPosition();
         }
     }
@@ -30,4 +29,10 @@ public class PlayerLooper : MonoBehaviour
 
         GameManager.Instance.OnExitDoorCrossed();
     }
+
+    public void PlayerLoopCheat()
+    {
+        SetPlayerLoopPositionPosition();
+    }
+
 }

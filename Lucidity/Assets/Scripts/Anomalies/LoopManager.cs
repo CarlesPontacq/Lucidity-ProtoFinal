@@ -91,9 +91,6 @@ public class LoopManager : MonoBehaviour
         if (anomalyManager != null)
             anomalyManager.ClearSpawned();
 
-        if (enemySpawner != null) //<- Habra que quitarlo despues
-            enemySpawner.SpawnForNewLoop();
-
         if (exitDoor != null)
         {
             exitDoor.Unlock();        

@@ -6847,6 +6847,9 @@ MonoBehaviour:
   - zoneId: 2
     doorToUnlock: {fileID: 1720269724}
     unlockLoopNumber: 8
+  - zoneId: 3
+    doorToUnlock: {fileID: 0}
+    unlockLoopNumber: 5
 --- !u!4 &1055394487
 Transform:
   m_ObjectHideFlags: 0
@@ -9627,15 +9630,15 @@ MonoBehaviour:
     prefab: {fileID: 1788415392}
     anchor: {fileID: 282953409}
   - id: 06
-    zoneId: 1
+    zoneId: 3
     prefab: {fileID: 1850000103}
     anchor: {fileID: 842261095}
   - id: 07
-    zoneId: 1
+    zoneId: 3
     prefab: {fileID: 2088034138}
     anchor: {fileID: 2075626280}
   - id: 08
-    zoneId: 1
+    zoneId: 3
     prefab: {fileID: 265716697}
     anchor: {fileID: 1238858844}
   - id: 10
@@ -9655,7 +9658,7 @@ MonoBehaviour:
     prefab: {fileID: 1792736984}
     anchor: {fileID: 1977384097}
   - id: 14
-    zoneId: 1
+    zoneId: 3
     prefab: {fileID: 265716697}
     anchor: {fileID: 1238858844}
   - id: 15
@@ -9663,12 +9666,16 @@ MonoBehaviour:
     prefab: {fileID: 969029259552115660, guid: 043cfb24246c04a47bdab3d64c9ca6ae, type: 3}
     anchor: {fileID: 1844133217}
   - id: 16
-    zoneId: 1
+    zoneId: 3
     prefab: {fileID: 350739362}
     anchor: {fileID: 253131700}
-  anomaliesPerLoop: 2
-  minAnomaliesPerLoop: 2
-  maxAnomaliesPerLoop: 3
+  - id: 16
+    zoneId: 3
+    prefab: {fileID: 1927312710}
+    anchor: {fileID: 1708717279}
+  anomaliesPerLoop: 15
+  minAnomaliesPerLoop: 15
+  maxAnomaliesPerLoop: 15
   autoStartOnBegin: 0
 --- !u!4 &1423677013
 Transform:
@@ -12922,6 +12929,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalRoot: {fileID: 1084099378}
   anomalyRoot: {fileID: 1737502419}
+--- !u!114 &1927312710 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 819503258590751709, guid: 28d09ecd3f581e64e968817cc033a325, type: 3}
+  m_PrefabInstance: {fileID: 1393598575}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc25579602d24ce4d84648cea7351946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1928008041 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7795568537833020718, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}

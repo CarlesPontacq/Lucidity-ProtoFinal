@@ -49,4 +49,10 @@ public class PlayerMovement : MonoBehaviour
     {
         return runningSpeed;
     }
+
+    private void OnDisable()
+    {
+        IsMoving = false;
+        IsRunning = false;
+    }
 }

@@ -7,7 +7,6 @@ public class LightColorAppearAnomaly : Anomaly
 
     [Header("Window Renderer")]
     [SerializeField] private Renderer windowRenderer;
-    [Tooltip("Índice del material del CRISTAL dentro de windowRenderer.materials")]
     [SerializeField] private int windowMaterialIndex = 0;
 
     [Header("Colors")]
@@ -70,7 +69,6 @@ public class LightColorAppearAnomaly : Anomaly
 
     protected override void OnActivate()
     {
-
         if (directionalLight != null)
             directionalLight.color = anomalyLightColor;
 

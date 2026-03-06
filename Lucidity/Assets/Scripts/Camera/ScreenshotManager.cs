@@ -21,7 +21,8 @@ public class ScreenshotManager : MonoBehaviour
 
     private IEnumerator CaptureRoutine(Camera sourceCamera, bool mainPhoto)
     {
-        yield return new WaitForEndOfFrame();
+        if(mainPhoto)
+            yield return new WaitForEndOfFrame();
 
         sourceCamera.targetTexture = renderTexture;
 

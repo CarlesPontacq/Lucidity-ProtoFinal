@@ -5048,11 +5048,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083f7de178da74346b1b0501bff7a980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reportSheetScript: {fileID: 1758223929}
   nextSceneKey: 110
+  prevSceneKey: 112
   openDoorKey: 111
   immortalityKey: 105
+  nextLoopKey: 108
+  restartLoopsKey: 114
+  unlockDoorsKey: 52
+  goToLastLoopKey: 56
   currentlyImmortal: 0
+  unlockZoneLoop: 3
+  lasthLoop: 7
 --- !u!43 &778352852
 Mesh:
   m_ObjectHideFlags: 0
@@ -8779,6 +8785,10 @@ PrefabInstance:
       propertyPath: reportState
       value: 
       objectReference: {fileID: 1758223928}
+    - target: {fileID: 7917818286819976218, guid: 110717624eb38d7479b3f743d610bcb9, type: 3}
+      propertyPath: autoOpenAnimated
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

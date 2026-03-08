@@ -3396,6 +3396,53 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &468673693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 468673694}
+  - component: {fileID: 468673695}
+  m_Layer: 0
+  m_Name: StunModeUnlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &468673694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468673693}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &468673695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468673693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15f7bc2759d7a514e897ac826675d768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunModeObjectUnlockerPrefab: {fileID: 1822227943412310092, guid: 76f26161496fadd4c9273ee515bf6a70, type: 3}
+  loopManager: {fileID: 1146919884}
+  numberLoopToSapwnObject: 4
 --- !u!43 &469811169
 Mesh:
   m_ObjectHideFlags: 0
@@ -4832,11 +4879,6 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5720417896909696437, guid: 1f6623d6a47967249bc758f7da53b144, type: 3}
   m_PrefabInstance: {fileID: 743415962}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &743426064 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 952838819765055643, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
-  m_PrefabInstance: {fileID: 1415356121}
   m_PrefabAsset: {fileID: 0}
 --- !u!43 &749954223
 Mesh:
@@ -9381,9 +9423,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2076784865}
     - target: {fileID: 7895224099656843609, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
-      propertyPath: globalVolumeMode
-      value: 
-      objectReference: {fileID: 743426064}
+      propertyPath: isUnlocked
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8172359253978911886, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: input
       value: 
@@ -12012,18 +12054,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7127329722518084569, guid: ea54c0b5e14490a4fb75aef37776ce4f, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7136376132946583277, guid: ea54c0b5e14490a4fb75aef37776ce4f, type: 3}
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 2076784865}
-    - target: {fileID: 7136376132946583277, guid: ea54c0b5e14490a4fb75aef37776ce4f, type: 3}
-      propertyPath: otherCanvasToHide.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7136376132946583277, guid: ea54c0b5e14490a4fb75aef37776ce4f, type: 3}
       propertyPath: 'otherCanvasToHide.Array.data[0]'
       value: 
@@ -12032,17 +12066,9 @@ PrefabInstance:
       propertyPath: 'otherCanvasToHide.Array.data[1]'
       value: 
       objectReference: {fileID: 801091241}
-    - target: {fileID: 7136376132946583277, guid: ea54c0b5e14490a4fb75aef37776ce4f, type: 3}
-      propertyPath: 'otherCanvasToHide.Array.data[2]'
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 7139963631934449011, guid: ea54c0b5e14490a4fb75aef37776ce4f, type: 3}
       propertyPath: m_Name
       value: ItemInfoOverlay
-      objectReference: {fileID: 0}
-    - target: {fileID: 7139963631934449011, guid: ea54c0b5e14490a4fb75aef37776ce4f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12207,6 +12233,7 @@ MonoBehaviour:
   playerSpawnTag: PlayerSpawn
   cameraManager: {fileID: 1415356122}
   documentationMode: {fileID: 1928008043}
+  stunMode: {fileID: 1763816618}
   reportSheet: {fileID: 1758223929}
   itemInfoOverlay: {fileID: 630035896}
   handsWithCamera: {fileID: 1415356123}
@@ -12275,6 +12302,17 @@ MonoBehaviour:
           m_Key: 
         m_FallbackState: 0
         m_WaitForCompletion: 0
+--- !u!114 &1763816618 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7895224099656843609, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+  m_PrefabInstance: {fileID: 1415356121}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ab201926bdbfdd40a084647cc41169a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1788415390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14317,3 +14355,4 @@ SceneRoots:
   - {fileID: 20243283}
   - {fileID: 1736939423}
   - {fileID: 245419065}
+  - {fileID: 468673694}

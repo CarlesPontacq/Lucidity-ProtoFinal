@@ -32,7 +32,7 @@ public class PlayerLooper : MonoBehaviour
 
     public void PlayerLoopCheat()
     {
-        SetPlayerLoopPositionPosition();
+        GameManager.Instance.OnExitDoorCrossed();
     }
 
 }

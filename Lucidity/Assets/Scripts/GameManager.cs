@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [Header("Pickups / Systems")]
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private DocumentationMode documentationMode;
+    [SerializeField] private StunMode stunMode;
     [SerializeField] private ReportSheetOverlayUI reportSheet;
     [SerializeField] private ItemInfoOverlay itemInfoOverlay;
     [SerializeField] private GameObject handsWithCamera;
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
     private float nextAllowedDeathTime = 0f;
 
     private bool cameraGrabbed = false;
+    private bool stunModeUnlockerGrabbed = false;
     private bool reportSheetGrabbed = false;
     private bool gunGrabbed = false;
     public bool finishedLoops = false;
@@ -128,9 +130,7 @@ public class GameManager : MonoBehaviour
             loopManager.StartNextLoop();
     }
 
-    // ===============================
-    // PICKUPS
-    // ===============================
+    #region Pickups
 
     public void CameraGrabbed(ItemData itemData)
     {
@@ -168,10 +168,23 @@ public class GameManager : MonoBehaviour
         cameraRotation.SetControlEnabled(false);
     }
 
+    public void StunModeUnlockerGrabbed(ItemData itemData)
+    {
+        stunModeUnlockerGrabbed = true;
+
+        if (stunMode != null)
+            stunMode.isUnlocked = true;
+
+        if (itemInfoOverlay != null)
+            itemInfoOverlay.OpenInfo(itemData);
+    }
+
     public void SetHandsWithCameraVisibility(bool visibility)
     {
         handsWithCamera.SetActive(visibility);
     }
+
+    #endregion
 
     // ===============================
     // DEATH SYSTEM

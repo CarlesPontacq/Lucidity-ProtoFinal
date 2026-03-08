@@ -3,12 +3,17 @@ using UnityEngine;
 
 public class DoorInteraction : ObjectInteraction
 {
-    [SerializeField] Transform pivot;
+    [SerializeField] private Transform pivot;
     [SerializeField] private bool isLocked = true;
 
     [Header("Door Rotation")]
     public float openAngle = 90f;
     public float openSpeed = 5f;
+
+    [Header("Auto Open On Unlock")]
+    [SerializeField] private bool autoOpenWhenUnlocked = true;
+    [SerializeField] private bool autoOpenAnimated = false;
+    [SerializeField] private float defaultOpenDirection = 1f; 
 
     [Header("Exit Door (optional)")]
     [SerializeField] private bool requiresReportToOpen = false;
@@ -16,11 +21,12 @@ public class DoorInteraction : ObjectInteraction
 
     private bool isOpen = false;
     private bool hasToApplyRotation = false;
+    private bool hasStarted = false;
 
     private Quaternion closedLocalRotation;
     private Quaternion targetLocalRotation;
 
-    Vector3 soundPosition;
+    private Vector3 soundPosition;
 
     protected override void Start()
     {
@@ -29,9 +35,12 @@ public class DoorInteraction : ObjectInteraction
         closedLocalRotation = pivot.localRotation;
         targetLocalRotation = closedLocalRotation;
 
+        isOpen = false;
+        hasToApplyRotation = false;
         pivot.localRotation = closedLocalRotation;
 
         soundPosition = transform.position;
+        hasStarted = true;
     }
 
     protected override void Update()
@@ -54,8 +63,21 @@ public class DoorInteraction : ObjectInteraction
             Debug.Log("Puerta bloqueada");
     }
 
-    public void Unlock() => isLocked = false;
-    public void Lock() => isLocked = true;
+    public void Unlock()
+    {
+        bool wasLocked = isLocked;
+        isLocked = false;
+
+        if (hasStarted && wasLocked && autoOpenWhenUnlocked)
+        {
+            Open(autoOpenAnimated);
+        }
+    }
+
+    public void Lock()
+    {
+        isLocked = true;
+    }
 
     public void LockExitDoor()
     {
@@ -65,39 +87,24 @@ public class DoorInteraction : ObjectInteraction
         Close(false);
     }
 
-    void Toggle()
+    public void Open(bool animate)
     {
-        isOpen = !isOpen;
+        if (isOpen) return;
 
-        if (isOpen)
+        isOpen = true;
+
+        float direction = GetOpenDirection();
+        targetLocalRotation = closedLocalRotation * Quaternion.Euler(0f, openAngle * direction, 0f);
+
+        if (animate)
         {
-            Vector3 doorToPlayer = (GameManager.PlayerRef.transform.position - pivot.position).normalized;
-
-            float side = Vector3.Cross(pivot.right, doorToPlayer).y;
-            float direction = side > 0 ? -1f : 1f;
-
-            targetLocalRotation = closedLocalRotation * Quaternion.Euler(0f, openAngle * direction, 0f);
+            hasToApplyRotation = true;
             SFXManager.Instance.PlaySpatialSound("openDoor", soundPosition, 1f);
         }
         else
         {
-            targetLocalRotation = closedLocalRotation;
-            SFXManager.Instance.PlaySpatialSound("closeDoor", soundPosition, 1f);
-        }
-
-        hasToApplyRotation = true;
-    }
-
-    void ApplyRotation()
-    {
-        if (!hasToApplyRotation) return;
-
-        pivot.localRotation = Quaternion.Lerp(pivot.localRotation, targetLocalRotation, Time.deltaTime * openSpeed);
-
-        if (Quaternion.Angle(pivot.localRotation, targetLocalRotation) < 0.1f)
-        {
-            pivot.localRotation = targetLocalRotation;
             hasToApplyRotation = false;
+            pivot.localRotation = targetLocalRotation;
         }
     }
 
@@ -117,6 +124,46 @@ public class DoorInteraction : ObjectInteraction
         {
             hasToApplyRotation = false;
             pivot.localRotation = closedLocalRotation;
+        }
+    }
+
+    private void Toggle()
+    {
+        if (isOpen)
+        {
+            Close(true);
+        }
+        else
+        {
+            Open(true);
+        }
+    }
+
+    private float GetOpenDirection()
+    {
+        if (GameManager.PlayerRef == null)
+            return Mathf.Sign(defaultOpenDirection);
+
+        Vector3 doorToPlayer = (GameManager.PlayerRef.transform.position - pivot.position).normalized;
+        float side = Vector3.Cross(pivot.right, doorToPlayer).y;
+
+        return side > 0 ? -1f : 1f;
+    }
+
+    private void ApplyRotation()
+    {
+        if (!hasToApplyRotation) return;
+
+        pivot.localRotation = Quaternion.Lerp(
+            pivot.localRotation,
+            targetLocalRotation,
+            Time.deltaTime * openSpeed
+        );
+
+        if (Quaternion.Angle(pivot.localRotation, targetLocalRotation) < 0.1f)
+        {
+            pivot.localRotation = targetLocalRotation;
+            hasToApplyRotation = false;
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
 
 public class CameraManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class CameraManager : MonoBehaviour
 
     [Header("State")]
     public bool lookingThroughCamera = false;
+    [SerializeField] private CameraPostProcessToggle cameraPostProcessToggle;
+    [SerializeField] private CameraRotation cameraRotation;
 
     [Header("UI")]
     public CameraUIHandler ui;
@@ -30,6 +33,8 @@ public class CameraManager : MonoBehaviour
         input.onCameraToggle += HandleCameraToggle;
         input.onCameraAction += HandleCameraAction;
         input.onChangeCameraMode += HandleChangeCameraMode;
+
+        //cameraPostProcessToggle.ToggleCameraPostProcessing(lookingThroughCamera);
     }
 
     private void Update()
@@ -59,6 +64,8 @@ public class CameraManager : MonoBehaviour
         
         DeactivateMode();
         
+        GameManager.Instance.SetPlayerControlEnabled(true);
+        cameraRotation.SetControlEnabled(true);
         currentMode = mode;
         currentMode.ActivateMode();
 
@@ -75,6 +82,8 @@ public class CameraManager : MonoBehaviour
             LookThroughCamera();
         else
             StopLookingThroughCamera();
+
+        //cameraPostProcessToggle.ToggleCameraPostProcessing(lookingThroughCamera);
 
         GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
     }

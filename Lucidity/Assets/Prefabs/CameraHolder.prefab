@@ -429,7 +429,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3314024275106931295}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 4
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -726,6 +726,7 @@ GameObject:
   - component: {fileID: 588726753737900789}
   - component: {fileID: 6033562226488872808}
   - component: {fileID: 7177479522922832892}
+  - component: {fileID: 5275213290345335608}
   m_Layer: 0
   m_Name: CameraHolder
   m_TagString: Untagged
@@ -798,6 +799,8 @@ MonoBehaviour:
   - {fileID: 6177127620467473891}
   - {fileID: 7895224099656843609}
   lookingThroughCamera: 0
+  cameraPostProcessToggle: {fileID: 5275213290345335608}
+  cameraRotation: {fileID: 7795568537833020718}
   ui: {fileID: 8572510722767480966}
   input: {fileID: 0}
   scrollCooldown: 0.15
@@ -882,6 +885,20 @@ MonoBehaviour:
   flashIn: 0.08
   flashHold: 0.05
   flashOut: 0.12
+--- !u!114 &5275213290345335608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463732054080317445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b0822954f465564394b3c00a45cff1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 9021954717483914808}
+  armsCamera: {fileID: 6652565964579843952}
 --- !u!1 &3804164579405143643
 GameObject:
   m_ObjectHideFlags: 0

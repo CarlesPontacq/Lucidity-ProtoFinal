@@ -43,9 +43,6 @@ public class StunMode : CameraMode
 
     private IEnumerator StunFlashCoroutine()
     {
-        Texture2D withEnemy = null;
-        Texture2D withoutEnemy = null;
-
         cameraRotation.SetControlEnabled(false);
         GameManager.Instance.SetPlayerControlEnabled(false);
 

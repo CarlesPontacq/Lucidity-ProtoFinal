@@ -2622,7 +2622,7 @@ MonoBehaviour:
   - {fileID: 1401786736}
   - {fileID: 2088160694}
   - {fileID: 1889958623}
-  respawnDelay: 5
+  respawnDelay: 10
 --- !u!114 &318257581 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4325275888344775858, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
@@ -5089,14 +5089,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083f7de178da74346b1b0501bff7a980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneKey: 110
-  prevSceneKey: 112
-  openDoorKey: 111
-  immortalityKey: 105
-  nextLoopKey: 108
-  restartLoopsKey: 114
-  unlockDoorsKey: 52
-  goToLastLoopKey: 56
+  nextSceneKey: 283
+  prevSceneKey: 282
+  openDoorKey: 284
+  immortalityKey: 285
+  nextLoopKey: 286
+  restartLoopsKey: 287
+  unlockDoorsKey: 288
+  goToLastLoopKey: 289
   currentlyImmortal: 0
   unlockZoneLoop: 3
   lasthLoop: 7
@@ -9637,7 +9637,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8572510722767480966, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: duration
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8572510722767480966, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: photoTop
@@ -9958,7 +9958,7 @@ MonoBehaviour:
   - id: 15
     zoneId: 0
     prefab: {fileID: 969029259552115660, guid: 043cfb24246c04a47bdab3d64c9ca6ae, type: 3}
-    anchor: {fileID: 1844133217}
+    anchor: {fileID: 783111351}
   - id: 16
     zoneId: 3
     prefab: {fileID: 350739362}
@@ -9972,7 +9972,7 @@ MonoBehaviour:
     prefab: {fileID: 1120138023}
     anchor: {fileID: 1120138022}
   anomaliesPerLoop: 2
-  minAnomaliesPerLoop: 3
+  minAnomaliesPerLoop: 2
   maxAnomaliesPerLoop: 3
   autoStartOnBegin: 0
 --- !u!4 &1423677013
@@ -12811,11 +12811,6 @@ GameObject:
 --- !u!23 &1816377518 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 4665772858263109613, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
-  m_PrefabInstance: {fileID: 1720269723}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1844133217 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6840284020075809177, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
   m_PrefabInstance: {fileID: 1720269723}
   m_PrefabAsset: {fileID: 0}
 --- !u!108 &1844133219 stripped

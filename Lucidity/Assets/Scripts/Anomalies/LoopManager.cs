@@ -96,6 +96,8 @@ public class LoopManager : MonoBehaviour
             exitDoor.Unlock();        
         }
 
+        if (enemySpawner != null)
+            enemySpawner.SpawnForLoop(GameManager.Instance.GetCurrentLoopIndex());
     }
 
     public void StartLoopFresh()
@@ -133,7 +135,7 @@ public class LoopManager : MonoBehaviour
             Debug.LogWarning("LoopManager: anomalyManager es null (no puedo spawnear anomalías).");
 
         if (enemySpawner != null)
-            enemySpawner.SpawnForNewLoop();
+            enemySpawner.SpawnForLoop(GameManager.Instance.GetCurrentLoopIndex());
 
         OnLoopStarted?.Invoke(GameManager.Instance.GetCurrentLoopIndex());
     }

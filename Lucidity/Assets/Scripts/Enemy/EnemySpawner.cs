@@ -3,124 +3,124 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("Prefabs / Normal Spawn")]
+    [Header("Prefab")]
     [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private Transform[] spawnPoints;
 
     [Header("Loop Rules")]
-    [SerializeField] private int firstSpawnLoop = 1;
-    [SerializeField] private int firstChaseLoop = 5;
+    [SerializeField] private int firstSpawnLoop = 1;     
+    [SerializeField] private int firstChaseLoop = 5;     
+    [SerializeField, Range(0f, 1f)] private float spawnChancePerLoop = 0.65f;
 
-    [Header("Psychological Spawn (loops 1-4)")]
-    [SerializeField] private float firstSpawnDistance = 12f;
-    [SerializeField] private float finalSpawnDistance = 4f;
-    [SerializeField] private float lateralOffset = 1.5f;
-    [SerializeField] private float vanishDelay = 1.0f;
-    [SerializeField] private float respawnDelay = 2.0f;
-
-    [Header("Ground Detection")]
+    [Header("Front Spawn")]
+    [SerializeField] private Transform forwardReference; 
     [SerializeField] private LayerMask groundMask;
+    [SerializeField] private float minSpawnDistance = 3.5f;
+    [SerializeField] private float maxSpawnDistance = 6f;
+    [SerializeField] private float lateralOffset = 1.5f;
     [SerializeField] private float groundRayHeight = 15f;
     [SerializeField] private float groundRayDistance = 50f;
-    [SerializeField] private float spawnYOffset = 0.1f;
+    [SerializeField] private float spawnYOffset = 0.05f;
 
-    [Header("Front Spawn References")]
-    [SerializeField] private Transform forwardReference;  
-    [SerializeField] private BoxCollider playableArea;     
+    [Header("Cycle Timing")]
+    [SerializeField] private float visibleTimeMin = 1.0f;
+    [SerializeField] private float visibleTimeMax = 2.0f;
+    [SerializeField] private float hiddenTimeMin = 1.2f;
+    [SerializeField] private float hiddenTimeMax = 2.5f;
 
     private GameObject currentEnemy;
-    private Coroutine psychologicalRoutine;
+    private Coroutine spawnCycleRoutine;
+    private bool enemyEnabledThisLoop = false;
+    private int currentLoopIndex = 0;
 
     public void SpawnForLoop(int loopIndex)
     {
+        currentLoopIndex = loopIndex;
+
+        StopCycle();
+        ClearEnemy();
+
         if (loopIndex < firstSpawnLoop)
         {
-            StopPsychologicalRoutine();
-            ClearEnemy();
+            enemyEnabledThisLoop = false;
             Debug.Log($"[EnemySpawner] loop {loopIndex} -> no enemy");
             return;
         }
 
-        if (loopIndex < firstChaseLoop)
+        enemyEnabledThisLoop = Random.value <= spawnChancePerLoop;
+
+        if (!enemyEnabledThisLoop)
         {
-            StopPsychologicalRoutine();
-            ClearEnemy();
-            psychologicalRoutine = StartCoroutine(PsychologicalSpawnRoutine(loopIndex));
+            Debug.Log($"[EnemySpawner] loop {loopIndex} -> enemy skipped");
             return;
         }
 
-        StopPsychologicalRoutine();
-        SpawnNormalEnemy(loopIndex);
+        spawnCycleRoutine = StartCoroutine(SpawnCycleRoutine());
     }
 
-    private IEnumerator PsychologicalSpawnRoutine(int loopIndex)
+    private IEnumerator SpawnCycleRoutine()
     {
+        while (enemyEnabledThisLoop)
+        {
+            SpawnEnemyOnce();
+
+            float visibleTime = Random.Range(visibleTimeMin, visibleTimeMax);
+            yield return new WaitForSeconds(visibleTime);
+
+            ClearEnemy();
+
+            float hiddenTime = Random.Range(hiddenTimeMin, hiddenTimeMax);
+            yield return new WaitForSeconds(hiddenTime);
+        }
+    }
+
+    private void SpawnEnemyOnce()
+    {
+        if (enemyPrefab == null)
+        {
+            Debug.LogWarning("[EnemySpawner] enemyPrefab no asignado");
+            return;
+        }
+
         Transform player = GetPlayerTransform();
         if (player == null)
-            yield break;
-
-        Vector3 firstPos = GetPointInFrontOfPlayer(player, firstSpawnDistance);
-        SpawnEnemyAt(firstPos, loopIndex, false);
-
-        yield return new WaitForSeconds(vanishDelay);
-
-        ClearEnemy();
-
-        yield return new WaitForSeconds(respawnDelay);
-
-        player = GetPlayerTransform();
-        if (player == null)
-            yield break;
-
-        float t = Mathf.InverseLerp(firstSpawnLoop, firstChaseLoop - 1, loopIndex);
-        float closerDistance = Mathf.Lerp(firstSpawnDistance, finalSpawnDistance, t);
-
-        Vector3 secondPos = GetPointInFrontOfPlayer(player, closerDistance);
-        SpawnEnemyAt(secondPos, loopIndex, false);
-    }
-
-    private void SpawnNormalEnemy(int loopIndex)
-    {
-        ClearEnemy();
-
-        if (enemyPrefab == null || spawnPoints == null || spawnPoints.Length == 0)
-        {
-            Debug.LogWarning("[EnemySpawner] Falta enemyPrefab o spawnPoints");
             return;
+
+        Vector3 spawnPos = GetPointInFrontOfPlayer(player);
+        currentEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+        // Mirar al player
+        Vector3 lookDir = player.position - currentEnemy.transform.position;
+        lookDir.y = 0f;
+        if (lookDir.sqrMagnitude > 0.001f)
+            currentEnemy.transform.rotation = Quaternion.LookRotation(lookDir);
+
+        bool shouldChase = currentLoopIndex >= firstChaseLoop;
+
+        Rigidbody rb = currentEnemy.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            if (shouldChase)
+            {
+                rb.isKinematic = false;
+                rb.useGravity = true; 
+                rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+                rb.interpolation = RigidbodyInterpolation.Interpolate;
+            }
+            else
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.useGravity = false;
+                rb.isKinematic = true;
+            }
         }
 
-        int index = Random.Range(0, spawnPoints.Length);
-        Transform point = spawnPoints[index];
-
-        Vector3 pos = point.position + Vector3.up * spawnYOffset;
-        SpawnEnemyAt(pos, loopIndex, true);
-
-        Debug.Log($"[EnemySpawner] Normal spawn at {point.name}. loop={loopIndex}");
-    }
-    private void SpawnEnemyAt(Vector3 worldPos, int loopIndex, bool shouldChase)
-    {
-        if (enemyPrefab == null) return;
-
-        ClearEnemy();
-
-        currentEnemy = Instantiate(enemyPrefab, worldPos, Quaternion.identity);
-
-        // Ajustar altura real según collider
         Collider col = currentEnemy.GetComponentInChildren<Collider>();
         if (col != null)
         {
             Vector3 pos = currentEnemy.transform.position;
-            pos.y += col.bounds.extents.y;
+            pos.y += col.bounds.extents.y + spawnYOffset;
             currentEnemy.transform.position = pos;
-        }
-
-        Transform player = GetPlayerTransform();
-        if (player != null)
-        {
-            Vector3 lookDir = player.position - currentEnemy.transform.position;
-            lookDir.y = 0f;
-            if (lookDir.sqrMagnitude > 0.001f)
-                currentEnemy.transform.rotation = Quaternion.LookRotation(lookDir);
         }
 
         EnemyFollowSteering follow = currentEnemy.GetComponent<EnemyFollowSteering>();
@@ -130,11 +130,12 @@ public class EnemySpawner : MonoBehaviour
         EnemyStunner stunner = currentEnemy.GetComponent<EnemyStunner>();
         if (stunner != null)
             stunner.Init(this);
+
+        Debug.Log($"[EnemySpawner] Spawned enemy. loop={currentLoopIndex} chase={shouldChase}");
     }
 
-    private Vector3 GetPointInFrontOfPlayer(Transform player, float distance)
+    private Vector3 GetPointInFrontOfPlayer(Transform player)
     {
-        // 1) Dirección real: cámara si existe, si no player
         Transform dirSource = forwardReference != null ? forwardReference : player;
 
         Vector3 forward = dirSource.forward;
@@ -145,28 +146,16 @@ public class EnemySpawner : MonoBehaviour
         right.y = 0f;
         right.Normalize();
 
-        float randomSide = Random.Range(-lateralOffset, lateralOffset);
+        float distance = Random.Range(minSpawnDistance, maxSpawnDistance);
+        float side = Random.Range(-lateralOffset, lateralOffset);
 
-        Vector3 flatTarget = player.position + forward * distance + right * randomSide;
-
-        // 2) Clamp dentro del área jugable
-        if (playableArea != null)
-        {
-            Bounds b = playableArea.bounds;
-
-            flatTarget.x = Mathf.Clamp(flatTarget.x, b.min.x, b.max.x);
-            flatTarget.z = Mathf.Clamp(flatTarget.z, b.min.z, b.max.z);
-        }
-
-        // 3) Buscar el suelo justo debajo de ese punto
+        Vector3 flatTarget = player.position + forward * distance + right * side;
         Vector3 rayOrigin = new Vector3(flatTarget.x, flatTarget.y + groundRayHeight, flatTarget.z);
 
         if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, groundRayDistance, groundMask, QueryTriggerInteraction.Ignore))
-        {
             return hit.point;
-        }
 
-        Debug.LogWarning($"[EnemySpawner] No encontré suelo delante del jugador. Uso fallback.");
+        // fallback
         return new Vector3(flatTarget.x, player.position.y, flatTarget.z);
     }
 
@@ -177,7 +166,9 @@ public class EnemySpawner : MonoBehaviour
 
     public void OnEnemyCaptured()
     {
-        currentEnemy = null;
+        ClearEnemy();
+        enemyEnabledThisLoop = false;
+        StopCycle();
     }
 
     private void ClearEnemy()
@@ -189,12 +180,12 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void StopPsychologicalRoutine()
+    private void StopCycle()
     {
-        if (psychologicalRoutine != null)
+        if (spawnCycleRoutine != null)
         {
-            StopCoroutine(psychologicalRoutine);
-            psychologicalRoutine = null;
+            StopCoroutine(spawnCycleRoutine);
+            spawnCycleRoutine = null;
         }
     }
 }

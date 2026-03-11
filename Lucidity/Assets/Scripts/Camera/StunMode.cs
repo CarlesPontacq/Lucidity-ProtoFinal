@@ -36,6 +36,8 @@ public class StunMode : CameraMode
         if(flashCoroutine != null)
             StopCoroutine(flashCoroutine);
 
+        isPerformingAction = true;
+
         ui.ShowCameraFlash(true);
         flashCoroutine = StartCoroutine(StunFlashCoroutine());
         audioHandler.PlayPhotoSfx();
@@ -57,6 +59,7 @@ public class StunMode : CameraMode
         GameManager.Instance.SetPlayerControlEnabled(true);
 
         TryStunEnemy();
+        isPerformingAction = false;
     }
 
     private void TryStunEnemy()

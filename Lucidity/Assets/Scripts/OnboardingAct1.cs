@@ -6,8 +6,6 @@ public class OnboardingAct1 : MonoBehaviour
     [SerializeField] GameObject reportSheetObjectPrefab;
     [SerializeField] LoopManager loopManager;
 
-    [SerializeField] Vector3 cameraObjectPosition;
-    [SerializeField] Quaternion cameraObjectRotation;
     [SerializeField] Vector3 reportSheetObjectPosition;
     [SerializeField] Quaternion reportSheetObjectRotation;
 
@@ -28,7 +26,7 @@ public class OnboardingAct1 : MonoBehaviour
 
     private void SpawnObjects()
     {
-        Instantiate(cameraObjectPrefab, cameraObjectPosition, cameraObjectRotation);
+        Instantiate(cameraObjectPrefab);
         Instantiate(reportSheetObjectPrefab, reportSheetObjectPosition, reportSheetObjectRotation);
         objectsSpawned = true;
     }

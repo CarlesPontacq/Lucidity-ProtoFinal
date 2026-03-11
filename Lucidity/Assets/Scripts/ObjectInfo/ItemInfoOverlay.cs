@@ -39,9 +39,19 @@ public class ItemInfoOverlay : MonoBehaviour
 
     private void SetInfo(ItemData itemData)
     {
-        nameText.text = itemData.itemName;
-        descriptionText.text = itemData.description;
+        itemData.itemName.StringChanged += UpdateName;
+        itemData.description.StringChanged += UpdateDescription;
         image.sprite = itemData.image;
+    }
+
+    void UpdateName(string value)
+    {
+        nameText.text = value;
+    }
+
+    void UpdateDescription(string value)
+    {
+        descriptionText.text = value;
     }
 
     private void Hide()

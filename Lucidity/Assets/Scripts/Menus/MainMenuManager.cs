@@ -12,6 +12,9 @@ public class MainMenuManager : MonoBehaviour
         controller = SceneController.Instance;
         mainMenuUX.SetActive(true);
         optionsMenuUX.SetActive(false);
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void Update()

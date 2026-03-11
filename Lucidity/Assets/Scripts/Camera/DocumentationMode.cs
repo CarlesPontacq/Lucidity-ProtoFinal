@@ -45,6 +45,8 @@ public class DocumentationMode : CameraMode
 
         if (currentReels > 0)
         {
+            isPerformingAction = true;
+
             currentReels--;
 
             ui.ShowCameraFlash(true);
@@ -81,6 +83,8 @@ public class DocumentationMode : CameraMode
         ui.ShowCameraFlash(false);
 
         CaptureAnomalies();
+
+        isPerformingAction = false;
     }
 
     private void CaptureAnomalies()

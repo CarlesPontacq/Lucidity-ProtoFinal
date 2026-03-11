@@ -52,14 +52,14 @@ public class CameraManager : MonoBehaviour
 
     private void PerformCameraAction()
     {
-        if (currentMode == null) return;
+        if (currentMode == null || currentMode.isPerformingAction) return;
 
         currentMode.PerformCameraAction();
     }
 
     public void SetMode(CameraMode mode)
     {
-        if (!lookingThroughCamera) return;
+        if (!lookingThroughCamera || currentMode.isPerformingAction) return;
         if (!mode.isUnlocked) return;
         
         DeactivateMode();
@@ -76,7 +76,7 @@ public class CameraManager : MonoBehaviour
     {
         if(currentMode == null) return;
 
-        if (ReportSheetOverlayUI.IsOpen) return;
+        if (ReportSheetOverlayUI.IsOpen || currentMode.isPerformingAction) return;
 
         if (!lookingThroughCamera)
             LookThroughCamera();
@@ -91,13 +91,14 @@ public class CameraManager : MonoBehaviour
     private void HandleCameraAction()
     {
         if (!lookingThroughCamera || currentMode == null) return;
+        if (currentMode.isPerformingAction) return;
 
         PerformCameraAction();
     }
 
     private void HandleChangeCameraMode(int direction)
     {
-        if (!lookingThroughCamera) return;
+        if (!lookingThroughCamera || currentMode.isPerformingAction) return;
         if (cameraModes == null || cameraModes.Count == 0) return;
 
         if (Time.time - lastScrollTime < scrollCooldown) return;
@@ -122,7 +123,7 @@ public class CameraManager : MonoBehaviour
 
     public void DeactivateMode()
     {
-        if (currentMode == null) return;
+        if (currentMode == null || currentMode.isPerformingAction) return;
 
         //StopLookingThroughCamera();
         currentMode.DeactivateMode();
@@ -141,7 +142,7 @@ public class CameraManager : MonoBehaviour
 
     private void StopLookingThroughCamera()
     {
-        if (currentMode == null) return;
+        if (currentMode == null || currentMode.isPerformingAction) return;
 
         lookingThroughCamera = false;
         currentMode.DeactivateMode();

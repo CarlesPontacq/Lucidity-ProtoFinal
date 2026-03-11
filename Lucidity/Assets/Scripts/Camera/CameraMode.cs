@@ -7,6 +7,7 @@ public abstract class CameraMode : MonoBehaviour
     public bool isActive { get; private set; }
 
     protected bool unlocked;
+    public bool isPerformingAction = false;
 
     [SerializeField] protected CameraUIHandler ui;
     [SerializeField] protected CameraAudioHandler audioHandler;

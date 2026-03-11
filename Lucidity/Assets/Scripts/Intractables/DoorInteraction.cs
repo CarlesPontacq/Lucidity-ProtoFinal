@@ -41,6 +41,8 @@ public class DoorInteraction : ObjectInteraction
 
         soundPosition = transform.position;
         hasStarted = true;
+
+        fullyInteractable = !isLocked;
     }
 
     protected override void Update()
@@ -72,11 +74,15 @@ public class DoorInteraction : ObjectInteraction
         {
             Open(autoOpenAnimated);
         }
+
+        fullyInteractable = !isLocked;
     }
 
     public void Lock()
     {
         isLocked = true;
+
+        fullyInteractable = !isLocked;
     }
 
     public void LockExitDoor()
@@ -85,6 +91,8 @@ public class DoorInteraction : ObjectInteraction
             isLocked = true;
 
         Close(false);
+
+        fullyInteractable = !isLocked;
     }
 
     public void Open(bool animate)

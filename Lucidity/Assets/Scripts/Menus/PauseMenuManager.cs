@@ -32,12 +32,6 @@ public class PauseMenuManager : MonoBehaviour
         returnToMainMenuButton.onClick.AddListener(SceneController.Instance.LoadMainMenuScene);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            TogglePause();
-    }
-
     public void TogglePause()
     {
         SetOpen(!openPausePanel);

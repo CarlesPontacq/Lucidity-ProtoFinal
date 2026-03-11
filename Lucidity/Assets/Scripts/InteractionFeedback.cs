@@ -3,9 +3,9 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 
-public class ReticleController : MonoBehaviour
+public class InteractionFeedback : MonoBehaviour
 {
-    public static ReticleController Instance { get; private set; }
+    public static InteractionFeedback Instance { get; private set; }
 
     [Header("Reticle")]
     [SerializeField] private Image reticle;
@@ -35,19 +35,29 @@ public class ReticleController : MonoBehaviour
             interactText.gameObject.SetActive(false);
     }
 
-    public void MakeReticleBigger()
+    public void ShowInteractionFeedback()
     {
-        StartSizeAnimation(reticle.rectTransform.localScale.x, reticleFocusSize);
+        MakeReticleBigger();
         ShowInteractHint(true);
     }
 
-    public void ReturnReticleToNormalSize()
+    public void HideInteractionFeedback()
     {
-        StartSizeAnimation(reticle.rectTransform.localScale.x, reticleRegularSize);
+        ReturnReticleToNormalSize();
         ShowInteractHint(false);
     }
 
-    void StartSizeAnimation(float from, float to)
+    void MakeReticleBigger()
+    {
+        StartReticleSizeAnimation(reticle.rectTransform.localScale.x, reticleFocusSize);
+    }
+
+    void ReturnReticleToNormalSize()
+    {
+        StartReticleSizeAnimation(reticle.rectTransform.localScale.x, reticleRegularSize);
+    }
+
+    void StartReticleSizeAnimation(float from, float to)
     {
         if (reticleSizeCoroutine != null)
             StopCoroutine(reticleSizeCoroutine);

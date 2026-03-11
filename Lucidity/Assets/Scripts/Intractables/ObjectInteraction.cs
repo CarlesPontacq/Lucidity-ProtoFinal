@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ObjectInteraction : MonoBehaviour
 {
+    protected bool fullyInteractable = true;
+
     protected virtual void Start() { }
 
     protected virtual void Update() { }
@@ -13,13 +15,15 @@ public class ObjectInteraction : MonoBehaviour
 
     public virtual void OnFocusEnter()
     {
-        ReticleController.Instance.MakeReticleBigger();
+        if (!fullyInteractable) return;
+
+        InteractionFeedback.Instance.ShowInteractionFeedback();
         SFXManager.Instance.PlayGlobalSound("objectHover", 0.5f);
     }
     
     public virtual void OnFocusExit()
     {
-        ReticleController.Instance.ReturnReticleToNormalSize();
+        InteractionFeedback.Instance.HideInteractionFeedback();
     }
 
     private void OnDestroy()

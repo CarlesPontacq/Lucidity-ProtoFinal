@@ -5317,6 +5317,7 @@ Transform:
   - {fileID: 1317187136}
   - {fileID: 253131700}
   - {fileID: 1708717279}
+  - {fileID: 1220327526}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &801091241 stripped
@@ -7926,6 +7927,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1220327525
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1220327526}
+  m_Layer: 0
+  m_Name: Ano Thunderstorm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1220327526
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220327525}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 783111351}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1233527176 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7574895514293960217, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
@@ -9588,7 +9620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4898390533962458769, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: m_VolumeLayerMask.m_Bits
-      value: 9729
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5239461508926870118, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: m_Layer
@@ -9660,11 +9692,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6652565964579843952, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6652565964579843952, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 40961
+      value: 8192
       objectReference: {fileID: 0}
     - target: {fileID: 6804945596040947472, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: m_Layer
@@ -10057,7 +10089,7 @@ MonoBehaviour:
   - id: 15
     zoneId: 0
     prefab: {fileID: 969029259552115660, guid: 043cfb24246c04a47bdab3d64c9ca6ae, type: 3}
-    anchor: {fileID: 783111351}
+    anchor: {fileID: 1220327526}
   - id: 16
     zoneId: 3
     prefab: {fileID: 350739362}

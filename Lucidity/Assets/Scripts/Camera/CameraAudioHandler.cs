@@ -6,6 +6,8 @@ public class CameraAudioHandler : MonoBehaviour
     [SerializeField] private string photoSfxId = "cameraShutter";
     [SerializeField] private float photoSfxVolume = 1f;
     [SerializeField] private bool spatialPhotoSfx = false;
+    [SerializeField] private string stunSfxId = "stunModeShutter";
+    [SerializeField] private float stunSfxVolume = 1f;
 
     [Header("Mode")]
     [SerializeField] private string modeSfxId = "changeCameraMode";
@@ -22,6 +24,16 @@ public class CameraAudioHandler : MonoBehaviour
             else
                 SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume);
             return;
+        }
+    }
+
+    public void PlayStunModePhotoSfx()
+    {
+        if (string.IsNullOrEmpty(photoSfxId)) return;
+
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlaySpatialSound(stunSfxId, transform.position, stunSfxVolume);
         }
     }
 

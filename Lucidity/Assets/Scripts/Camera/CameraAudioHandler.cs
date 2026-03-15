@@ -29,7 +29,7 @@ public class CameraAudioHandler : MonoBehaviour
 
     public void PlayStunModePhotoSfx()
     {
-        if (string.IsNullOrEmpty(photoSfxId)) return;
+        if (string.IsNullOrEmpty(stunSfxId)) return;
 
         if (SFXManager.Instance != null)
         {

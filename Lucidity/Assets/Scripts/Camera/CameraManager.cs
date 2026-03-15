@@ -16,6 +16,7 @@ public class CameraManager : MonoBehaviour
     public bool lookingThroughCamera = false;
     [SerializeField] private CameraPostProcessToggle cameraPostProcessToggle;
     [SerializeField] private CameraRotation cameraRotation;
+    [SerializeField] private CameraAudioHandler audioHandler;
 
     [Header("UI")]
     public CameraUIHandler ui;
@@ -106,6 +107,9 @@ public class CameraManager : MonoBehaviour
 
         int startIndex = currentModeIndex;
         int index = currentModeIndex;
+
+        audioHandler.PlayChangeCameraModeSfx();
+        Debug.Log("Audio funciona");
 
         do
         {

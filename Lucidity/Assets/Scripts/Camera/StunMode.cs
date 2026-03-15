@@ -40,7 +40,7 @@ public class StunMode : CameraMode
 
         ui.ShowCameraFlash(true);
         flashCoroutine = StartCoroutine(StunFlashCoroutine());
-        audioHandler.PlayPhotoSfx();
+        audioHandler.PlayStunModePhotoSfx();
     }
 
     private IEnumerator StunFlashCoroutine()

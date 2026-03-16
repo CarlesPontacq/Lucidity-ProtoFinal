@@ -5,6 +5,10 @@ public class EnemySpawner : MonoBehaviour
 {
     enum SpawnMethod { Front, SpawnPoints };
 
+    [Header("EnemyStun")]
+    [SerializeField] private bool disablePermanentlyWhenCaptured = false;
+    [SerializeField] private float respawnDelay = 10f;
+
     [Header("Prefab")]
     [SerializeField] private GameObject enemyPrefab;
 
@@ -180,8 +184,16 @@ public class EnemySpawner : MonoBehaviour
     public void OnEnemyCaptured()
     {
         ClearEnemy();
-        enemyEnabledThisLoop = false;
-        StopCycle();
+
+        if (disablePermanentlyWhenCaptured)
+        {
+            enemyEnabledThisLoop = false;
+            StopCycle();
+        }
+        else
+        {
+            StartCoroutine(RespawnRoutine());
+        }
     }
 
     private void ClearEnemy()
@@ -222,5 +234,12 @@ public class EnemySpawner : MonoBehaviour
             default:
                 return player.position;
         }
+    }
+
+    private IEnumerator RespawnRoutine()
+    {
+        yield return new WaitForSeconds(respawnDelay);
+
+        SpawnEnemyOnce();
     }
 }

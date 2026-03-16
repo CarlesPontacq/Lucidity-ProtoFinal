@@ -6198,7 +6198,7 @@ MonoBehaviour:
   musicVolume: 1
   musicSlider: {fileID: 1087894006}
   musicMuteToggle: {fileID: 4265771}
-  mouseSensitivity: 0.75
+  mouseSensitivity: 0.4
   sensitivitySlider: {fileID: 1867835696}
   languageIndex: 0
   languageDropdown: {fileID: 1432057411}
@@ -7286,6 +7286,7 @@ MonoBehaviour:
   anomalyWindowBaseColor: {r: 1, g: 0, b: 0, a: 1}
   anomalyWindowEmissionColor: {r: 1, g: 0, b: 0, a: 1}
   emissionIntensity: 0.6
+  originalEmissionIntensity: 1
 --- !u!1001 &1133591166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11235,6 +11236,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 430116823}
+    - target: {fileID: 3676578827119857360, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 14.78
+      objectReference: {fileID: 0}
     - target: {fileID: 3704408284026076288, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
       propertyPath: m_Mesh
       value: 

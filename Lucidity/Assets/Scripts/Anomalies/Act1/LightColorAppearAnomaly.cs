@@ -15,6 +15,7 @@ public class LightColorAppearAnomaly : Anomaly
     [SerializeField] private Color anomalyWindowBaseColor = Color.red;
     [SerializeField] private Color anomalyWindowEmissionColor = Color.red;
     [SerializeField] private float emissionIntensity = 2f;
+    [SerializeField] private float originalEmissionIntensity = 1f;
 
     private Color originalLightColor;
 
@@ -62,7 +63,9 @@ public class LightColorAppearAnomaly : Anomaly
 
         hadEmissionKeyword = windowMatInstance.IsKeywordEnabled(EmissionKeyword);
         if (windowMatInstance.HasProperty(EmissionColorId))
+        {
             originalEmissionColor = windowMatInstance.GetColor(EmissionColorId);
+        }
         else
             originalEmissionColor = Color.black;
     }
@@ -72,7 +75,7 @@ public class LightColorAppearAnomaly : Anomaly
         if (directionalLight != null)
             directionalLight.color = anomalyLightColor;
 
-        ApplyWindowColors(anomalyWindowBaseColor, anomalyWindowEmissionColor, true);
+        ApplyWindowColors(anomalyWindowBaseColor, anomalyWindowEmissionColor, emissionIntensity, true);
     }
 
     protected override void OnDeactivate()
@@ -80,10 +83,10 @@ public class LightColorAppearAnomaly : Anomaly
         if (directionalLight != null)
             directionalLight.color = originalLightColor;
 
-        ApplyWindowColors(originalBaseColor, originalEmissionColor, hadEmissionKeyword);
+        ApplyWindowColors(originalBaseColor, originalEmissionColor, originalEmissionIntensity, hadEmissionKeyword);
     }
 
-    private void ApplyWindowColors(Color baseColor, Color emissionColor, bool enableEmission)
+    private void ApplyWindowColors(Color baseColor, Color emissionColor, float intensity, bool enableEmission)
     {
         if (windowMatInstance == null)
         {
@@ -101,7 +104,9 @@ public class LightColorAppearAnomaly : Anomaly
             if (enableEmission) windowMatInstance.EnableKeyword(EmissionKeyword);
             else windowMatInstance.DisableKeyword(EmissionKeyword);
 
-            windowMatInstance.SetColor(EmissionColorId, emissionColor * emissionIntensity);
+            Color emissionIntensity = emissionColor * intensity;
+
+            windowMatInstance.SetColor(EmissionColorId, emissionColor * intensity);
         }
     }
 }

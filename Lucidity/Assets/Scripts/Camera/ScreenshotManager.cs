@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class ScreenshotManager : MonoBehaviour
 {
-    [SerializeField] private Camera photoCamera;
-    [SerializeField] private Camera normalCamera;
     [SerializeField] private RenderTexture renderTexture;
 
     private CameraUIHandler ui;
@@ -16,26 +14,28 @@ public class ScreenshotManager : MonoBehaviour
         ui = FindAnyObjectByType<CameraUIHandler>();
     }
     
-    public void CaptureScreenshot()
+    public void CaptureScreenshot(Camera sourceCamera)
     {
-        StartCoroutine(CaptureRoutine());
+        StartCoroutine(CaptureRoutine(sourceCamera, true));
     }
 
-    private IEnumerator CaptureRoutine()
+    private IEnumerator CaptureRoutine(Camera sourceCamera, bool mainPhoto)
     {
-        yield return new WaitForEndOfFrame();
+        if(mainPhoto)
+            yield return new WaitForEndOfFrame();
 
-        photoCamera.targetTexture = renderTexture;
+        sourceCamera.targetTexture = renderTexture;
 
         RenderTexture current = RenderTexture.active;
         RenderTexture.active = renderTexture;
 
-        photoCamera.Render();
+        sourceCamera.Render();
 
         Texture2D tex = new Texture2D(
             renderTexture.width,
             renderTexture.height,
-            TextureFormat.RGB24,
+            TextureFormat.RGBA32,
+            false,
             false
         );
 
@@ -43,11 +43,33 @@ public class ScreenshotManager : MonoBehaviour
             new Rect(0, 0, renderTexture.width, renderTexture.height),
             0, 0
         );
+
+        Color[] pixels = tex.GetPixels();
+        for (int i = 0; i < pixels.Length; i++)
+        {
+            pixels[i].r = Mathf.LinearToGammaSpace(pixels[i].r);
+            pixels[i].g = Mathf.LinearToGammaSpace(pixels[i].g);
+            pixels[i].b = Mathf.LinearToGammaSpace(pixels[i].b);
+        }
+        tex.SetPixels(pixels);
+
+        tex.filterMode = FilterMode.Bilinear;
+        tex.wrapMode = TextureWrapMode.Clamp;
+
         tex.Apply();
 
         RenderTexture.active = current;
-        photoCamera.targetTexture = null;
+        sourceCamera.targetTexture = null;
 
-        ui.ActualizeLastPhoto(tex);
-    } 
+        if(mainPhoto)
+            ui.ActualizeTopPhoto(tex);
+        else
+            ui.ActualizeBottomPhoto(tex);
+    }
+
+    public void CaptureStunScreenshots(Camera playerCamera, Camera stunCamera)
+    {
+        StartCoroutine(CaptureRoutine(playerCamera, true));
+        StartCoroutine(CaptureRoutine(stunCamera, false));
+    }
 }

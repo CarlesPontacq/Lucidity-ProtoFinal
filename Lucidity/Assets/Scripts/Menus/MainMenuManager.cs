@@ -4,15 +4,22 @@ public class MainMenuManager : MonoBehaviour
 {
     private SceneController controller;
 
+    [SerializeField] private GameObject mainMenuUX;
+    [SerializeField] private GameObject optionsMenuUX;
+
     void Start()
     {
         controller = SceneController.Instance;
+        mainMenuUX.SetActive(true);
+        optionsMenuUX.SetActive(false);
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void OnPlayButtonClick()
@@ -28,5 +35,17 @@ public class MainMenuManager : MonoBehaviour
     public void OnCreditsButtonClick()
     {
         controller.LoadCreditsScene();
+    }
+
+    public void OnOptionsButtonClick()
+    {
+        optionsMenuUX.SetActive(true);
+        mainMenuUX.SetActive(false);
+    }
+
+    public void OnCloseOptionsClick()
+    {
+        mainMenuUX.SetActive(true);
+        optionsMenuUX.SetActive(false);
     }
 }

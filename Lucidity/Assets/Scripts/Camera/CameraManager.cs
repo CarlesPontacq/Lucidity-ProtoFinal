@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
 
 public class CameraManager : MonoBehaviour
 {
@@ -9,109 +10,126 @@ public class CameraManager : MonoBehaviour
     public Transform normalCamera;
     public CameraMode currentMode;
     public List<CameraMode> cameraModes;
+    private int currentModeIndex = 0;
 
     [Header("State")]
     public bool lookingThroughCamera = false;
+    [SerializeField] private CameraPostProcessToggle cameraPostProcessToggle;
+    [SerializeField] private CameraRotation cameraRotation;
+    [SerializeField] private CameraAudioHandler audioHandler;
 
     [Header("UI")]
     public CameraUIHandler ui;
 
-    [Header("SFX")]
-    [SerializeField] private string photoSfxId = "cameraShutter";
-    [SerializeField] private float photoSfxVolume = 1f;
-    [SerializeField] private bool spatialPhotoSfx = false;
-
     private bool lastDocOpen = false;
+
+    [Header("Input")]
+    [SerializeField] private PlayerInputObserver input;
+    private float lastScrollTime;
+    [SerializeField] private float scrollCooldown = 0.15f;
+
 
     void Start()
     {
-        SetMode(cameraModes[0]);
-        ui.ShowReelIndicator(true);
+        input.onCameraToggle += HandleCameraToggle;
+        input.onCameraAction += HandleCameraAction;
+        input.onChangeCameraMode += HandleChangeCameraMode;
+
+        //cameraPostProcessToggle.ToggleCameraPostProcessing(lookingThroughCamera);
     }
 
     private void Update()
     {
         bool docOpen = ReportSheetOverlayUI.IsOpen;
 
-        if (docOpen && !lastDocOpen)
+        if (docOpen && !lastDocOpen && lookingThroughCamera)
         {
-            if (lookingThroughCamera)
-            {
-                StopLookingThroughCamera();
-                ui.ShowCameraFlash(false);
-            }
+            StopLookingThroughCamera();
+            ui.ShowCameraFlash(false);
         }
+
         lastDocOpen = docOpen;
-
-        if (docOpen)
-            return;
-
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
-
-        if (lookingThroughCamera)
-        {
-            if (Input.GetButtonDown("Fire2"))
-            {
-                PlayPhotoSfx();          
-                PerformCameraAction();
-            }
-        }
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            if (!lookingThroughCamera) LookThroughCamera();
-            else StopLookingThroughCamera();
-        }
-    }
-
-    private void PlayPhotoSfx()
-    {
-        if (string.IsNullOrEmpty(photoSfxId)) return;
-
-        if (SFXManager.Instance != null)
-        {
-            if (spatialPhotoSfx)
-                SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume);
-            else
-                SFXManager.Instance.PlaySpatialSound(photoSfxId, transform.position, photoSfxVolume); 
-
-            return;
-        }
-
-        Debug.LogWarning("CameraManager: SFXManager.Instance es null (no se pudo reproducir sonido de foto).");
     }
 
     private void PerformCameraAction()
     {
-        if (currentMode == null) return;
+        if (currentMode == null || currentMode.isPerformingAction) return;
 
-        NotifyModeActivated(currentMode);
-        ui.ShowCameraFlash(true);
         currentMode.PerformCameraAction();
-    }
-
-    public void EndCameraAction()
-    {
-        if (currentMode == null) return;
-
-        NotifyModeDeactivated(currentMode);
-        ui.ShowCameraFlash(false);
     }
 
     public void SetMode(CameraMode mode)
     {
-        DeactivateMode();
+        if (!lookingThroughCamera || currentMode.isPerformingAction) return;
         if (!mode.isUnlocked) return;
+        
+        DeactivateMode();
+        
+        GameManager.Instance.SetPlayerControlEnabled(true);
+        cameraRotation.SetControlEnabled(true);
         currentMode = mode;
+        currentMode.ActivateMode();
+
+        ui.SetIndicatorPosition(cameraModes.IndexOf(mode));
+    }
+
+    private void HandleCameraToggle()
+    {
+        if(currentMode == null) return;
+
+        if (ReportSheetOverlayUI.IsOpen || currentMode.isPerformingAction) return;
+
+        if (!lookingThroughCamera)
+            LookThroughCamera();
+        else
+            StopLookingThroughCamera();
+
+        //cameraPostProcessToggle.ToggleCameraPostProcessing(lookingThroughCamera);
+
+        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+    }
+
+    private void HandleCameraAction()
+    {
+        if (!lookingThroughCamera || currentMode == null) return;
+        if (currentMode.isPerformingAction) return;
+
+        PerformCameraAction();
+    }
+
+    private void HandleChangeCameraMode(int direction)
+    {
+        if (!lookingThroughCamera || currentMode.isPerformingAction) return;
+        if (cameraModes == null || cameraModes.Count == 0) return;
+
+        if (Time.time - lastScrollTime < scrollCooldown) return;
+        lastScrollTime = Time.time;
+
+        int startIndex = currentModeIndex;
+        int index = currentModeIndex;
+
+        audioHandler.PlayChangeCameraModeSfx();
+        Debug.Log("Audio funciona");
+
+        do
+        {
+            index = (index + direction + cameraModes.Count) % cameraModes.Count;
+
+            if (cameraModes[index].isUnlocked)
+            {
+                currentModeIndex = index;
+                SetMode(cameraModes[currentModeIndex]);
+                return;
+            }
+
+        } while (index != startIndex);
     }
 
     public void DeactivateMode()
     {
-        if (currentMode == null) return;
+        if (currentMode == null || currentMode.isPerformingAction) return;
 
-        NotifyModeDeactivated(currentMode);
-        StopLookingThroughCamera();
+        //StopLookingThroughCamera();
         currentMode.DeactivateMode();
         currentMode = null;
     }
@@ -120,53 +138,24 @@ public class CameraManager : MonoBehaviour
     {
         if (currentMode == null) return;
 
+        lookingThroughCamera = true;
         currentMode.ActivateMode();
 
-        switch (currentMode)
-        {
-            case DocumentationMode:
-                ui.ShowCameraAspect(true);
-                break;
-            case null:
-                Debug.Log("Null Camera Mode");
-                break;
-        }
-
-        lookingThroughCamera = true;
+        ui.ShowCameraAspect(true);
     }
 
     private void StopLookingThroughCamera()
     {
-        if (currentMode == null) return;
-
-        switch (currentMode)
-        {
-            case DocumentationMode:
-                ui.ShowCameraAspect(false);
-                break;
-            case null:
-                Debug.Log("Null Camera Mode");
-                break;
-        }
+        if (currentMode == null || currentMode.isPerformingAction) return;
 
         lookingThroughCamera = false;
+        currentMode.DeactivateMode();
+
+        ui.ShowCameraAspect(false);
     }
 
-    private void NotifyModeActivated(CameraMode mode)
+    public void SetStartingCameraMode()
     {
-        var manager = FindAnyObjectByType<AnomalyManager>();
-        if (manager == null) return;
-
-        foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
-            anomaly.OnCameraModeActivated(mode);
-    }
-
-    private void NotifyModeDeactivated(CameraMode mode)
-    {
-        var manager = FindAnyObjectByType<AnomalyManager>();
-        if (manager == null) return;
-
-        foreach (var anomaly in manager.GetSpawnedEnemiesThisLoop())
-            anomaly.OnCameraModeDeactivated(mode);
+        currentMode = cameraModes[0];
     }
 }

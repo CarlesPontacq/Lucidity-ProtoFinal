@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DocumentationMode : CameraMode
 {
+    [Header("Documentation")]
     public int maxReels = 5;
     public int currentReels;
 
@@ -12,15 +13,17 @@ public class DocumentationMode : CameraMode
     private Coroutine flashCoroutine;
 
     private Camera docCamera;
-    private ScreenshotManager screenshotManager;
+    [SerializeField] private Camera photoCamera;
+    [SerializeField] private ScreenshotManager screenshotManager;
+    [SerializeField] private CameraEventBroadcaster eventBroadcaster;
 
     void Start()
     {
         base.Start();
 
         currentReels = maxReels;
-        isUnlocked = true;
         screenshotManager = GetComponent<ScreenshotManager>();
+        isUnlocked = true;
     }
 
     void Update()
@@ -36,26 +39,27 @@ public class DocumentationMode : CameraMode
 
     public override void PerformCameraAction()
     {
-        base.PerformCameraAction();
 
         if (flashCoroutine != null)
             StopCoroutine(flashCoroutine);
 
         if (currentReels > 0)
         {
+            isPerformingAction = true;
+
             currentReels--;
 
-            CameraUIHandler ui = FindAnyObjectByType<CameraUIHandler>();
+            ui.ShowCameraFlash(true);
+            flashCoroutine = StartCoroutine(FlashCoroutine());
+            eventBroadcaster.NotifyModeActivated();
+
             if (ui != null)
                 ui.ActualizeRemainingReelsIndicator(currentReels);
 
-            flashCoroutine = StartCoroutine(FlashCoroutine());
+            audioHandler.PlayPhotoSfx();
         }
-        else
-        {
-            var cm = FindAnyObjectByType<CameraManager>();
-            if (cm != null) cm.EndCameraAction();
-        }
+
+        return;
     }
 
     protected override void OnDeactivated()
@@ -64,19 +68,23 @@ public class DocumentationMode : CameraMode
 
         if (flashCoroutine != null)
             StopCoroutine(flashCoroutine);
+
+        ui.ShowCameraFlash(false);
     }
 
     private IEnumerator FlashCoroutine()
     {
         if (screenshotManager != null)
-            screenshotManager.CaptureScreenshot();
+            screenshotManager.CaptureScreenshot(photoCamera);
 
         yield return new WaitForSeconds(flasDuration);
 
+        eventBroadcaster.NotifyModeDeactivated();
+        ui.ShowCameraFlash(false);
+
         CaptureAnomalies();
 
-        var cm = FindAnyObjectByType<CameraManager>();
-        if (cm != null) cm.EndCameraAction();
+        isPerformingAction = false;
     }
 
     private void CaptureAnomalies()

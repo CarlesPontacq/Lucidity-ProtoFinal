@@ -9,9 +9,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float walkingSpeed;
     [SerializeField] private float runningSpeed;
 
+    public bool IsMoving { get; private set; }
+    public bool IsRunning { get; private set; }
+
     void FixedUpdate()
     {
         Move();
+        UpdatePublicVariables();
     }
 
     private void Move()
@@ -23,6 +27,38 @@ public class PlayerMovement : MonoBehaviour
         if (inputObserver.IsPressingRun)
             speed = runningSpeed;
 
-        rigidbodyRef.linearVelocity = realMovementDir * speed;
+        Vector3 velocity;
+
+        velocity.x = realMovementDir.x * speed;
+        velocity.y = rigidbodyRef.linearVelocity.y;
+        velocity.z = realMovementDir.z * speed;
+
+        rigidbodyRef.linearVelocity = velocity;
+    }
+
+    private void UpdatePublicVariables()
+    {
+        Vector3 horizontalVelocity = rigidbodyRef.linearVelocity;
+        horizontalVelocity.y = 0f;
+        float currentSpeed = horizontalVelocity.magnitude;
+
+        IsMoving = currentSpeed > 0.01f;
+        IsRunning = IsMoving && currentSpeed > walkingSpeed + 0.01f;
+    }
+
+    public float GetWalkingSpeed()
+    {
+        return walkingSpeed;
+    }
+
+    public float GetRunningSpeed()
+    {
+        return runningSpeed;
+    }
+
+    private void OnDisable()
+    {
+        IsMoving = false;
+        IsRunning = false;
     }
 }

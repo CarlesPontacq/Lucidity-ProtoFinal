@@ -1,8 +1,11 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class LoopManager : MonoBehaviour
 {
+    public static event Action<int> OnLoopStarted;
+    [SerializeField] private ZonesManager zonesManager;
     [SerializeField] private AnomalyManager anomalyManager;
     [SerializeField] private ReportResultState reportState;
     [SerializeField] private DoorInteraction exitDoor;
@@ -17,12 +20,13 @@ public class LoopManager : MonoBehaviour
     [Tooltip("Evita avanzar múltiples loops por doble trigger.")]
     [SerializeField] private float nextLoopCooldown = 0.25f;
 
-    private int loopIndex = 0;
+    [SerializeField] private EnemySpawner enemySpawner;
+
     private float nextAllowedTime = 0f;
 
     private void Start()
     {
-        StartLoopFresh();
+        StartBaseLoop();
     }
 
     public void StartNextLoop()
@@ -32,17 +36,26 @@ public class LoopManager : MonoBehaviour
 
         nextAllowedTime = Time.unscaledTime + nextLoopCooldown;
 
+        if(GameManager.Instance.GetCurrentLoopIndex() == 0)
+        {
+            Debug.Log("Loop 0 -> se avanza directamente");
+            GameManager.Instance.AddLoopToCount();
+            StartLoopFresh();
+        }
+
         if (reportState != null && reportState.HasSubmittedReport)
         {
             if (reportState.WasCorrect)
             {
                 Debug.Log("Report correcto -> sumo loop");
                 GameManager.Instance.AddLoopToCount();
+                StartLoopFresh();
             }
             else
             {
                 Debug.Log("Report incorrecto -> reseteo loops");
                 GameManager.Instance.ResetLoops();
+                StartBaseLoop();
             }
         }
         else
@@ -50,13 +63,45 @@ public class LoopManager : MonoBehaviour
             Debug.Log("Sin reporte enviado (primer loop o no firmó) -> no toco el contador");
         }
 
-        StartLoopFresh();
     }
 
-    private void StartLoopFresh()
+    public void StartBaseLoop()
     {
-        loopIndex++;
+        if (reportState != null)
+            reportState.ResetForNewLoop();
 
+        if (interactableDoors != null)
+        {
+            for (int i = 0; i < interactableDoors.Count; i++)
+            {
+                if (interactableDoors[i] != null)
+                    interactableDoors[i].Close(false);
+            }
+        }
+
+        if (documentationMode != null)
+            documentationMode.ResetReels();
+
+        if (exitLamp != null)
+            exitLamp.SetCanPass(true);
+
+        if (zonesManager != null)
+            zonesManager.UpdateZoneDoors(GameManager.Instance.GetCurrentLoopIndex());
+
+        if (anomalyManager != null)
+            anomalyManager.ClearSpawned();
+
+        if (exitDoor != null)
+        {
+            exitDoor.Unlock();        
+        }
+
+        if (enemySpawner != null)
+            enemySpawner.SpawnForLoop(GameManager.Instance.GetCurrentLoopIndex());
+    }
+
+    public void StartLoopFresh()
+    {
         if (reportState != null)
             reportState.ResetForNewLoop();
 
@@ -68,7 +113,7 @@ public class LoopManager : MonoBehaviour
             for (int i = 0; i < interactableDoors.Count; i++)
             {
                 if (interactableDoors[i] != null)
-                    interactableDoors[i].CloseDoor(false);
+                    interactableDoors[i].Close(false);
             }
         }
 
@@ -81,13 +126,17 @@ public class LoopManager : MonoBehaviour
         if (exitLamp != null)
             exitLamp.SetCanPass(false);
 
-        Debug.Log("Test");
+        if (zonesManager != null)
+            zonesManager.UpdateZoneDoors(GameManager.Instance.GetCurrentLoopIndex());
 
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();
         else
             Debug.LogWarning("LoopManager: anomalyManager es null (no puedo spawnear anomalías).");
 
-        Debug.Log($"Loop {loopIndex} started (fresh)");
+        if (enemySpawner != null)
+            enemySpawner.SpawnForLoop(GameManager.Instance.GetCurrentLoopIndex());
+
+        OnLoopStarted?.Invoke(GameManager.Instance.GetCurrentLoopIndex());
     }
 }

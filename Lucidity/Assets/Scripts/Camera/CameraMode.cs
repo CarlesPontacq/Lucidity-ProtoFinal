@@ -2,13 +2,23 @@ using UnityEngine;
 
 public abstract class CameraMode : MonoBehaviour
 {
+    [Header("General")]
     public bool isUnlocked;
-    public bool isActive = false;
+    public bool isActive { get; private set; }
+
     protected bool unlocked;
+    public bool isPerformingAction = false;
+
+    [SerializeField] protected CameraUIHandler ui;
+    [SerializeField] protected CameraAudioHandler audioHandler;
+
+    [Header("Post-Process")]
+    [SerializeField] protected GameObject globalVolumeMode;
 
     protected void Start()
     {
-
+        ui = FindAnyObjectByType<CameraUIHandler>();
+        audioHandler = FindAnyObjectByType<CameraAudioHandler>();
     }
 
     protected void Update()
@@ -20,6 +30,7 @@ public abstract class CameraMode : MonoBehaviour
     public virtual void ActivateMode()
     {
         isActive = true;
+        globalVolumeMode.SetActive(true);
         OnActivated();
     }
 
@@ -27,10 +38,11 @@ public abstract class CameraMode : MonoBehaviour
     public virtual void DeactivateMode() 
     {
         isActive = false;
+        globalVolumeMode.SetActive(false);
         OnDeactivated();
     }
 
-    public virtual void PerformCameraAction() { }
+    public abstract void PerformCameraAction();
 
     protected virtual void OnActivated() { }
 

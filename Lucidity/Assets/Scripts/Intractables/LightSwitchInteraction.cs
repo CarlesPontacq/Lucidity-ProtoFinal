@@ -1,23 +1,33 @@
 using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LightSwitchInteraction : ObjectInteraction
 {
-    [SerializeField] CeilingLampController ceilingLamp;
+    [SerializeField] List<SwitchableObject> switchableObjects;
+    private bool isOn;
+
+    protected override void Start()
+    {
+        if (switchableObjects == null)
+            Debug.LogWarning("Missing ceilingLamp in light switch: " + gameObject.name);
+    }
 
     public override void Interact()
     {
-        Debug.Log("Interaction detected");
-        if (ceilingLamp.IsLightOn())
+        foreach (SwitchableObject switchableObject in switchableObjects)
         {
-            ceilingLamp.TurnOff();
-            SFXManager.Instance.PlaySpatialSound("lightSwitchOff", transform.position, 1f);
+            if (switchableObject.IsOn())
+                switchableObject.TurnOff();
+            else
+                switchableObject.TurnOn();
         }
-        else
-        {
-            ceilingLamp.TurnOn();
-            SFXManager.Instance.PlaySpatialSound("lightSwitchOn", transform.position, 1f);
-        }
-    }
 
+        if (isOn)
+            SFXManager.Instance.PlaySpatialSound("lightSwitchOff", transform.position, 1f);
+        else
+            SFXManager.Instance.PlaySpatialSound("lightSwitchOn", transform.position, 1f);
+
+        isOn = !isOn;
+    }
 }

@@ -9,17 +9,23 @@ public class CameraRotation : MonoBehaviour
     [SerializeField] private float smoothSpeed;
     [SerializeField] private float verticalLimit;
 
+    private float startingOrientation = 0f;
     private Vector2 rotation = Vector2.zero;
     private Vector2 currentRotation = Vector2.zero;
+
+    private bool controlEnabled = true;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        startingOrientation = body.rotation.y;
     }
 
     void Update()
     {
+        if(!controlEnabled) return;
+
         Vector2 adaptedCameraMovement = inputObserver.cameraMovement * sensitivity;
 
         rotation.y += adaptedCameraMovement.x;
@@ -43,5 +49,22 @@ public class CameraRotation : MonoBehaviour
 
         rotation.x += eulerOffset.x;
         currentRotation.x += eulerOffset.x;
+    }
+
+    public void SetControlEnabled(bool enabled)
+    {
+        controlEnabled = enabled;
+    }
+
+    public void ResetOrientation()
+    {
+        rotation.x = 0f;
+        rotation.y = startingOrientation;
+        currentRotation = rotation;
+    }
+
+    public void SetSensitivity(float newSensitivity)
+    {
+        sensitivity = newSensitivity;
     }
 }

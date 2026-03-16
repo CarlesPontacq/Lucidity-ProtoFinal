@@ -66,6 +66,12 @@ public class EnemySpawner : MonoBehaviour
             float visibleTime = Random.Range(visibleTimeMin, visibleTimeMax);
             yield return new WaitForSeconds(visibleTime);
 
+            bool shouldChase = currentLoopIndex >= firstChaseLoop;
+            if (shouldChase)
+            {
+                yield break;
+            }
+
             ClearEnemy();
 
             float hiddenTime = Random.Range(hiddenTimeMin, hiddenTimeMax);

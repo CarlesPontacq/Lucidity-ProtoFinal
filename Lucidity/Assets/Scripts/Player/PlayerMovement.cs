@@ -27,7 +27,13 @@ public class PlayerMovement : MonoBehaviour
         if (inputObserver.IsPressingRun)
             speed = runningSpeed;
 
-        rigidbodyRef.linearVelocity = realMovementDir * speed;
+        Vector3 velocity;
+
+        velocity.x = realMovementDir.x * speed;
+        velocity.y = rigidbodyRef.linearVelocity.y;
+        velocity.z = realMovementDir.z * speed;
+
+        rigidbodyRef.linearVelocity = velocity;
     }
 
     private void UpdatePublicVariables()

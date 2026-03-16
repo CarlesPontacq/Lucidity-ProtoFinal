@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    enum SpawnMethod { Front, SpawnPoints };
+
     [Header("Prefab")]
     [SerializeField] private GameObject enemyPrefab;
 
@@ -11,7 +13,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int firstChaseLoop = 5;     
     [SerializeField, Range(0f, 1f)] private float spawnChancePerLoop = 0.65f;
 
-    [Header("Front Spawn")]
+    [Header("Spawn Position")]
+    [SerializeField] private SpawnMethod spawnMethod;
     [SerializeField] private Transform forwardReference; 
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private float minSpawnDistance = 3.5f;
@@ -20,6 +23,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float groundRayHeight = 15f;
     [SerializeField] private float groundRayDistance = 50f;
     [SerializeField] private float spawnYOffset = 0.05f;
+
+    [Header("Spawn Points")]
+    [SerializeField] private Transform[] spawnPoints;
 
     [Header("Cycle Timing")]
     [SerializeField] private float visibleTimeMin = 1.0f;
@@ -91,7 +97,10 @@ public class EnemySpawner : MonoBehaviour
         if (player == null)
             return;
 
-        Vector3 spawnPos = GetPointInFrontOfPlayer(player);
+        bool shouldChase = currentLoopIndex >= firstChaseLoop;
+        spawnMethod = shouldChase ? SpawnMethod.SpawnPoints : SpawnMethod.Front;
+
+        Vector3 spawnPos = GetSpawnPosition(player);
         currentEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
 
         // Mirar al player
@@ -99,8 +108,6 @@ public class EnemySpawner : MonoBehaviour
         lookDir.y = 0f;
         if (lookDir.sqrMagnitude > 0.001f)
             currentEnemy.transform.rotation = Quaternion.LookRotation(lookDir);
-
-        bool shouldChase = currentLoopIndex >= firstChaseLoop;
 
         Rigidbody rb = currentEnemy.GetComponent<Rigidbody>();
         if (rb != null)
@@ -192,6 +199,28 @@ public class EnemySpawner : MonoBehaviour
         {
             StopCoroutine(spawnCycleRoutine);
             spawnCycleRoutine = null;
+        }
+    }
+
+    private Vector3 GetSpawnPosition(Transform player)
+    {
+        switch (spawnMethod)
+        {
+            case SpawnMethod.Front:
+                return GetPointInFrontOfPlayer(player);
+
+            case SpawnMethod.SpawnPoints:
+                if (spawnPoints == null || spawnPoints.Length == 0)
+                {
+                    Debug.LogWarning("[EnemySpawner] No spawn points assigned");
+                    return player.position;
+                }
+
+                int index = Random.Range(0, spawnPoints.Length);
+                return spawnPoints[index].position;
+
+            default:
+                return player.position;
         }
     }
 }

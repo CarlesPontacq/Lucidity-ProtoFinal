@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -29,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float spawnYOffset = 0.05f;
 
     [Header("Spawn Points")]
+    [SerializeField] private float minDistanceFromPlayer = 4f;
     [SerializeField] private Transform[] spawnPoints;
 
     [Header("Cycle Timing")]
@@ -222,17 +224,34 @@ public class EnemySpawner : MonoBehaviour
                 return GetPointInFrontOfPlayer(player);
 
             case SpawnMethod.SpawnPoints:
+
                 if (spawnPoints == null || spawnPoints.Length == 0)
                 {
                     Debug.LogWarning("[EnemySpawner] No spawn points assigned");
                     return player.position;
                 }
 
-                int index = Random.Range(0, spawnPoints.Length);
-                return spawnPoints[index].position;
+                List<Transform> validPoints = new List<Transform>();
+
+                foreach (var point in spawnPoints)
+                {
+                    float distance = Vector3.Distance(player.position, point.position);
+
+                    if (distance >= minDistanceFromPlayer)
+                        validPoints.Add(point);
+                }
+
+                if (validPoints.Count == 0)
+                {
+                    Debug.LogWarning("[EnemySpawner] No valid spawn points far enough from player");
+                    return player.position;
+                }
+
+                int index = Random.Range(0, validPoints.Count);
+                return validPoints[index].position;
 
             default:
-                return player.position;
+                return GetPointInFrontOfPlayer(player);
         }
     }
 

@@ -109,7 +109,6 @@ public class CameraManager : MonoBehaviour
         int index = currentModeIndex;
 
         audioHandler.PlayChangeCameraModeSfx();
-        Debug.Log("Audio funciona");
 
         do
         {
@@ -142,6 +141,7 @@ public class CameraManager : MonoBehaviour
         currentMode.ActivateMode();
 
         ui.ShowCameraAspect(true);
+        InteractionFeedback.Instance.ShowInteractHint(false);
     }
 
     private void StopLookingThroughCamera()

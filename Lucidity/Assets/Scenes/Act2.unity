@@ -2520,7 +2520,7 @@ MonoBehaviour:
   playerSpawnTag: PlayerSpawn
   cameraManager: {fileID: 281296273}
   documentationMode: {fileID: 281296269}
-  stunMode: {fileID: 0}
+  stunMode: {fileID: 2113993036}
   reportSheet: {fileID: 564581943}
   itemInfoOverlay: {fileID: 1101621661}
   handsWithCamera: {fileID: 281296272}
@@ -6131,7 +6131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1094737827
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9932,6 +9932,17 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &2113993036 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7895224099656843609, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+  m_PrefabInstance: {fileID: 281296267}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ab201926bdbfdd40a084647cc41169a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2860005391727727641 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6164873808990805781, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}

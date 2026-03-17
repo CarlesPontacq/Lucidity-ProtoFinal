@@ -15,7 +15,7 @@ public class InteractionFeedback : MonoBehaviour
     [SerializeField] private AnimationCurve sizingAnimationCurve;
 
     [Header("Interact Hint")]
-    [SerializeField] private TMP_Text interactText; // La "E"
+    [SerializeField] private Image interactKey; // La "E"
 
     private Coroutine reticleSizeCoroutine;
 
@@ -31,8 +31,8 @@ public class InteractionFeedback : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (interactText != null)
-            interactText.gameObject.SetActive(false);
+        if (interactKey != null)
+            interactKey.gameObject.SetActive(false);
     }
 
     public void ShowInteractionFeedback()
@@ -84,10 +84,10 @@ public class InteractionFeedback : MonoBehaviour
         reticle.rectTransform.localScale = Vector3.one * to;
     }
 
-    private void ShowInteractHint(bool show)
+    public void ShowInteractHint(bool show)
     {
-        if (interactText == null) return;
+        if (interactKey == null) return;
 
-        interactText.gameObject.SetActive(show);
+        interactKey.gameObject.SetActive(show);
     }
 }

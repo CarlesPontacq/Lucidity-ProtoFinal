@@ -61,6 +61,10 @@ public class PauseMenuManager : MonoBehaviour
         if (pausePanel)
             pausePanel.SetActive(openPausePanel);
 
+        if(value == true)
+            InteractionFeedback.Instance.ShowInteractHint(false);
+        
+
         Cursor.visible = openPausePanel;
         Cursor.lockState = openPausePanel ? CursorLockMode.None : CursorLockMode.Locked;
 

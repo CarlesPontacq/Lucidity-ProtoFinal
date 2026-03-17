@@ -74,7 +74,8 @@ public class GameManager : MonoBehaviour
         cameraRotation.SetControlEnabled(true);
         SetPlayerControlEnabled(true);
         finishedLoops = false;
-        handsWithCamera.SetActive(false);
+
+        SetHandsWithCameraVisibility(false);
     }
 
     private void SetUpCharacterOnNewScene()
@@ -145,7 +146,7 @@ public class GameManager : MonoBehaviour
         if (cameraManager != null)
             cameraManager.SetStartingCameraMode();
 
-        handsWithCamera.SetActive(true);
+        SetHandsWithCameraVisibility(true);
     }
 
     public void ReportSheetGrabbed(ItemData itemData)
@@ -181,7 +182,8 @@ public class GameManager : MonoBehaviour
 
     public void SetHandsWithCameraVisibility(bool visibility)
     {
-        handsWithCamera.SetActive(visibility);
+        if (handsWithCamera != null)
+            handsWithCamera.SetActive(visibility);
     }
 
     #endregion

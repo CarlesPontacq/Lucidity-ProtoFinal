@@ -47,6 +47,8 @@ public class DocumentationMode : CameraMode
         {
             isPerformingAction = true;
 
+            ui.SetPhotoTaken();
+
             currentReels--;
 
             ui.ShowCameraFlash(true);

@@ -19,6 +19,8 @@ public class CameraUIHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI remainingReels;
     [SerializeField] private List<Image> cameraAspectBorder;
 
+    private bool photoHasBeenTaken = false;
+
     [Header("Mode Indicator")]
     [SerializeField] private List<GameObject> indicatorPositions;
     [SerializeField] private RectTransform indicator;
@@ -37,8 +39,21 @@ public class CameraUIHandler : MonoBehaviour
         
         indicator.GetComponent<Image>().enabled = showAspect;
         remainingReels.enabled = showAspect;
-        polaroid.SetActive(!showAspect);
+
+        if(photoHasBeenTaken)
+            ShowPolaroid(!showAspect);
+        
         cameraUIIndicator.enabled = showAspect;
+    }
+
+    internal void ShowPolaroid(bool showPolaroid)
+    {
+        polaroid.SetActive(showPolaroid);
+    }
+
+    internal void SetPhotoTaken()
+    {
+        photoHasBeenTaken = true;
     }
 
     internal void ShowCameraFlash(bool showAspect)

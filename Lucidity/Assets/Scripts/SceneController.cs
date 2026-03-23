@@ -6,6 +6,7 @@ public class SceneController : MonoBehaviour
     public static SceneController Instance { get; private set; }
 
     private int currentScene;
+    private int mainMenuScene = 1;
 
 
     void Awake()
@@ -31,7 +32,6 @@ public class SceneController : MonoBehaviour
 
     public void LoadNextScene()
     {
-        Debug.Log(SceneManager.sceneCountInBuildSettings);
         if (currentScene >= SceneManager.sceneCountInBuildSettings || currentScene < 0) return;
 
 
@@ -63,6 +63,6 @@ public class SceneController : MonoBehaviour
 
     public void LoadMainMenuScene()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(mainMenuScene);
     }
 }

@@ -38,6 +38,8 @@ public class StunMode : CameraMode
 
         isPerformingAction = true;
 
+        ui.SetPhotoTaken();
+
         ui.ShowCameraFlash(true);
         flashCoroutine = StartCoroutine(StunFlashCoroutine());
         audioHandler.PlayStunModePhotoSfx();

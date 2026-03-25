@@ -44,6 +44,14 @@ public class EnemySpawner : MonoBehaviour
     private bool enemyEnabledThisLoop = false;
     private int currentLoopIndex = 0;
 
+    private void Update()
+    {
+        if(currentLoopIndex == 0 && currentEnemy != null)
+        {
+            ClearEnemy();
+        }
+    }
+
     public void SpawnForLoop(int loopIndex)
     {
         currentLoopIndex = loopIndex;
@@ -93,6 +101,12 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemyOnce()
     {
+        if(currentEnemy != null)
+        {
+            Debug.LogWarning("[EnemySpawner] Intento de spawnear cuando ya hay un enemigo");
+            return;
+        }
+
         if (enemyPrefab == null)
         {
             Debug.LogWarning("[EnemySpawner] enemyPrefab no asignado");
@@ -185,7 +199,13 @@ public class EnemySpawner : MonoBehaviour
 
     public void OnEnemyCaptured()
     {
-        ClearEnemy();
+        if (currentEnemy != null)
+        {
+            if(currentEnemy.gameObject != null)
+            {
+                StartCoroutine(DelayedClear());
+            }
+        }
 
         if (disablePermanentlyWhenCaptured)
         {
@@ -196,6 +216,12 @@ public class EnemySpawner : MonoBehaviour
         {
             StartCoroutine(RespawnRoutine());
         }
+    }
+
+    private IEnumerator DelayedClear()
+    {
+        yield return new WaitForSeconds(0.1f);
+        ClearEnemy();
     }
 
     private void ClearEnemy()

@@ -14,13 +14,14 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
 
     [Header("Loop Rules")]
-    [SerializeField] private int firstSpawnLoop = 1;     
-    [SerializeField] private int firstChaseLoop = 5;     
+    private int baseLoop = 0;
+    [SerializeField] private int firstSpawnLoop = 1;
+    [SerializeField] private int firstChaseLoop = 5;
     [SerializeField, Range(0f, 1f)] private float spawnChancePerLoop = 0.65f;
 
     [Header("Spawn Position")]
     [SerializeField] private SpawnMethod spawnMethod;
-    [SerializeField] private Transform forwardReference; 
+    [SerializeField] private Transform forwardReference;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private float minSpawnDistance = 3.5f;
     [SerializeField] private float maxSpawnDistance = 6f;
@@ -41,12 +42,12 @@ public class EnemySpawner : MonoBehaviour
 
     private GameObject currentEnemy;
     private Coroutine spawnCycleRoutine;
-    private bool enemyEnabledThisLoop = false;
+    public bool enemyEnabledThisLoop { get; private set; } = false;
     private int currentLoopIndex = 0;
 
     private void Update()
     {
-        if(currentLoopIndex == 0 && currentEnemy != null)
+        if(currentLoopIndex == baseLoop && currentEnemy != null)
         {
             ClearEnemy();
         }

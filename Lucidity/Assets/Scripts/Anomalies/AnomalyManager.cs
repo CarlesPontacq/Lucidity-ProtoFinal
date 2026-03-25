@@ -15,6 +15,7 @@ public class AnomalyManager : MonoBehaviour
 
     [Header("Dependencies")]
     [SerializeField] private ZonesManager zonesManager;  
+    [SerializeField] private EnemySpawner enemySpawner;  
 
     [SerializeField] private List<Entry> entries = new();
 
@@ -157,6 +158,16 @@ public class AnomalyManager : MonoBehaviour
             ExpectedAnomaliesThisLoop++;
         }
 
+    }
+
+    private void DecideIfEnemySpawns()
+    {
+        if (enemySpawner == null) return;
+
+        if (enemySpawner.enemyEnabledThisLoop)
+        {
+
+        }
     }
 
     public void ClearSpawned()

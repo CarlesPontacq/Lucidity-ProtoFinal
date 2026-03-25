@@ -18,7 +18,6 @@ public class ObjectInteraction : MonoBehaviour
         if (!fullyInteractable) return;
 
         InteractionFeedback.Instance.ShowInteractionFeedback();
-        SFXManager.Instance.PlayGlobalSound("objectHover", 0.5f);
     }
     
     public virtual void OnFocusExit()

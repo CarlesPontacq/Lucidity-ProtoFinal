@@ -28,7 +28,7 @@ public class AnomalyManager : MonoBehaviour
     public int EntryCount => entries != null ? entries.Count : 0;
 
     [Header("Loop Selection")]
-    [SerializeField] private int anomaliesPerLoop = 0;
+    private int anomaliesPerLoop = 0;
     [SerializeField] private int minAnomaliesPerLoop = 2;
     [SerializeField] private int maxAnomaliesPerLoop = 3;
 

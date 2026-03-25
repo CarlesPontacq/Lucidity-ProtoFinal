@@ -2264,7 +2264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlockableZones:
   - zoneId: 1
-    doorToUnlock: {fileID: 944003972}
+    doorToUnlock: {fileID: 2000383038}
     unlockLoopNumber: 4
   - zoneId: 2
     doorToUnlock: {fileID: 0}
@@ -4286,6 +4286,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractableDoor (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7998740964217843869, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8815009
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998740964217843869, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
+      propertyPath: m_Size.z
+      value: 2.1936295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998740964217843869, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
+      propertyPath: m_Center.x
+      value: 0.51703376
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998740964217843869, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
+      propertyPath: m_Center.y
+      value: -0.045
+      objectReference: {fileID: 0}
     - target: {fileID: 9004695201238947326, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
       propertyPath: isLocked
       value: 0
@@ -4434,8 +4450,8 @@ MonoBehaviour:
   reportState: {fileID: 564581944}
   exitDoor: {fileID: 1441630025}
   interactableDoors:
-  - {fileID: 944003972}
-  - {fileID: 1904520397}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 1441630025}
   documentationMode: {fileID: 281296269}
   exitBlocker: {fileID: 0}
@@ -5629,17 +5645,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
---- !u!114 &944003972 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9004695201238947326, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
-  m_PrefabInstance: {fileID: 944003971}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &951849567
 GameObject:
   m_ObjectHideFlags: 0
@@ -8624,17 +8629,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 164700760214063264, guid: 52c4e27088b8d004fa69b64f8414d568, type: 3}
   m_PrefabInstance: {fileID: 1888160412}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1904520397 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9004695201238947326, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
-  m_PrefabInstance: {fileID: 743128476}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1911859907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9416,6 +9410,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.6487343, y: 0.97122765, z: 0.7737987}
   m_Center: {x: -0.00846675, y: 0.003121779, z: 0.0018600826}
+--- !u!114 &2000383038 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9004695201238947326, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
+  m_PrefabInstance: {fileID: 944003971}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2009926684
 PrefabInstance:
   m_ObjectHideFlags: 0

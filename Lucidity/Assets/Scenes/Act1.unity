@@ -2171,7 +2171,6 @@ Transform:
   - {fileID: 1758223932}
   - {fileID: 1423677013}
   - {fileID: 1146919885}
-  - {fileID: 1055394487}
   - {fileID: 1725315410}
   - {fileID: 1056275964}
   - {fileID: 395092835}
@@ -6873,60 +6872,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1055394485
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1055394487}
-  - component: {fileID: 1055394486}
-  m_Layer: 0
-  m_Name: Zones Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1055394486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055394485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1228b8a7ea180c46843831558dc1434, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unlockableZones:
-  - zoneId: 1
-    doorToUnlock: {fileID: 1669279855}
-    unlockLoopNumber: 4
-  - zoneId: 2
-    doorToUnlock: {fileID: 1720269724}
-    unlockLoopNumber: 8
-  - zoneId: 3
-    doorToUnlock: {fileID: 0}
-    unlockLoopNumber: 5
---- !u!4 &1055394487
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055394485}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.252155, y: 1.8572878, z: 11.260464}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 251308553}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1056275963
 GameObject:
   m_ObjectHideFlags: 0
@@ -7484,7 +7429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95f01faf41db254cba3db3323eebf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zonesManager: {fileID: 1055394486}
+  zonesManager: {fileID: 0}
   anomalyManager: {fileID: 1423677012}
   reportState: {fileID: 1758223928}
   exitDoor: {fileID: 1326264524}
@@ -9621,7 +9566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b11e621d27aec44d838bba59085ecb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zonesManager: {fileID: 1055394486}
+  zonesManager: {fileID: 0}
   entries:
   - id: 01
     zoneId: 0
@@ -10672,17 +10617,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1620746307}
   m_CullTransparentMesh: 1
---- !u!114 &1669279855 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 108677020716787289, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
-  m_PrefabInstance: {fileID: 1720269723}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1680391046
 Mesh:
   m_ObjectHideFlags: 0
@@ -10971,6 +10905,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 92195473448710245, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.02
+      objectReference: {fileID: 0}
     - target: {fileID: 134097143737842918, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -11203,6 +11141,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 987276646}
+    - target: {fileID: 2673085069197196459, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+      propertyPath: isLocked
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2751692735223599358, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -11330,6 +11272,10 @@ PrefabInstance:
     - target: {fileID: 4193033811753683320, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
       propertyPath: m_VersionIndex
       value: 12726
+      objectReference: {fileID: 0}
+    - target: {fileID: 4206887131371884704, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.02
       objectReference: {fileID: 0}
     - target: {fileID: 4211347200372148684, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
       propertyPath: m_Mesh
@@ -11630,17 +11576,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 848182100}
   m_SourcePrefab: {fileID: 100100000, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
---- !u!114 &1720269724 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2673085069197196459, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
-  m_PrefabInstance: {fileID: 1720269723}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1725315410 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7493953331338454403, guid: 0bc8bef1a3d95414cbcd493f234aed9a, type: 3}
@@ -12015,7 +11950,7 @@ MonoBehaviour:
   handsWithCamera: {fileID: 1415356123}
   deathCooldown: 0.35
   forcePlayerLayer: -1
-  lastLoop: 8
+  lastLoop: 4
   cameraRotation: {fileID: 1928008041}
   isDying: 0
   finishedLoops: 0

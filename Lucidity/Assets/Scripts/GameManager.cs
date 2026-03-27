@@ -103,9 +103,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ===============================
-    // LOOP SYSTEM
-    // ===============================
+    #region Loops
 
     public int GetCurrentLoopIndex() => currentLoop;
     public void SetCurrentLoopIndex(int newIndex) => currentLoop = newIndex;
@@ -131,6 +129,8 @@ public class GameManager : MonoBehaviour
             loopManager.StartNextLoop();
     }
 
+    #endregion
+
     #region Pickups
 
     public void CameraGrabbed(ItemData itemData)
@@ -143,8 +143,8 @@ public class GameManager : MonoBehaviour
         if (itemInfoOverlay != null)
             itemInfoOverlay.OpenInfo(itemData);
 
-        if (cameraManager != null)
-            cameraManager.SetStartingCameraMode();
+        //if (cameraManager != null)
+        //    cameraManager.SetStartingCameraMode();
 
         SetHandsWithCameraVisibility(true);
     }

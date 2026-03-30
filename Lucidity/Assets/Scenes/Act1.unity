@@ -2779,17 +2779,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &355708876 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8194320759429800079, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
-  m_PrefabInstance: {fileID: 1415356121}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &395092835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4895994334007429397, guid: dffbc9bc26cc57a43aacc6f2bc7b3f9a, type: 3}
@@ -6253,7 +6242,7 @@ MonoBehaviour:
   sensitivitySlider: {fileID: 1867835696}
   languageIndex: 0
   languageDropdown: {fileID: 1432057411}
-  cameraRotation: {fileID: 1928008041}
+  cameraRotation: {fileID: 0}
 --- !u!4 &970217621
 Transform:
   m_ObjectHideFlags: 0
@@ -7454,7 +7443,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 2052968890}
   - {fileID: 1326264524}
-  documentationMode: {fileID: 1928008043}
+  documentationMode: {fileID: 0}
   exitBlocker: {fileID: 0}
   exitLamp: {fileID: 627909402}
   nextLoopCooldown: 0.25
@@ -9066,6 +9055,10 @@ PrefabInstance:
       propertyPath: input
       value: 
       objectReference: {fileID: 2076784865}
+    - target: {fileID: 8172359253978911886, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: hasFlashCamera
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8572510722767480966, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: uiCanvas
       value: 
@@ -10677,7 +10670,7 @@ PrefabInstance:
     - target: {fileID: 434540214557310052, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
       propertyPath: playerCameraRotationRef
       value: 
-      objectReference: {fileID: 1928008041}
+      objectReference: {fileID: 0}
     - target: {fileID: 488983380980892956, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -11642,8 +11635,8 @@ MonoBehaviour:
   closeDelaySeconds: 0.5
   pauseGameWhenOpen: 1
   disableWhileOpen:
-  - {fileID: 1928008041}
-  - {fileID: 355708876}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 1735276961}
   open: 0
 --- !u!114 &1758223931
@@ -11667,8 +11660,8 @@ MonoBehaviour:
   playerBody: {fileID: 985145223}
   playerSpawnTag: PlayerSpawn
   cameraManager: {fileID: 1415356122}
-  documentationMode: {fileID: 1928008043}
-  stunMode: {fileID: 1763816618}
+  documentationMode: {fileID: 0}
+  stunMode: {fileID: 0}
   reportSheet: {fileID: 1758223929}
   itemInfoOverlay: {fileID: 630035896}
   handsWithCamera: {fileID: 1415356123}
@@ -11737,17 +11730,6 @@ MonoBehaviour:
           m_Key: 
         m_FallbackState: 0
         m_WaitForCompletion: 0
---- !u!114 &1763816618 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7895224099656843609, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
-  m_PrefabInstance: {fileID: 1415356121}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ab201926bdbfdd40a084647cc41169a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1788415390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12507,17 +12489,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77743da7eec2172478c1655adc23739c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1928008043 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3653492422873578228, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
-  m_PrefabInstance: {fileID: 1415356121}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d9a3776b10e6de42a820cdf718dc88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1938579447

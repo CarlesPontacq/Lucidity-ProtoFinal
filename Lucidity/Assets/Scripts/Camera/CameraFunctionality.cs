@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CameraFunctionality : MonoBehaviour
@@ -15,6 +16,14 @@ public class CameraFunctionality : MonoBehaviour
     [Header("Observation Function")]
     [SerializeField] private Camera normalCamera;
 
+    [Header("Stun Function")]
+    public int maxReels = 5;
+    public int currentReels;
+    [SerializeField] private float flashDuration = 0.3f;
+    private Coroutine flashCoroutine;
+    [SerializeField] private Camera stunCamera;
+    [SerializeField] private CameraRotation cameraRotation;
+
     [Header("Post-Process")]
     [SerializeField] protected GameObject globalVolumeMode;
 
@@ -22,12 +31,8 @@ public class CameraFunctionality : MonoBehaviour
     {
         ui = FindAnyObjectByType<CameraUIHandler>();
         audioHandler = FindAnyObjectByType<CameraAudioHandler>();
-    }
 
-
-    void Update()
-    {
-        
+        currentReels = maxReels;
     }
 
     public void ActivateMode()
@@ -40,14 +45,72 @@ public class CameraFunctionality : MonoBehaviour
 
     public void DeactivateMode()
     {
+        if (flashCoroutine != null)
+            StopCoroutine(flashCoroutine);
+
         isActive = false;
         globalVolumeMode.SetActive(false);
 
         normalCamera.enabled = true;
+
+        ui.ShowCameraFlash(false);
     }
 
     public void PerformCameraPhoto()
     {
+        if (flashCoroutine != null)
+            StopCoroutine(flashCoroutine);
 
+        if(currentReels > 0)
+        {
+            isPerformingAction = true;
+
+            currentReels--;
+
+            ui.ShowCameraFlash(true);
+            flashCoroutine = StartCoroutine(StunFlashCoroutine());
+
+            if (ui != null)
+                ui.ActualizeRemainingReelsIndicator(currentReels);
+
+            audioHandler.PlayPhotoSfx();
+        }
+
+    }
+
+    private IEnumerator StunFlashCoroutine()
+    {
+        cameraRotation.SetControlEnabled(false);
+        GameManager.Instance.SetPlayerControlEnabled(false);
+
+        yield return new WaitForSeconds(flashDuration);
+
+        ui.ShowCameraFlash(false);
+        cameraRotation.SetControlEnabled(true);
+        GameManager.Instance.SetPlayerControlEnabled(true);
+
+        TryStunEnemy();
+        isPerformingAction = false;
+    }
+
+    private void TryStunEnemy()
+    {
+        if (stunCamera == null) return;
+
+        Plane[] plane = GeometryUtility.CalculateFrustumPlanes(stunCamera);
+
+        foreach (var mono in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
+        {
+            if (mono is IStunnable stunnable)
+            {
+                Collider col = mono.GetComponentInChildren<Collider>();
+                if (col == null) continue;
+
+                if (GeometryUtility.TestPlanesAABB(plane, col.bounds))
+                {
+                    stunnable.OnStunned(null);
+                }
+            }
+        }
     }
 }

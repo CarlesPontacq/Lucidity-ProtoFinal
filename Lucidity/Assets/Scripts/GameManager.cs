@@ -173,8 +173,8 @@ public class GameManager : MonoBehaviour
     {
         stunModeUnlockerGrabbed = true;
 
-        if (stunMode != null)
-            stunMode.isUnlocked = true;
+        //if (stunMode != null)
+        //    stunMode.isUnlocked = true;
 
         if (itemInfoOverlay != null)
             itemInfoOverlay.OpenInfo(itemData);

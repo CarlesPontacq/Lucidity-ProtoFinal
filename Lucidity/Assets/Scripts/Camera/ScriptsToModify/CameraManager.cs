@@ -58,7 +58,6 @@ public class CameraManager : MonoBehaviour
     private void PerformCameraAction()
     {
         if (functionality == null || functionality.isPerformingAction || !hasFlashCamera) return;
-
         functionality.PerformCameraPhoto();
     }
 

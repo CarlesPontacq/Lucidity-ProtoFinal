@@ -60,11 +60,6 @@ public class ScreenshotManager : MonoBehaviour
 
         RenderTexture.active = current;
         sourceCamera.targetTexture = null;
-
-        if(mainPhoto)
-            ui.ActualizeTopPhoto(tex);
-        else
-            ui.ActualizeBottomPhoto(tex);
     }
 
     public void CaptureStunScreenshots(Camera playerCamera, Camera stunCamera)

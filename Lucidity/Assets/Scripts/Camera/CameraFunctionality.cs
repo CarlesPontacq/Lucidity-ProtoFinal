@@ -113,4 +113,11 @@ public class CameraFunctionality : MonoBehaviour
             }
         }
     }
+
+    public void ResetReels()
+    {
+        currentReels = maxReels;
+        if (ui != null)
+            ui.ActualizeRemainingReelsIndicator(currentReels);
+    }
 }

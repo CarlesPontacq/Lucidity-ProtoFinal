@@ -25,8 +25,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Pickups / Systems")]
     [SerializeField] private CameraManager cameraManager;
-    [SerializeField] private DocumentationMode documentationMode;
-    [SerializeField] private StunMode stunMode;
+    [SerializeField] private CameraFunctionality cameraFunctionality;
     [SerializeField] private ReportSheetOverlayUI reportSheet;
     [SerializeField] private ItemInfoOverlay itemInfoOverlay;
     [SerializeField] private GameObject handsWithCamera;
@@ -137,14 +136,14 @@ public class GameManager : MonoBehaviour
     {
         cameraGrabbed = true;
 
-        if (documentationMode != null)
-            documentationMode.isUnlocked = true;
+        if (cameraFunctionality != null)
+            cameraFunctionality.isUnlocked = true;
 
         if (itemInfoOverlay != null)
             itemInfoOverlay.OpenInfo(itemData);
 
-        //if (cameraManager != null)
-        //    cameraManager.SetStartingCameraMode();
+        if (cameraManager != null)
+            cameraManager.SetFunctionality(cameraFunctionality);
 
         SetHandsWithCameraVisibility(true);
     }
@@ -173,8 +172,8 @@ public class GameManager : MonoBehaviour
     {
         stunModeUnlockerGrabbed = true;
 
-        //if (stunMode != null)
-        //    stunMode.isUnlocked = true;
+        if (cameraManager != null)
+            cameraManager.hasFlashCamera = true;
 
         if (itemInfoOverlay != null)
             itemInfoOverlay.OpenInfo(itemData);

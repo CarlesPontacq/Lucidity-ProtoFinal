@@ -30,6 +30,24 @@ public class CameraManager : MonoBehaviour
         input.onCameraAction += HandleCameraPhoto;
     }
 
+    private void Update()
+    {
+        bool docOpen = ReportSheetOverlayUI.IsOpen;
+
+        if (docOpen && !lastDocOpen && lookingThroughCamera)
+        {
+            StopLookingThroughCamera();
+            ui.ShowCameraFlash(false);
+        }
+
+        lastDocOpen = docOpen;
+    }
+
+    public void SetFunctionality(CameraFunctionality newfunctionality)
+    {
+        functionality = newfunctionality;
+    }
+
     #region Input
     private void HandleCameraToggle()
     {

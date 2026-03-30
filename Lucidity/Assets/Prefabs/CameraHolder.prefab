@@ -145,8 +145,7 @@ GameObject:
   - component: {fileID: 247179815839382193}
   - component: {fileID: 2588325535155523862}
   - component: {fileID: 6177127620467473891}
-  - component: {fileID: 6445876700353195187}
-  - component: {fileID: 8192839692736820042}
+  - component: {fileID: 6170689117712442392}
   m_Layer: 0
   m_Name: UltravioletCamera
   m_TagString: MainCamera
@@ -208,7 +207,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 32063
+    m_Bits: 23871
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -240,7 +239,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 257
+    m_Bits: 1025
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -284,12 +283,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2081242053931431542}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea4feaa8c7a5ebd49b788e0bcec212d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUnlocked: 1
+  isUnlocked: 0
   isPerformingAction: 0
   ui: {fileID: 8572510722767480966}
   audioHandler: {fileID: 588726753737900789}
@@ -300,72 +299,7 @@ MonoBehaviour:
   uvLightRecoverySpeed: 0.025
   normalCamera: {fileID: 9021954717483914808}
   isUvLightOn: 0
---- !u!108 &6445876700353195187
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2081242053931431542}
-  m_Enabled: 0
-  serializedVersion: 11
-  m_Type: 0
-  m_Color: {r: 0.692615, g: 0.044022713, b: 0.86415094, a: 1}
-  m_Intensity: 20
-  m_Range: 4.85
-  m_SpotAngle: 70
-  m_InnerSpotAngle: 54.438866
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 1
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 13843
-  m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
-  m_ForceVisible: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
-  m_LightUnit: 1
-  m_LuxAtDistance: 1
-  m_EnableSpotReflector: 1
---- !u!114 &8192839692736820042
+--- !u!114 &6170689117712442392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -374,20 +308,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2081242053931431542}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Script: {fileID: 11500000, guid: f343ce724c6622849a3c37cbcc63c630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 3
-  m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_RenderingLayers: 1
-  m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_ShadowRenderingLayers: 1
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
-  m_SoftShadowQuality: 0
+  isUnlocked: 1
+  isPerformingAction: 0
+  ui: {fileID: 8572510722767480966}
+  audioHandler: {fileID: 588726753737900789}
+  normalCamera: {fileID: 9021954717483914808}
+  globalVolumeMode: {fileID: 952838819765055643}
 --- !u!1 &3314024275106931295
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,7 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab201926bdbfdd40a084647cc41169a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUnlocked: 1
+  isUnlocked: 0
   isPerformingAction: 0
   ui: {fileID: 8572510722767480966}
   audioHandler: {fileID: 588726753737900789}
@@ -794,19 +723,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f92512d8a38b2454fb6603e00257a8b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalCamera: {fileID: 1286198257110702750}
-  currentMode: {fileID: 0}
-  cameraModes:
-  - {fileID: 3653492422873578228}
-  - {fileID: 6177127620467473891}
-  - {fileID: 7895224099656843609}
+  functionality: {fileID: 6170689117712442392}
+  hasFlashCamera: 0
   lookingThroughCamera: 0
   cameraPostProcessToggle: {fileID: 5275213290345335608}
   cameraRotation: {fileID: 7795568537833020718}
   audioHandler: {fileID: 588726753737900789}
   ui: {fileID: 8572510722767480966}
   input: {fileID: 0}
-  scrollCooldown: 0.15
 --- !u!114 &8572510722767480966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -822,22 +746,12 @@ MonoBehaviour:
   uiCanvas: {fileID: 0}
   cameraAspect: {fileID: 0}
   cameraFlash: {fileID: 0}
-  photoTop: {fileID: 0}
-  photoBottom: {fileID: 0}
   stunCameraEffect: {fileID: 0}
-  cameraUIIndicator: {fileID: 0}
-  polaroid: {fileID: 0}
   remainingReels: {fileID: 0}
   cameraAspectBorder:
   - {fileID: 0}
   - {fileID: 0}
-  indicatorPositions:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  indicator: {fileID: 0}
-  indicatorMoveSpeed: 7
-  duration: 5
+  duration: 10
 --- !u!114 &588726753737900789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -852,11 +766,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   photoSfxId: cameraShutter
   photoSfxVolume: 1
-  spatialPhotoSfx: 0
-  stunSfxId: stunModeShutter
-  stunSfxVolume: 1
-  modeSfxId: changeCameraMode
-  modeSfxVolume: 1
 --- !u!114 &6033562226488872808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1082,7 +991,7 @@ MonoBehaviour:
   ui: {fileID: 8572510722767480966}
   audioHandler: {fileID: 588726753737900789}
   globalVolumeMode: {fileID: 952838819765055643}
-  maxReels: 5
+  maxReels: 7
   currentReels: 0
   flasDuration: 0.3
   photoCamera: {fileID: 7171153268978117065}

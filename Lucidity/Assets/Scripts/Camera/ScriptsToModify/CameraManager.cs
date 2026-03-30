@@ -7,7 +7,7 @@ using UnityEngine.Rendering.Universal;
 public class CameraManager : MonoBehaviour
 {
     [Header("CameraFunctions")]
-    [SerializeField] private CameraMode currentMode;
+    [SerializeField] private CameraFunctionality functionality;
     public bool hasFlashCamera = false;
 
     [Header("State")]
@@ -27,17 +27,15 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         input.onCameraToggle += HandleCameraToggle;
-        input.onCameraAction += HandleCameraAction;
+        input.onCameraAction += HandleCameraPhoto;
     }
-
-    //Needs to change currentMode to whatever it will end up being
 
     #region Input
     private void HandleCameraToggle()
     {
-        if (currentMode == null) return;
+        if (functionality == null) return;
 
-        if (ReportSheetOverlayUI.IsOpen || currentMode.isPerformingAction) return;
+        if (ReportSheetOverlayUI.IsOpen || functionality.isPerformingAction) return;
 
         if (!lookingThroughCamera)
             LookThroughCamera();
@@ -47,10 +45,10 @@ public class CameraManager : MonoBehaviour
         GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
     }
 
-    private void HandleCameraAction()
+    private void HandleCameraPhoto()
     {
-        if (!lookingThroughCamera || currentMode == null) return;
-        if (currentMode.isPerformingAction) return;
+        if (!lookingThroughCamera || functionality == null) return;
+        if (functionality.isPerformingAction) return;
 
         PerformCameraAction();
     }
@@ -59,17 +57,17 @@ public class CameraManager : MonoBehaviour
     #region Actions
     private void PerformCameraAction()
     {
-        if (currentMode == null || currentMode.isPerformingAction || !hasFlashCamera) return;
+        if (functionality == null || functionality.isPerformingAction || !hasFlashCamera) return;
 
-        currentMode.PerformCameraAction();
+        functionality.PerformCameraPhoto();
     }
 
     private void LookThroughCamera()
     {
-        if (currentMode == null) return;
+        if (functionality == null) return;
 
         lookingThroughCamera = true;
-        currentMode.ActivateMode();
+        functionality.ActivateMode();
 
         ui.ShowCameraAspect(true);
         InteractionFeedback.Instance.ShowInteractHint(false);
@@ -77,10 +75,10 @@ public class CameraManager : MonoBehaviour
 
     private void StopLookingThroughCamera()
     {
-        if (currentMode == null || currentMode.isPerformingAction) return;
+        if (functionality == null || functionality.isPerformingAction) return;
 
         lookingThroughCamera = false;
-        currentMode.DeactivateMode();
+        functionality.DeactivateMode();
 
         ui.ShowCameraAspect(false);
     }

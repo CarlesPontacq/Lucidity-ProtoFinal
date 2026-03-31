@@ -74,7 +74,7 @@ public class LoopManager : MonoBehaviour
             for (int i = 0; i < interactableDoors.Count; i++)
             {
                 if (interactableDoors[i] != null)
-                    interactableDoors[i].Close(false);
+                    interactableDoors[i].ResetToInitialState(false);
             }
         }
 
@@ -109,7 +109,7 @@ public class LoopManager : MonoBehaviour
             for (int i = 0; i < interactableDoors.Count; i++)
             {
                 if (interactableDoors[i] != null)
-                    interactableDoors[i].Close(false);
+                    interactableDoors[i].ResetToInitialState(false);
             }
         }
 

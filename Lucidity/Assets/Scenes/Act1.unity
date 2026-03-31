@@ -4992,8 +4992,7 @@ MonoBehaviour:
   unlockDoorsKey: 288
   goToLastLoopKey: 289
   currentlyImmortal: 0
-  unlockZoneLoop: 3
-  lasthLoop: 7
+  lastLoop: 4
 --- !u!1 &783111350
 GameObject:
   m_ObjectHideFlags: 0
@@ -7424,7 +7423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95f01faf41db254cba3db3323eebf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zonesManager: {fileID: 0}
   anomalyManager: {fileID: 1423677012}
   reportState: {fileID: 1758223928}
   exitDoor: {fileID: 1326264524}
@@ -9269,74 +9267,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b11e621d27aec44d838bba59085ecb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zonesManager: {fileID: 0}
   entries:
   - id: 01
-    zoneId: 0
     prefab: {fileID: 1071576265}
     anchor: {fileID: 509518466}
   - id: 02
-    zoneId: 0
     prefab: {fileID: 495577953}
     anchor: {fileID: 635592693}
   - id: 03
-    zoneId: 0
     prefab: {fileID: 743415963}
     anchor: {fileID: 1912787582}
   - id: 04
-    zoneId: 0
     prefab: {fileID: 729426398}
     anchor: {fileID: 1402854727}
   - id: 05
-    zoneId: 0
     prefab: {fileID: 1788415392}
     anchor: {fileID: 282953409}
   - id: 06
-    zoneId: 3
     prefab: {fileID: 1850000103}
     anchor: {fileID: 842261095}
   - id: 07
-    zoneId: 3
     prefab: {fileID: 2088034138}
     anchor: {fileID: 2075626280}
   - id: 08
-    zoneId: 3
     prefab: {fileID: 265716697}
     anchor: {fileID: 1238858844}
   - id: 10
-    zoneId: 0
     prefab: {fileID: 904777055}
     anchor: {fileID: 822445818}
   - id: 11
-    zoneId: 0
     prefab: {fileID: 1735135742}
     anchor: {fileID: 1317187136}
   - id: 12
-    zoneId: 0
     prefab: {fileID: 541884355}
     anchor: {fileID: 724996896}
   - id: 13
-    zoneId: 0
     prefab: {fileID: 1792736984}
     anchor: {fileID: 1977384097}
   - id: 14
-    zoneId: 3
     prefab: {fileID: 265716697}
     anchor: {fileID: 1238858844}
   - id: 15
-    zoneId: 0
     prefab: {fileID: 969029259552115660, guid: 043cfb24246c04a47bdab3d64c9ca6ae, type: 3}
     anchor: {fileID: 1220327526}
   - id: 16
-    zoneId: 3
     prefab: {fileID: 350739362}
     anchor: {fileID: 253131700}
   - id: 17
-    zoneId: 3
     prefab: {fileID: 1927312710}
     anchor: {fileID: 1708717279}
   - id: 18
-    zoneId: 0
     prefab: {fileID: 1120138023}
     anchor: {fileID: 1120138022}
   anomaliesPerLoop: 2
@@ -10663,7 +10643,7 @@ PrefabInstance:
     - target: {fileID: 434540214557310052, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
       propertyPath: playerCameraRotationRef
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1928008041}
     - target: {fileID: 488983380980892956, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
       propertyPath: m_Mesh
       value: 

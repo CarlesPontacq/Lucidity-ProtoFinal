@@ -19,8 +19,7 @@ public class CheatsManager : MonoBehaviour
 
     public bool currentlyImmortal = false;
 
-    [SerializeField] private int unlockZoneLoop = 3;
-    [SerializeField] private int lasthLoop = 7;
+    [SerializeField] private int lastLoop = 4;
 
     private void Awake()
     {
@@ -71,10 +70,7 @@ public class CheatsManager : MonoBehaviour
         if (Input.GetKeyDown(immortalityKey))
             currentlyImmortal = !currentlyImmortal;
 
-        if (Input.GetKeyDown(unlockDoorsKey))
-            GameManager.Instance.SetCurrentLoopIndex(unlockZoneLoop);
-
         if (Input.GetKeyDown(goToLastLoopKey))
-            GameManager.Instance.SetCurrentLoopIndex(lasthLoop);    
+            GameManager.Instance.SetCurrentLoopIndex(lastLoop);    
     }
 }

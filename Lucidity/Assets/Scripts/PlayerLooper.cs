@@ -25,7 +25,8 @@ public class PlayerLooper : MonoBehaviour
         Quaternion relativeRotation = teleportDestination.rotation * Quaternion.Inverse(transform.rotation);
 
         playerRb.transform.position = teleportDestination.TransformPoint(localOffset);
-        playerCameraRotationRef.ApplyRotationOffset(relativeRotation);
+        if (playerCameraRotationRef != null)
+            playerCameraRotationRef.ApplyRotationOffset(relativeRotation);
 
         GameManager.Instance.OnExitDoorCrossed();
     }

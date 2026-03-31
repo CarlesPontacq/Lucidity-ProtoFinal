@@ -926,6 +926,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.3231465, y: 0.7660448, z: 2.0926518}
   m_Center: {x: 0, y: -0.05000001, z: 1.0463259}
+--- !u!114 &223494450 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9004695201238947326, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
+  m_PrefabInstance: {fileID: 743128476}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &226653999
 GameObject:
   m_ObjectHideFlags: 0
@@ -2955,6 +2966,17 @@ Transform:
   - {fileID: 2860005391727727641}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &625066580 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9004695201238947326, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
+  m_PrefabInstance: {fileID: 944003971}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &664264245
 GameObject:
   m_ObjectHideFlags: 0
@@ -3936,7 +3958,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pivot: {fileID: 692290630}
-  isLocked: 1
+  startsOpen: 0
+  startsLocked: 0
   openAngle: 90
   openSpeed: 5
   autoOpenWhenUnlocked: 1
@@ -4315,14 +4338,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95f01faf41db254cba3db3323eebf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zonesManager: {fileID: 0}
   anomalyManager: {fileID: 2062422187}
   reportState: {fileID: 564581944}
   exitDoor: {fileID: 1441630025}
   interactableDoors:
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1441630025}
+  - {fileID: 625066580}
+  - {fileID: 223494450}
   cameraFunctionality: {fileID: 2125485322}
   exitBlocker: {fileID: 0}
   exitLamp: {fileID: 692290627}
@@ -5763,8 +5785,7 @@ MonoBehaviour:
   unlockDoorsKey: 288
   goToLastLoopKey: 289
   currentlyImmortal: 0
-  unlockZoneLoop: 3
-  lasthLoop: 7
+  lastLoop: 4
 --- !u!1001 &967368754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9444,30 +9465,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b11e621d27aec44d838bba59085ecb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zonesManager: {fileID: 0}
   entries:
   - id: 01
-    zoneId: 0
     prefab: {fileID: 2009926686}
     anchor: {fileID: 951849568}
   - id: 02
-    zoneId: 0
     prefab: {fileID: 570468136}
     anchor: {fileID: 668743112}
   - id: 03
-    zoneId: 0
     prefab: {fileID: 1324741766}
     anchor: {fileID: 720298435}
   - id: 04
-    zoneId: 0
     prefab: {fileID: 119725171}
     anchor: {fileID: 231446786}
   - id: 05
-    zoneId: 2
     prefab: {fileID: 934274227}
     anchor: {fileID: 2087341761}
   - id: 06
-    zoneId: 2
     prefab: {fileID: 1659144299}
     anchor: {fileID: 1411212348}
   anomaliesPerLoop: 2

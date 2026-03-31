@@ -1,13 +1,9 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Rendering.Universal;
 
-public class CameraManager : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     [Header("Camera Modes")]
-    public Transform normalCamera;
     public CameraMode currentMode;
     public List<CameraMode> cameraModes;
     private int currentModeIndex = 0;
@@ -33,9 +29,7 @@ public class CameraManager : MonoBehaviour
     {
         input.onCameraToggle += HandleCameraToggle;
         input.onCameraAction += HandleCameraAction;
-        input.onChangeCameraMode += HandleChangeCameraMode;
-
-        //cameraPostProcessToggle.ToggleCameraPostProcessing(lookingThroughCamera);
+        //input.onChangeCameraMode += HandleChangeCameraMode;
     }
 
     private void Update()
@@ -62,20 +56,18 @@ public class CameraManager : MonoBehaviour
     {
         if (!lookingThroughCamera || currentMode.isPerformingAction) return;
         if (!mode.isUnlocked) return;
-        
+
         DeactivateMode();
-        
+
         GameManager.Instance.SetPlayerControlEnabled(true);
         cameraRotation.SetControlEnabled(true);
         currentMode = mode;
         currentMode.ActivateMode();
-
-        ui.SetIndicatorPosition(cameraModes.IndexOf(mode));
     }
 
     private void HandleCameraToggle()
     {
-        if(currentMode == null) return;
+        if (currentMode == null) return;
 
         if (ReportSheetOverlayUI.IsOpen || currentMode.isPerformingAction) return;
 
@@ -83,8 +75,6 @@ public class CameraManager : MonoBehaviour
             LookThroughCamera();
         else
             StopLookingThroughCamera();
-
-        //cameraPostProcessToggle.ToggleCameraPostProcessing(lookingThroughCamera);
 
         GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
     }
@@ -108,8 +98,6 @@ public class CameraManager : MonoBehaviour
         int startIndex = currentModeIndex;
         int index = currentModeIndex;
 
-        audioHandler.PlayChangeCameraModeSfx();
-
         do
         {
             index = (index + direction + cameraModes.Count) % cameraModes.Count;
@@ -128,7 +116,6 @@ public class CameraManager : MonoBehaviour
     {
         if (currentMode == null || currentMode.isPerformingAction) return;
 
-        //StopLookingThroughCamera();
         currentMode.DeactivateMode();
         currentMode = null;
     }

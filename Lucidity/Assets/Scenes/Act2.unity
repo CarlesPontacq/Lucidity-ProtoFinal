@@ -2140,57 +2140,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &448599071
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 448599072}
-  - component: {fileID: 448599073}
-  m_Layer: 0
-  m_Name: Zones Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &448599072
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448599071}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.252155, y: 1.8572878, z: 11.260464}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 807779994}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &448599073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448599071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1228b8a7ea180c46843831558dc1434, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unlockableZones:
-  - zoneId: 1
-    doorToUnlock: {fileID: 2000383038}
-    unlockLoopNumber: 4
-  - zoneId: 2
-    doorToUnlock: {fileID: 0}
-    unlockLoopNumber: 5
 --- !u!1 &503176624
 GameObject:
   m_ObjectHideFlags: 0
@@ -2447,7 +2396,7 @@ MonoBehaviour:
   handsWithCamera: {fileID: 281296272}
   deathCooldown: 0.35
   forcePlayerLayer: -1
-  lastLoop: 9
+  lastLoop: 5
   cameraRotation: {fileID: 281296276}
   isDying: 0
   finishedLoops: 0
@@ -4366,7 +4315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95f01faf41db254cba3db3323eebf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zonesManager: {fileID: 448599073}
+  zonesManager: {fileID: 0}
   anomalyManager: {fileID: 2062422187}
   reportState: {fileID: 564581944}
   exitDoor: {fileID: 1441630025}
@@ -4426,7 +4375,6 @@ Transform:
   - {fileID: 564581947}
   - {fileID: 2062422188}
   - {fileID: 806857066}
-  - {fileID: 448599072}
   - {fileID: 75111128}
   - {fileID: 1693005867}
   - {fileID: 17976408}
@@ -5568,6 +5516,10 @@ PrefabInstance:
     - target: {fileID: 6705814585532737083, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
       propertyPath: m_Name
       value: InteractableDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004695201238947326, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
+      propertyPath: isLocked
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8776,7 +8728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4258802157728487930, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.4999847
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4562887223896683118, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: m_AnchorMax.y
@@ -9281,17 +9233,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.6487343, y: 0.97122765, z: 0.7737987}
   m_Center: {x: -0.00846675, y: 0.003121779, z: 0.0018600826}
---- !u!114 &2000383038 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9004695201238947326, guid: cf5f4886b9fd18b49ac3ce5471fd9f9d, type: 3}
-  m_PrefabInstance: {fileID: 944003971}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2009926684
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9503,7 +9444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b11e621d27aec44d838bba59085ecb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zonesManager: {fileID: 448599073}
+  zonesManager: {fileID: 0}
   entries:
   - id: 01
     zoneId: 0

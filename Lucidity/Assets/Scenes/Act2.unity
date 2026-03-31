@@ -9104,7 +9104,6 @@ GameObject:
   - component: {fileID: 2061410153}
   - component: {fileID: 2061410152}
   - component: {fileID: 2061410151}
-  - component: {fileID: 2061410154}
   - component: {fileID: 2061410155}
   m_Layer: 0
   m_Name: Loop Trigger
@@ -9165,19 +9164,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2061410154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2061410150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82d130f513d8f014b843bb9f32b466f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  door: {fileID: 1441630025}
 --- !u!114 &2061410155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9609,6 +9595,10 @@ PrefabInstance:
       propertyPath: reportState
       value: 
       objectReference: {fileID: 564581944}
+    - target: {fileID: 4099630363432856693, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}
+      propertyPath: startsLocked
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4099630363432856693, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}
       propertyPath: autoOpenAnimated
       value: 1

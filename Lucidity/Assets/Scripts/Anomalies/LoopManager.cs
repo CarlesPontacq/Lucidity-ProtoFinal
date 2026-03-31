@@ -5,7 +5,6 @@ using UnityEngine;
 public class LoopManager : MonoBehaviour
 {
     public static event Action<int> OnLoopStarted;
-    [SerializeField] private ZonesManager zonesManager;
     [SerializeField] private AnomalyManager anomalyManager;
     [SerializeField] private ReportResultState reportState;
     [SerializeField] private DoorInteraction exitDoor;
@@ -85,9 +84,6 @@ public class LoopManager : MonoBehaviour
         if (exitLamp != null)
             exitLamp.SetCanPass(true);
 
-        if (zonesManager != null)
-            zonesManager.UpdateZoneDoors(GameManager.Instance.GetCurrentLoopIndex());
-
         if (anomalyManager != null)
             anomalyManager.ClearSpawned();
 
@@ -125,9 +121,6 @@ public class LoopManager : MonoBehaviour
 
         if (exitLamp != null)
             exitLamp.SetCanPass(false);
-
-        if (zonesManager != null)
-            zonesManager.UpdateZoneDoors(GameManager.Instance.GetCurrentLoopIndex());
 
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();

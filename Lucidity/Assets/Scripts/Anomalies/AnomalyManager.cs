@@ -8,13 +8,9 @@ public class AnomalyManager : MonoBehaviour
     public class Entry
     {
         public string id;
-        public ZoneId zoneId;         
         public Anomaly prefab;
         public Transform anchor;
     }
-
-    [Header("Dependencies")]
-    [SerializeField] private ZonesManager zonesManager;  
 
     [SerializeField] private List<Entry> entries = new();
 
@@ -93,29 +89,9 @@ public class AnomalyManager : MonoBehaviour
             return;
         }
 
-        List<Entry> candidates = new();
+        int count = Mathf.Min(anomaliesPerLoop, entries.Count);
 
-        for (int i = 0; i < entries.Count; i++)
-        {
-            var e = entries[i];
-            if (e == null) continue;
-
-            bool allowed =
-                zonesManager == null || zonesManager.IsZoneUnlocked(e.zoneId);
-
-            if (allowed)
-                candidates.Add(e);
-        }
-
-        if (candidates.Count == 0)
-        {
-            Debug.LogWarning($"[AnomalyManager {GetInstanceID()}] No hay anomalías candidatas: ninguna zona desbloqueada o no hay entries válidas.");
-            return;
-        }
-
-        int count = Mathf.Min(anomaliesPerLoop, candidates.Count);
-
-        List<Entry> bag = new(candidates);
+        List<Entry> bag = new(entries);
 
         for (int i = 0; i < count; i++)
         {
@@ -124,7 +100,7 @@ public class AnomalyManager : MonoBehaviour
             bag.RemoveAt(index);
         }
 
-        Debug.Log($"[AnomalyManager {GetInstanceID()}] Selected {selectedEntriesThisLoop.Count}/{candidates.Count} from unlocked zones.");
+        Debug.Log($"[AnomalyManager {GetInstanceID()}] Selected {selectedEntriesThisLoop.Count}/{entries.Count}.");
     }
 
     private void SpawnSelectedEntries()

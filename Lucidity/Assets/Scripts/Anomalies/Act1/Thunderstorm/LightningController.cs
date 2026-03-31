@@ -32,7 +32,6 @@ public class LightningController : MonoBehaviour
 
     void CallLightning()
     {
-
         int randomLightning = Random.Range(0, lightnings.Length);
         float lightningDuration = Random.Range(lightningMinDuration, lightningMaxDuration);
 

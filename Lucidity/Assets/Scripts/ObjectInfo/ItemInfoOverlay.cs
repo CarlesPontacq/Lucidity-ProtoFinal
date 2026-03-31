@@ -13,6 +13,10 @@ public class ItemInfoOverlay : MonoBehaviour
     [SerializeField] TextMeshProUGUI descriptionText;
     [SerializeField] Image image;
     [SerializeField] Image background;
+    [SerializeField] private float waitTime = 2f;
+    [SerializeField] private float currentWaitTime = 0f;
+    private bool waitTimeEnded = false;
+    private bool opened = false;
 
     void Start()
     {
@@ -20,17 +24,36 @@ public class ItemInfoOverlay : MonoBehaviour
         playerInput.onCloseItemInfo += CloseInfo;
     }
 
+    private void Update()
+    {
+        if (currentWaitTime < waitTime && opened)
+        {
+            currentWaitTime += Time.unscaledDeltaTime;
+        }
+        else
+        {
+            waitTimeEnded = true;
+        }
+    }
+
     public void OpenInfo(ItemData itemData)
     {
+        currentWaitTime = 0f;
+        waitTimeEnded = false;
+        opened = true;
+
         SetInfo(itemData);
         Show();
-
         Time.timeScale = 0f;
         playerInput.SwitchActionMap(PlayerInputObserver.ActionMap.ItemInfo);
     }
 
     public void CloseInfo()
     {
+        if (!waitTimeEnded) return;
+        opened = false;
+
+
         Hide();
 
         Time.timeScale = 1f;
@@ -39,9 +62,19 @@ public class ItemInfoOverlay : MonoBehaviour
 
     private void SetInfo(ItemData itemData)
     {
-        nameText.text = itemData.itemName;
-        descriptionText.text = itemData.description;
+        itemData.itemName.StringChanged += UpdateName;
+        itemData.description.StringChanged += UpdateDescription;
         image.sprite = itemData.image;
+    }
+
+    void UpdateName(string value)
+    {
+        nameText.text = value;
+    }
+
+    void UpdateDescription(string value)
+    {
+        descriptionText.text = value;
     }
 
     private void Hide()

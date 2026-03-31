@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Pickups / Systems")]
     [SerializeField] private CameraManager cameraManager;
-    [SerializeField] private DocumentationMode documentationMode;
+    [SerializeField] private CameraFunctionality cameraFunctionality;
     [SerializeField] private ReportSheetOverlayUI reportSheet;
     [SerializeField] private ItemInfoOverlay itemInfoOverlay;
     [SerializeField] private GameObject handsWithCamera;
@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     private float nextAllowedDeathTime = 0f;
 
     private bool cameraGrabbed = false;
+    private bool stunModeUnlockerGrabbed = false;
     private bool reportSheetGrabbed = false;
     private bool gunGrabbed = false;
     public bool finishedLoops = false;
@@ -72,7 +73,8 @@ public class GameManager : MonoBehaviour
         cameraRotation.SetControlEnabled(true);
         SetPlayerControlEnabled(true);
         finishedLoops = false;
-        handsWithCamera.SetActive(false);
+
+        SetHandsWithCameraVisibility(false);
     }
 
     private void SetUpCharacterOnNewScene()
@@ -100,9 +102,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ===============================
-    // LOOP SYSTEM
-    // ===============================
+    #region Loops
 
     public int GetCurrentLoopIndex() => currentLoop;
     public void SetCurrentLoopIndex(int newIndex) => currentLoop = newIndex;
@@ -128,24 +128,24 @@ public class GameManager : MonoBehaviour
             loopManager.StartNextLoop();
     }
 
-    // ===============================
-    // PICKUPS
-    // ===============================
+    #endregion
+
+    #region Pickups
 
     public void CameraGrabbed(ItemData itemData)
     {
         cameraGrabbed = true;
 
-        if (documentationMode != null)
-            documentationMode.isUnlocked = true;
+        if (cameraFunctionality != null)
+            cameraFunctionality.isUnlocked = true;
 
         if (itemInfoOverlay != null)
             itemInfoOverlay.OpenInfo(itemData);
 
         if (cameraManager != null)
-            cameraManager.SetStartingCameraMode();
+            cameraManager.SetFunctionality(cameraFunctionality);
 
-        handsWithCamera.SetActive(true);
+        SetHandsWithCameraVisibility(true);
     }
 
     public void ReportSheetGrabbed(ItemData itemData)
@@ -168,10 +168,24 @@ public class GameManager : MonoBehaviour
         cameraRotation.SetControlEnabled(false);
     }
 
+    public void StunModeUnlockerGrabbed(ItemData itemData)
+    {
+        stunModeUnlockerGrabbed = true;
+
+        if (cameraManager != null)
+            cameraManager.hasFlashCamera = true;
+
+        if (itemInfoOverlay != null)
+            itemInfoOverlay.OpenInfo(itemData);
+    }
+
     public void SetHandsWithCameraVisibility(bool visibility)
     {
-        handsWithCamera.SetActive(visibility);
+        if (handsWithCamera != null)
+            handsWithCamera.SetActive(visibility);
     }
+
+    #endregion
 
     // ===============================
     // DEATH SYSTEM
@@ -224,6 +238,7 @@ public class GameManager : MonoBehaviour
 
         SetPlayerBodyVisible(true);
         cameraRotation.SetControlEnabled(true);
+        cameraRotation.ResetOrientation();
 
         SetPlayerControlEnabled(true);
 

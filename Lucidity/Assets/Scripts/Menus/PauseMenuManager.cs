@@ -32,12 +32,6 @@ public class PauseMenuManager : MonoBehaviour
         returnToMainMenuButton.onClick.AddListener(SceneController.Instance.LoadMainMenuScene);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            TogglePause();
-    }
-
     public void TogglePause()
     {
         SetOpen(!openPausePanel);
@@ -61,13 +55,15 @@ public class PauseMenuManager : MonoBehaviour
         if (GameManager.Instance.isDying) return;
         if(isOptionsPanelOpen) return;
 
-        Debug.Log(isOptionsPanelOpen);
-
         openPausePanel = value;
         IsOpen = openPausePanel;
 
         if (pausePanel)
             pausePanel.SetActive(openPausePanel);
+
+        if(value == true)
+            InteractionFeedback.Instance.ShowInteractHint(false);
+        
 
         Cursor.visible = openPausePanel;
         Cursor.lockState = openPausePanel ? CursorLockMode.None : CursorLockMode.Locked;

@@ -13,12 +13,8 @@ public class PlayerLooper : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             if (GameManager.Instance.finishedLoops)
-            {
-                Debug.Log("Finished Game");
                 return;
-            }
 
-            GameManager.Instance.OnExitDoorCrossed();
             SetPlayerLoopPositionPosition();
         }
     }
@@ -29,8 +25,15 @@ public class PlayerLooper : MonoBehaviour
         Quaternion relativeRotation = teleportDestination.rotation * Quaternion.Inverse(transform.rotation);
 
         playerRb.transform.position = teleportDestination.TransformPoint(localOffset);
-        playerCameraRotationRef.ApplyRotationOffset(relativeRotation);
+        if (playerCameraRotationRef != null)
+            playerCameraRotationRef.ApplyRotationOffset(relativeRotation);
 
         GameManager.Instance.OnExitDoorCrossed();
     }
+
+    public void PlayerLoopCheat()
+    {
+        GameManager.Instance.OnExitDoorCrossed();
+    }
+
 }

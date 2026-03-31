@@ -8,7 +8,6 @@ public class EnemyFollowSteering : MonoBehaviour
     [SerializeField] private float stopDistance = 1.2f;
 
     [Header("Turning")]
-    [Tooltip("Grados por segundo (más bajo = menos temblor)")]
     [SerializeField] private float turnRateDeg = 180f;
 
     [Header("Obstacle Avoidance")]
@@ -22,15 +21,20 @@ public class EnemyFollowSteering : MonoBehaviour
 
     private Rigidbody rb;
     private Transform player;
-
     private Vector3 smoothMoveDir = Vector3.forward;
+
+    private bool canChase = false;
+
+    public void SetCanChase(bool value)
+    {
+        canChase = value;
+    }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
-
         rb.constraints |= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
@@ -44,6 +48,8 @@ public class EnemyFollowSteering : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!canChase) return;
+
         if (player == null)
         {
             if (GameManager.PlayerRef != null) player = GameManager.PlayerRef.transform;
@@ -58,14 +64,15 @@ public class EnemyFollowSteering : MonoBehaviour
             return;
 
         Vector3 desired = toPlayer.normalized;
-
         Vector3 avoid = ComputeAvoidance(desired);
 
         Vector3 rawDir = (desired + avoid).normalized;
 
         smoothMoveDir = Vector3.Slerp(smoothMoveDir, rawDir, directionSmooth * Time.fixedDeltaTime);
         smoothMoveDir.y = 0f;
-        if (smoothMoveDir.sqrMagnitude < 0.0001f) smoothMoveDir = transform.forward;
+
+        if (smoothMoveDir.sqrMagnitude < 0.0001f)
+            smoothMoveDir = transform.forward;
 
         Quaternion targetRot = Quaternion.LookRotation(smoothMoveDir, Vector3.up);
         Quaternion newRot = Quaternion.RotateTowards(rb.rotation, targetRot, turnRateDeg * Time.fixedDeltaTime);
@@ -83,7 +90,6 @@ public class EnemyFollowSteering : MonoBehaviour
         {
             Vector3 away = hit.normal * avoidStrength;
             away.y = 0f;
-
             return away;
         }
 

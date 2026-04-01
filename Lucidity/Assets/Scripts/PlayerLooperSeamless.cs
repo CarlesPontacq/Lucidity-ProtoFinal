@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerLooper : MonoBehaviour
+public class PlayerLooperSeamless : MonoBehaviour
 {
     [Header("Normal loop")]
     [SerializeField] private Transform teleportDestination;
@@ -30,10 +30,4 @@ public class PlayerLooper : MonoBehaviour
 
         GameManager.Instance.OnExitDoorCrossed();
     }
-
-    public void PlayerLoopCheat()
-    {
-        GameManager.Instance.OnExitDoorCrossed();
-    }
-
 }

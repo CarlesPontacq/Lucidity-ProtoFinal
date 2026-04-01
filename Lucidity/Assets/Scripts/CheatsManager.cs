@@ -6,7 +6,6 @@ public class CheatsManager : MonoBehaviour
     public static CheatsManager Instance { get; private set; }
 
     ReportSheetOverlayUI reportSheetScript;
-    PlayerLooper playerLooper;
 
     [SerializeField] KeyCode nextSceneKey = KeyCode.N;
     [SerializeField] KeyCode prevSceneKey = KeyCode.P;
@@ -35,9 +34,6 @@ public class CheatsManager : MonoBehaviour
 
         if(reportSheetScript == null)
             reportSheetScript = FindAnyObjectByType<ReportSheetOverlayUI>();
-
-        if (playerLooper == null)
-            playerLooper = FindAnyObjectByType<PlayerLooper>();
     }
 
     private void Update()
@@ -50,16 +46,17 @@ public class CheatsManager : MonoBehaviour
 
         if(reportSheetScript != null)
         {
-            if (Input.GetKeyDown(nextLoopKey) && playerLooper != null)
+            if (Input.GetKeyDown(nextLoopKey))
             {
                 reportSheetScript.UnlockNextLoop(true);
-                playerLooper.PlayerLoopCheat();
+                GameManager.Instance.OnExitDoorCrossed();
+
             }
 
             if (Input.GetKeyDown(restartLoopsKey))
             {
                 reportSheetScript.UnlockNextLoop(false);
-                playerLooper.PlayerLoopCheat();
+                GameManager.Instance.OnExitDoorCrossed();
                 GameManager.Instance.ResetLoops();
             }
 

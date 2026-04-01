@@ -2217,7 +2217,7 @@ MonoBehaviour:
   handsWithCamera: {fileID: 281296272}
   deathCooldown: 0.35
   forcePlayerLayer: -1
-  lastLoop: 5
+  lastLoop: 4
   cameraRotation: {fileID: 281296276}
   isDying: 0
   finishedLoops: 0
@@ -8982,6 +8982,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f916364eff7d074ba5727ea6f989c43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &1937983213 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 3090440918093045446, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
+  m_PrefabInstance: {fileID: 1937983205}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1991522335 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4557421859564756020, guid: 622603ec22f72a640805115b281fc265, type: 3}
@@ -9103,8 +9108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2061410153}
   - component: {fileID: 2061410152}
-  - component: {fileID: 2061410151}
-  - component: {fileID: 2061410155}
+  - component: {fileID: 2061410156}
   m_Layer: 0
   m_Name: Loop Trigger
   m_TagString: Untagged
@@ -9112,22 +9116,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2061410151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2061410150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 636676f0b7d39f040a7c1737dbedf0c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportDestination: {fileID: 2081911471}
-  playerRb: {fileID: 1937983211}
-  playerBodyRef: {fileID: 1937983210}
-  playerCameraRotationRef: {fileID: 281296276}
 --- !u!65 &2061410152
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9164,7 +9152,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2061410155
+--- !u!114 &2061410156
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9173,9 +9161,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2061410150}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb42893982ee7e74fa0e3b684369e2df, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a7952d75a7ac024797d7f942702adce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teleportDestination: {fileID: 2081911471}
+  playerRb: {fileID: 1937983211}
+  playerCollider: {fileID: 1937983213}
+  playerCameraRotationRef: {fileID: 281296276}
+  fadeImage: {fileID: 1911859911}
+  fadeOutDuration: 0.3
+  blackHoldDuration: 0.1
+  fadeInDuration: 0.6
 --- !u!1 &2062422186
 GameObject:
   m_ObjectHideFlags: 0

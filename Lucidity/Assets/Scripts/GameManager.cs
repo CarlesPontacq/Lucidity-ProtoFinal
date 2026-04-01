@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
     public static GameObject PlayerRef { get; private set; }
 
 
+    [Header("Player settings")]
+    [SerializeField] private bool toggleSprint;
+
     [Header("References")]
     [SerializeField] private LoopCounter loopCounterUI;
     [SerializeField] private LoopManager loopManager;
@@ -312,4 +315,5 @@ public class GameManager : MonoBehaviour
 
     public bool GetCameraGrabbed() => cameraGrabbed;
     public bool GetReportSheetGrabbed() => reportSheetGrabbed;
+    public bool GetToggleSprint() => toggleSprint;
 }

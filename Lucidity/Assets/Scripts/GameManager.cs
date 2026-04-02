@@ -316,4 +316,5 @@ public class GameManager : MonoBehaviour
     public bool GetCameraGrabbed() => cameraGrabbed;
     public bool GetReportSheetGrabbed() => reportSheetGrabbed;
     public bool GetToggleSprint() => toggleSprint;
+    public void SetToggleSprint(bool sprintToggle) => toggleSprint = sprintToggle;
 }

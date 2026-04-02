@@ -381,6 +381,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88824195}
   m_CullTransparentMesh: 1
+--- !u!114 &156547669 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 611413469151066579, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
+  m_PrefabInstance: {fileID: 5349671461051041616}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &467903548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1961,6 +1972,9 @@ MonoBehaviour:
   sensitivitySlider: {fileID: 1249226607}
   languageIndex: 0
   languageDropdown: {fileID: 2137297244}
+  sprintIndex: 0
+  isToggleSprint: 0
+  sprintDropdown: {fileID: 156547669}
   cameraRotation: {fileID: 0}
 --- !u!224 &2004973291
 RectTransform:
@@ -2426,6 +2440,38 @@ PrefabInstance:
     - target: {fileID: 240349286901273215, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 611413469151066579, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
+      propertyPath: m_MultiSelect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 611413469151066579, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611413469151066579, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 611413469151066579, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2004973290}
+    - target: {fileID: 611413469151066579, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 611413469151066579, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSprintModeChanged
+      objectReference: {fileID: 0}
+    - target: {fileID: 611413469151066579, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: OptionsManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 611413469151066579, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 668270634757321822, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
       propertyPath: m_AnchorMax.y

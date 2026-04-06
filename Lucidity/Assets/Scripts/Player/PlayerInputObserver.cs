@@ -47,12 +47,16 @@ public class PlayerInputObserver : MonoBehaviour
         if (context.phase == InputActionPhase.Started)
         {
             onRun?.Invoke();
-            IsPressingRun = true;
+
+            if (GameManager.Instance.GetToggleSprint())
+                IsPressingRun = !IsPressingRun;
+            else
+                IsPressingRun = true;
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
-            onRun?.Invoke();
-            IsPressingRun = false;
+            if (!GameManager.Instance.GetToggleSprint())
+                IsPressingRun = false;
         }
     }
 

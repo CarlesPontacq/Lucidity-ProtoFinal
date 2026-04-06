@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
     public static GameObject PlayerRef { get; private set; }
 
 
+    [Header("Player settings")]
+    [SerializeField] private bool toggleSprint;
+
     [Header("References")]
     [SerializeField] private LoopCounter loopCounterUI;
     [SerializeField] private LoopManager loopManager;
@@ -25,8 +28,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Pickups / Systems")]
     [SerializeField] private CameraManager cameraManager;
-    [SerializeField] private DocumentationMode documentationMode;
-    [SerializeField] private StunMode stunMode;
+    [SerializeField] private CameraFunctionality cameraFunctionality;
     [SerializeField] private ReportSheetOverlayUI reportSheet;
     [SerializeField] private ItemInfoOverlay itemInfoOverlay;
     [SerializeField] private GameObject handsWithCamera;
@@ -103,9 +105,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ===============================
-    // LOOP SYSTEM
-    // ===============================
+    #region Loops
 
     public int GetCurrentLoopIndex() => currentLoop;
     public void SetCurrentLoopIndex(int newIndex) => currentLoop = newIndex;
@@ -131,20 +131,22 @@ public class GameManager : MonoBehaviour
             loopManager.StartNextLoop();
     }
 
+    #endregion
+
     #region Pickups
 
     public void CameraGrabbed(ItemData itemData)
     {
         cameraGrabbed = true;
 
-        if (documentationMode != null)
-            documentationMode.isUnlocked = true;
+        if (cameraFunctionality != null)
+            cameraFunctionality.isUnlocked = true;
 
         if (itemInfoOverlay != null)
             itemInfoOverlay.OpenInfo(itemData);
 
         if (cameraManager != null)
-            cameraManager.SetStartingCameraMode();
+            cameraManager.SetFunctionality(cameraFunctionality);
 
         SetHandsWithCameraVisibility(true);
     }
@@ -173,8 +175,8 @@ public class GameManager : MonoBehaviour
     {
         stunModeUnlockerGrabbed = true;
 
-        if (stunMode != null)
-            stunMode.isUnlocked = true;
+        if (cameraManager != null)
+            cameraManager.hasFlashCamera = true;
 
         if (itemInfoOverlay != null)
             itemInfoOverlay.OpenInfo(itemData);
@@ -313,4 +315,6 @@ public class GameManager : MonoBehaviour
 
     public bool GetCameraGrabbed() => cameraGrabbed;
     public bool GetReportSheetGrabbed() => reportSheetGrabbed;
+    public bool GetToggleSprint() => toggleSprint;
+    public void SetToggleSprint(bool sprintToggle) => toggleSprint = sprintToggle;
 }

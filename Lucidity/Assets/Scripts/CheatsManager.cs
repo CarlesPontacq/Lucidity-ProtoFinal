@@ -6,7 +6,6 @@ public class CheatsManager : MonoBehaviour
     public static CheatsManager Instance { get; private set; }
 
     ReportSheetOverlayUI reportSheetScript;
-    PlayerLooper playerLooper;
 
     [SerializeField] KeyCode nextSceneKey = KeyCode.N;
     [SerializeField] KeyCode prevSceneKey = KeyCode.P;
@@ -19,8 +18,7 @@ public class CheatsManager : MonoBehaviour
 
     public bool currentlyImmortal = false;
 
-    [SerializeField] private int unlockZoneLoop = 3;
-    [SerializeField] private int lasthLoop = 7;
+    [SerializeField] private int lastLoop = 4;
 
     private void Awake()
     {
@@ -36,9 +34,6 @@ public class CheatsManager : MonoBehaviour
 
         if(reportSheetScript == null)
             reportSheetScript = FindAnyObjectByType<ReportSheetOverlayUI>();
-
-        if (playerLooper == null)
-            playerLooper = FindAnyObjectByType<PlayerLooper>();
     }
 
     private void Update()
@@ -51,16 +46,17 @@ public class CheatsManager : MonoBehaviour
 
         if(reportSheetScript != null)
         {
-            if (Input.GetKeyDown(nextLoopKey) && playerLooper != null)
+            if (Input.GetKeyDown(nextLoopKey))
             {
                 reportSheetScript.UnlockNextLoop(true);
-                playerLooper.PlayerLoopCheat();
+                GameManager.Instance.OnExitDoorCrossed();
+
             }
 
             if (Input.GetKeyDown(restartLoopsKey))
             {
                 reportSheetScript.UnlockNextLoop(false);
-                playerLooper.PlayerLoopCheat();
+                GameManager.Instance.OnExitDoorCrossed();
                 GameManager.Instance.ResetLoops();
             }
 
@@ -71,10 +67,7 @@ public class CheatsManager : MonoBehaviour
         if (Input.GetKeyDown(immortalityKey))
             currentlyImmortal = !currentlyImmortal;
 
-        if (Input.GetKeyDown(unlockDoorsKey))
-            GameManager.Instance.SetCurrentLoopIndex(unlockZoneLoop);
-
         if (Input.GetKeyDown(goToLastLoopKey))
-            GameManager.Instance.SetCurrentLoopIndex(lasthLoop);    
+            GameManager.Instance.SetCurrentLoopIndex(lastLoop);    
     }
 }

@@ -51,6 +51,27 @@ public class CameraRotation : MonoBehaviour
         currentRotation.x += eulerOffset.x;
     }
 
+    public void SetRotation(Quaternion targetRotation)
+    {
+        Vector3 euler = targetRotation.eulerAngles;
+
+        float pitch = euler.x;
+        if (pitch > 180f) pitch -= 360f;
+
+        float yaw = euler.y;
+        if (yaw > 180f) yaw -= 360f;
+
+        pitch = Mathf.Clamp(pitch, -verticalLimit, verticalLimit);
+
+        rotation.x = pitch;
+        rotation.y = yaw;
+
+        currentRotation = rotation;
+
+        transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
+        body.rotation = Quaternion.Euler(0f, currentRotation.y, 0f);
+    }
+
     public void SetControlEnabled(bool enabled)
     {
         controlEnabled = enabled;

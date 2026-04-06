@@ -18,7 +18,6 @@ public class AnomalySwapObjects : Anomaly
         else
             SetLayerRecursive(normalRoot, defaultLayer);
 
-        if (normalRoot) normalRoot.SetActive(false);
         if (anomalyRoot) anomalyRoot.SetActive(true);
     }
 
@@ -34,7 +33,6 @@ public class AnomalySwapObjects : Anomaly
         else
             SetLayerRecursive(normalRoot, defaultLayer);
 
-        if (normalRoot) normalRoot.SetActive(true);
         if (anomalyRoot) anomalyRoot.SetActive(false);
     }
 
@@ -49,7 +47,6 @@ public class AnomalySwapObjects : Anomaly
             child.gameObject.layer = normalObjectLayer;
         }
 
-        normalRoot.SetActive(true);
         anomalyRoot.SetActive(false);
     }
 
@@ -64,7 +61,6 @@ public class AnomalySwapObjects : Anomaly
             child.gameObject.layer = defaultLayer;
         }
 
-        normalRoot.SetActive(true);
         anomalyRoot.SetActive(false);
     }
 

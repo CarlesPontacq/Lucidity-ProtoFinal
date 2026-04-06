@@ -40,6 +40,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float hiddenTimeMin = 1.2f;
     [SerializeField] private float hiddenTimeMax = 2.5f;
 
+    [Header("SFX Spawn")]
+    [SerializeField] private string spawnSFX = "enemySpawn";
+    [SerializeField] private float sfxVolume = 1.0f;
+
     private GameObject currentEnemy;
     private Coroutine spawnCycleRoutine;
     public bool enemyEnabledThisLoop { get; private set; } = false;
@@ -158,6 +162,8 @@ public class EnemySpawner : MonoBehaviour
         Debug.Log($"[EnemySpawner] Spawning enemy at position: {spawnPos}");
 
         currentEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+        SFXManager.Instance.PlaySpatialSound(spawnSFX, currentEnemy.transform.position, sfxVolume);
 
         // Verificar que el enemigo se instanció correctamente
         if (currentEnemy == null)

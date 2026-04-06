@@ -16,7 +16,7 @@ public class LoopManager : MonoBehaviour
     [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
 
     [Header("Safety")]
-    [Tooltip("Evita avanzar múltiples loops por doble trigger.")]
+    [Tooltip("Evita avanzar mï¿½ltiples loops por doble trigger.")]
     [SerializeField] private float nextLoopCooldown = 0.25f;
 
     [SerializeField] private EnemySpawner enemySpawner;
@@ -59,7 +59,7 @@ public class LoopManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Sin reporte enviado (primer loop o no firmó) -> no toco el contador");
+            Debug.Log("Sin reporte enviado (primer loop o no firmï¿½) -> no toco el contador");
         }
 
     }
@@ -91,9 +91,6 @@ public class LoopManager : MonoBehaviour
         {
             exitDoor.Unlock();        
         }
-
-        if (enemySpawner != null)
-            enemySpawner.SpawnForLoop(GameManager.Instance.GetCurrentLoopIndex());
     }
 
     public void StartLoopFresh()
@@ -125,10 +122,7 @@ public class LoopManager : MonoBehaviour
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();
         else
-            Debug.LogWarning("LoopManager: anomalyManager es null (no puedo spawnear anomalías).");
-
-        if (enemySpawner != null)
-            enemySpawner.SpawnForLoop(GameManager.Instance.GetCurrentLoopIndex());
+            Debug.LogWarning("LoopManager: anomalyManager es null (no puedo spawnear anomalï¿½as).");
 
         OnLoopStarted?.Invoke(GameManager.Instance.GetCurrentLoopIndex());
     }

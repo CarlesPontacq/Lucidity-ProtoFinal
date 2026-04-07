@@ -3167,6 +3167,22 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 137542045}
+    - target: {fileID: 1586998531226431332, guid: 622603ec22f72a640805115b281fc265, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586998531226431332, guid: 622603ec22f72a640805115b281fc265, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586998531226431332, guid: 622603ec22f72a640805115b281fc265, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586998531226431332, guid: 622603ec22f72a640805115b281fc265, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1645395787286716790, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -9131,6 +9147,8 @@ MonoBehaviour:
     anchor: {fileID: 1411212348}
   minAnomaliesPerLoop: 0
   maxAnomaliesPerLoop: 3
+  enemySpawner: {fileID: 0}
+  enemySpawnProbability: 0.6
   autoStartOnBegin: 0
 --- !u!4 &2062422188
 Transform:

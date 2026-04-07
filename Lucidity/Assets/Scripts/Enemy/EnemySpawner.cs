@@ -14,13 +14,14 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
 
     [Header("Loop Rules")]
-    [SerializeField] private int firstSpawnLoop = 1;     
-    [SerializeField] private int firstChaseLoop = 5;     
+    private int baseLoop = 0;
+    [SerializeField] private int firstSpawnLoop = 1;
+    [SerializeField] private int firstChaseLoop = 5;
     [SerializeField, Range(0f, 1f)] private float spawnChancePerLoop = 0.65f;
 
     [Header("Spawn Position")]
     [SerializeField] private SpawnMethod spawnMethod;
-    [SerializeField] private Transform forwardReference; 
+    [SerializeField] private Transform forwardReference;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private float minSpawnDistance = 3.5f;
     [SerializeField] private float maxSpawnDistance = 6f;
@@ -39,14 +40,19 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float hiddenTimeMin = 1.2f;
     [SerializeField] private float hiddenTimeMax = 2.5f;
 
+    [Header("SFX Spawn")]
+    [SerializeField] private string spawnSFX = "enemySpawn";
+    [SerializeField] private float sfxVolume = 1.0f;
+
     private GameObject currentEnemy;
     private Coroutine spawnCycleRoutine;
-    private bool enemyEnabledThisLoop = false;
+    public bool enemyEnabledThisLoop { get; private set; } = false;
     private int currentLoopIndex = 0;
+    private bool spawnedAsAnomaly = false;
 
     private void Update()
     {
-        if(currentLoopIndex == 0 && currentEnemy != null)
+        if (currentLoopIndex == baseLoop && currentEnemy != null)
         {
             ClearEnemy();
         }
@@ -55,6 +61,7 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnForLoop(int loopIndex)
     {
         currentLoopIndex = loopIndex;
+        spawnedAsAnomaly = false;
 
         StopCycle();
         ClearEnemy();
@@ -75,6 +82,25 @@ public class EnemySpawner : MonoBehaviour
         }
 
         spawnCycleRoutine = StartCoroutine(SpawnCycleRoutine());
+    }
+
+    public void SpawnForLoopAsAnomaly(int loopIndex)
+    {
+        currentLoopIndex = loopIndex;
+        spawnedAsAnomaly = true;
+        enemyEnabledThisLoop = true;
+
+        StopCycle();
+        ClearEnemy();
+
+        Debug.Log($"[EnemySpawner] Spawning enemy as anomaly for loop {currentLoopIndex}");
+
+        SpawnEnemyOnce();
+
+        if (currentLoopIndex < firstChaseLoop)
+        {
+            spawnCycleRoutine = StartCoroutine(SpawnCycleRoutine());
+        }
     }
 
     private IEnumerator SpawnCycleRoutine()
@@ -101,7 +127,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemyOnce()
     {
-        if(currentEnemy != null)
+        if (currentEnemy != null)
         {
             Debug.LogWarning("[EnemySpawner] Intento de spawnear cuando ya hay un enemigo");
             return;
@@ -115,13 +141,38 @@ public class EnemySpawner : MonoBehaviour
 
         Transform player = GetPlayerTransform();
         if (player == null)
+        {
+            Debug.LogError("[EnemySpawner] No player reference found!");
             return;
+        }
 
         bool shouldChase = currentLoopIndex >= firstChaseLoop;
-        spawnMethod = shouldChase ? SpawnMethod.SpawnPoints : SpawnMethod.Front;
+
+        // Use spawn points for anomaly spawns for better control
+        if (spawnedAsAnomaly)
+        {
+            spawnMethod = SpawnMethod.SpawnPoints;
+        }
+        else
+        {
+            spawnMethod = shouldChase ? SpawnMethod.SpawnPoints : SpawnMethod.Front;
+        }
 
         Vector3 spawnPos = GetSpawnPosition(player);
+        Debug.Log($"[EnemySpawner] Spawning enemy at position: {spawnPos}");
+
         currentEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+        SFXManager.Instance.PlaySpatialSound(spawnSFX, currentEnemy.transform.position, sfxVolume);
+
+        // Verificar que el enemigo se instanció correctamente
+        if (currentEnemy == null)
+        {
+            Debug.LogError("[EnemySpawner] Failed to instantiate enemy prefab!");
+            return;
+        }
+
+        Debug.Log($"[EnemySpawner] Enemy instantiated successfully: {currentEnemy.name}");
 
         // Mirar al player
         Vector3 lookDir = player.position - currentEnemy.transform.position;
@@ -135,7 +186,7 @@ public class EnemySpawner : MonoBehaviour
             if (shouldChase)
             {
                 rb.isKinematic = false;
-                rb.useGravity = true; 
+                rb.useGravity = true;
                 rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
                 rb.interpolation = RigidbodyInterpolation.Interpolate;
             }
@@ -164,7 +215,7 @@ public class EnemySpawner : MonoBehaviour
         if (stunner != null)
             stunner.Init(this);
 
-        Debug.Log($"[EnemySpawner] Spawned enemy. loop={currentLoopIndex} chase={shouldChase}");
+        Debug.Log($"[EnemySpawner] Spawned enemy successfully. loop={currentLoopIndex} chase={shouldChase} asAnomaly={spawnedAsAnomaly}");
     }
 
     private Vector3 GetPointInFrontOfPlayer(Transform player)
@@ -201,7 +252,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (currentEnemy != null)
         {
-            if(currentEnemy.gameObject != null)
+            if (currentEnemy.gameObject != null)
             {
                 StartCoroutine(DelayedClear());
             }

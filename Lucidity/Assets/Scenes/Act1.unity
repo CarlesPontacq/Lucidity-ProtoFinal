@@ -2514,6 +2514,8 @@ MonoBehaviour:
   visibleTimeMax: 3
   hiddenTimeMin: 8
   hiddenTimeMax: 10
+  spawnSFX: EnemySpawn
+  sfxVolume: 1
 --- !u!114 &318257581 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4325275888344775858, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
@@ -3276,53 +3278,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &468673693
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 468673694}
-  - component: {fileID: 468673695}
-  m_Layer: 0
-  m_Name: StunModeUnlocker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &468673694
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 468673693}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &468673695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 468673693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15f7bc2759d7a514e897ac826675d768, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stunModeObjectUnlockerPrefab: {fileID: 1822227943412310092, guid: 76f26161496fadd4c9273ee515bf6a70, type: 3}
-  loopManager: {fileID: 1146919884}
-  numberLoopToSapwnObject: 2
 --- !u!43 &469811169
 Mesh:
   m_ObjectHideFlags: 0
@@ -6094,6 +6049,9 @@ MonoBehaviour:
   sensitivitySlider: {fileID: 1867835696}
   languageIndex: 0
   languageDropdown: {fileID: 1432057411}
+  sprintIndex: 0
+  isToggleSprint: 0
+  sprintDropdown: {fileID: 0}
   cameraRotation: {fileID: 1928008041}
 --- !u!4 &970217621
 Transform:
@@ -8878,6 +8836,10 @@ PrefabInstance:
       propertyPath: input
       value: 
       objectReference: {fileID: 2076784865}
+    - target: {fileID: 8172359253978911886, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: hasFlashCamera
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8572510722767480966, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: uiCanvas
       value: 
@@ -9146,9 +9108,10 @@ MonoBehaviour:
   - id: 18
     prefab: {fileID: 1120138023}
     anchor: {fileID: 1120138022}
-  anomaliesPerLoop: 2
-  minAnomaliesPerLoop: 2
+  minAnomaliesPerLoop: 0
   maxAnomaliesPerLoop: 3
+  enemySpawner: {fileID: 318053360}
+  enemySpawnProbability: 0.6
   autoStartOnBegin: 0
 --- !u!4 &1423677013
 Transform:
@@ -11287,6 +11250,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3398290939528419255, guid: ea54c0b5e14490a4fb75aef37776ce4f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 376.2815
+      objectReference: {fileID: 0}
+    - target: {fileID: 3398290939528419255, guid: ea54c0b5e14490a4fb75aef37776ce4f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 188.14073
+      objectReference: {fileID: 0}
     - target: {fileID: 7136376132946583277, guid: ea54c0b5e14490a4fb75aef37776ce4f, type: 3}
       propertyPath: waitTime
       value: 1
@@ -11460,6 +11431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2415b83343de44bb4e1776d5635a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toggleSprint: 0
   loopCounterUI: {fileID: 1877356729}
   loopManager: {fileID: 1146919884}
   deathEffect: {fileID: 2063194142}
@@ -13738,6 +13710,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 970217620}
+    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSprintModeChanged
+      objectReference: {fileID: 0}
+    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: OptionsManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3231022757568995769, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -13802,6 +13802,5 @@ SceneRoots:
   - {fileID: 1306155748}
   - {fileID: 1300578580}
   - {fileID: 1736939423}
-  - {fileID: 468673694}
   - {fileID: 829139757}
   - {fileID: 1859711004}

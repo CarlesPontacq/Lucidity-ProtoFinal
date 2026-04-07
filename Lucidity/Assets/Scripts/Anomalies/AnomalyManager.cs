@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 
@@ -24,9 +24,14 @@ public class AnomalyManager : MonoBehaviour
     public int EntryCount => entries != null ? entries.Count : 0;
 
     [Header("Loop Selection")]
-    [SerializeField] private int anomaliesPerLoop = 0;
+    private int anomaliesPerLoop = 0;
     [SerializeField] private int minAnomaliesPerLoop = 2;
     [SerializeField] private int maxAnomaliesPerLoop = 3;
+
+    [Header("Enemy Related")]
+    [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField][Range(0f, 1f)] private float enemySpawnProbability = 0.6f;
+    private bool enemyHasToSpawn = false;
 
     [Header("Auto Start")]
     [Tooltip("Si LoopManager ya llama StartNewLoop(), desactiva esto para evitar doble arranque.")]
@@ -73,6 +78,8 @@ public class AnomalyManager : MonoBehaviour
         documentedAnomalies.Clear();
         ClearSpawned();
 
+        DecideIfEnemySpawns();
+
         SelectEntriesForThisLoop();
         SpawnSelectedEntries();
 
@@ -91,6 +98,12 @@ public class AnomalyManager : MonoBehaviour
 
         int count = Mathf.Min(anomaliesPerLoop, entries.Count);
 
+        if(enemyHasToSpawn && count > 0)
+        {
+            count = Mathf.Max(1, count - 1);
+            Debug.Log($"[AnomalyManager] Enemy will spawn this loop, reducing normal anomalies to {count}");
+        }
+
         List<Entry> bag = new(entries);
 
         for (int i = 0; i < count; i++)
@@ -107,9 +120,9 @@ public class AnomalyManager : MonoBehaviour
     {
         ExpectedAnomaliesThisLoop = 0;
 
-        if (selectedEntriesThisLoop.Count == 0)
+        if (selectedEntriesThisLoop.Count == 0 && !enemyHasToSpawn)
         {
-            Debug.LogWarning($"[AnomalyManager {GetInstanceID()}] selectedEntriesThisLoop is empty! (Nothing to spawn)");
+            Debug.LogWarning($"[AnomalyManager {GetInstanceID()}] selectedEntriesThisLoop is empty and no enemy to spawn!");
             return;
         }
 
@@ -133,6 +146,32 @@ public class AnomalyManager : MonoBehaviour
             ExpectedAnomaliesThisLoop++;
         }
 
+        if (enemyHasToSpawn && enemySpawner != null)
+        {
+            ExpectedAnomaliesThisLoop++;
+            Debug.Log("[AnomalyManager] Enemy will appear as an anomaly this loop!");
+            int currentLoopIndex = GameManager.Instance.GetCurrentLoopIndex();
+            enemySpawner.SpawnForLoopAsAnomaly(currentLoopIndex);
+        }
+    }
+
+    private void DecideIfEnemySpawns()
+    {
+        if (enemySpawner == null)
+        {
+            enemyHasToSpawn = false;
+            return;
+        }
+
+        enemyHasToSpawn = UnityEngine.Random.value <= enemySpawnProbability;
+        if (enemyHasToSpawn)
+        {
+            Debug.Log($"[AnomalyManager] Enemy will spawn this loop with probability {enemySpawnProbability:P}");
+        }
+        else
+        {
+            Debug.Log($"[AnomalyManager] No enemy this loop");
+        }
     }
 
     public void ClearSpawned()
@@ -149,6 +188,7 @@ public class AnomalyManager : MonoBehaviour
 
         spawnedThisLoop.Clear();
         ExpectedAnomaliesThisLoop = 0;
+        enemyHasToSpawn = false;
     }
 
     public bool IsDocumented(string anomalyId) => documentedAnomalies.Contains(anomalyId);
@@ -160,4 +200,6 @@ public class AnomalyManager : MonoBehaviour
     }
 
     public List<Anomaly> GetSpawnedEnemiesThisLoop() => spawnedThisLoop;
+
+    public bool DoesEnemySpawnThisLoop() => enemyHasToSpawn;
 }

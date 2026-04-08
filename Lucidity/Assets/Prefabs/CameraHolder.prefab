@@ -291,6 +291,7 @@ MonoBehaviour:
   ui: {fileID: 8572510722767480966}
   audioHandler: {fileID: 588726753737900789}
   normalCamera: {fileID: 9021954717483914808}
+  hasFlashCamera: 0
   maxReels: 5
   currentReels: 0
   flashDuration: 0.1
@@ -307,7 +308,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5045776832403641599}
   - component: {fileID: 6652565964579843952}
-  - component: {fileID: 885334614282194238}
   - component: {fileID: 4898390533962458769}
   m_Layer: 0
   m_Name: ArmsCamera
@@ -383,14 +383,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &885334614282194238
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3314024275106931295}
-  m_Enabled: 1
 --- !u!114 &4898390533962458769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,7 +437,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7274079368472469454}
   - component: {fileID: 1186519364348274735}
-  - component: {fileID: 4530417787630291971}
   - component: {fileID: 3019037582982712108}
   - component: {fileID: 5482443757158675312}
   m_Layer: 0
@@ -521,14 +512,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &4530417787630291971
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3453350378945652404}
-  m_Enabled: 1
 --- !u!114 &3019037582982712108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -667,7 +650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   functionality: {fileID: 0}
-  hasFlashCamera: 0
+  hasFlashCamera: 1
   lookingThroughCamera: 0
   cameraPostProcessToggle: {fileID: 5275213290345335608}
   cameraRotation: {fileID: 7795568537833020718}
@@ -693,6 +676,10 @@ MonoBehaviour:
   stunCameraEffect: {fileID: 0}
   remainingReels: {fileID: 0}
   cameraAspectBorder:
+  - {fileID: 0}
+  - {fileID: 0}
+  cameraTexts:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   duration: 10

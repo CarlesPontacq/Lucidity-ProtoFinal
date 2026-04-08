@@ -15,6 +15,7 @@ public class CameraUIHandler : MonoBehaviour
     [SerializeField] private Image stunCameraEffect;
     [SerializeField] private TextMeshProUGUI remainingReels;
     [SerializeField] private List<Image> cameraAspectBorder;
+    [SerializeField] private List<TextMeshProUGUI> cameraTexts;
 
     [Header("Stun Photo")]
     [SerializeField] private float duration = 2f;
@@ -26,6 +27,9 @@ public class CameraUIHandler : MonoBehaviour
             image.enabled = showAspect;
         
         remainingReels.enabled = showAspect;
+
+        foreach(TextMeshProUGUI text in cameraTexts) 
+            text.enabled = showAspect;
 
         ShowCameraRedLight(false);
     }

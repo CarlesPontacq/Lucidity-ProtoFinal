@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -125,7 +126,7 @@ public class CameraFunctionality : MonoBehaviour
 
         bool showRedLight = false;
 
-        Plane[] plane = GeometryUtility.CalculateFrustumPlanes(stunCamera);
+        Plane[] plane = GeometryUtility.CalculateFrustumPlanes(normalCamera);
 
         foreach (var mono in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
         {
@@ -136,12 +137,43 @@ public class CameraFunctionality : MonoBehaviour
 
                 if (GeometryUtility.TestPlanesAABB(plane, col.bounds))
                 {
-                    showRedLight = true;
+                    if (HasLineOfSight(col))
+                    {
+                        showRedLight = true;
+                        break;
+                    }
                 }
             }
         }
 
         ui.ShowCameraRedLight(showRedLight);
+    }
+
+    private bool HasLineOfSight(Collider targetCollider)
+    {
+        Vector3 cameraPosition = normalCamera.transform.position;
+
+        Vector3 targetPosition = targetCollider.bounds.center;
+
+        Vector3 direction = targetPosition - cameraPosition;
+        float distance = direction.magnitude;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(cameraPosition, direction, out hit, distance))
+        {
+            if (hit.collider == targetCollider ||
+                hit.collider.transform.IsChildOf(targetCollider.transform) ||
+                targetCollider.transform.IsChildOf(hit.collider.transform))
+            {
+                return true;
+            }
+
+            Debug.DrawLine(cameraPosition, hit.point, Color.red, 0.1f);
+            return false;
+        }
+
+        return false;
     }
 
     public void ResetReels()

@@ -7,7 +7,6 @@ public class CameraFunctionality : MonoBehaviour
     public bool isUnlocked;
     public bool isActive { get; private set; }
 
-    protected bool unlocked;
     public bool isPerformingAction = false;
 
     [SerializeField] protected CameraUIHandler ui;
@@ -17,6 +16,7 @@ public class CameraFunctionality : MonoBehaviour
     [SerializeField] private Camera normalCamera;
 
     [Header("Stun Function")]
+    public bool hasFlashCamera = false;
     public int maxReels = 5;
     public int currentReels;
     [SerializeField] private float flashDuration = 0.3f;
@@ -33,6 +33,11 @@ public class CameraFunctionality : MonoBehaviour
         audioHandler = FindAnyObjectByType<CameraAudioHandler>();
 
         currentReels = maxReels;
+    }
+
+    private void Update()
+    {
+        EnemyIsInSight();
     }
 
     public void ActivateMode()
@@ -112,6 +117,31 @@ public class CameraFunctionality : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void EnemyIsInSight()
+    {
+        if (stunCamera == null || !isActive) return;
+
+        bool showRedLight = false;
+
+        Plane[] plane = GeometryUtility.CalculateFrustumPlanes(stunCamera);
+
+        foreach (var mono in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
+        {
+            if (mono is IStunnable stunnable)
+            {
+                Collider col = mono.GetComponentInChildren<Collider>();
+                if (col == null) continue;
+
+                if (GeometryUtility.TestPlanesAABB(plane, col.bounds))
+                {
+                    showRedLight = true;
+                }
+            }
+        }
+
+        ui.ShowCameraRedLight(showRedLight);
     }
 
     public void ResetReels()

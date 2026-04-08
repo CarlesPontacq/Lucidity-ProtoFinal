@@ -2491,7 +2491,7 @@ MonoBehaviour:
   respawnDelay: 10
   enemyPrefab: {fileID: 5533655514814115806, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
   firstSpawnLoop: 1
-  firstChaseLoop: 5
+  firstChaseLoop: 1
   spawnChancePerLoop: 0.481
   spawnMethod: 0
   forwardReference: {fileID: 2063194143}
@@ -8853,6 +8853,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1513620834}
     - target: {fileID: 8572510722767480966, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: cameraRedLight
+      value: 
+      objectReference: {fileID: 1844202073}
+    - target: {fileID: 8572510722767480966, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: remainingReels
       value: 
       objectReference: {fileID: 328770918}
@@ -11798,6 +11802,17 @@ Light:
   m_CorrespondingSourceObject: {fileID: 1475172709801483857, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
   m_PrefabInstance: {fileID: 1720269723}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1844202073 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 616432502384363022, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 6084432540919551881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1850000101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13711,40 +13726,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 970217620}
-    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnSprintModeChanged
-      objectReference: {fileID: 0}
-    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: OptionsManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3231022757568995769, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 3732657574816437935, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5734208197237156975, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -13771,9 +13758,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 970217620}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 3865849551086724750, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
-    - {fileID: 139993986875557425, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a33092edd04e624a88e44e470abb098, type: 3}

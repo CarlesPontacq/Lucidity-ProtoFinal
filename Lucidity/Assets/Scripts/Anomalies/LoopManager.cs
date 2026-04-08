@@ -87,6 +87,9 @@ public class LoopManager : MonoBehaviour
         if (anomalyManager != null)
             anomalyManager.ClearSpawned();
 
+        if(enemySpawner != null)
+            enemySpawner.ResetCurrentLoopIndex();
+
         if (exitDoor != null)
         {
             exitDoor.Unlock();        

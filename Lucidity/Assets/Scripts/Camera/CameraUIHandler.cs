@@ -17,9 +17,6 @@ public class CameraUIHandler : MonoBehaviour
     [SerializeField] private List<Image> cameraAspectBorder;
     [SerializeField] private List<TextMeshProUGUI> cameraTexts;
 
-    [Header("Stun Photo")]
-    [SerializeField] private float duration = 2f;
-
     internal void ShowCameraAspect(bool showAspect)
     {
         cameraAspect.enabled = showAspect;

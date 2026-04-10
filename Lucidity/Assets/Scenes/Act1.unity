@@ -7071,8 +7071,6 @@ MonoBehaviour:
   anomalyId: 18
   normalObjectOverride: {fileID: 1816377514}
   directionalLight: {fileID: 1844133219}
-  windowRenderer: {fileID: 1816377518}
-  windowMaterialIndex: 0
   anomalyLightColor: {r: 1, g: 0, b: 0, a: 1}
   anomalyWindowBaseColor: {r: 1, g: 0, b: 0, a: 1}
   anomalyWindowEmissionColor: {r: 1, g: 0, b: 0, a: 1}
@@ -11815,11 +11813,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2571706839764040794, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
   m_PrefabInstance: {fileID: 1720269723}
   m_PrefabAsset: {fileID: 0}
---- !u!23 &1816377518 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4665772858263109613, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
-  m_PrefabInstance: {fileID: 1720269723}
-  m_PrefabAsset: {fileID: 0}
 --- !u!108 &1844133219 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 1475172709801483857, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
@@ -13655,6 +13648,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 791730706326679244, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 791730706326679244, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 972551333709416842, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 972551333709416842, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 1451583587086616232, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 1451583587086616232, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 1720066406364885782, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

@@ -4,6 +4,8 @@ public class LightColorAppearAnomaly : Anomaly
 {
     [Header("Scene References")]
     [SerializeField] private Light directionalLight;
+    private Light redDirectionalLight;
+    private GameObject newObject;
 
     [Header("Window Renderer")]
     [SerializeField] private Renderer windowRenderer;
@@ -23,6 +25,8 @@ public class LightColorAppearAnomaly : Anomaly
     private Color originalBaseColor;
     private Color originalEmissionColor;
     private bool hadEmissionKeyword;
+    private LayerMask resetLayer = 0;
+    private LayerMask anomalyLayer = 3;
 
     private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");     // URP Lit
     private static readonly int ColorId = Shader.PropertyToID("_Color");         // fallback
@@ -73,15 +77,26 @@ public class LightColorAppearAnomaly : Anomaly
     protected override void OnActivate()
     {
         if (directionalLight != null)
-            directionalLight.color = anomalyLightColor;
+        {
+            redDirectionalLight = Instantiate(directionalLight);
+            redDirectionalLight.color = anomalyLightColor;
+            SetRedLightCullingMask();
+        }
 
         ApplyWindowColors(anomalyWindowBaseColor, anomalyWindowEmissionColor, emissionIntensity, true);
     }
 
+    private void SetRedLightCullingMask()
+    {
+        redDirectionalLight.cullingMask = resetLayer;
+        redDirectionalLight.cullingMask = 1 << anomalyLayer;
+
+    }
+
     protected override void OnDeactivate()
     {
-        if (directionalLight != null)
-            directionalLight.color = originalLightColor;
+        if (redDirectionalLight != null)
+            Destroy(redDirectionalLight.gameObject);
 
         ApplyWindowColors(originalBaseColor, originalEmissionColor, originalEmissionIntensity, hadEmissionKeyword);
     }

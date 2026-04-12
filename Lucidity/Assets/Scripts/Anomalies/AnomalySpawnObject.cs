@@ -15,4 +15,12 @@ public class AnomalySpawnObject : Anomaly
         base.OnDeactivate();
         if (objectToShow) objectToShow.SetActive(false);
     }
+
+    private void Update()
+    {
+        if (IsSpawnedThisLoop)
+            objectToShow.SetActive(true);
+        else
+            objectToShow.SetActive(false);
+    }
 }

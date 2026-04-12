@@ -16,7 +16,7 @@ public class LightSwitchInteraction : ObjectInteraction
     public override void Interact()
     {
         foreach (SwitchableObject switchableObject in switchableObjects)
-        {
+        {         
             if (switchableObject.IsOn())
                 switchableObject.TurnOff();
             else

@@ -10,13 +10,12 @@ public class CameraUIHandler : MonoBehaviour
     [Header("Camera UI")]
     [SerializeField] private Canvas uiCanvas;
     [SerializeField] private Image cameraAspect;
+    [SerializeField] private Image cameraRedLight;
     [SerializeField] private Image cameraFlash;
     [SerializeField] private Image stunCameraEffect;
     [SerializeField] private TextMeshProUGUI remainingReels;
     [SerializeField] private List<Image> cameraAspectBorder;
-
-    [Header("Stun Photo")]
-    [SerializeField] private float duration = 2f;
+    [SerializeField] private List<TextMeshProUGUI> cameraTexts;
 
     internal void ShowCameraAspect(bool showAspect)
     {
@@ -25,11 +24,21 @@ public class CameraUIHandler : MonoBehaviour
             image.enabled = showAspect;
         
         remainingReels.enabled = showAspect;
+
+        foreach(TextMeshProUGUI text in cameraTexts) 
+            text.enabled = showAspect;
+
+        ShowCameraRedLight(false);
     }
 
     internal void ShowCameraFlash(bool showAspect)
     {
         cameraFlash.enabled = showAspect;
+    }
+
+    internal void ShowCameraRedLight(bool showAspect)
+    {
+        cameraRedLight.enabled = showAspect;
     }
 
     internal void ActualizeRemainingReelsIndicator(int newRemainingReels)

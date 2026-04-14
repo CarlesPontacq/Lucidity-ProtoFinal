@@ -1564,6 +1564,18 @@ PrefabInstance:
       propertyPath: playerRigidbodyRef
       value: 
       objectReference: {fileID: 1937983211}
+    - target: {fileID: 2019422921604433588, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: cameraManager
+      value: 
+      objectReference: {fileID: 281296273}
+    - target: {fileID: 2019422921604433588, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 1937983212}
+    - target: {fileID: 3040421795101654195, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: cameraManager
+      value: 
+      objectReference: {fileID: 281296273}
     - target: {fileID: 3040421795101654195, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: playerMovement
       value: 
@@ -1667,7 +1679,7 @@ PrefabInstance:
     - target: {fileID: 8172359253978911886, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: armsController
       value: 
-      objectReference: {fileID: 281296269}
+      objectReference: {fileID: 1125481048}
     - target: {fileID: 8172359253978911886, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: hasFlashCamera
       value: 0
@@ -1742,17 +1754,6 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 9021954717483914808, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
   m_PrefabInstance: {fileID: 281296267}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &281296269 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7047000021626056852, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
-  m_PrefabInstance: {fileID: 281296267}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd47689b438aa7142a9dbf76d274a3fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &281296270 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1666927474045786133, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
@@ -2709,7 +2710,7 @@ MonoBehaviour:
   cameraFunctionality: {fileID: 2125485322}
   reportSheet: {fileID: 564581943}
   itemInfoOverlay: {fileID: 1101621661}
-  handsWithCamera: {fileID: 281296269}
+  handsWithCamera: {fileID: 1125481048}
   deathCooldown: 0.35
   forcePlayerLayer: -1
   lastLoop: 4
@@ -7151,6 +7152,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fdffce52fcd5cc4fb3199483e8cb1ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1125481048 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2019422921604433588, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+  m_PrefabInstance: {fileID: 281296267}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd47689b438aa7142a9dbf76d274a3fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!43 &1156340568

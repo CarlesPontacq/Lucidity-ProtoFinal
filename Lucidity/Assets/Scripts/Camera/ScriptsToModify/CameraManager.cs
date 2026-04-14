@@ -16,6 +16,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CameraRotation cameraRotation;
     [SerializeField] private CameraAudioHandler audioHandler;
 
+    private bool isTransitioning = false;
+    [SerializeField] private PlayerArmsAnimationController armsController;
 
     [Header("UI")]
     public CameraUIHandler ui;
@@ -52,15 +54,24 @@ public class CameraManager : MonoBehaviour
     private void HandleCameraToggle()
     {
         if (functionality == null) return;
-
         if (ReportSheetOverlayUI.IsOpen || functionality.isPerformingAction) return;
+        if (isTransitioning) return;
 
+        isTransitioning = true;
         if (!lookingThroughCamera)
-            LookThroughCamera();
+        {
+            if (armsController != null)
+                armsController.PlayRaiseCamera();
+            else
+                LookThroughCamera();
+        }
         else
-            StopLookingThroughCamera();
-
-        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        {
+            if (armsController != null)
+                armsController.PlayLowerCamera();
+            else
+                StopLookingThroughCamera();
+        }
     }
 
     private void HandleCameraPhoto()
@@ -88,6 +99,9 @@ public class CameraManager : MonoBehaviour
 
         ui.ShowCameraAspect(true);
         InteractionFeedback.Instance.ShowInteractHint(false);
+
+        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        isTransitioning = false;
     }
 
     private void StopLookingThroughCamera()
@@ -98,8 +112,21 @@ public class CameraManager : MonoBehaviour
         functionality.DeactivateMode();
 
         ui.ShowCameraAspect(false);
+
+        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        isTransitioning = false;
     }
     #endregion
 
+    #region AnimationEvents
+    public void OnCameraRaised()
+    {
+        LookThroughCamera();
+    }
 
+    public void OnCameraLowered()
+    {
+        StopLookingThroughCamera();
+    }
+    #endregion
 }

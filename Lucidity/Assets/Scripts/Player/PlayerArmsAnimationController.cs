@@ -13,8 +13,6 @@ public class PlayerArmsAnimationController : MonoBehaviour
     [SerializeField] private float blendSmoothSpeed = 10f;
     private float currentBlend;
 
-    private bool hidden = true;
-
     private void Update()
     {
         HandleAnimation();
@@ -51,7 +49,6 @@ public class PlayerArmsAnimationController : MonoBehaviour
 
     public void HideArms()
     {
-        hidden = true;
         cameraModelObject.SetActive(false);
         armsMeshObject.SetActive(false);
     }

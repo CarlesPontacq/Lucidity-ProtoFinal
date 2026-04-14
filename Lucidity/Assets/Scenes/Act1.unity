@@ -8885,6 +8885,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2019422921604433588, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: cameraManager
+      value: 
+      objectReference: {fileID: 1415356122}
+    - target: {fileID: 2019422921604433588, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 2076784877}
     - target: {fileID: 3040421795101654195, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: playerMovement
       value: 
@@ -8976,7 +8984,7 @@ PrefabInstance:
     - target: {fileID: 8172359253978911886, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: armsController
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1415356123}
     - target: {fileID: 8572510722767480966, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: uiCanvas
       value: 
@@ -9035,6 +9043,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f92512d8a38b2454fb6603e00257a8b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1415356123 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2019422921604433588, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+  m_PrefabInstance: {fileID: 1415356121}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd47689b438aa7142a9dbf76d274a3fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1422678667
@@ -11623,7 +11642,7 @@ MonoBehaviour:
   cameraFunctionality: {fileID: 1154273966}
   reportSheet: {fileID: 1758223929}
   itemInfoOverlay: {fileID: 630035896}
-  handsWithCamera: {fileID: 0}
+  handsWithCamera: {fileID: 1415356123}
   deathCooldown: 0.35
   forcePlayerLayer: -1
   lastLoop: 4

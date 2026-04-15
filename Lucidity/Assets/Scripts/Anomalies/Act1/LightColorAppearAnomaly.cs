@@ -4,6 +4,8 @@ public class LightColorAppearAnomaly : Anomaly
 {
     [Header("Scene References")]
     [SerializeField] private Light directionalLight;
+    [SerializeField] private CameraManager cameraManager;
+
     private Light redDirectionalLight;
     private GameObject redOutside;
 
@@ -13,6 +15,7 @@ public class LightColorAppearAnomaly : Anomaly
 
     [Header("Colors")]
     [SerializeField] private Color anomalyLightColor = Color.red;
+    [SerializeField] private Color originalLightColor;
 
     [SerializeField] private Color anomalyWindowBaseColor = Color.red;
     [SerializeField] private Color anomalyWindowEmissionColor = Color.red;
@@ -35,6 +38,23 @@ public class LightColorAppearAnomaly : Anomaly
     private void Awake()
     {
 
+    }
+
+    private void Update()
+    {
+        Debug.Log("Showing " + IsSpawnedThisLoop);
+        if (!IsSpawnedThisLoop || cameraManager == null) return;
+
+        if (cameraManager.lookingThroughCamera)
+        {
+            ShowAnomalyLight();
+            Debug.Log("Showing Anomaly");
+        }
+        else
+        {
+            ShowNormalLight();
+            Debug.Log("Showing Normal Light");
+        }
     }
 
     private void CacheWindowMaterial()
@@ -74,14 +94,9 @@ public class LightColorAppearAnomaly : Anomaly
 
     protected override void OnActivate()
     {
-        if (directionalLight != null)
-        {
-            redDirectionalLight = Instantiate(directionalLight);
-            redDirectionalLight.color = anomalyLightColor;
-            SetRedLightCullingMask();
-        }
+        MarkSpawned();
 
-        if(base.NormalObject != null)
+        if (base.NormalObject != null)
         {
             redOutside = Instantiate(base.NormalObject);
             SetOutsideRenderingMask();
@@ -89,6 +104,24 @@ public class LightColorAppearAnomaly : Anomaly
         }
 
         ApplyWindowColors(anomalyWindowBaseColor, anomalyWindowEmissionColor, emissionIntensity, true);
+    }
+
+    void ShowAnomalyLight()
+    {
+        if (directionalLight != null)
+        {
+            directionalLight.color = anomalyLightColor;
+            SetRedLightCullingMask();
+        }
+    }
+
+    void ShowNormalLight()
+    {
+        if (directionalLight != null)
+        {
+            directionalLight.color = originalLightColor;
+            SetOutsideRenderingMask();
+        }
     }
 
     private void SetRedLightCullingMask()
@@ -105,8 +138,7 @@ public class LightColorAppearAnomaly : Anomaly
 
     protected override void OnDeactivate()
     {
-        if (redDirectionalLight != null)
-            Destroy(redDirectionalLight.gameObject);
+        MarkUnspawned();
 
         if (redOutside != null)
             Destroy(redOutside);

@@ -6,7 +6,6 @@ public class LightColorAppearAnomaly : Anomaly
     [SerializeField] private Light directionalLight;
     [SerializeField] private CameraManager cameraManager;
 
-    private Light redDirectionalLight;
     private GameObject redOutside;
 
     [Header("New Outside Renderer")]
@@ -21,6 +20,8 @@ public class LightColorAppearAnomaly : Anomaly
     [SerializeField] private Color anomalyWindowEmissionColor = Color.red;
     [SerializeField] private float emissionIntensity = 2f;
     [SerializeField] private float originalEmissionIntensity = 1f;
+
+    private bool prevLookingThroughtCamera = false;
 
     private Material newOutsideMatInstance;
     private Color originalBaseColor;
@@ -42,19 +43,20 @@ public class LightColorAppearAnomaly : Anomaly
 
     private void Update()
     {
-        Debug.Log("Showing " + IsSpawnedThisLoop);
         if (!IsSpawnedThisLoop || cameraManager == null) return;
+
+        if (prevLookingThroughtCamera == cameraManager.lookingThroughCamera) return;
 
         if (cameraManager.lookingThroughCamera)
         {
             ShowAnomalyLight();
-            Debug.Log("Showing Anomaly");
         }
         else
         {
             ShowNormalLight();
-            Debug.Log("Showing Normal Light");
         }
+
+        prevLookingThroughtCamera = cameraManager.lookingThroughCamera;
     }
 
     private void CacheWindowMaterial()
@@ -111,7 +113,6 @@ public class LightColorAppearAnomaly : Anomaly
         if (directionalLight != null)
         {
             directionalLight.color = anomalyLightColor;
-            SetRedLightCullingMask();
         }
     }
 
@@ -120,14 +121,7 @@ public class LightColorAppearAnomaly : Anomaly
         if (directionalLight != null)
         {
             directionalLight.color = originalLightColor;
-            SetOutsideRenderingMask();
         }
-    }
-
-    private void SetRedLightCullingMask()
-    {
-        redDirectionalLight.cullingMask = resetLayer;
-        redDirectionalLight.cullingMask = 1 << anomalyLayer;
     }
 
     private void SetOutsideRenderingMask()
@@ -139,6 +133,7 @@ public class LightColorAppearAnomaly : Anomaly
     protected override void OnDeactivate()
     {
         MarkUnspawned();
+        ShowNormalLight();
 
         if (redOutside != null)
             Destroy(redOutside);

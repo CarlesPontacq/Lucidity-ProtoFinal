@@ -138,11 +138,9 @@ public class AnomalyManager : MonoBehaviour
             }
 
             Debug.Log("Anomalia : " + e.prefab.name);
-            var instance = Instantiate(e.prefab, e.anchor.position, e.anchor.rotation, e.anchor);
-            instance.MarkSpawned();
-            instance.Activate();
+            e.prefab.Activate();
 
-            spawnedThisLoop.Add(instance);
+            spawnedThisLoop.Add(e.prefab);
             ExpectedAnomaliesThisLoop++;
         }
 
@@ -181,8 +179,6 @@ public class AnomalyManager : MonoBehaviour
             if (spawnedThisLoop[i] != null)
             {
                 spawnedThisLoop[i].Deactivate();
-                spawnedThisLoop[i].MarkUnspawned();
-                Destroy(spawnedThisLoop[i].gameObject);
             }
         }
 

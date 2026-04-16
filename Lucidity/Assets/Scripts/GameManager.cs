@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraFunctionality cameraFunctionality;
     [SerializeField] private ReportSheetOverlayUI reportSheet;
     [SerializeField] private ItemInfoOverlay itemInfoOverlay;
-    [SerializeField] private GameObject handsWithCamera;
+    [SerializeField] private PlayerArmsAnimationController handsWithCamera;
 
     [Header("Death Safety")]
     [SerializeField] private float deathCooldown = 0.35f;
@@ -184,8 +185,12 @@ public class GameManager : MonoBehaviour
 
     public void SetHandsWithCameraVisibility(bool visibility)
     {
-        if (handsWithCamera != null)
-            handsWithCamera.SetActive(visibility);
+        if (handsWithCamera == null) return;
+
+        if (visibility)
+            handsWithCamera.ShowArms();
+        else
+            handsWithCamera.HideArms();
     }
 
     #endregion

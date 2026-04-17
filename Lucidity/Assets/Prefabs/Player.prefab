@@ -372,6 +372,17 @@ MonoBehaviour:
   inputObserver: {fileID: 995986189016646433}
   walkingSpeed: 2.5
   runningSpeed: 5
+  playerCollider: {fileID: 3090440918093045446}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 1
+  wallCheckDistance: 0.25
+  wallCheckRadiusMultiplier: 0.9
+  maxStepHeight: 0.5
+  stepCheckDistance: 1.5
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!114 &995986189016646433
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string playerSpawnTag = "PlayerSpawn";
 
     [Header("Pickups / Systems")]
+    public bool startWithCamera = false;
+    public bool startWithReportSheet = false;
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private CameraFunctionality cameraFunctionality;
     [SerializeField] private ReportSheetOverlayUI reportSheet;
@@ -79,6 +82,25 @@ public class GameManager : MonoBehaviour
         finishedLoops = false;
 
         SetHandsWithCameraVisibility(false);
+
+        if (startWithCamera)
+        {
+            cameraGrabbed = true;
+
+            if (cameraFunctionality != null)
+                cameraFunctionality.isUnlocked = true;
+
+            if (cameraManager != null)
+                cameraManager.SetFunctionality(cameraFunctionality);
+
+            SetHandsWithCameraVisibility(true);
+        }
+
+        if (startWithReportSheet)
+        {
+            reportSheetGrabbed = true;
+            reportSheet.Grab();
+        }
     }
 
     private void SetUpCharacterOnNewScene()

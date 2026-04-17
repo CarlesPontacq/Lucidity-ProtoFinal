@@ -6012,14 +6012,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 932480053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b78d2834b53db7a46b9617b4517c4fe8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b8cabeb851e77443af12d4938dcd376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraObjectPrefab: {fileID: 1822227943412310092, guid: 3e17dcd6bbc492a439f25ec5f8d91356, type: 3}
-  reportSheetObjectPrefab: {fileID: 6977075569323202861, guid: f7c3188e94b0a02418d9c24955031f62, type: 3}
+  flashObjectPrefab: {fileID: 1822227943412310092, guid: 3e17dcd6bbc492a439f25ec5f8d91356, type: 3}
   loopManager: {fileID: 1146919884}
-  reportSheetObjectPosition: {x: -2.321, y: 1.045, z: -1.4}
-  reportSheetObjectRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!43 &937074306
 Mesh:
   m_ObjectHideFlags: 0
@@ -11815,6 +11812,8 @@ MonoBehaviour:
   - {fileID: 1735276961}
   playerBody: {fileID: 985145223}
   playerSpawnTag: PlayerSpawn
+  startWithCamera: 1
+  startWithReportSheet: 1
   cameraManager: {fileID: 1415356122}
   cameraFunctionality: {fileID: 1154273966}
   reportSheet: {fileID: 1758223929}

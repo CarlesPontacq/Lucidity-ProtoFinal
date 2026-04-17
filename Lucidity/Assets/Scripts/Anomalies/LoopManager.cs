@@ -19,7 +19,7 @@ public class LoopManager : MonoBehaviour
     [Tooltip("Evita avanzar m�ltiples loops por doble trigger.")]
     [SerializeField] private float nextLoopCooldown = 0.25f;
 
-    [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private EnemyLoopSpawner enemySpawner;
 
     private float nextAllowedTime = 0f;
 

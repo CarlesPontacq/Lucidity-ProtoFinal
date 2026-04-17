@@ -31,7 +31,7 @@ public class AnomalyManager : MonoBehaviour
     private int numberOfAttempts = 3;
 
     [Header("Enemy Related")]
-    [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private EnemyLoopSpawner enemySpawner;
     [SerializeField][Range(0f, 1f)] private float enemySpawnProbability = 0.6f;
     private bool enemyHasToSpawn = false;
 

@@ -11,7 +11,8 @@ public class EnemyChaseSpawner : MonoBehaviour
     [SerializeField] private float spawnYOffset = 0.05f;
 
     [Header("Spawn Points")]
-    [SerializeField] private float minDistanceFromPlayer = 4f;
+    [SerializeField] private float minDistanceFromPlayer = 2f;
+    [SerializeField] private float maxDistanceFromPlayer = 7f;
     [SerializeField] private Transform[] spawnPoints;
 
     [Header("SFX Spawn")]
@@ -22,13 +23,19 @@ public class EnemyChaseSpawner : MonoBehaviour
     
     void Start()
     {
-        SpawnEnemyOnce();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    private void OnEnable()
+    {
+        SpawnEnemyOnce();
+
     }
 
     private void SpawnEnemyOnce()
@@ -109,7 +116,7 @@ public class EnemyChaseSpawner : MonoBehaviour
         {
             float distance = Vector3.Distance(player.position, point.position);
 
-            if (distance >= minDistanceFromPlayer)
+            if (distance >= minDistanceFromPlayer && distance < maxDistanceFromPlayer)
                 validPoints.Add(point);
         }
 

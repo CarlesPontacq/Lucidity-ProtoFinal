@@ -31,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Move();
         UpdatePublicVariables();
+
+        Gizmos.DrawWireSphere(transform.position, 7f);
     }
 
     private void Move()

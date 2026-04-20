@@ -10,6 +10,7 @@ public class EnemyChaseSpawner : MonoBehaviour
 
     [Header("Spawn Position")]
     [SerializeField] private float spawnYOffset = 0.05f;
+    [SerializeField] public int currentFloor = 1;
 
     [Header("Spawn Points")]
     [SerializeField] private float minDistanceFromPlayer = 2f;
@@ -53,7 +54,7 @@ public class EnemyChaseSpawner : MonoBehaviour
         DestroyCurrentEnemy();
     }
 
-    private void StartSpawnCycle()
+    public void StartSpawnCycle()
     {
         if (spawnCycleCoroutine != null)
             StopCoroutine(spawnCycleCoroutine);
@@ -141,7 +142,7 @@ public class EnemyChaseSpawner : MonoBehaviour
             follow.SetCanChase(true);
     }
 
-    private void DestroyCurrentEnemy()
+    public void DestroyCurrentEnemy()
     {
         if (currentEnemy != null)
         {

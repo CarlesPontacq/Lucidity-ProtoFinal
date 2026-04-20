@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,18 +16,22 @@ public class EnemyChaseSpawner : MonoBehaviour
     [SerializeField] private float maxDistanceFromPlayer = 7f;
     [SerializeField] private Transform[] spawnPoints;
 
+    [Header("Spawn Cycle")]
+    [SerializeField] private float enemyLifetime = 5f;
+
     [Header("SFX Spawn")]
     [SerializeField] private string spawnSFX = "enemySpawn";
     [SerializeField] private float sfxVolume = 1.0f;
 
     private GameObject currentEnemy;
-    
+    private Coroutine spawnCycleCoroutine;
+    private bool isSpawning = true;
+
     void Start()
     {
-
+        StartSpawnCycle();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -34,8 +39,41 @@ public class EnemyChaseSpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        SpawnEnemyOnce();
+        if (spawnCycleCoroutine != null)
+            StopCoroutine(spawnCycleCoroutine);
 
+        StartSpawnCycle();
+    }
+
+    private void OnDisable()
+    {
+        if (spawnCycleCoroutine != null)
+            StopCoroutine(spawnCycleCoroutine);
+
+        DestroyCurrentEnemy();
+    }
+
+    private void StartSpawnCycle()
+    {
+        if (spawnCycleCoroutine != null)
+            StopCoroutine(spawnCycleCoroutine);
+
+        spawnCycleCoroutine = StartCoroutine(SpawnCycleCoroutine());
+    }
+
+    private IEnumerator SpawnCycleCoroutine()
+    {
+        while (isSpawning)
+        {
+            if(currentEnemy == null)
+                SpawnEnemyOnce();
+
+            if (currentEnemy != null)
+            {
+                yield return new WaitForSeconds(enemyLifetime);
+                DestroyCurrentEnemy();
+            }
+        }
     }
 
     private void SpawnEnemyOnce()
@@ -63,7 +101,8 @@ public class EnemyChaseSpawner : MonoBehaviour
 
         currentEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
 
-        SFXManager.Instance.PlaySpatialSound(spawnSFX, currentEnemy.transform.position, sfxVolume);
+        if(SFXManager.Instance != null)
+            SFXManager.Instance.PlaySpatialSound(spawnSFX, currentEnemy.transform.position, sfxVolume);
 
         // Verificar que el enemigo se instanció correctamente
         if (currentEnemy == null)
@@ -102,6 +141,15 @@ public class EnemyChaseSpawner : MonoBehaviour
             follow.SetCanChase(true);
     }
 
+    private void DestroyCurrentEnemy()
+    {
+        if (currentEnemy != null)
+        {
+            Destroy(currentEnemy);
+            currentEnemy = null;
+        }
+    }
+
     private Vector3 GetSpawnPosition(Transform player)
     {
         if (spawnPoints == null || spawnPoints.Length == 0)
@@ -116,7 +164,7 @@ public class EnemyChaseSpawner : MonoBehaviour
         {
             float distance = Vector3.Distance(player.position, point.position);
 
-            if (distance >= minDistanceFromPlayer && distance < maxDistanceFromPlayer)
+            if (distance > minDistanceFromPlayer && distance < maxDistanceFromPlayer)
                 validPoints.Add(point);
         }
 

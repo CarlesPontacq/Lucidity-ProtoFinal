@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class EnemyChaseSpawner : MonoBehaviour
@@ -19,6 +20,7 @@ public class EnemyChaseSpawner : MonoBehaviour
 
     [Header("Spawn Cycle")]
     [SerializeField] private float enemyLifetime = 5f;
+    [SerializeField] private float maxDistanceBetweenEnemyAndPlayer = 10f;
 
     [Header("SFX Spawn")]
     [SerializeField] private string spawnSFX = "enemySpawn";
@@ -35,7 +37,14 @@ public class EnemyChaseSpawner : MonoBehaviour
 
     void Update()
     {
-        
+        if(currentEnemy != null)
+        {
+            float distance = Vector3.Distance(playerTransform.position, currentEnemy.transform.position);
+            if (distance > maxDistanceBetweenEnemyAndPlayer)
+            {
+                ResetSpawnCycle();
+            }
+        }
     }
 
     private void OnEnable()
@@ -54,7 +63,7 @@ public class EnemyChaseSpawner : MonoBehaviour
         DestroyCurrentEnemy();
     }
 
-    public void StartSpawnCycle()
+    private void StartSpawnCycle()
     {
         if (spawnCycleCoroutine != null)
             StopCoroutine(spawnCycleCoroutine);
@@ -142,13 +151,19 @@ public class EnemyChaseSpawner : MonoBehaviour
             follow.SetCanChase(true);
     }
 
-    public void DestroyCurrentEnemy()
+    private void DestroyCurrentEnemy()
     {
         if (currentEnemy != null)
         {
             Destroy(currentEnemy);
             currentEnemy = null;
         }
+    }
+
+    public void ResetSpawnCycle()
+    {
+        DestroyCurrentEnemy();
+        StartSpawnCycle();
     }
 
     private Vector3 GetSpawnPosition(Transform player)

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class ReportSheetOverlayUI : MonoBehaviour
 {
@@ -39,6 +40,9 @@ public class ReportSheetOverlayUI : MonoBehaviour
     private bool signedThisAttempt;
     private Coroutine closeRoutine;
     private float previousTimeScale = 1f;
+
+    public event Action OnReportSheetOpenedFirstTime;
+    private bool hasOpenedOnce = false;
 
     private bool canOpen = false;
 
@@ -157,6 +161,13 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         open = value;
         if (sheetPanel) sheetPanel.SetActive(open);
+
+
+        if (!hasOpenedOnce && open)
+        {
+            hasOpenedOnce = true;
+            OnReportSheetOpenedFirstTime?.Invoke();
+        }
 
         Cursor.visible = open;
         Cursor.lockState = open ? CursorLockMode.None : CursorLockMode.Locked;

@@ -8,6 +8,7 @@ public class EnemyChaseSpawner : MonoBehaviour
     [Header("Prefab")]
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private float enemyChaseSpeed = 3f;
 
     [Header("Spawn Position")]
     [SerializeField] private float spawnYOffset = 0.05f;
@@ -148,7 +149,10 @@ public class EnemyChaseSpawner : MonoBehaviour
 
         EnemyFollowSteering follow = currentEnemy.GetComponent<EnemyFollowSteering>();
         if (follow != null)
+        {
             follow.SetCanChase(true);
+            follow.SetChaseSpeed(enemyChaseSpeed);
+        }
     }
 
     private void DestroyCurrentEnemy()
@@ -178,6 +182,8 @@ public class EnemyChaseSpawner : MonoBehaviour
 
         foreach (var point in spawnPoints)
         {
+            if(!point.gameObject.activeSelf) continue;
+
             float distance = Vector3.Distance(player.position, point.position);
 
             if (distance > minDistanceFromPlayer && distance < maxDistanceFromPlayer)

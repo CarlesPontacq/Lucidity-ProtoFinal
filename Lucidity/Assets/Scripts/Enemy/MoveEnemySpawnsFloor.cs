@@ -4,6 +4,8 @@ public class MoveEnemySpawnsFloor : MonoBehaviour
 {
     [SerializeField] EnemyChaseSpawner enemyChaseSpawner;
     [SerializeField] private Transform enemySpawnsParent;
+    [SerializeField] private GameObject spawnPointToDeactivate;
+    [SerializeField] private GameObject spawnPointToActivate;
     [SerializeField] private float newYPos;
     private string playerTag = "Player";
 
@@ -13,6 +15,9 @@ public class MoveEnemySpawnsFloor : MonoBehaviour
     {
         if (other.tag == playerTag && enemyChaseSpawner.currentFloor != floor)
         {
+            spawnPointToActivate.SetActive(true);
+            spawnPointToDeactivate.SetActive(false);
+
             Vector3 newPos = enemySpawnsParent.position;
             newPos.y = newYPos;
             enemySpawnsParent.position = newPos;

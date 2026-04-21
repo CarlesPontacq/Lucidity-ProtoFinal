@@ -5,24 +5,30 @@ public class ExitLamp : MonoBehaviour
     [SerializeField] MeshRenderer lampMesh;
     [SerializeField] Material onMaterial;
     [SerializeField] Material offMaterial;
-    [SerializeField] float materialIndex;
+    [SerializeField] int materialIndex;
 
     [SerializeField] GameObject pointLight;
 
+    private Material[] materials;
+
     void Start()
     {
-        TurnOn();
+        materials = lampMesh.materials;
     }
 
     public void TurnOn()
     {
-        lampMesh.material = onMaterial;
+        materials[materialIndex] = onMaterial;
+        lampMesh.materials = materials;
+
         pointLight.SetActive(true);
     }
 
     public void TurnOff()
     {
-        lampMesh.material = offMaterial;
+        materials[materialIndex] = offMaterial;
+        lampMesh.materials = materials;
+
         pointLight.SetActive(false);
     }
 }

@@ -1,4 +1,5 @@
 using NUnit.Framework.Interfaces;
+using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,6 +8,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
+
+    public event Action OnCameraTaken;
+    public event Action OnReportSheetTaken;
 
 
     [Header("Player settings")]
@@ -172,6 +176,8 @@ public class GameManager : MonoBehaviour
             cameraManager.SetFunctionality(cameraFunctionality);
 
         SetHandsWithCameraVisibility(true);
+
+        OnCameraTaken?.Invoke();
     }
 
     public void ReportSheetGrabbed(ItemData itemData)
@@ -183,6 +189,8 @@ public class GameManager : MonoBehaviour
 
         if (itemInfoOverlay != null)
             itemInfoOverlay.OpenInfo(itemData);
+
+        OnReportSheetTaken?.Invoke();
     }
 
     public void GunGrabbed()

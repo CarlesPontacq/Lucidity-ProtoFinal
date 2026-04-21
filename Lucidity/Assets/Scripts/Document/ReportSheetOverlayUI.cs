@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class ReportSheetOverlayUI : MonoBehaviour
 {
@@ -39,6 +40,13 @@ public class ReportSheetOverlayUI : MonoBehaviour
     private bool signedThisAttempt;
     private Coroutine closeRoutine;
     private float previousTimeScale = 1f;
+
+    public event Action OnReportSheetOpenedFirstTime;
+    private bool hasOpenedOnce = false;
+    public event Action OnNumberSelectedFirstTime;
+    private bool hasSelectedOnce = false;
+    public event Action OnSignedFirstTime;
+    private bool hasSignedOnce = false;
 
     private bool canOpen = false;
 
@@ -81,6 +89,19 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (!open) return;
         if (signedThisAttempt) return;
+
+        if (!hasSignedOnce)
+        {
+            hasSignedOnce = true;
+            OnSignedFirstTime?.Invoke();
+        }
+
+        //Por ahora no lo pongo porque aun falta el otro input de numeros
+        /*if (!hasSelectedOnce)
+        {
+            hasSelectedOnce = true;
+            OnNumberSelectedFirstTime?.Invoke();
+        }*/
 
         signedThisAttempt = true;
         if (signatureStamp) signatureStamp.gameObject.SetActive(true);
@@ -157,6 +178,13 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         open = value;
         if (sheetPanel) sheetPanel.SetActive(open);
+
+
+        if (!hasOpenedOnce && open)
+        {
+            hasOpenedOnce = true;
+            OnReportSheetOpenedFirstTime?.Invoke();
+        }
 
         Cursor.visible = open;
         Cursor.lockState = open ? CursorLockMode.None : CursorLockMode.Locked;

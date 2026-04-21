@@ -43,6 +43,10 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     public event Action OnReportSheetOpenedFirstTime;
     private bool hasOpenedOnce = false;
+    public event Action OnNumberSelectedFirstTime;
+    private bool hasSelectedOnce = false;
+    public event Action OnSignedFirstTime;
+    private bool hasSignedOnce = false;
 
     private bool canOpen = false;
 
@@ -85,6 +89,19 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (!open) return;
         if (signedThisAttempt) return;
+
+        if (!hasSignedOnce)
+        {
+            hasSignedOnce = true;
+            OnSignedFirstTime?.Invoke();
+        }
+
+        //Por ahora no lo pongo porque aun falta el otro input de numeros
+        /*if (!hasSelectedOnce)
+        {
+            hasSelectedOnce = true;
+            OnNumberSelectedFirstTime?.Invoke();
+        }*/
 
         signedThisAttempt = true;
         if (signatureStamp) signatureStamp.gameObject.SetActive(true);

@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Move();
         UpdatePublicVariables();
+
     }
 
     private void Move()

@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class EnemyChaseSpawner : MonoBehaviour
@@ -6,29 +8,83 @@ public class EnemyChaseSpawner : MonoBehaviour
     [Header("Prefab")]
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private float enemyChaseSpeed = 3f;
 
     [Header("Spawn Position")]
     [SerializeField] private float spawnYOffset = 0.05f;
+    [SerializeField] public int currentFloor = 1;
 
     [Header("Spawn Points")]
-    [SerializeField] private float minDistanceFromPlayer = 4f;
+    [SerializeField] private float minDistanceFromPlayer = 2f;
+    [SerializeField] private float maxDistanceFromPlayer = 7f;
     [SerializeField] private Transform[] spawnPoints;
+
+    [Header("Spawn Cycle")]
+    [SerializeField] private float enemyLifetime = 5f;
+    [SerializeField] private float maxDistanceBetweenEnemyAndPlayer = 10f;
 
     [Header("SFX Spawn")]
     [SerializeField] private string spawnSFX = "enemySpawn";
     [SerializeField] private float sfxVolume = 1.0f;
 
     private GameObject currentEnemy;
-    
+    private Coroutine spawnCycleCoroutine;
+    private bool isSpawning = true;
+
     void Start()
     {
-        SpawnEnemyOnce();
+        StartSpawnCycle();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if(currentEnemy != null)
+        {
+            float distance = Vector3.Distance(playerTransform.position, currentEnemy.transform.position);
+            if (distance > maxDistanceBetweenEnemyAndPlayer)
+            {
+                ResetSpawnCycle();
+            }
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (spawnCycleCoroutine != null)
+            StopCoroutine(spawnCycleCoroutine);
+
+        StartSpawnCycle();
+    }
+
+    private void OnDisable()
+    {
+        if (spawnCycleCoroutine != null)
+            StopCoroutine(spawnCycleCoroutine);
+
+        DestroyCurrentEnemy();
+    }
+
+    private void StartSpawnCycle()
+    {
+        if (spawnCycleCoroutine != null)
+            StopCoroutine(spawnCycleCoroutine);
+
+        spawnCycleCoroutine = StartCoroutine(SpawnCycleCoroutine());
+    }
+
+    private IEnumerator SpawnCycleCoroutine()
+    {
+        while (isSpawning)
+        {
+            if(currentEnemy == null)
+                SpawnEnemyOnce();
+
+            if (currentEnemy != null)
+            {
+                yield return new WaitForSeconds(enemyLifetime);
+                DestroyCurrentEnemy();
+            }
+        }
     }
 
     private void SpawnEnemyOnce()
@@ -56,7 +112,8 @@ public class EnemyChaseSpawner : MonoBehaviour
 
         currentEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
 
-        SFXManager.Instance.PlaySpatialSound(spawnSFX, currentEnemy.transform.position, sfxVolume);
+        if(SFXManager.Instance != null)
+            SFXManager.Instance.PlaySpatialSound(spawnSFX, currentEnemy.transform.position, sfxVolume);
 
         // Verificar que el enemigo se instanció correctamente
         if (currentEnemy == null)
@@ -92,7 +149,25 @@ public class EnemyChaseSpawner : MonoBehaviour
 
         EnemyFollowSteering follow = currentEnemy.GetComponent<EnemyFollowSteering>();
         if (follow != null)
+        {
             follow.SetCanChase(true);
+            follow.SetChaseSpeed(enemyChaseSpeed);
+        }
+    }
+
+    private void DestroyCurrentEnemy()
+    {
+        if (currentEnemy != null)
+        {
+            Destroy(currentEnemy);
+            currentEnemy = null;
+        }
+    }
+
+    public void ResetSpawnCycle()
+    {
+        DestroyCurrentEnemy();
+        StartSpawnCycle();
     }
 
     private Vector3 GetSpawnPosition(Transform player)
@@ -107,9 +182,11 @@ public class EnemyChaseSpawner : MonoBehaviour
 
         foreach (var point in spawnPoints)
         {
+            if(!point.gameObject.activeSelf) continue;
+
             float distance = Vector3.Distance(player.position, point.position);
 
-            if (distance >= minDistanceFromPlayer)
+            if (distance > minDistanceFromPlayer && distance < maxDistanceFromPlayer)
                 validPoints.Add(point);
         }
 

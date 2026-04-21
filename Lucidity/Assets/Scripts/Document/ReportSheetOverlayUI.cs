@@ -21,7 +21,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [SerializeField] private ExitDoorBlocker exitBlocker;
 
     [Header("Exit Lamp (optional)")]
-    [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
+    [SerializeField] private ExitLamp exitLamp;
 
     [Header("Input")]
     [SerializeField] PlayerInputObserver playerInput;
@@ -134,10 +134,10 @@ public class ReportSheetOverlayUI : MonoBehaviour
             exitBlocker.UnlockPassage();
 
         if (exitLamp == null)
-            exitLamp = FindAnyObjectByType<ExitLightEmissionMapSwitcher>();
+            exitLamp = FindAnyObjectByType<ExitLamp>();
 
         if (exitLamp != null)
-            exitLamp.SetCanPass(true);
+            exitLamp.TurnOff();
         else
             Debug.LogWarning("[UI] exitLamp NO encontrada/asignada. No puedo poner verde.");
     }

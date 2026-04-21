@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4719619854884622261}
+  - component: {fileID: 4139299941288424753}
   m_Layer: 0
   m_Name: ExitLamp
   m_TagString: Untagged
@@ -33,6 +34,23 @@ Transform:
   - {fileID: 7630823489706695526}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4139299941288424753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026746999237673734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e3e2d06f0f0d9549ad9fe44624764aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lampMesh: {fileID: 8767678704453378057}
+  onMaterial: {fileID: 2100000, guid: b484ef56f3c638a40a492c1aaedf5d25, type: 2}
+  offMaterial: {fileID: 2100000, guid: a0e10acd3ac3f7d43a85e88c773ba0ba, type: 2}
+  materialIndex: 1
+  pointLight: {fileID: 3199575462562497552}
 --- !u!1 &3199575462562497552
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +94,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_Intensity: 0.25
   m_Range: 5
   m_SpotAngle: 30

@@ -2099,6 +2099,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 389800345}
   m_CullTransparentMesh: 1
+--- !u!114 &407168220 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1171691290668991371, guid: 622603ec22f72a640805115b281fc265, type: 3}
+  m_PrefabInstance: {fileID: 692290626}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e3e2d06f0f0d9549ad9fe44624764aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &428663595
 Mesh:
   m_ObjectHideFlags: 0
@@ -2620,7 +2631,7 @@ MonoBehaviour:
   exitDoor: {fileID: 1441630025}
   reportState: {fileID: 564581944}
   exitBlocker: {fileID: 0}
-  exitLamp: {fileID: 692290627}
+  exitLamp: {fileID: 0}
   playerInput: {fileID: 1937983206}
   closeDelaySeconds: 0.5
   pauseGameWhenOpen: 1
@@ -2706,6 +2717,8 @@ MonoBehaviour:
   - {fileID: 281296270}
   playerBody: {fileID: 1937983210}
   playerSpawnTag: PlayerSpawn
+  startWithCamera: 0
+  startWithReportSheet: 0
   cameraManager: {fileID: 281296273}
   cameraFunctionality: {fileID: 2125485322}
   reportSheet: {fileID: 564581943}
@@ -3589,7 +3602,7 @@ PrefabInstance:
       objectReference: {fileID: 428663595}
     - target: {fileID: 269010076029219356, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_VersionIndex
-      value: 6800
+      value: 6833
       objectReference: {fileID: 0}
     - target: {fileID: 404839863447328233, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_Mesh
@@ -3813,7 +3826,7 @@ PrefabInstance:
       objectReference: {fileID: 687584675}
     - target: {fileID: 3831353144904645588, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_VersionIndex
-      value: 8717
+      value: 8750
       objectReference: {fileID: 0}
     - target: {fileID: 4018800196494202211, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_CastShadows
@@ -3829,7 +3842,7 @@ PrefabInstance:
       objectReference: {fileID: 565976486}
     - target: {fileID: 4110965191474308650, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_VersionIndex
-      value: 9021
+      value: 9054
       objectReference: {fileID: 0}
     - target: {fileID: 4163638690788211408, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_Mesh
@@ -3837,7 +3850,7 @@ PrefabInstance:
       objectReference: {fileID: 251685330}
     - target: {fileID: 4163638690788211408, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_VersionIndex
-      value: 9457
+      value: 9490
       objectReference: {fileID: 0}
     - target: {fileID: 4164879911317045576, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_Mesh
@@ -3861,7 +3874,7 @@ PrefabInstance:
       objectReference: {fileID: 2093136416}
     - target: {fileID: 4306071896820713966, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_VersionIndex
-      value: 8259
+      value: 8292
       objectReference: {fileID: 0}
     - target: {fileID: 4321594014057918380, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_Mesh
@@ -4041,7 +4054,7 @@ PrefabInstance:
       objectReference: {fileID: 926015414}
     - target: {fileID: 6274747379104401579, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_VersionIndex
-      value: 7748
+      value: 7781
       objectReference: {fileID: 0}
     - target: {fileID: 6431105776790060027, guid: 622603ec22f72a640805115b281fc265, type: 3}
       propertyPath: m_IsActive
@@ -4195,17 +4208,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 692290629}
   m_SourcePrefab: {fileID: 100100000, guid: 622603ec22f72a640805115b281fc265, type: 3}
---- !u!114 &692290627 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5277636308648470725, guid: 622603ec22f72a640805115b281fc265, type: 3}
-  m_PrefabInstance: {fileID: 692290626}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba2c26e399d1d4641ad4a2b244a50987, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &692290628 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1711263670991005564, guid: 622603ec22f72a640805115b281fc265, type: 3}
@@ -4685,7 +4687,7 @@ MonoBehaviour:
   - {fileID: 223494450}
   cameraFunctionality: {fileID: 2125485322}
   exitBlocker: {fileID: 0}
-  exitLamp: {fileID: 692290627}
+  exitLamp: {fileID: 407168220}
   nextLoopCooldown: 0.25
   enemySpawner: {fileID: 0}
 --- !u!4 &806857066

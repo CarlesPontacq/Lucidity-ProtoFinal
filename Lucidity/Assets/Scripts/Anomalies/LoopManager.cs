@@ -13,7 +13,7 @@ public class LoopManager : MonoBehaviour
 
     [Header("Optional")]
     [SerializeField] private ExitDoorBlocker exitBlocker;
-    [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
+    [SerializeField] private ExitLamp exitLamp;
 
     [Header("Safety")]
     [Tooltip("Evita avanzar m�ltiples loops por doble trigger.")]
@@ -82,7 +82,7 @@ public class LoopManager : MonoBehaviour
             cameraFunctionality.ResetReels();
 
         if (exitLamp != null)
-            exitLamp.SetCanPass(true);
+            exitLamp.TurnOff();
 
         if (anomalyManager != null)
             anomalyManager.ClearSpawned();
@@ -120,7 +120,7 @@ public class LoopManager : MonoBehaviour
             cameraFunctionality.ResetReels();
 
         if (exitLamp != null)
-            exitLamp.SetCanPass(false);
+            exitLamp.TurnOn();
 
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();

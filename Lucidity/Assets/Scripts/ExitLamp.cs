@@ -11,7 +11,7 @@ public class ExitLamp : MonoBehaviour
 
     private Material[] materials;
 
-    void Start()
+    void Awake()
     {
         materials = lampMesh.materials;
     }

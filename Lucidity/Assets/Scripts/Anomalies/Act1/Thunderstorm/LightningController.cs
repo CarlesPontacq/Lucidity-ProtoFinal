@@ -38,6 +38,14 @@ public class LightningController : MonoBehaviour
             l.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        foreach (var l in lightnings)
+            l.SetActive(false);
+
+        Invoke(nameof(CallLightning), firstLightnintTimer);
+    }
+
     void CallLightning()
     {
         int randomLightning = Random.Range(0, lightnings.Length);

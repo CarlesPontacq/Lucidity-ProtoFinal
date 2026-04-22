@@ -22,6 +22,7 @@ public class MoveEnemySpawnsFloor : MonoBehaviour
             newPos.y = newYPos;
             enemySpawnsParent.position = newPos;
 
+            enemyChaseSpawner.SetDefaultSpawnPoint(spawnPointToDeactivate.transform);
             enemyChaseSpawner.ResetSpawnCycle();
 
             enemyChaseSpawner.currentFloor = floor;

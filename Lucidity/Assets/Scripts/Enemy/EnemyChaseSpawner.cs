@@ -18,6 +18,7 @@ public class EnemyChaseSpawner : MonoBehaviour
     [SerializeField] private float minDistanceFromPlayer = 2f;
     [SerializeField] private float maxDistanceFromPlayer = 7f;
     [SerializeField] private Transform[] spawnPoints;
+    [SerializeField] private Transform defaultSpawnPoints;
 
     [Header("Spawn Cycle")]
     [SerializeField] private float enemyLifetime = 5f;
@@ -155,7 +156,7 @@ public class EnemyChaseSpawner : MonoBehaviour
         }
     }
 
-    private void DestroyCurrentEnemy()
+    public void DestroyCurrentEnemy()
     {
         if (currentEnemy != null)
         {
@@ -175,7 +176,7 @@ public class EnemyChaseSpawner : MonoBehaviour
         if (spawnPoints == null || spawnPoints.Length == 0)
         {
             Debug.LogWarning("[EnemySpawner] No spawn points assigned");
-            return player.position;
+            return defaultSpawnPoints.position;
         }
 
         List<Transform> validPoints = new List<Transform>();
@@ -193,10 +194,15 @@ public class EnemyChaseSpawner : MonoBehaviour
         if (validPoints.Count == 0)
         {
             Debug.LogWarning("[EnemySpawner] No valid spawn points far enough from player");
-            return player.position;
+            return defaultSpawnPoints.position;
         }
 
         int index = Random.Range(0, validPoints.Count);
         return validPoints[index].position;
+    }
+
+    public void SetDefaultSpawnPoint(Transform newDefault)
+    {
+        defaultSpawnPoints = newDefault;
     }
 }

@@ -14,7 +14,11 @@ public class EnemySpawnerEnabler : MonoBehaviour
             enemyChaseSpawner.enabled = enableEnemySpawner;
 
             if(door != null)
+            {
                 door.Lock();
+                door.Close(true);
+            }
         }
+
     }
 }

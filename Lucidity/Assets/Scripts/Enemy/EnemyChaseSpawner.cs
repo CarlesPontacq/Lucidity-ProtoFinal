@@ -200,4 +200,9 @@ public class EnemyChaseSpawner : MonoBehaviour
         int index = Random.Range(0, validPoints.Count);
         return validPoints[index].position;
     }
+
+    public void SetDefaultSpawnPoint(Transform newDefault)
+    {
+        defaultSpawnPoints = newDefault;
+    }
 }

@@ -155,7 +155,7 @@ public class EnemyChaseSpawner : MonoBehaviour
         }
     }
 
-    private void DestroyCurrentEnemy()
+    public void DestroyCurrentEnemy()
     {
         if (currentEnemy != null)
         {

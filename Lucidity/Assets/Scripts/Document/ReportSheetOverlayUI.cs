@@ -12,20 +12,27 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [SerializeField] private TMP_Text feedbackText;
 
     [Header("Number Options")]
-    [SerializeField] private Button[] optionButtons;          // 4 botones
-    [SerializeField] private GameObject[] circleMarkers;      // 4 círculos/animaciones
+    [SerializeField] private Button[] optionButtons;
+    [SerializeField] private GameObject[] circleMarkers;
 
     [Header("Signature")]
     [SerializeField] private Button signatureButton;
 
-    [Header("Signature Visuals")]
-    [SerializeField] private GameObject signatureBlinkObject; // firma parpadeando
-    [SerializeField] private GameObject signatureWriteObject; // firma escribiéndose
+    [Header("Signature Blink")]
+    [SerializeField] private GameObject signatureBlinkObject;
+    [SerializeField] private Image signatureBlinkImage;
+    [SerializeField] private float blinkFadeDuration = 1.2f;
+    [SerializeField] private float blinkMinAlpha = 0.2f;
+    [SerializeField] private float blinkMaxAlpha = 1f;
+    [SerializeField] private AnimationCurve blinkCurve = null;
+
+    [Header("Signature Write")]
+    [SerializeField] private GameObject signatureWriteObject;
     [SerializeField] private Animator signatureWriteAnimator;
     [SerializeField] private string signatureWriteStateName = "SignatureWrite";
     [SerializeField] private float signatureWriteDuration = 1.2f;
 
-    [Header("Stamp Visuals")]
+    [Header("Stamp")]
     [SerializeField] private GameObject stampObject;
     [SerializeField] private Animator stampAnimator;
     [SerializeField] private string stampStateName = "StampPop";
@@ -55,6 +62,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [SerializeField] private MonoBehaviour[] disableWhileOpen;
 
     public bool open;
+
     private bool signedThisAttempt;
     private bool selectionLocked;
     private int selectedNumber = -1;
@@ -63,14 +71,43 @@ public class ReportSheetOverlayUI : MonoBehaviour
     private float previousTimeScale = 1f;
     private bool canOpen = false;
 
+    // blink state
+    private float blinkTime = 0f;
+    private bool blinkGoingUp = true;
+
     private void Awake()
     {
+        if (blinkCurve == null || blinkCurve.length == 0)
+            blinkCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+
         if (playerInput != null)
             playerInput.onToggleSheet += ToggleSheet;
 
         BindButtons();
         SetOpen(true);
         ResetDocumentState();
+    }
+
+    private void Update()
+    {
+        if (open)
+        {
+            UpdateSignatureBlink();
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        if (open && Input.GetKeyDown(KeyCode.Tab))
+            SetOpen(false);
+    }
+
+    private void LateUpdate()
+    {
+        if (open)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     private void BindButtons()
@@ -87,12 +124,6 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (signatureButton != null)
             signatureButton.onClick.AddListener(OnSignatureClicked);
-    }
-
-    private void Update()
-    {
-        if (open && Input.GetKeyDown(KeyCode.Tab))
-            SetOpen(false);
     }
 
     public void Grab()
@@ -112,6 +143,8 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     public void SelectNumber(int number)
     {
+        Debug.Log("SELECT NUMBER CLICKED: " + number);
+
         if (!open) return;
         if (selectionLocked) return;
         if (number < 0 || number >= 4) return;
@@ -164,7 +197,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     private IEnumerator SignAndSubmitRoutine()
     {
-        // 1) quitar firma parpadeando
+        // 1) apagar firma parpadeando
         if (signatureBlinkObject != null)
             signatureBlinkObject.SetActive(false);
 
@@ -278,6 +311,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (stampObject != null)
             stampObject.SetActive(false);
 
+        ResetBlinkState();
         SetOptionButtonsInteractable(true);
         SetFeedback("");
     }
@@ -327,6 +361,44 @@ public class ReportSheetOverlayUI : MonoBehaviour
     {
         if (feedbackText != null)
             feedbackText.text = msg;
+    }
+
+    private void ResetBlinkState()
+    {
+        blinkTime = 0f;
+        blinkGoingUp = true;
+
+        if (signatureBlinkImage != null)
+        {
+            Color c = signatureBlinkImage.color;
+            c.a = blinkMinAlpha;
+            signatureBlinkImage.color = c;
+        }
+    }
+
+    private void UpdateSignatureBlink()
+    {
+        if (signatureBlinkObject == null || !signatureBlinkObject.activeSelf) return;
+        if (signatureBlinkImage == null) return;
+
+        blinkTime += Time.unscaledDeltaTime;
+
+        float t = Mathf.Clamp01(blinkTime / blinkFadeDuration);
+        float curveValue = blinkCurve.Evaluate(t);
+
+        float alpha = blinkGoingUp
+            ? Mathf.Lerp(blinkMinAlpha, blinkMaxAlpha, curveValue)
+            : Mathf.Lerp(blinkMaxAlpha, blinkMinAlpha, curveValue);
+
+        Color c = signatureBlinkImage.color;
+        c.a = alpha;
+        signatureBlinkImage.color = c;
+
+        if (blinkTime >= blinkFadeDuration)
+        {
+            blinkTime = 0f;
+            blinkGoingUp = !blinkGoingUp;
+        }
     }
 
     private void OnDisable()

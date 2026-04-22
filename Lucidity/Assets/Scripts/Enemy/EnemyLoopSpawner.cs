@@ -26,6 +26,9 @@ public class EnemyLoopSpawner : MonoBehaviour
     [SerializeField] private string spawnSFX = "enemySpawn";
     [SerializeField] private float sfxVolume = 1.0f;
 
+    [Header("ProximityEffect")]
+    [SerializeField] PlayerEnemyDetection playerEnemyDetection;
+
     private GameObject currentEnemy;
     private Coroutine spawnCycleRoutine;
     public bool enemyEnabledThisLoop { get; private set; } = false;
@@ -123,6 +126,8 @@ public class EnemyLoopSpawner : MonoBehaviour
             stunner.Init(this);
 
         Debug.Log($"[EnemySpawner] Spawned enemy successfully. loop={currentLoopIndex} chase={true} asAnomaly={spawnedAsAnomaly}");
+
+        playerEnemyDetection.SetEnemy(currentEnemy);
     }
 
     private Transform GetPlayerTransform()
@@ -163,6 +168,8 @@ public class EnemyLoopSpawner : MonoBehaviour
         {
             Destroy(currentEnemy);
             currentEnemy = null;
+
+            playerEnemyDetection.SetEnemy(null);
         }
     }
 

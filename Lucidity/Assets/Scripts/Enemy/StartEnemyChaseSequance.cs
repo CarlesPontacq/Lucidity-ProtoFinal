@@ -11,7 +11,6 @@ public class StartEnemyChaseSequance : MonoBehaviour
     {
         if (other.tag == playerTag)
         {
-            chaseSpawner.DestroyCurrentEnemy();
             if(firstChaseEnemy != null) 
             { 
                 Destroy(firstChaseEnemy);

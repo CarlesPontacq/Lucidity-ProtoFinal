@@ -69,7 +69,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
             playerInput.onToggleSheet += ToggleSheet;
 
         BindButtons();
-        SetOpen(false);
+        SetOpen(true);
         ResetDocumentState();
     }
 

@@ -169,30 +169,31 @@ public class ReportSheetOverlayUI : MonoBehaviour
     {
         Debug.Log("[UI] OnSignatureClicked()");
 
-        if (!open) return;
-        if (signedThisAttempt) return;
+        if (!open) { Debug.Log("No open"); return; }
+        if (signedThisAttempt) { Debug.Log("Already signed"); return; }
 
         if (selectedNumber < 0)
         {
+            Debug.Log("No number selected");
             SetFeedback("Selecciona un número primero.");
             return;
         }
 
-        if (anomalyManager == null)
-        {
-            Debug.LogWarning("[UI] anomalyManager es null.");
-            SetFeedback("Error: AnomalyManager no asignado.");
-            return;
-        }
+        Debug.Log("signatureWriteObject = " + (signatureWriteObject != null ? signatureWriteObject.name : "NULL"));
+        Debug.Log("signatureWriteAnimator = " + (signatureWriteAnimator != null ? signatureWriteAnimator.name : "NULL"));
 
         signedThisAttempt = true;
         selectionLocked = true;
         SetOptionButtonsInteractable(false);
 
-        if (closeRoutine != null)
-            StopCoroutine(closeRoutine);
+        if (signatureBlinkObject != null)
+            signatureBlinkObject.SetActive(false);
 
-        closeRoutine = StartCoroutine(SignAndSubmitRoutine());
+        if (signatureWriteObject != null)
+            signatureWriteObject.SetActive(true);
+
+        if (signatureWriteAnimator != null)
+            signatureWriteAnimator.Play(signatureWriteStateName, 0, 0f);
     }
 
     private IEnumerator SignAndSubmitRoutine()

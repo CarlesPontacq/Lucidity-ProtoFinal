@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraRotation cameraRotation;
 
     private int currentLoop = 0;
+    private int minLoop = 0;
     public bool isDying = false;
     private float nextAllowedDeathTime = 0f;
 
@@ -143,6 +144,14 @@ public class GameManager : MonoBehaviour
         if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
 
         if(currentLoop >= lastLoop) finishedLoops = true;
+    }
+
+    public void SubtractLoopToCount()
+    {
+        currentLoop--;
+        if(currentLoop < minLoop) currentLoop = minLoop;
+
+        if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
     }
 
     public void ResetLoops()

@@ -16,7 +16,7 @@ public class LoopManager : MonoBehaviour
     [SerializeField] private ExitLamp exitLamp;
 
     [Header("Safety")]
-    [Tooltip("Evita avanzar m�ltiples loops por doble trigger.")]
+    [Tooltip("Evita avanzar multiples loops por doble trigger.")]
     [SerializeField] private float nextLoopCooldown = 0.25f;
 
     [SerializeField] private EnemyLoopSpawner enemySpawner;
@@ -53,8 +53,8 @@ public class LoopManager : MonoBehaviour
             else
             {
                 Debug.Log("Report incorrecto -> reseteo loops");
-                GameManager.Instance.ResetLoops();
-                StartBaseLoop();
+                GameManager.Instance.SubtractLoopToCount();
+                StartLoopFresh();
             }
         }
         else

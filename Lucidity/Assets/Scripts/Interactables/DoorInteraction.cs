@@ -7,6 +7,10 @@ public class DoorInteraction : ObjectInteraction
     [SerializeField] private bool startsOpen;
     [SerializeField] private bool startsLocked;
 
+    [Header("InteractionHint")]
+    public Transform interactionHintPos1;
+    public Transform interactionHintPos2;
+
     [Header("Door Rotation")]
     public float openAngle = 90f;
     public float openSpeed = 5f;
@@ -29,6 +33,8 @@ public class DoorInteraction : ObjectInteraction
     private Quaternion targetLocalRotation;
 
     private Vector3 soundPosition;
+
+    private bool isFocused = false;
 
     protected override void Start()
     {
@@ -77,6 +83,12 @@ public class DoorInteraction : ObjectInteraction
             Time.deltaTime * openSpeed
         );
 
+        if (isFocused)
+        {
+            Transform currentHint = GetCorrectHintPosition();
+            InteractionFeedback.Instance.MoveInteractHint(currentHint.position);
+        }
+
         if (Quaternion.Angle(pivot.localRotation, targetLocalRotation) < 0.1f)
         {
             pivot.localRotation = targetLocalRotation;
@@ -98,6 +110,31 @@ public class DoorInteraction : ObjectInteraction
             Debug.Log("Puerta bloqueada");
     }
 
+    public override void OnFocusEnter()
+    {
+        if (!fullyInteractable) return;
+
+        isFocused = true;
+
+        hintPosition = GetCorrectHintPosition();
+        base.OnFocusEnter();
+    }
+
+    public override void OnFocusExit()
+    {
+        isFocused = false;
+        base.OnFocusExit();
+    }
+
+    private Transform GetCorrectHintPosition()
+    {
+        Vector3 playerPos = GameManager.PlayerRef.transform.position;
+
+        float distance1 = Vector3.Distance(playerPos, interactionHintPos1.position);
+        float distance2 = Vector3.Distance(playerPos, interactionHintPos2.position);
+
+        return distance1 < distance2 ? interactionHintPos1 : interactionHintPos2;
+    }
     public void Unlock()
     {
         bool wasLocked = isLocked;

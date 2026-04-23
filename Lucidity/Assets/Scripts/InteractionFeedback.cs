@@ -15,7 +15,7 @@ public class InteractionFeedback : MonoBehaviour
     [SerializeField] private AnimationCurve sizingAnimationCurve;
 
     [Header("Interact Hint")]
-    [SerializeField] private Image interactKey; // La "E"
+    [SerializeField] private GameObject interactionHintCanvas;
 
     private Coroutine reticleSizeCoroutine;
 
@@ -30,20 +30,20 @@ public class InteractionFeedback : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        if (interactKey != null)
-            interactKey.gameObject.SetActive(false);
     }
 
-    public void ShowInteractionFeedback()
+    public void ShowInteractionFeedback(Vector3 hintPosition)
     {
         MakeReticleBigger();
+
+        MoveInteractHint(hintPosition);
         ShowInteractHint(true);
     }
 
     public void HideInteractionFeedback()
     {
         ReturnReticleToNormalSize();
+
         ShowInteractHint(false);
     }
 
@@ -86,8 +86,13 @@ public class InteractionFeedback : MonoBehaviour
 
     public void ShowInteractHint(bool show)
     {
-        if (interactKey == null) return;
+        if (interactionHintCanvas == null) return;
 
-        interactKey.gameObject.SetActive(show);
+        interactionHintCanvas.gameObject.SetActive(show);
+    }
+
+    public void MoveInteractHint(Vector3 position)
+    {
+        interactionHintCanvas.transform.position = position;
     }
 }

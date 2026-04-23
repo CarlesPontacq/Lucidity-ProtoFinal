@@ -25,7 +25,7 @@ public class LoopManager : MonoBehaviour
 
     private void Start()
     {
-        StartBaseLoop();
+        StartNextLoop();
     }
 
     public void StartNextLoop()
@@ -48,14 +48,14 @@ public class LoopManager : MonoBehaviour
             {
                 Debug.Log("Report correcto -> sumo loop");
                 GameManager.Instance.AddLoopToCount();
-                StartLoopFresh();
             }
             else
             {
                 Debug.Log("Report incorrecto -> reseteo loops");
                 GameManager.Instance.SubtractLoopToCount();
-                StartLoopFresh();
             }
+            
+            StartLoopFresh();
         }
         else
         {
@@ -121,6 +121,9 @@ public class LoopManager : MonoBehaviour
 
         if (exitLamp != null)
             exitLamp.TurnOn();
+
+        if (enemySpawner != null)
+            enemySpawner.ClearEnemy();
 
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();

@@ -156,11 +156,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (selectionLocked) return;
         if (number < 0 || number >= 4) return;
 
-        if (!hasSelectedOnce)
-        {
-            hasSelectedOnce = true;
-            OnNumberSelectedFirstTime?.Invoke();
-        }
+        OnNumberSelected?.Invoke();
 
         selectedNumber = number;
 

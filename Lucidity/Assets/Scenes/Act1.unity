@@ -2055,8 +2055,8 @@ RectTransform:
   m_GameObject: {fileID: 168001018}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7845625, y: 0.7845625, z: 0.7845625}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.32, y: 0.32, z: 0.32}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1612974574}
   - {fileID: 2005965218}
@@ -2982,17 +2982,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8693858521551566474, guid: 72fa3b1ee304c7a41b343d4475752486, type: 3}
   m_PrefabInstance: {fileID: 327311168}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &327311174 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8199463293375790129, guid: 72fa3b1ee304c7a41b343d4475752486, type: 3}
-  m_PrefabInstance: {fileID: 327311168}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eaf6bd670b334c4b8a446a1a9abf4a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &328770918 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6360553545539624593, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
@@ -3168,7 +3157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -8722,8 +8711,6 @@ MonoBehaviour:
   - {fileID: 2052968890}
   - {fileID: 1326264524}
   - {fileID: 1097861286}
-  lightSwitches:
-  - {fileID: 327311174}
   cameraFunctionality: {fileID: 1154273966}
   exitBlocker: {fileID: 0}
   exitLamp: {fileID: 667022886}

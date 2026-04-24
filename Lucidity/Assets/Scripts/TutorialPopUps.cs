@@ -36,14 +36,11 @@ public class TutorialPopUps : MonoBehaviour
         cameraManager.OnCameraStoppedLookingThrough += ShowReportSheetPopup;
 
         reportSheetScript.OnOpened += CompleteOpenReportSheetTutorial;
+        reportSheetScript.OnNumberSelected += CompleteSelectionTutorial;
 
         reportSheetScript.OnOpened += ShowReportSheetSelectionTutorial;
-        reportSheetScript.OnOpened += ShowReportSheetSigningTutorial;
         reportSheetScript.OnClosed += HideReportSheetSelectionTutorial;
-        reportSheetScript.OnClosed += HideReportSheetSigningTutorial;
-        reportSheetScript.OnSigned += HideReportSheetSigningTutorial;
-
-        reportSheetScript.OnSigned += CompleteSigningTutorial;
+        
     }
 
     private void ShowCameraPopup()
@@ -69,6 +66,7 @@ public class TutorialPopUps : MonoBehaviour
     void CompleteCameraTutorial()
     {
         HideCameraPopup();
+
         cameraManager.OnCameraLookedThrough -= CompleteCameraTutorial;
         reportSheetScript.OnClosed -= ShowCameraPopup;
     }
@@ -95,7 +93,23 @@ public class TutorialPopUps : MonoBehaviour
 
     private void CompleteSelectionTutorial()
     {
+        HideReportSheetSelectionTutorial();
+        ShowReportSheetSigningTutorial();
 
+        reportSheetScript.OnOpened += ShowReportSheetSigningTutorial;
+        reportSheetScript.OnClosed += HideReportSheetSigningTutorial;
+        reportSheetScript.OnSigned += HideReportSheetSigningTutorial;
+
+        reportSheetScript.OnSigned += CompleteSigningTutorial;
+
+        cameraManager.OnCameraLookedThrough -= HideReportSheetPopup;
+        cameraManager.OnCameraStoppedLookingThrough -= ShowReportSheetPopup;
+
+        reportSheetScript.OnOpened -= CompleteOpenReportSheetTutorial;
+        reportSheetScript.OnNumberSelected -= CompleteSelectionTutorial;
+
+        reportSheetScript.OnOpened -= ShowReportSheetSelectionTutorial;
+        reportSheetScript.OnClosed -= HideReportSheetSelectionTutorial;
     }
 
     private void ShowReportSheetSigningTutorial()

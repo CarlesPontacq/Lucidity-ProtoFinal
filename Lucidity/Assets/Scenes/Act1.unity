@@ -3451,115 +3451,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1001 &468074588
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5533655514814115806, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_Name
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 5923701626171110876, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8096844300303789538, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 7.94
-      objectReference: {fileID: 0}
-    - target: {fileID: 8096844300303789538, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.444
-      objectReference: {fileID: 0}
-    - target: {fileID: 8096844300303789538, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 10.19
-      objectReference: {fileID: 0}
-    - target: {fileID: 8096844300303789538, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8096844300303789538, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8096844300303789538, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8096844300303789538, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8096844300303789538, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8096844300303789538, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8096844300303789538, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5533655514814115806, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 468074590}
-    - targetCorrespondingSourceObject: {fileID: 5533655514814115806, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 468074591}
-  m_SourcePrefab: {fileID: 100100000, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
---- !u!1 &468074589 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5533655514814115806, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-  m_PrefabInstance: {fileID: 468074588}
-  m_PrefabAsset: {fileID: 0}
---- !u!195 &468074590
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 468074589}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 300
-  m_StoppingDistance: 0.1
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
-  m_WalkableMask: 1
-  m_ObstacleAvoidanceType: 4
---- !u!114 &468074591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 468074589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd72f26a82102be44989fbbaae55418f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 468074590}
-  updateRate: 0.2
-  pathRecalculationDistance: 2
 --- !u!43 &469811169
 Mesh:
   m_ObjectHideFlags: 0
@@ -9558,7 +9449,7 @@ MonoBehaviour:
   minAnomaliesPerLoop: 0
   maxAnomaliesPerLoop: 3
   enemySpawner: {fileID: 318053360}
-  enemySpawnProbability: 0
+  enemySpawnProbability: 0.6
   autoStartOnBegin: 0
 --- !u!4 &1423677013
 Transform:
@@ -14393,4 +14284,3 @@ SceneRoots:
   - {fileID: 829139757}
   - {fileID: 1859711004}
   - {fileID: 550561585}
-  - {fileID: 468074588}

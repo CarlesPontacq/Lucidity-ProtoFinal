@@ -224,7 +224,7 @@ public class GameManager : MonoBehaviour
         stunModeUnlockerGrabbed = true;
 
         if (cameraManager != null)
-            cameraManager.hasFlashCamera = true;
+            cameraManager.OnGrabbedFlash();
 
         if (itemInfoOverlay != null)
             itemInfoOverlay.OpenInfo(itemData);

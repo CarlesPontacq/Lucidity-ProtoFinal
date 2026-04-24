@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class ReportSheetOverlayUI : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [SerializeField] private ExitDoorBlocker exitBlocker;
 
     [Header("Exit Lamp (optional)")]
-    [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
+    [SerializeField] private ExitLamp exitLamp;
 
     [Header("Input")]
     [SerializeField] PlayerInputObserver playerInput;
@@ -39,6 +40,13 @@ public class ReportSheetOverlayUI : MonoBehaviour
     private bool signedThisAttempt;
     private Coroutine closeRoutine;
     private float previousTimeScale = 1f;
+
+    public event Action OnReportSheetOpenedFirstTime;
+    private bool hasOpenedOnce = false;
+    public event Action OnNumberSelectedFirstTime;
+    private bool hasSelectedOnce = false;
+    public event Action OnSignedFirstTime;
+    private bool hasSignedOnce = false;
 
     private bool canOpen = false;
 
@@ -82,6 +90,19 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (!open) return;
         if (signedThisAttempt) return;
 
+        if (!hasSignedOnce)
+        {
+            hasSignedOnce = true;
+            OnSignedFirstTime?.Invoke();
+        }
+
+        //Por ahora no lo pongo porque aun falta el otro input de numeros
+        /*if (!hasSelectedOnce)
+        {
+            hasSelectedOnce = true;
+            OnNumberSelectedFirstTime?.Invoke();
+        }*/
+
         signedThisAttempt = true;
         if (signatureStamp) signatureStamp.gameObject.SetActive(true);
 
@@ -111,6 +132,8 @@ public class ReportSheetOverlayUI : MonoBehaviour
         {
             Debug.Log($"Firmado y correcto. Puesto={guess}, Esperado={expected}");
             SetFeedback("Correcto. Ya puedes pasar por la puerta.");
+
+            GameManager.Instance.HasFinishedLastLoop();
         }
         else
         {
@@ -134,10 +157,10 @@ public class ReportSheetOverlayUI : MonoBehaviour
             exitBlocker.UnlockPassage();
 
         if (exitLamp == null)
-            exitLamp = FindAnyObjectByType<ExitLightEmissionMapSwitcher>();
+            exitLamp = FindAnyObjectByType<ExitLamp>();
 
         if (exitLamp != null)
-            exitLamp.SetCanPass(true);
+            exitLamp.TurnOff();
         else
             Debug.LogWarning("[UI] exitLamp NO encontrada/asignada. No puedo poner verde.");
     }
@@ -157,6 +180,13 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         open = value;
         if (sheetPanel) sheetPanel.SetActive(open);
+
+
+        if (!hasOpenedOnce && open)
+        {
+            hasOpenedOnce = true;
+            OnReportSheetOpenedFirstTime?.Invoke();
+        }
 
         Cursor.visible = open;
         Cursor.lockState = open ? CursorLockMode.None : CursorLockMode.Locked;

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AnomalySpawnObject : Anomaly
 {
-    [SerializeField] private GameObject objectToShow; 
+    [SerializeField] private GameObject objectToShow;
 
     protected override void OnActivate()
     {
@@ -14,13 +14,5 @@ public class AnomalySpawnObject : Anomaly
     {
         base.OnDeactivate();
         if (objectToShow) objectToShow.SetActive(false);
-    }
-
-    private void Update()
-    {
-        if (IsSpawnedThisLoop)
-            objectToShow.SetActive(true);
-        else
-            objectToShow.SetActive(false);
     }
 }

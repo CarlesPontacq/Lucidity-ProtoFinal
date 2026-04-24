@@ -71,7 +71,6 @@ public class ReportSheetOverlayUI : MonoBehaviour
     private float previousTimeScale = 1f;
     private bool canOpen = false;
 
-    // blink state
     private float blinkTime = 0f;
     private bool blinkGoingUp = true;
 
@@ -167,75 +166,89 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     public void OnSignatureClicked()
     {
-        Debug.Log("[UI] OnSignatureClicked()");
+        Debug.Log("CLICK FIRMA DETECTADO");
 
-        if (!open) { Debug.Log("No open"); return; }
-        if (signedThisAttempt) { Debug.Log("Already signed"); return; }
+        if (closeRoutine != null)
+            StopCoroutine(closeRoutine);
 
-        if (selectedNumber < 0)
-        {
-            Debug.Log("No number selected");
-            SetFeedback("Selecciona un número primero.");
-            return;
-        }
-
-        Debug.Log("signatureWriteObject = " + (signatureWriteObject != null ? signatureWriteObject.name : "NULL"));
-        Debug.Log("signatureWriteAnimator = " + (signatureWriteAnimator != null ? signatureWriteAnimator.name : "NULL"));
-
-        signedThisAttempt = true;
-        selectionLocked = true;
-        SetOptionButtonsInteractable(false);
-
-        if (signatureBlinkObject != null)
-            signatureBlinkObject.SetActive(false);
-
-        if (signatureWriteObject != null)
-            signatureWriteObject.SetActive(true);
-
-        if (signatureWriteAnimator != null)
-            signatureWriteAnimator.Play(signatureWriteStateName, 0, 0f);
+        closeRoutine = StartCoroutine(SignAndSubmitRoutine());
     }
 
     private IEnumerator SignAndSubmitRoutine()
     {
-        // 1) apagar firma parpadeando
+        Debug.Log("[UI] Starting signature animation");
+
         if (signatureBlinkObject != null)
             signatureBlinkObject.SetActive(false);
 
-        // 2) reproducir firma escribiéndose
         if (signatureWriteObject != null)
+        {
             signatureWriteObject.SetActive(true);
+            signatureWriteObject.transform.SetAsLastSibling();
+        }
+        else
+        {
+            Debug.LogWarning("[UI] signatureWriteObject es NULL");
+        }
 
         if (signatureWriteAnimator != null)
             signatureWriteAnimator.Play(signatureWriteStateName, 0, 0f);
+        else
+            Debug.LogWarning("[UI] signatureWriteAnimator es NULL");
 
         yield return new WaitForSecondsRealtime(signatureWriteDuration);
 
-        // 3) reproducir sello
+        Debug.Log("[UI] Intentando mostrar stamp");
+
         if (stampObject != null)
+        {
             stampObject.SetActive(true);
+            stampObject.transform.SetAsLastSibling();
+
+            Image stampImage = stampObject.GetComponent<Image>();
+            if (stampImage != null)
+            {
+                Color c = stampImage.color;
+                c.a = 1f;
+                stampImage.color = c;
+            }
+
+            Debug.Log("[UI] Stamp activado");
+        }
+        else
+        {
+            Debug.LogWarning("[UI] stampObject es NULL");
+        }
+
+        if (stampAnimator != null)
+        {
+            stampAnimator.Play(0, 0, 0f);
+            Debug.Log("[UI] Stamp animator reproducido");
+        }
+        else
+        {
+            Debug.LogWarning("[UI] stampAnimator es NULL");
+        }
+
+        if (stampObject != null)
+        {
+            stampObject.SetActive(true);
+            stampObject.transform.SetAsLastSibling();
+        }
 
         if (stampAnimator != null)
             stampAnimator.Play(stampStateName, 0, 0f);
 
         yield return new WaitForSecondsRealtime(stampDuration);
 
-        // 4) validar
         int expected = anomalyManager.GetExpectedAnomalies();
-        bool correct = (selectedNumber == expected);
+        bool correct = selectedNumber == expected;
 
         UnlockNextLoop(correct);
 
-        if (correct)
-        {
-            Debug.Log($"Firmado y correcto. Puesto={selectedNumber}, Esperado={expected}");
-            SetFeedback("Correcto. Ya puedes pasar por la puerta.");
-        }
-        else
-        {
-            Debug.Log($"Firmado pero incorrecto. Puesto={selectedNumber}, Esperado={expected}");
-            SetFeedback("Incorrecto. Ya puedes pasar por la puerta.");
-        }
+        SetFeedback(correct
+            ? "Correcto. Ya puedes pasar por la puerta."
+            : "Incorrecto. Ya puedes pasar por la puerta.");
 
         yield return new WaitForSecondsRealtime(closeDelaySeconds);
 

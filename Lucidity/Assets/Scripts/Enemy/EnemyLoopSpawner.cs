@@ -162,7 +162,7 @@ public class EnemyLoopSpawner : MonoBehaviour
         ClearEnemy();
     }
 
-    private void ClearEnemy()
+    public void ClearEnemy()
     {
         if (currentEnemy != null)
         {

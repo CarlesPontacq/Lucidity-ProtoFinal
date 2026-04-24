@@ -132,6 +132,8 @@ public class ReportSheetOverlayUI : MonoBehaviour
         {
             Debug.Log($"Firmado y correcto. Puesto={guess}, Esperado={expected}");
             SetFeedback("Correcto. Ya puedes pasar por la puerta.");
+
+            GameManager.Instance.HasFinishedLastLoop();
         }
         else
         {

@@ -16,6 +16,7 @@ public class InteractionFeedback : MonoBehaviour
 
     [Header("Interact Hint")]
     [SerializeField] private GameObject interactionHintCanvas;
+    [SerializeField] private Animator hintAnimator;
 
     private Coroutine reticleSizeCoroutine;
 
@@ -36,15 +37,14 @@ public class InteractionFeedback : MonoBehaviour
     {
         MakeReticleBigger();
 
-        MoveInteractHint(hintPosition);
-        ShowInteractHint(true);
+        ShowInteractHint(hintPosition);
     }
 
     public void HideInteractionFeedback()
     {
         ReturnReticleToNormalSize();
 
-        ShowInteractHint(false);
+        HideInteractHint();
     }
 
     void MakeReticleBigger()
@@ -84,11 +84,20 @@ public class InteractionFeedback : MonoBehaviour
         reticle.rectTransform.localScale = Vector3.one * to;
     }
 
-    public void ShowInteractHint(bool show)
+    public void ShowInteractHint(Vector3 position)
     {
         if (interactionHintCanvas == null) return;
 
-        interactionHintCanvas.gameObject.SetActive(show);
+        MoveInteractHint(position);
+        interactionHintCanvas.gameObject.SetActive(true);
+        hintAnimator.SetTrigger("Show");
+    }
+
+    public void HideInteractHint()
+    {
+        if (interactionHintCanvas == null) return;
+
+        interactionHintCanvas.gameObject.SetActive(false);
     }
 
     public void MoveInteractHint(Vector3 position)

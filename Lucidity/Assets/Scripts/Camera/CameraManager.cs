@@ -108,7 +108,7 @@ public class CameraManager : MonoBehaviour
         }
 
         ui.ShowCameraAspect(true);
-        InteractionFeedback.Instance.ShowInteractHint(false);
+        InteractionFeedback.Instance.HideInteractHint();
 
         GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
         isTransitioning = false;

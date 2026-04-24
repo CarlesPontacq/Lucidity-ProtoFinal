@@ -30,4 +30,19 @@ public class LightSwitchInteraction : ObjectInteraction
 
         isOn = !isOn;
     }
+
+    public void Reset()
+    {
+        if (!isOn) return;
+
+        foreach (SwitchableObject switchableObject in switchableObjects)
+        {
+            if (switchableObject.IsOn())
+                switchableObject.TurnOff();
+            else
+                switchableObject.TurnOn();
+        }
+
+        isOn = false;
+    }
 }

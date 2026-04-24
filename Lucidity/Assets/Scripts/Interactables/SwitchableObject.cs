@@ -3,7 +3,7 @@ using UnityEngine;
 public class SwitchableObject : MonoBehaviour
 {
     [SerializeField] bool startOn;
-    protected bool isOn;
+    public bool isOn;
 
     private void Start()
     {

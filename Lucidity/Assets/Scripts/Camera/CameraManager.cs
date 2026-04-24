@@ -14,6 +14,10 @@ public class CameraManager : MonoBehaviour
     public bool lookingThroughCamera = false;
     [SerializeField] private CameraPostProcessToggle cameraPostProcessToggle;
     [SerializeField] private CameraRotation cameraRotation;
+
+    public event Action OnCameraLookedThroughFirstTime;
+    private bool hasLookedThroughOnce = false;
+
     [SerializeField] private CameraAudioHandler audioHandler;
 
     private bool isTransitioning = false;
@@ -96,6 +100,12 @@ public class CameraManager : MonoBehaviour
 
         lookingThroughCamera = true;
         functionality.ActivateMode();
+
+        if (!hasLookedThroughOnce)
+        {
+            hasLookedThroughOnce = true;
+            OnCameraLookedThroughFirstTime?.Invoke();
+        }
 
         ui.ShowCameraAspect(true);
         InteractionFeedback.Instance.ShowInteractHint(false);

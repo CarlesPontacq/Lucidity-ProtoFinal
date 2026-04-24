@@ -13,19 +13,19 @@ public class LoopManager : MonoBehaviour
 
     [Header("Optional")]
     [SerializeField] private ExitDoorBlocker exitBlocker;
-    [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
+    [SerializeField] private ExitLamp exitLamp;
 
     [Header("Safety")]
-    [Tooltip("Evita avanzar m�ltiples loops por doble trigger.")]
+    [Tooltip("Evita avanzar multiples loops por doble trigger.")]
     [SerializeField] private float nextLoopCooldown = 0.25f;
 
-    [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private EnemyLoopSpawner enemySpawner;
 
     private float nextAllowedTime = 0f;
 
     private void Start()
     {
-        StartBaseLoop();
+        StartNextLoop();
     }
 
     public void StartNextLoop()
@@ -48,14 +48,14 @@ public class LoopManager : MonoBehaviour
             {
                 Debug.Log("Report correcto -> sumo loop");
                 GameManager.Instance.AddLoopToCount();
-                StartLoopFresh();
             }
             else
             {
                 Debug.Log("Report incorrecto -> reseteo loops");
-                GameManager.Instance.ResetLoops();
-                StartBaseLoop();
+                GameManager.Instance.SubtractLoopToCount();
             }
+            
+            StartLoopFresh();
         }
         else
         {
@@ -82,7 +82,7 @@ public class LoopManager : MonoBehaviour
             cameraFunctionality.ResetReels();
 
         if (exitLamp != null)
-            exitLamp.SetCanPass(true);
+            exitLamp.TurnOff();
 
         if (anomalyManager != null)
             anomalyManager.ClearSpawned();
@@ -120,7 +120,10 @@ public class LoopManager : MonoBehaviour
             cameraFunctionality.ResetReels();
 
         if (exitLamp != null)
-            exitLamp.SetCanPass(false);
+            exitLamp.TurnOn();
+
+        if (enemySpawner != null)
+            enemySpawner.ClearEnemy();
 
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();

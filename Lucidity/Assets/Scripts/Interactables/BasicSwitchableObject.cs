@@ -1,16 +1,19 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BasicSwitchableObject : SwitchableObject
 {
+    [SerializeField] GameObject objectToToggle;
+
     public override void TurnOn()
     {
         isOn = true;
-        gameObject.SetActive(true);
+        objectToToggle.SetActive(true);
     }
 
     public override void TurnOff()
     {
         isOn = false;
-        gameObject.SetActive(false);
+        objectToToggle.SetActive(false);
     }
 }

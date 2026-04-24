@@ -72,12 +72,10 @@ public class ReportSheetOverlayUI : MonoBehaviour
     private Coroutine closeRoutine;
     private float previousTimeScale = 1f;
 
-    public event Action OnReportSheetOpenedFirstTime;
-    private bool hasOpenedOnce = false;
-    public event Action OnNumberSelectedFirstTime;
-    private bool hasSelectedOnce = false;
-    public event Action OnSignedFirstTime;
-    private bool hasSignedOnce = false;
+    public event Action OnOpened;
+    public event Action OnClosed;
+    public event Action OnNumberSelected;
+    public event Action OnSigned;
 
     private bool canOpen = false;
 
@@ -158,11 +156,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (selectionLocked) return;
         if (number < 0 || number >= 4) return;
 
-        if (!hasSelectedOnce)
-        {
-            hasSelectedOnce = true;
-            OnNumberSelectedFirstTime?.Invoke();
-        }
+        OnNumberSelected?.Invoke();
 
         selectedNumber = number;
 
@@ -192,18 +186,14 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (selectedNumber < 0)
         {
-            SetFeedback("Selecciona un número primero.");
+            SetFeedback("Selecciona un nï¿½mero primero.");
             return;
         }
 
         signedThisAttempt = true;
         selectionLocked = true;
 
-        if (!hasSignedOnce)
-        {
-            hasSignedOnce = true;
-            OnSignedFirstTime?.Invoke();
-        }
+        OnSigned?.Invoke();
 
         SetOptionButtonsInteractable(false);
 
@@ -329,13 +319,10 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (sheetPanel != null)
             sheetPanel.SetActive(open);
-
-
-        if (!hasOpenedOnce && open)
-        {
-            hasOpenedOnce = true;
-            OnReportSheetOpenedFirstTime?.Invoke();
-        }
+        if (open)
+            OnOpened?.Invoke();
+        else
+            OnClosed?.Invoke();
 
         Cursor.visible = open;
         Cursor.lockState = open ? CursorLockMode.None : CursorLockMode.Locked;

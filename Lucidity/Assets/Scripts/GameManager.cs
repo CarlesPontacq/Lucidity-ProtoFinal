@@ -147,8 +147,11 @@ public class GameManager : MonoBehaviour
     {
         currentLoop++;
         if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
+    }
 
-        if(currentLoop >= lastLoop) finishedLoops = true;
+    public void HasFinishedLastLoop()
+    {
+        if (currentLoop >= lastLoop) finishedLoops = true;
     }
 
     public void SubtractLoopToCount()

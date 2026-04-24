@@ -158,21 +158,12 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (selectionLocked) return;
         if (number < 0 || number >= 4) return;
 
-        if (!hasSignedOnce)
-        {
-            hasSignedOnce = true;
-            OnSignedFirstTime?.Invoke();
-        }
-
-        //Por ahora no lo pongo porque aun falta el otro input de numeros
-        /*if (!hasSelectedOnce)
+        if (!hasSelectedOnce)
         {
             hasSelectedOnce = true;
             OnNumberSelectedFirstTime?.Invoke();
-        }*/
+        }
 
-        signedThisAttempt = true;
-        if (signatureStamp) signatureStamp.gameObject.SetActive(true);
         selectedNumber = number;
 
         HideAllCircles();
@@ -186,12 +177,38 @@ public class ReportSheetOverlayUI : MonoBehaviour
                 circleAnimator.Play(0, 0, 0f);
         }
 
+        if (signatureButton != null)
+            signatureButton.interactable = true;
+
         SetFeedback("");
     }
 
     public void OnSignatureClicked()
     {
         Debug.Log("CLICK FIRMA DETECTADO");
+
+        if (!open) return;
+        if (signedThisAttempt) return;
+
+        if (selectedNumber < 0)
+        {
+            SetFeedback("Selecciona un número primero.");
+            return;
+        }
+
+        signedThisAttempt = true;
+        selectionLocked = true;
+
+        if (!hasSignedOnce)
+        {
+            hasSignedOnce = true;
+            OnSignedFirstTime?.Invoke();
+        }
+
+        SetOptionButtonsInteractable(false);
+
+        if (signatureButton != null)
+            signatureButton.interactable = false;
 
         if (closeRoutine != null)
             StopCoroutine(closeRoutine);
@@ -356,6 +373,12 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (stampObject != null)
             stampObject.SetActive(false);
+
+        if (signatureStamp != null)
+            signatureStamp.gameObject.SetActive(false);
+
+        if (signatureButton != null)
+            signatureButton.interactable = false;
 
         ResetBlinkState();
         SetOptionButtonsInteractable(true);

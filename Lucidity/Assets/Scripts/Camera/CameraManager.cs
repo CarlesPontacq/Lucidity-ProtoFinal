@@ -8,7 +8,9 @@ public class CameraManager : MonoBehaviour
 {
     [Header("CameraFunctions")]
     [SerializeField] private CameraFunctionality functionality;
-    public bool hasFlashCamera = false;
+    [SerializeField] private bool hasFlashCamera = false;
+
+    [SerializeField] private GameObject flashComponent;
 
     [Header("State")]
     public bool lookingThroughCamera = false;
@@ -34,6 +36,9 @@ public class CameraManager : MonoBehaviour
     {
         input.onCameraToggle += HandleCameraToggle;
         input.onCameraAction += HandleCameraPhoto;
+
+        if(!hasFlashCamera)
+            flashComponent.SetActive(false);
     }
 
     private void Update()
@@ -52,6 +57,12 @@ public class CameraManager : MonoBehaviour
     public void SetFunctionality(CameraFunctionality newfunctionality)
     {
         functionality = newfunctionality;
+    }
+
+    public void OnGrabbedFlash()
+    {
+        hasFlashCamera = true;
+        flashComponent.SetActive(true);
     }
 
     #region Input

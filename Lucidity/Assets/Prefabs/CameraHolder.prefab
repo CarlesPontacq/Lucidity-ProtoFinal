@@ -655,6 +655,7 @@ MonoBehaviour:
   cameraPostProcessToggle: {fileID: 5275213290345335608}
   cameraRotation: {fileID: 7795568537833020718}
   audioHandler: {fileID: 588726753737900789}
+  armsController: {fileID: 0}
   ui: {fileID: 8572510722767480966}
   input: {fileID: 0}
 --- !u!114 &8572510722767480966
@@ -682,7 +683,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  duration: 10
 --- !u!114 &588726753737900789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1015,6 +1015,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 5149425213579100067, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
+      propertyPath: armsMeshObject
+      value: 
+      objectReference: {fileID: 53440490445515776}
+    - target: {fileID: 5149425213579100067, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
+      propertyPath: cameraModelObject
+      value: 
+      objectReference: {fileID: 3911089773048025053}
     - target: {fileID: 5207152748949558004, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.3
@@ -1176,8 +1184,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
+--- !u!1 &53440490445515776 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7924658205296258832, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
+  m_PrefabInstance: {fileID: 7874492758431482640}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2667349956635365860 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5207152748949558004, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
+  m_PrefabInstance: {fileID: 7874492758431482640}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3911089773048025053 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6557568833710787789, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
   m_PrefabInstance: {fileID: 7874492758431482640}
   m_PrefabAsset: {fileID: 0}

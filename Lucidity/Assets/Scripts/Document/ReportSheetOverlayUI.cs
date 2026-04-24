@@ -1,7 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class ReportSheetOverlayUI : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     [Header("Stamp")]
     [SerializeField] private GameObject stampObject;
+    [SerializeField] private Image signatureStamp;
     [SerializeField] private Animator stampAnimator;
     [SerializeField] private string stampStateName = "StampPop";
     [SerializeField] private float stampDuration = 0.8f;
@@ -47,7 +49,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [SerializeField] private ExitDoorBlocker exitBlocker;
 
     [Header("Exit Lamp (optional)")]
-    [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
+    [SerializeField] private ExitLamp exitLamp;
 
     [Header("Input")]
     [SerializeField] private PlayerInputObserver playerInput;
@@ -69,6 +71,14 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     private Coroutine closeRoutine;
     private float previousTimeScale = 1f;
+
+    public event Action OnReportSheetOpenedFirstTime;
+    private bool hasOpenedOnce = false;
+    public event Action OnNumberSelectedFirstTime;
+    private bool hasSelectedOnce = false;
+    public event Action OnSignedFirstTime;
+    private bool hasSignedOnce = false;
+
     private bool canOpen = false;
 
     private float blinkTime = 0f;
@@ -83,7 +93,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
             playerInput.onToggleSheet += ToggleSheet;
 
         BindButtons();
-        SetOpen(true);
+        SetOpen(false);
         ResetDocumentState();
     }
 
@@ -148,6 +158,21 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (selectionLocked) return;
         if (number < 0 || number >= 4) return;
 
+        if (!hasSignedOnce)
+        {
+            hasSignedOnce = true;
+            OnSignedFirstTime?.Invoke();
+        }
+
+        //Por ahora no lo pongo porque aun falta el otro input de numeros
+        /*if (!hasSelectedOnce)
+        {
+            hasSelectedOnce = true;
+            OnNumberSelectedFirstTime?.Invoke();
+        }*/
+
+        signedThisAttempt = true;
+        if (signatureStamp) signatureStamp.gameObject.SetActive(true);
         selectedNumber = number;
 
         HideAllCircles();
@@ -268,10 +293,10 @@ public class ReportSheetOverlayUI : MonoBehaviour
             exitBlocker.UnlockPassage();
 
         if (exitLamp == null)
-            exitLamp = FindAnyObjectByType<ExitLightEmissionMapSwitcher>();
+            exitLamp = FindAnyObjectByType<ExitLamp>();
 
         if (exitLamp != null)
-            exitLamp.SetCanPass(true);
+            exitLamp.TurnOff();
         else
             Debug.LogWarning("[UI] exitLamp NO encontrada/asignada. No puedo poner verde.");
     }
@@ -285,6 +310,13 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
         if (sheetPanel != null)
             sheetPanel.SetActive(open);
+
+
+        if (!hasOpenedOnce && open)
+        {
+            hasOpenedOnce = true;
+            OnReportSheetOpenedFirstTime?.Invoke();
+        }
 
         Cursor.visible = open;
         Cursor.lockState = open ? CursorLockMode.None : CursorLockMode.Locked;

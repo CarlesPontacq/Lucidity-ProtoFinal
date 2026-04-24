@@ -1,10 +1,16 @@
+using NUnit.Framework.Interfaces;
+using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
+
+    public event Action OnCameraTaken;
+    public event Action OnReportSheetTaken;
 
 
     [Header("Player settings")]
@@ -27,11 +33,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string playerSpawnTag = "PlayerSpawn";
 
     [Header("Pickups / Systems")]
+    public bool startWithCamera = false;
+    public bool startWithReportSheet = false;
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private CameraFunctionality cameraFunctionality;
     [SerializeField] private ReportSheetOverlayUI reportSheet;
     [SerializeField] private ItemInfoOverlay itemInfoOverlay;
-    [SerializeField] private GameObject handsWithCamera;
+    [SerializeField] private PlayerArmsAnimationController handsWithCamera;
 
     [Header("Death Safety")]
     [SerializeField] private float deathCooldown = 0.35f;
@@ -46,6 +54,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraRotation cameraRotation;
 
     private int currentLoop = 0;
+    private int minLoop = 1;
     public bool isDying = false;
     private float nextAllowedDeathTime = 0f;
 
@@ -57,6 +66,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        if(PlayerRef == null)
+        {
+            PlayerRef = GameObject.FindGameObjectWithTag("Player");
+        }
+
         if (Instance == null)
         {
             Instance = this;
@@ -78,6 +92,25 @@ public class GameManager : MonoBehaviour
         finishedLoops = false;
 
         SetHandsWithCameraVisibility(false);
+
+        if (startWithCamera)
+        {
+            cameraGrabbed = true;
+
+            if (cameraFunctionality != null)
+                cameraFunctionality.isUnlocked = true;
+
+            if (cameraManager != null)
+                cameraManager.SetFunctionality(cameraFunctionality);
+
+            SetHandsWithCameraVisibility(true);
+        }
+
+        if (startWithReportSheet)
+        {
+            reportSheetGrabbed = true;
+            reportSheet.Grab();
+        }
     }
 
     private void SetUpCharacterOnNewScene()
@@ -114,8 +147,19 @@ public class GameManager : MonoBehaviour
     {
         currentLoop++;
         if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
+    }
 
-        if(currentLoop >= lastLoop) finishedLoops = true;
+    public void HasFinishedLastLoop()
+    {
+        if (currentLoop >= lastLoop) finishedLoops = true;
+    }
+
+    public void SubtractLoopToCount()
+    {
+        currentLoop--;
+        if(currentLoop <= minLoop) currentLoop = minLoop;
+
+        if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
     }
 
     public void ResetLoops()
@@ -149,6 +193,8 @@ public class GameManager : MonoBehaviour
             cameraManager.SetFunctionality(cameraFunctionality);
 
         SetHandsWithCameraVisibility(true);
+
+        OnCameraTaken?.Invoke();
     }
 
     public void ReportSheetGrabbed(ItemData itemData)
@@ -160,6 +206,8 @@ public class GameManager : MonoBehaviour
 
         if (itemInfoOverlay != null)
             itemInfoOverlay.OpenInfo(itemData);
+
+        OnReportSheetTaken?.Invoke();
     }
 
     public void GunGrabbed()
@@ -184,8 +232,12 @@ public class GameManager : MonoBehaviour
 
     public void SetHandsWithCameraVisibility(bool visibility)
     {
-        if (handsWithCamera != null)
-            handsWithCamera.SetActive(visibility);
+        if (handsWithCamera == null) return;
+
+        if (visibility)
+            handsWithCamera.ShowArms();
+        else
+            handsWithCamera.HideArms();
     }
 
     #endregion
@@ -227,9 +279,9 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(5f);
 
         // Reset loops
-        ResetLoops();
+        SubtractLoopToCount();
         if (loopManager != null)
-        loopManager.StartBaseLoop();
+            loopManager.StartLoopFresh();
 
         yield return TeleportAndRearmPhysics();
 

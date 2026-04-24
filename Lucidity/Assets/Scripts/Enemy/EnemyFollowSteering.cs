@@ -95,4 +95,9 @@ public class EnemyFollowSteering : MonoBehaviour
 
         return Vector3.zero;
     }
+
+    public void SetChaseSpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
 }

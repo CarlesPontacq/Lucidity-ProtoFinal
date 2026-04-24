@@ -30,8 +30,40 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5230301087526440253}
+  - {fileID: 1314068376419605311}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 186.807, z: 0}
+--- !u!1 &8860623325570579693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1314068376419605311}
+  m_Layer: 0
+  m_Name: HintPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1314068376419605311
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8860623325570579693}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.125, z: 0.037}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8693858521551566474}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5701410196495477462
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -152,7 +184,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eaf6bd670b334c4b8a446a1a9abf4a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ceilingLamp: {fileID: 0}
+  hintPosition: {fileID: 1314068376419605311}
+  switchableObjects: []
 --- !u!65 &5685647898794078842
 BoxCollider:
   m_ObjectHideFlags: 0

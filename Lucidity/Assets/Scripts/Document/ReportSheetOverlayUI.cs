@@ -41,12 +41,10 @@ public class ReportSheetOverlayUI : MonoBehaviour
     private Coroutine closeRoutine;
     private float previousTimeScale = 1f;
 
-    public event Action OnReportSheetOpenedFirstTime;
-    private bool hasOpenedOnce = false;
-    public event Action OnNumberSelectedFirstTime;
-    private bool hasSelectedOnce = false;
-    public event Action OnSignedFirstTime;
-    private bool hasSignedOnce = false;
+    public event Action OnOpened;
+    public event Action OnClosed;
+    public event Action OnNumberSelected;
+    public event Action OnSigned;
 
     private bool canOpen = false;
 
@@ -90,18 +88,10 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (!open) return;
         if (signedThisAttempt) return;
 
-        if (!hasSignedOnce)
-        {
-            hasSignedOnce = true;
-            OnSignedFirstTime?.Invoke();
-        }
+        OnSigned?.Invoke();
 
         //Por ahora no lo pongo porque aun falta el otro input de numeros
-        /*if (!hasSelectedOnce)
-        {
-            hasSelectedOnce = true;
-            OnNumberSelectedFirstTime?.Invoke();
-        }*/
+        //OnNumberSelected?.Invoke();
 
         signedThisAttempt = true;
         if (signatureStamp) signatureStamp.gameObject.SetActive(true);
@@ -181,12 +171,10 @@ public class ReportSheetOverlayUI : MonoBehaviour
         open = value;
         if (sheetPanel) sheetPanel.SetActive(open);
 
-
-        if (!hasOpenedOnce && open)
-        {
-            hasOpenedOnce = true;
-            OnReportSheetOpenedFirstTime?.Invoke();
-        }
+        if (open)
+            OnOpened?.Invoke();
+        else
+            OnClosed?.Invoke();
 
         Cursor.visible = open;
         Cursor.lockState = open ? CursorLockMode.None : CursorLockMode.Locked;

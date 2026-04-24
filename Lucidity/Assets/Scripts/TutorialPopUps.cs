@@ -14,17 +14,36 @@ public class TutorialPopUps : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnCameraTaken += ShowCameraPopup;
-        cameraManager.OnCameraLookedThroughFirstTime += HideCameraPopup;
+        GameManager.Instance.OnCameraTaken += CameraTaken;
+        GameManager.Instance.OnReportSheetTaken += ReportSheetTaken;
+    }
 
-        GameManager.Instance.OnReportSheetTaken += ShowReportSheetPopup;
-        reportSheetScript.OnReportSheetOpenedFirstTime += HideReportSheetPopup;
-        reportSheetScript.OnReportSheetOpenedFirstTime += ShowReportSheetSelectionTutorial;
+    private void CameraTaken()
+    {
+        ShowCameraPopup();
 
-        // Por ahora en estos eventos, cuando este el otro input del informe se cambian
-        reportSheetScript.OnReportSheetOpenedFirstTime += ShowReportSheetSigningTutorial;
-        reportSheetScript.OnSignedFirstTime += HideReportSheetSelectionTutorial;
-        reportSheetScript.OnSignedFirstTime += HideReportSheetSigningTutorial;
+        cameraManager.OnCameraLookedThrough += CompleteCameraTutorial;
+
+        reportSheetScript.OnOpened += HideCameraPopup;
+        reportSheetScript.OnClosed += ShowCameraPopup;
+    }
+
+    private void ReportSheetTaken()
+    {
+        ShowReportSheetPopup();
+
+        cameraManager.OnCameraLookedThrough += HideReportSheetPopup;
+        cameraManager.OnCameraStoppedLookingThrough += ShowReportSheetPopup;
+
+        reportSheetScript.OnOpened += CompleteOpenReportSheetTutorial;
+
+        reportSheetScript.OnOpened += ShowReportSheetSelectionTutorial;
+        reportSheetScript.OnOpened += ShowReportSheetSigningTutorial;
+        reportSheetScript.OnClosed += HideReportSheetSelectionTutorial;
+        reportSheetScript.OnClosed += HideReportSheetSigningTutorial;
+        reportSheetScript.OnSigned += HideReportSheetSigningTutorial;
+
+        reportSheetScript.OnSigned += CompleteSigningTutorial;
     }
 
     private void ShowCameraPopup()
@@ -35,6 +54,23 @@ public class TutorialPopUps : MonoBehaviour
     private void HideCameraPopup()
     {
         cameraControlsPopUp.SetActive(false);
+    }
+
+    private void CompleteOpenReportSheetTutorial()
+    {
+        HideReportSheetPopup();
+
+        cameraManager.OnCameraLookedThrough -= HideReportSheetPopup;
+        cameraManager.OnCameraStoppedLookingThrough -= ShowReportSheetPopup;
+
+        reportSheetScript.OnOpened -= CompleteOpenReportSheetTutorial;
+    }
+
+    void CompleteCameraTutorial()
+    {
+        HideCameraPopup();
+        cameraManager.OnCameraLookedThrough -= CompleteCameraTutorial;
+        reportSheetScript.OnClosed -= ShowCameraPopup;
     }
 
     private void ShowReportSheetPopup()
@@ -57,13 +93,32 @@ public class TutorialPopUps : MonoBehaviour
         reportSelectionTutorial.SetActive(false);
     }
 
+    private void CompleteSelectionTutorial()
+    {
+
+    }
+
     private void ShowReportSheetSigningTutorial()
     {
         reportSigningTutorial.SetActive(true);
+
     }
 
     private void HideReportSheetSigningTutorial()
     {
         reportSigningTutorial.SetActive(false);
+    }
+
+    private void CompleteSigningTutorial()
+    {
+        // Por ahora todo junto hasta aplicarlo al nuevo input de numeros
+        HideReportSheetSelectionTutorial();
+        reportSheetScript.OnOpened -= ShowReportSheetSelectionTutorial;
+        reportSheetScript.OnOpened -= ShowReportSheetSigningTutorial;
+        reportSheetScript.OnClosed -= HideReportSheetSelectionTutorial;
+        reportSheetScript.OnClosed -= HideReportSheetSigningTutorial;
+        reportSheetScript.OnSigned -= HideReportSheetSigningTutorial;
+
+        reportSheetScript.OnSigned -= CompleteSigningTutorial;
     }
 }

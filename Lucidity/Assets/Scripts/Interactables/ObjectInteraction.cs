@@ -6,6 +6,7 @@ using UnityEngine;
 public class ObjectInteraction : MonoBehaviour
 {
     protected bool fullyInteractable = true;
+    [SerializeField] protected Transform hintPosition;
 
     protected virtual void Start() { }
 
@@ -17,7 +18,7 @@ public class ObjectInteraction : MonoBehaviour
     {
         if (!fullyInteractable) return;
 
-        InteractionFeedback.Instance.ShowInteractionFeedback();
+        InteractionFeedback.Instance.ShowInteractionFeedback(hintPosition.position);
     }
     
     public virtual void OnFocusExit()

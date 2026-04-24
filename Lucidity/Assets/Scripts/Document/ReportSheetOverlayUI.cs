@@ -168,7 +168,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
             Animator circleAnimator = circleMarkers[number].GetComponent<Animator>();
             if (circleAnimator != null)
-                circleAnimator.Play(0, 0, 0f);
+                circleAnimator.Play(0, 0, 0f);  
         }
 
         if (signatureButton != null)
@@ -341,12 +341,9 @@ public class ReportSheetOverlayUI : MonoBehaviour
         }
 
         SetWorldInteractionsEnabled(!open);
-
-        if (open)
-            ResetDocumentState();
     }
 
-    private void ResetDocumentState()
+    public void ResetDocumentState()
     {
         signedThisAttempt = false;
         selectionLocked = false;

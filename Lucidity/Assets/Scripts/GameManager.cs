@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CameraRotation cameraRotation;
 
     private int currentLoop = 0;
+    private int minLoop = 1;
     public bool isDying = false;
     private float nextAllowedDeathTime = 0f;
 
@@ -65,6 +66,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        if(PlayerRef == null)
+        {
+            PlayerRef = GameObject.FindGameObjectWithTag("Player");
+        }
+
         if (Instance == null)
         {
             Instance = this;
@@ -141,8 +147,19 @@ public class GameManager : MonoBehaviour
     {
         currentLoop++;
         if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
+    }
 
-        if(currentLoop >= lastLoop) finishedLoops = true;
+    public void HasFinishedLastLoop()
+    {
+        if (currentLoop >= lastLoop) finishedLoops = true;
+    }
+
+    public void SubtractLoopToCount()
+    {
+        currentLoop--;
+        if(currentLoop <= minLoop) currentLoop = minLoop;
+
+        if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
     }
 
     public void ResetLoops()
@@ -262,9 +279,9 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(5f);
 
         // Reset loops
-        ResetLoops();
+        SubtractLoopToCount();
         if (loopManager != null)
-        loopManager.StartBaseLoop();
+            loopManager.StartLoopFresh();
 
         yield return TeleportAndRearmPhysics();
 

@@ -14,6 +14,39 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!244 &-8095019681332558127
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 799ecdedaf57d354fa019c8d90b3f8af
+  m_EffectName: Attenuation
+  m_MixLevel: 1926b4b38b90dd8488bab29d19ed5065
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!243 &-4024247413168719475
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AnomalySFX
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 47af847cdde82944e92f5d340fa61d41
+  m_Children: []
+  m_Volume: 64ee2165c0b42c54097e7a5087229bb3
+  m_Pitch: 6713900881fa6f84aad7fbb10b208eb6
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -8095019681332558127}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!243 &-532165906872169208
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -42,7 +75,8 @@ AudioMixerGroupController:
   m_Name: SFX
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 7516c4324e0e87e46863559c50337b6f
-  m_Children: []
+  m_Children:
+  - {fileID: -4024247413168719475}
   m_Volume: 2abb0bf7a0895fb478f16f549b1d1d72
   m_Pitch: ac3f2060d4fb00d40bc7f5145a195bd8
   m_Send: 00000000000000000000000000000000
@@ -68,6 +102,8 @@ AudioMixerController:
   m_EnableSuspend: 1
   m_UpdateMode: 0
   m_ExposedParameters:
+  - guid: 64ee2165c0b42c54097e7a5087229bb3
+    name: AnomalyVolume
   - guid: 547085a3d456dc64988b68e2b54366bb
     name: MasterVolume
   - guid: 37b06e64a1cfccd4cbe0c3341724ba9b
@@ -79,6 +115,7 @@ AudioMixerController:
     - cd869528cf90d634caf3c02fa4266e0f
     - 7516c4324e0e87e46863559c50337b6f
     - 63a81f27c217c8c4bb859bbe64f7ece2
+    - 47af847cdde82944e92f5d340fa61d41
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}

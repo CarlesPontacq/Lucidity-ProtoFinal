@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyChaseSpawner : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class EnemyChaseSpawner : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private float enemyChaseSpeed = 3f;
+    [SerializeField] private int agentTypeID = 1;
 
     [Header("Spawn Position")]
     [SerializeField] private float spawnYOffset = 0.05f;
@@ -148,12 +150,8 @@ public class EnemyChaseSpawner : MonoBehaviour
             currentEnemy.transform.position = pos;
         }
 
-        EnemyFollowSteering follow = currentEnemy.GetComponent<EnemyFollowSteering>();
-        if (follow != null)
-        {
-            follow.SetCanChase(true);
-            follow.SetChaseSpeed(enemyChaseSpeed);
-        }
+        NavMeshAgent agent = currentEnemy.GetComponent<NavMeshAgent>();
+        agent.agentTypeID = agentTypeID;
     }
 
     public void DestroyCurrentEnemy()

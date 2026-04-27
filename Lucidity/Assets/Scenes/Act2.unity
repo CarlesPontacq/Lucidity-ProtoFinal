@@ -7616,6 +7616,63 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1001 &1206852687
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3298910892157591352, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
+      propertyPath: m_Name
+      value: WallCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986605990893302186, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986605990893302186, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986605990893302186, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986605990893302186, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986605990893302186, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986605990893302186, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986605990893302186, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986605990893302186, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986605990893302186, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6986605990893302186, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 76dd48ebc2d45094783773619d3c22a5, type: 3}
 --- !u!1001 &1213775897
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10473,6 +10530,18 @@ PrefabInstance:
       value: -258.6016
       objectReference: {fileID: 0}
     - target: {fileID: 4984693461032175707, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 650c781f51cdf67459dcf7a241d526e1, type: 3}
+    - target: {fileID: 4984693461032175707, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_SpriteState.m_SelectedSprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4984693461032175707, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_SpriteState.m_HighlightedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 29402485869c83a42993949e984fd121, type: 3}
+    - target: {fileID: 4984693461032175707, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1693005868}
@@ -11487,9 +11556,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 792945094393043384, guid: f5f9404dbde64ef41802991d93791d66, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 4508760342764226699, guid: f5f9404dbde64ef41802991d93791d66, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: f5f9404dbde64ef41802991d93791d66, type: 3}
 --- !u!114 &4804982792918676206 stripped
 MonoBehaviour:
@@ -11521,3 +11587,4 @@ SceneRoots:
   - {fileID: 2061410153}
   - {fileID: 2232626198590064954}
   - {fileID: 1024894406}
+  - {fileID: 1206852687}

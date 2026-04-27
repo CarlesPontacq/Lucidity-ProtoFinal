@@ -8,6 +8,7 @@ public class StartEnemyChaseSequance : MonoBehaviour
     [SerializeField] private DoorInteraction door;
 
     private string playerTag = "Player";
+    private int floor = 0;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,6 +18,7 @@ public class StartEnemyChaseSequance : MonoBehaviour
             { 
                 Destroy(firstChaseEnemy);
                 chaseSpawner.enabled = true;
+                chaseSpawner.currentFloor = floor;
             }
         }
     }
@@ -27,6 +29,7 @@ public class StartEnemyChaseSequance : MonoBehaviour
 
         if (door != null)
             door.Open(false);
-            
+
+        chaseSpawner.currentFloor = floor;
     }
 }

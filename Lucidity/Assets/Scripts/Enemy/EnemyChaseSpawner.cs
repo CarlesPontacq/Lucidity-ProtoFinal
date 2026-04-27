@@ -51,14 +51,6 @@ public class EnemyChaseSpawner : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        if (spawnCycleCoroutine != null)
-            StopCoroutine(spawnCycleCoroutine);
-
-        StartSpawnCycle();
-    }
-
     private void OnDisable()
     {
         if (spawnCycleCoroutine != null)
@@ -67,7 +59,7 @@ public class EnemyChaseSpawner : MonoBehaviour
         DestroyCurrentEnemy();
     }
 
-    private void StartSpawnCycle()
+    public void StartSpawnCycle()
     {
         if (spawnCycleCoroutine != null)
             StopCoroutine(spawnCycleCoroutine);
@@ -128,10 +120,9 @@ public class EnemyChaseSpawner : MonoBehaviour
         Debug.Log($"[EnemySpawner] Enemy instantiated successfully: {currentEnemy.name}");
 
         // Mirar al player
-        Vector3 lookDir = playerTransform.position - currentEnemy.transform.position;
+        Vector3 lookDir = playerTransform.position;
         lookDir.y = 0f;
-        if (lookDir.sqrMagnitude > 0.001f)
-            currentEnemy.transform.rotation = Quaternion.LookRotation(lookDir);
+        currentEnemy.transform.LookAt(lookDir);
 
         Rigidbody rb = currentEnemy.GetComponent<Rigidbody>();
         if (rb != null)
@@ -150,12 +141,19 @@ public class EnemyChaseSpawner : MonoBehaviour
             currentEnemy.transform.position = pos;
         }
 
-        NavMeshAgent agent = currentEnemy.GetComponent<NavMeshAgent>();
-        agent.agentTypeID = agentTypeID;
+        EnemyFollowSteering follow = currentEnemy.GetComponent<EnemyFollowSteering>();
+        if (follow != null)
+        {
+            follow.SetCanChase(true);
+            follow.SetChaseSpeed(enemyChaseSpeed);
+        }
     }
 
     public void DestroyCurrentEnemy()
     {
+        if (spawnCycleCoroutine != null)
+            StopCoroutine(spawnCycleCoroutine);
+
         if (currentEnemy != null)
         {
             Destroy(currentEnemy);

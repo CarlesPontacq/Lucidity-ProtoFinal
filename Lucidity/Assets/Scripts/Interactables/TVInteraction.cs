@@ -7,6 +7,11 @@ public class TVInteraction : ObjectInteraction
 
     private bool isOn = false;
 
+    public override void ResetState()
+    {
+        TurnOff();
+    }
+
     public override void Interact()
     {
         if (isOn)

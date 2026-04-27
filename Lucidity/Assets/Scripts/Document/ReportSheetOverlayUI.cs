@@ -174,6 +174,12 @@ public class ReportSheetOverlayUI : MonoBehaviour
         if (signatureButton != null)
             signatureButton.interactable = true;
 
+        if (signatureBlinkObject != null)
+        {
+            signatureBlinkObject.SetActive(true);
+            ResetBlinkState();
+        }
+
         SetFeedback("");
     }
 
@@ -352,7 +358,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
         HideAllCircles();
 
         if (signatureBlinkObject != null)
-            signatureBlinkObject.SetActive(true);
+            signatureBlinkObject.SetActive(false);
 
         if (signatureWriteObject != null)
             signatureWriteObject.SetActive(false);

@@ -62,6 +62,11 @@ public class DoorInteraction : ObjectInteraction
         ApplyRotation();
     }
 
+    public override void ResetState()
+    {
+        ResetToInitialState(false);
+    }
+
     private float GetOpenDirection()
     {
         if (GameManager.PlayerRef == null)

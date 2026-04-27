@@ -13,6 +13,21 @@ public class LightSwitchInteraction : ObjectInteraction
             Debug.LogWarning("Missing ceilingLamp in light switch: " + gameObject.name);
     }
 
+    public override void ResetState()
+    {
+        if (!isOn) return;
+
+        foreach (SwitchableObject switchableObject in switchableObjects)
+        {
+            if (switchableObject.IsOn())
+                switchableObject.TurnOff();
+            else
+                switchableObject.TurnOn();
+        }
+
+        isOn = false;
+    }
+
     public override void Interact()
     {
         foreach (SwitchableObject switchableObject in switchableObjects)
@@ -29,20 +44,5 @@ public class LightSwitchInteraction : ObjectInteraction
             SFXManager.Instance.PlaySpatialSound("lightSwitchOn", transform.position, 1f);
 
         isOn = !isOn;
-    }
-
-    public void Reset()
-    {
-        if (!isOn) return;
-
-        foreach (SwitchableObject switchableObject in switchableObjects)
-        {
-            if (switchableObject.IsOn())
-                switchableObject.TurnOff();
-            else
-                switchableObject.TurnOn();
-        }
-
-        isOn = false;
     }
 }

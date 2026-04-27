@@ -168,11 +168,17 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
             Animator circleAnimator = circleMarkers[number].GetComponent<Animator>();
             if (circleAnimator != null)
-                circleAnimator.Play(0, 0, 0f);
+                circleAnimator.SetTrigger("Select");
         }
 
         if (signatureButton != null)
             signatureButton.interactable = true;
+
+        if (signatureBlinkObject != null)
+        {
+            signatureBlinkObject.SetActive(true);
+            ResetBlinkState();
+        }
 
         SetFeedback("");
     }
@@ -341,12 +347,9 @@ public class ReportSheetOverlayUI : MonoBehaviour
         }
 
         SetWorldInteractionsEnabled(!open);
-
-        if (open)
-            ResetDocumentState();
     }
 
-    private void ResetDocumentState()
+    public void ResetDocumentState()
     {
         signedThisAttempt = false;
         selectionLocked = false;
@@ -355,7 +358,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
         HideAllCircles();
 
         if (signatureBlinkObject != null)
-            signatureBlinkObject.SetActive(true);
+            signatureBlinkObject.SetActive(false);
 
         if (signatureWriteObject != null)
             signatureWriteObject.SetActive(false);

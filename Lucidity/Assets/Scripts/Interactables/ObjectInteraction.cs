@@ -11,6 +11,7 @@ public class ObjectInteraction : MonoBehaviour
     protected virtual void Start() { }
 
     protected virtual void Update() { }
+    public virtual void ResetState() { }
 
     public virtual void Interact() { }
 

@@ -4277,6 +4277,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 692290629}
   m_SourcePrefab: {fileID: 100100000, guid: 622603ec22f72a640805115b281fc265, type: 3}
+--- !u!114 &692290627 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2822498183221011921, guid: 622603ec22f72a640805115b281fc265, type: 3}
+  m_PrefabInstance: {fileID: 692290626}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790e8d8d1cd11af499f62586ff04934c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &692290628 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1711263670991005564, guid: 622603ec22f72a640805115b281fc265, type: 3}
@@ -4840,11 +4851,11 @@ MonoBehaviour:
   reportSheetOverlayScript: {fileID: 1024894407}
   reportState: {fileID: 564581944}
   exitDoor: {fileID: 1441630025}
-  interactableDoors:
-  - {fileID: 1441630025}
+  interactableObjects:
   - {fileID: 625066580}
   - {fileID: 223494450}
-  lightSwitches: []
+  - {fileID: 692290627}
+  - {fileID: 1437824060}
   cameraFunctionality: {fileID: 2125485322}
   exitBlocker: {fileID: 0}
   exitLamp: {fileID: 407168220}
@@ -8381,6 +8392,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -230}
   m_SizeDelta: {x: -320, y: 100}
   m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &1437824060 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5153236737753741042, guid: 79e43351dbdd5614d87c181b0a088907, type: 3}
+  m_PrefabInstance: {fileID: 1911390582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2255bf3ee6e3f3646a6db3adcf22f83e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1441630025 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4099630363432856693, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}

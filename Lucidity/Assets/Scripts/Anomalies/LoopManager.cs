@@ -9,8 +9,7 @@ public class LoopManager : MonoBehaviour
     [SerializeField] private ReportSheetOverlayUI reportSheetOverlayScript;
     [SerializeField] private ReportResultState reportState;
     [SerializeField] private DoorInteraction exitDoor;
-    [SerializeField] private List<DoorInteraction> interactableDoors;
-    [SerializeField] private List<LightSwitchInteraction> lightSwitches;
+    [SerializeField] private List<ObjectInteraction> interactableObjects;
     [SerializeField] private CameraFunctionality cameraFunctionality;
 
     [Header("Optional")]
@@ -71,12 +70,12 @@ public class LoopManager : MonoBehaviour
         if (reportState != null)
             reportState.ResetForNewLoop();
 
-        if (interactableDoors != null)
+        if (interactableObjects != null)
         {
-            for (int i = 0; i < interactableDoors.Count; i++)
+            for (int i = 0; i < interactableObjects.Count; i++)
             {
-                if (interactableDoors[i] != null)
-                    interactableDoors[i].ResetToInitialState(false);
+                if (interactableObjects[i] != null)
+                    interactableObjects[i].ResetState();
             }
         }
 
@@ -109,21 +108,12 @@ public class LoopManager : MonoBehaviour
         if (exitDoor != null)
             exitDoor.LockExitDoor();
 
-        if (interactableDoors != null)
+        if (interactableObjects != null)
         {
-            for (int i = 0; i < interactableDoors.Count; i++)
+            for (int i = 0; i < interactableObjects.Count; i++)
             {
-                if (interactableDoors[i] != null)
-                    interactableDoors[i].ResetToInitialState(false);
-            }
-        }
-
-        if (lightSwitches != null)
-        {
-            for (int i = 0; i < lightSwitches.Count; i++)
-            {
-                if (lightSwitches[i] != null)
-                    lightSwitches[i].Reset();
+                if (interactableObjects[i] != null)
+                    interactableObjects[i].ResetState();
             }
         }
 

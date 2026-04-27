@@ -9,11 +9,13 @@ public class FirstChaseEnabler : MonoBehaviour
     [SerializeField] private BoxCollider firstChaseTrigger;
 
     [SerializeField] private DoorInteraction door;
+    [SerializeField] private Transform doorAudioPosition;
 
 
     private string playerTag = "Player";
     private string enemySpawnSFX = "EnemySpawn";
-    private int enemySpawnSFXVolume = 1;
+    private string doorSFX = "openDoor";
+    private int SFXVolume = 1;
 
 
     private void Awake()
@@ -26,7 +28,9 @@ public class FirstChaseEnabler : MonoBehaviour
         {
             firstChase = false;
             firstChaseEnemy.SetActive(true);
-            SFXManager.Instance.PlaySpatialSound(enemySpawnSFX, firstChaseEnemy.transform.position, enemySpawnSFXVolume);
+            SFXManager.Instance.PlaySpatialSound(enemySpawnSFX, firstChaseEnemy.transform.position, SFXVolume);
+
+            SFXManager.Instance.PlaySpatialSound(doorSFX, doorAudioPosition.position, SFXVolume);
             enemyFollow.SetCanChase(true);
 
             firstChaseTrigger.enabled = true;

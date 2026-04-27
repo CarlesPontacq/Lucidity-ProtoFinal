@@ -6,6 +6,7 @@ public class LoopManager : MonoBehaviour
 {
     public static event Action<int> OnLoopStarted;
     [SerializeField] private AnomalyManager anomalyManager;
+    [SerializeField] private ReportSheetOverlayUI reportSheetOverlayScript;
     [SerializeField] private ReportResultState reportState;
     [SerializeField] private DoorInteraction exitDoor;
     [SerializeField] private List<DoorInteraction> interactableDoors;
@@ -101,6 +102,9 @@ public class LoopManager : MonoBehaviour
     {
         if (reportState != null)
             reportState.ResetForNewLoop();
+
+        if (reportSheetOverlayScript != null)
+            reportSheetOverlayScript.ResetDocumentState();
 
         if (exitDoor != null)
             exitDoor.LockExitDoor();

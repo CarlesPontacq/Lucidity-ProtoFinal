@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
@@ -35,6 +36,7 @@ public class OptionsManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private CameraRotation cameraRotation;
+    [SerializeField] private AudioSource ostMixer;
 
     private const string SOUND_MUTE = "sound_mute";
     private const string SOUND_VOL = "sound_vol";
@@ -147,7 +149,8 @@ public class OptionsManager : MonoBehaviour
         if (SFXManager.Instance != null)
             SFXManager.Instance.SetVolume(isSoundMute ? 0f : soundVolume);
 
-        // MusicManager.Instance.SetVolume(isMusicMute ? 0f : musicVolume);
+        if (ostMixer != null)
+            ostMixer.volume = musicVolume;
     }
 
     private void ApplySensitivity()
@@ -179,12 +182,14 @@ public class OptionsManager : MonoBehaviour
     public void SetMusicMute(bool value)
     {
         isMusicMute = value;
+        ApplySound();
         SaveOptions();
     }
 
     public void SetMusicVolume(float value)
     {
         musicVolume = value;
+        ApplySound();
         SaveOptions();
     }
 

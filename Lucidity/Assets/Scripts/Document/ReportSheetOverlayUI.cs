@@ -63,6 +63,11 @@ public class ReportSheetOverlayUI : MonoBehaviour
     [Header("Disable mouse/world interactions while open")]
     [SerializeField] private MonoBehaviour[] disableWhileOpen;
 
+    [Header("SFX")]
+    [SerializeField] private string selectNumberAnomaliesSFX = "ReportCircle";
+    [SerializeField] private string signatureSFX = "ReportFirma";
+    private float sfxVolume = 1.0f;
+
     public bool open;
 
     private bool signedThisAttempt;
@@ -169,6 +174,8 @@ public class ReportSheetOverlayUI : MonoBehaviour
             Animator circleAnimator = circleMarkers[number].GetComponent<Animator>();
             if (circleAnimator != null)
                 circleAnimator.SetTrigger("Select");
+
+            SFXManager.Instance.PlayGlobalSound(selectNumberAnomaliesSFX, sfxVolume);
         }
 
         if (signatureButton != null)
@@ -195,6 +202,8 @@ public class ReportSheetOverlayUI : MonoBehaviour
             SetFeedback("Selecciona un n�mero primero.");
             return;
         }
+
+        SFXManager.Instance.PlayGlobalSound(signatureSFX, sfxVolume);
 
         signedThisAttempt = true;
         selectionLocked = true;

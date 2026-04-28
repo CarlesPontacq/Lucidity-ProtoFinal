@@ -15,11 +15,25 @@ public class CameraRotation : MonoBehaviour
 
     private bool controlEnabled = true;
 
+    [SerializeField] private float initialYaw = 200f; // Ángulo deseado
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        startingOrientation = body.rotation.y;
+        startingOrientation = initialYaw;
+        SetInitialRotation();
+
+    }
+
+    private void SetInitialRotation()
+    {
+        rotation.x = 0f;
+        rotation.y = initialYaw;
+        currentRotation = rotation;
+
+        transform.rotation = Quaternion.Euler(0f, initialYaw, 0f);
+        body.rotation = Quaternion.Euler(0f, initialYaw, 0f);
     }
 
     void Update()

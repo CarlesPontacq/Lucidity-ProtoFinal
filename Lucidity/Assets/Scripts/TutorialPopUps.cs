@@ -3,12 +3,14 @@ using UnityEngine;
 public class TutorialPopUps : MonoBehaviour
 {
     [Header("Popups")]
+    [SerializeField] GameObject runPopUp;
     [SerializeField] GameObject cameraControlsPopUp;
     [SerializeField] GameObject reportSheetPopUp;
     [SerializeField] GameObject reportSelectionTutorial;
     [SerializeField] GameObject reportSigningTutorial;
 
     [Header("References")]
+    [SerializeField] PlayerMovement playerMovement;
     [SerializeField] CameraManager cameraManager;
     [SerializeField] ReportSheetOverlayUI reportSheetScript;
 
@@ -16,6 +18,33 @@ public class TutorialPopUps : MonoBehaviour
     {
         GameManager.Instance.OnCameraTaken += CameraTaken;
         GameManager.Instance.OnReportSheetTaken += ReportSheetTaken;
+
+        playerMovement.OnStartedRunning += CompleteRunTutorial;
+        cameraManager.OnCameraLookedThrough += HideRunPopup;
+        cameraManager.OnCameraStoppedLookingThrough += ShowRunPopup;
+        reportSheetScript.OnOpened += HideRunPopup;
+        reportSheetScript.OnClosed += ShowRunPopup;
+    }
+
+    private void ShowRunPopup()
+    {
+        runPopUp.SetActive(true);
+    }
+
+    private void HideRunPopup()
+    {
+        runPopUp.SetActive(false);
+    }
+
+    private void CompleteRunTutorial()
+    {
+        HideRunPopup();
+        playerMovement.OnStartedRunning -= CompleteRunTutorial;
+
+        cameraManager.OnCameraLookedThrough -= HideRunPopup;
+        cameraManager.OnCameraStoppedLookingThrough -= ShowRunPopup;
+        reportSheetScript.OnOpened -= HideRunPopup;
+        reportSheetScript.OnClosed -= ShowRunPopup;
     }
 
     private void CameraTaken()

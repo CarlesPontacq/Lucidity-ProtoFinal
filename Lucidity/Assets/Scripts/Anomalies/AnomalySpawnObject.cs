@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AnomalySpawnObject : Anomaly
 {
-    [SerializeField] private GameObject objectToShow; 
+    [SerializeField] private GameObject objectToShow;
 
     protected override void OnActivate()
     {

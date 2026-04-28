@@ -7,7 +7,7 @@ public class EnemyStunner : MonoBehaviour, IStunnable
     private Renderer[] renderers;
     private Collider[] colliders;
 
-    private EnemySpawner spawner;
+    private EnemyLoopSpawner spawner;
 
     private void Awake()
     {
@@ -15,7 +15,7 @@ public class EnemyStunner : MonoBehaviour, IStunnable
         colliders = GetComponentsInChildren<Collider>();
     }
 
-    public void Init(EnemySpawner ownerSpawner)
+    public void Init(EnemyLoopSpawner ownerSpawner)
     {
         spawner = ownerSpawner;
     }
@@ -34,10 +34,10 @@ public class EnemyStunner : MonoBehaviour, IStunnable
 
         yield return new WaitForSeconds(0.5f);
 
-        gameObject.SetActive(false);
-
         if (spawner != null)
             spawner.OnEnemyCaptured();
+
+        Destroy(gameObject);
     }
 
     private void DisableEnemy()

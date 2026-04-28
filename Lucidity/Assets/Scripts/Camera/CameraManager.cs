@@ -6,36 +6,39 @@ using UnityEngine.Rendering.Universal;
 
 public class CameraManager : MonoBehaviour
 {
-    [Header("Camera Modes")]
-    public Transform normalCamera;
-    public CameraMode currentMode;
-    public List<CameraMode> cameraModes;
-    private int currentModeIndex = 0;
+    [Header("CameraFunctions")]
+    [SerializeField] private CameraFunctionality functionality;
+    [SerializeField] private bool hasFlashCamera = false;
+
+    [SerializeField] private GameObject flashComponent;
 
     [Header("State")]
     public bool lookingThroughCamera = false;
     [SerializeField] private CameraPostProcessToggle cameraPostProcessToggle;
     [SerializeField] private CameraRotation cameraRotation;
+
+    public event Action OnCameraLookedThrough;
+    public event Action OnCameraStoppedLookingThrough;
+
     [SerializeField] private CameraAudioHandler audioHandler;
+
+    private bool isTransitioning = false;
+    [SerializeField] private PlayerArmsAnimationController armsController;
 
     [Header("UI")]
     public CameraUIHandler ui;
-
     private bool lastDocOpen = false;
 
     [Header("Input")]
     [SerializeField] private PlayerInputObserver input;
-    private float lastScrollTime;
-    [SerializeField] private float scrollCooldown = 0.15f;
-
 
     void Start()
     {
         input.onCameraToggle += HandleCameraToggle;
-        input.onCameraAction += HandleCameraAction;
-        input.onChangeCameraMode += HandleChangeCameraMode;
+        input.onCameraAction += HandleCameraPhoto;
 
-        //cameraPostProcessToggle.ToggleCameraPostProcessing(lookingThroughCamera);
+        if(!hasFlashCamera)
+            flashComponent.SetActive(false);
     }
 
     private void Update()
@@ -51,111 +54,98 @@ public class CameraManager : MonoBehaviour
         lastDocOpen = docOpen;
     }
 
-    private void PerformCameraAction()
+    public void SetFunctionality(CameraFunctionality newfunctionality)
     {
-        if (currentMode == null || currentMode.isPerformingAction) return;
-
-        currentMode.PerformCameraAction();
+        functionality = newfunctionality;
     }
 
-    public void SetMode(CameraMode mode)
+    public void OnGrabbedFlash()
     {
-        if (!lookingThroughCamera || currentMode.isPerformingAction) return;
-        if (!mode.isUnlocked) return;
-        
-        DeactivateMode();
-        
-        GameManager.Instance.SetPlayerControlEnabled(true);
-        cameraRotation.SetControlEnabled(true);
-        currentMode = mode;
-        currentMode.ActivateMode();
-
-        ui.SetIndicatorPosition(cameraModes.IndexOf(mode));
+        hasFlashCamera = true;
+        flashComponent.SetActive(true);
     }
 
+    #region Input
     private void HandleCameraToggle()
     {
-        if(currentMode == null) return;
+        if (functionality == null) return;
+        if (ReportSheetOverlayUI.IsOpen || functionality.isPerformingAction) return;
+        if (isTransitioning) return;
 
-        if (ReportSheetOverlayUI.IsOpen || currentMode.isPerformingAction) return;
-
+        isTransitioning = true;
         if (!lookingThroughCamera)
-            LookThroughCamera();
+        {
+            if (armsController != null)
+                armsController.PlayRaiseCamera();
+            else
+                LookThroughCamera();
+        }
         else
-            StopLookingThroughCamera();
-
-        //cameraPostProcessToggle.ToggleCameraPostProcessing(lookingThroughCamera);
-
-        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        {
+            if (armsController != null)
+                armsController.PlayLowerCamera();
+            else
+                StopLookingThroughCamera();
+        }
     }
 
-    private void HandleCameraAction()
+    private void HandleCameraPhoto()
     {
-        if (!lookingThroughCamera || currentMode == null) return;
-        if (currentMode.isPerformingAction) return;
+        if (!lookingThroughCamera || functionality == null) return;
+        if (functionality.isPerformingAction) return;
 
         PerformCameraAction();
     }
+    #endregion
 
-    private void HandleChangeCameraMode(int direction)
+    #region Actions
+    private void PerformCameraAction()
     {
-        if (!lookingThroughCamera || currentMode.isPerformingAction) return;
-        if (cameraModes == null || cameraModes.Count == 0) return;
-
-        if (Time.time - lastScrollTime < scrollCooldown) return;
-        lastScrollTime = Time.time;
-
-        int startIndex = currentModeIndex;
-        int index = currentModeIndex;
-
-        audioHandler.PlayChangeCameraModeSfx();
-
-        do
-        {
-            index = (index + direction + cameraModes.Count) % cameraModes.Count;
-
-            if (cameraModes[index].isUnlocked)
-            {
-                currentModeIndex = index;
-                SetMode(cameraModes[currentModeIndex]);
-                return;
-            }
-
-        } while (index != startIndex);
-    }
-
-    public void DeactivateMode()
-    {
-        if (currentMode == null || currentMode.isPerformingAction) return;
-
-        //StopLookingThroughCamera();
-        currentMode.DeactivateMode();
-        currentMode = null;
+        if (functionality == null || functionality.isPerformingAction || !hasFlashCamera) return;
+        functionality.PerformCameraPhoto();
     }
 
     private void LookThroughCamera()
     {
-        if (currentMode == null) return;
+        if (functionality == null) return;
 
         lookingThroughCamera = true;
-        currentMode.ActivateMode();
+        functionality.ActivateMode();
+
+        OnCameraLookedThrough?.Invoke();
 
         ui.ShowCameraAspect(true);
-        InteractionFeedback.Instance.ShowInteractHint(false);
+        InteractionFeedback.Instance.HideInteractHint();
+
+        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        isTransitioning = false;
     }
 
     private void StopLookingThroughCamera()
     {
-        if (currentMode == null || currentMode.isPerformingAction) return;
+        if (functionality == null || functionality.isPerformingAction) return;
 
         lookingThroughCamera = false;
-        currentMode.DeactivateMode();
+        functionality.DeactivateMode();
+
+        OnCameraStoppedLookingThrough?.Invoke();
 
         ui.ShowCameraAspect(false);
+
+        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        isTransitioning = false;
+    }
+    #endregion
+
+    #region AnimationEvents
+    public void OnCameraRaised()
+    {
+        LookThroughCamera();
     }
 
-    public void SetStartingCameraMode()
+    public void OnCameraLowered()
     {
-        currentMode = cameraModes[0];
+        StopLookingThroughCamera();
     }
+    #endregion
 }

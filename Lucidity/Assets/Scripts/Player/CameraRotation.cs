@@ -15,11 +15,25 @@ public class CameraRotation : MonoBehaviour
 
     private bool controlEnabled = true;
 
+    [SerializeField] private float initialYaw = 200f; // Ángulo deseado
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        startingOrientation = body.rotation.y;
+        startingOrientation = initialYaw;
+        SetInitialRotation();
+
+    }
+
+    private void SetInitialRotation()
+    {
+        rotation.x = 0f;
+        rotation.y = initialYaw;
+        currentRotation = rotation;
+
+        transform.rotation = Quaternion.Euler(0f, initialYaw, 0f);
+        body.rotation = Quaternion.Euler(0f, initialYaw, 0f);
     }
 
     void Update()
@@ -49,6 +63,27 @@ public class CameraRotation : MonoBehaviour
 
         rotation.x += eulerOffset.x;
         currentRotation.x += eulerOffset.x;
+    }
+
+    public void SetRotation(Quaternion targetRotation)
+    {
+        Vector3 euler = targetRotation.eulerAngles;
+
+        float pitch = euler.x;
+        if (pitch > 180f) pitch -= 360f;
+
+        float yaw = euler.y;
+        if (yaw > 180f) yaw -= 360f;
+
+        pitch = Mathf.Clamp(pitch, -verticalLimit, verticalLimit);
+
+        rotation.x = pitch;
+        rotation.y = yaw;
+
+        currentRotation = rotation;
+
+        transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
+        body.rotation = Quaternion.Euler(0f, currentRotation.y, 0f);
     }
 
     public void SetControlEnabled(bool enabled)

@@ -1,11 +1,9 @@
 using TMPro;
-
 using UnityEngine;
 
 public class LoopCounter : MonoBehaviour
 {
     [SerializeField] TextMeshPro textComponent;
-    //[SerializeField] TextMeshProUGUI textComponent;
 
     public void SetLoopCounterText(int count)
     {

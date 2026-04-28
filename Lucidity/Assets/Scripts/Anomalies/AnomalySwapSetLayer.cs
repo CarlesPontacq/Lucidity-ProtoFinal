@@ -18,14 +18,14 @@ public class AnomalySwapSetLayer : MonoBehaviour
     {
         if (anomalyRoot.activeSelf)
         {
-            foreach(Transform child in normalRoot.transform)
+            foreach (Transform child in normalRoot.GetComponentsInChildren<Transform>(includeInactive: true))
             {
                 child.gameObject.layer = normalObjectLayer;
             }
         }
         else
         {
-            foreach (Transform child in normalRoot.transform)
+            foreach (Transform child in normalRoot.GetComponentsInChildren<Transform>(includeInactive: true))
             {
                 child.gameObject.layer = defaultLayer;
             }

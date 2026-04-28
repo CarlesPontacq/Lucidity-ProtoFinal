@@ -30,6 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6034953815664712724}
+  - {fileID: 6656926750665250005}
   m_Father: {fileID: 400786163721584247}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4554676729253817017
@@ -63,6 +64,37 @@ Transform:
   m_Children:
   - {fileID: 400786163721584247}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4632191437319884808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6656926750665250005}
+  m_Layer: 0
+  m_Name: HintInteraction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6656926750665250005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4632191437319884808}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.079, y: 0.964, z: 0.66}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8638008674759061522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7679377512637702752
 GameObject:
@@ -231,9 +263,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hintPosition: {fileID: 0}
   pivot: {fileID: 8638008674759061522}
-  isLocked: 1
+  startsOpen: 0
+  startsLocked: 0
+  interactionHintPos1: {fileID: 6656926750665250005}
+  interactionHintPos2: {fileID: 6656926750665250005}
   openAngle: 90
   openSpeed: 5
+  autoOpenWhenUnlocked: 1
+  autoOpenAnimated: 0
+  defaultOpenDirection: 1
   requiresReportToOpen: 0
   reportState: {fileID: 0}

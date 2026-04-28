@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
@@ -28,8 +29,14 @@ public class OptionsManager : MonoBehaviour
     public int languageIndex = 0;
     [SerializeField] private TMP_Dropdown languageDropdown;
 
+    [Header("Sprint")]
+    public int sprintIndex = 0;
+    public bool isToggleSprint = false;
+    [SerializeField] private TMP_Dropdown sprintDropdown;
+
     [Header("References")]
     [SerializeField] private CameraRotation cameraRotation;
+    [SerializeField] private AudioSource ostMixer;
 
     private const string SOUND_MUTE = "sound_mute";
     private const string SOUND_VOL = "sound_vol";
@@ -37,6 +44,7 @@ public class OptionsManager : MonoBehaviour
     private const string MUSIC_VOL = "music_vol";
     private const string MOUSE_SENS = "mouse_sens";
     private const string LANGUAGE = "language";
+    private const string SPRINT_MODE = "sprint_mode";
 
     void Start()
     {
@@ -57,6 +65,9 @@ public class OptionsManager : MonoBehaviour
         mouseSensitivity = PlayerPrefs.GetFloat(MOUSE_SENS, mouseSensitivity);
 
         languageIndex = PlayerPrefs.GetInt(LANGUAGE, 0);
+
+        sprintIndex = PlayerPrefs.GetInt(SPRINT_MODE, 0);
+        isToggleSprint = sprintIndex == 1;
     }
 
     private void RefreshUI()
@@ -76,8 +87,11 @@ public class OptionsManager : MonoBehaviour
         if (sensitivitySlider != null)
             sensitivitySlider.SetValueWithoutNotify(mouseSensitivity);
 
-        if(languageDropdown != null)
+        if (languageDropdown != null)
             languageDropdown.SetValueWithoutNotify(languageIndex);
+
+        if (sprintDropdown != null)
+            sprintDropdown.SetValueWithoutNotify(sprintIndex);
     }
 
     public void SaveOptions()
@@ -92,6 +106,8 @@ public class OptionsManager : MonoBehaviour
 
         PlayerPrefs.SetInt(LANGUAGE, languageIndex);
 
+        PlayerPrefs.SetInt(SPRINT_MODE, sprintIndex);
+
         PlayerPrefs.Save();
     }
 
@@ -99,6 +115,7 @@ public class OptionsManager : MonoBehaviour
     {
         ApplySound();
         ApplySensitivity();
+        ApplySprintMode();
     }
 
     IEnumerator StartLocalization()
@@ -117,12 +134,14 @@ public class OptionsManager : MonoBehaviour
         languageDropdown.options = options;
 
         languageDropdown.value = selected;
-        languageDropdown.onValueChanged.AddListener(LocaleSelected);
+        languageDropdown.onValueChanged.AddListener(OnLanguageChanged);
     }
 
-    static void LocaleSelected(int index)
+    public void OnLanguageChanged(int index)
     {
+        languageIndex = index;
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
+        SaveOptions();
     }
 
     private void ApplySound()
@@ -130,13 +149,20 @@ public class OptionsManager : MonoBehaviour
         if (SFXManager.Instance != null)
             SFXManager.Instance.SetVolume(isSoundMute ? 0f : soundVolume);
 
-        // MusicManager.Instance.SetVolume(isMusicMute ? 0f : musicVolume);
+        if (ostMixer != null)
+            ostMixer.volume = musicVolume;
     }
 
     private void ApplySensitivity()
     {
         if (cameraRotation != null)
             cameraRotation.SetSensitivity(mouseSensitivity);
+    }
+
+    private void ApplySprintMode()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.SetToggleSprint(isToggleSprint);
     }
 
     public void SetSoundMute(bool value)
@@ -156,12 +182,14 @@ public class OptionsManager : MonoBehaviour
     public void SetMusicMute(bool value)
     {
         isMusicMute = value;
+        ApplySound();
         SaveOptions();
     }
 
     public void SetMusicVolume(float value)
     {
         musicVolume = value;
+        ApplySound();
         SaveOptions();
     }
 
@@ -169,6 +197,15 @@ public class OptionsManager : MonoBehaviour
     {
         mouseSensitivity = value;
         ApplySensitivity();
+        SaveOptions();
+    }
+
+    public void OnSprintModeChanged(int index)
+    {
+        sprintIndex = index;
+        isToggleSprint = index == 1;
+
+        ApplySprintMode();
         SaveOptions();
     }
 }

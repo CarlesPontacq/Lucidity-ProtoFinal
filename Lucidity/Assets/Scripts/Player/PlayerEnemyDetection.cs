@@ -14,7 +14,7 @@ public class PlayerEnemyDetection : MonoBehaviour
 
     [SerializeField] float smoothSpeed = 5f;
 
-    private GameObject enemy = null;
+    [SerializeField] GameObject enemy = null;
     private float targetWeight = 0f;
 
     void Update()

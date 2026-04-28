@@ -10,6 +10,7 @@ public class AnomalyManager : MonoBehaviour
         public string id;
         public Anomaly prefab;
         public Transform anchor;
+        public AreasID areaID;
     }
 
     [SerializeField] private List<Entry> entries = new();
@@ -27,9 +28,10 @@ public class AnomalyManager : MonoBehaviour
     private int anomaliesPerLoop = 0;
     [SerializeField] private int minAnomaliesPerLoop = 2;
     [SerializeField] private int maxAnomaliesPerLoop = 3;
+    private int numberOfAttempts = 3;
 
     [Header("Enemy Related")]
-    [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private EnemyLoopSpawner enemySpawner;
     [SerializeField][Range(0f, 1f)] private float enemySpawnProbability = 0.6f;
     private bool enemyHasToSpawn = false;
 
@@ -98,22 +100,63 @@ public class AnomalyManager : MonoBehaviour
 
         int count = Mathf.Min(anomaliesPerLoop, entries.Count);
 
-        if(enemyHasToSpawn && count > 0)
+        if (enemyHasToSpawn && count > 0)
         {
             count = Mathf.Max(1, count - 1);
             Debug.Log($"[AnomalyManager] Enemy will spawn this loop, reducing normal anomalies to {count}");
         }
 
-        List<Entry> bag = new(entries);
+        List<Entry> bag = new List<Entry>(entries);
+        HashSet<AreasID> usedAreas = new HashSet<AreasID>();
+        int maxAttempts = count * numberOfAttempts;
+        int attempts = 0;
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < count && attempts < maxAttempts; i++)
         {
-            int index = UnityEngine.Random.Range(0, bag.Count);
-            selectedEntriesThisLoop.Add(bag[index]);
-            bag.RemoveAt(index);
+            if (bag.Count == 0)
+            {
+                Debug.LogWarning($"[AnomalyManager {GetInstanceID()}] No more entries available after {i} selections.");
+                break;
+            }
+
+            Entry selectedEntry = null;
+            List<Entry> tempBag = new List<Entry>(bag);
+
+            while (tempBag.Count > 0 && selectedEntry == null)
+            {
+                int index = UnityEngine.Random.Range(0, tempBag.Count);
+                Entry candidate = tempBag[index];
+
+                if (candidate.areaID == AreasID.None || !usedAreas.Contains(candidate.areaID))
+                {
+                    selectedEntry = candidate;
+                    break;
+                }
+
+                tempBag.RemoveAt(index);
+                attempts++;
+
+                if (attempts >= maxAttempts)
+                    break;
+            }
+
+            if (selectedEntry == null)
+            {
+                Debug.LogWarning($"[AnomalyManager {GetInstanceID()}] Could not find valid entry after {attempts} attempts.");
+                break;
+            }
+
+            selectedEntriesThisLoop.Add(selectedEntry);
+
+            if (selectedEntry.areaID != AreasID.None)
+            {
+                usedAreas.Add(selectedEntry.areaID);
+            }
+
+            bag.Remove(selectedEntry);
         }
 
-        Debug.Log($"[AnomalyManager {GetInstanceID()}] Selected {selectedEntriesThisLoop.Count}/{entries.Count}.");
+        Debug.Log($"[AnomalyManager {GetInstanceID()}] Selected {selectedEntriesThisLoop.Count}/{count} anomalies. Used areas: {string.Join(", ", usedAreas)}");
     }
 
     private void SpawnSelectedEntries()
@@ -138,11 +181,9 @@ public class AnomalyManager : MonoBehaviour
             }
 
             Debug.Log("Anomalia : " + e.prefab.name);
-            var instance = Instantiate(e.prefab, e.anchor.position, e.anchor.rotation, e.anchor);
-            instance.MarkSpawned();
-            instance.Activate();
+            e.prefab.Activate();
 
-            spawnedThisLoop.Add(instance);
+            spawnedThisLoop.Add(e.prefab);
             ExpectedAnomaliesThisLoop++;
         }
 
@@ -181,8 +222,6 @@ public class AnomalyManager : MonoBehaviour
             if (spawnedThisLoop[i] != null)
             {
                 spawnedThisLoop[i].Deactivate();
-                spawnedThisLoop[i].MarkUnspawned();
-                Destroy(spawnedThisLoop[i].gameObject);
             }
         }
 

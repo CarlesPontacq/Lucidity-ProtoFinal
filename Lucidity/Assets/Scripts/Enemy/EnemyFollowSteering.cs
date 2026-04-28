@@ -11,7 +11,7 @@ public class EnemyFollowSteering : MonoBehaviour
     [SerializeField] private float turnRateDeg = 180f;
 
     [Header("Obstacle Avoidance")]
-    [SerializeField] private float avoidDistance = 2.0f;
+    [SerializeField] private float avoidDistance = 4.0f;
     [SerializeField] private float avoidRadius = 0.35f;
     [SerializeField] private float avoidStrength = 1.0f;
     [SerializeField] private LayerMask obstacleMask;
@@ -85,14 +85,71 @@ public class EnemyFollowSteering : MonoBehaviour
     private Vector3 ComputeAvoidance(Vector3 desiredDir)
     {
         Vector3 origin = rb.position + Vector3.up * 0.5f;
+        Vector3 avoidanceForce = Vector3.zero;
+        int hitCount = 0;
 
-        if (Physics.SphereCast(origin, avoidRadius, desiredDir, out RaycastHit hit, avoidDistance, obstacleMask, QueryTriggerInteraction.Ignore))
+        Vector3[] directions = {
+        desiredDir,
+        Quaternion.Euler(0, 30, 0) * desiredDir,
+        Quaternion.Euler(0, -30, 0) * desiredDir,
+        Quaternion.Euler(0, 60, 0) * desiredDir,
+        Quaternion.Euler(0, -60, 0) * desiredDir,
+        Quaternion.Euler(0, 90, 0) * desiredDir,
+        Quaternion.Euler(0, -90, 0) * desiredDir
+    };
+
+        foreach (Vector3 dir in directions)
         {
-            Vector3 away = hit.normal * avoidStrength;
-            away.y = 0f;
-            return away;
+            if (Physics.SphereCast(origin, avoidRadius, dir, out RaycastHit hit, avoidDistance, obstacleMask, QueryTriggerInteraction.Ignore))
+            {
+                Vector3 awayFromObstacle;
+
+                if (hit.distance < avoidRadius * 1.5f)
+                {
+                    awayFromObstacle = -hit.normal;
+                }
+                else
+                {
+                    Vector3 rightTurn = Vector3.Cross(Vector3.up, hit.normal).normalized;
+                    Vector3 leftTurn = -rightTurn;
+
+                    float rightDot = Vector3.Dot(rightTurn, desiredDir);
+                    float leftDot = Vector3.Dot(leftTurn, desiredDir);
+
+                    awayFromObstacle = (rightDot > leftDot) ? rightTurn : leftTurn;
+
+                    awayFromObstacle = (awayFromObstacle + (-hit.normal) * 0.3f).normalized;
+                }
+
+                float distanceWeight = 1f - Mathf.Clamp01(hit.distance / avoidDistance);
+                float strengthMultiplier = Mathf.Lerp(0.5f, 2f, distanceWeight);
+
+                avoidanceForce += awayFromObstacle * avoidStrength * strengthMultiplier;
+                hitCount++;
+            }
+        }
+
+        if (hitCount > 0)
+        {
+            avoidanceForce /= hitCount;
+            avoidanceForce.y = 0f;
+
+            if (avoidanceForce.sqrMagnitude > 1f)
+                avoidanceForce.Normalize();
+
+            Vector3 finalForce = avoidanceForce * avoidStrength;
+
+            if (hitCount >= 3)
+                return finalForce.normalized * avoidStrength;
+
+            return finalForce;
         }
 
         return Vector3.zero;
+    }
+
+    public void SetChaseSpeed(float speed)
+    {
+        moveSpeed = speed;
     }
 }

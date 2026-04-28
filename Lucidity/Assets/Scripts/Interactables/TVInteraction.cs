@@ -2,7 +2,15 @@ using UnityEngine;
 
 public class TVInteraction : ObjectInteraction
 {
+    [SerializeField] GameObject screenOff;
+    [SerializeField] GameObject screenOn;
+
     private bool isOn = false;
+
+    public override void ResetState()
+    {
+        TurnOff();
+    }
 
     public override void Interact()
     {
@@ -15,12 +23,16 @@ public class TVInteraction : ObjectInteraction
     private void TurnOn()
     {
         isOn = true;
-        Debug.Log("TV is now on");
+
+        screenOff.SetActive(false);
+        screenOn.SetActive(true);
     }
 
     private void TurnOff()
     {
         isOn = false;
-        Debug.Log("TV is now off");
+
+        screenOff.SetActive(true);
+        screenOn.SetActive(false);
     }
 }

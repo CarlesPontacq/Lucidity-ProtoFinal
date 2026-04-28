@@ -6,26 +6,27 @@ public class LoopManager : MonoBehaviour
 {
     public static event Action<int> OnLoopStarted;
     [SerializeField] private AnomalyManager anomalyManager;
+    [SerializeField] private ReportSheetOverlayUI reportSheetOverlayScript;
     [SerializeField] private ReportResultState reportState;
     [SerializeField] private DoorInteraction exitDoor;
-    [SerializeField] private List<DoorInteraction> interactableDoors;
+    [SerializeField] private List<ObjectInteraction> interactableObjects;
     [SerializeField] private CameraFunctionality cameraFunctionality;
 
     [Header("Optional")]
     [SerializeField] private ExitDoorBlocker exitBlocker;
-    [SerializeField] private ExitLightEmissionMapSwitcher exitLamp;
+    [SerializeField] private ExitLamp exitLamp;
 
     [Header("Safety")]
-    [Tooltip("Evita avanzar m�ltiples loops por doble trigger.")]
+    [Tooltip("Evita avanzar multiples loops por doble trigger.")]
     [SerializeField] private float nextLoopCooldown = 0.25f;
 
-    [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private EnemyLoopSpawner enemySpawner;
 
     private float nextAllowedTime = 0f;
 
     private void Start()
     {
-        StartBaseLoop();
+        StartNextLoop();
     }
 
     public void StartNextLoop()
@@ -48,14 +49,14 @@ public class LoopManager : MonoBehaviour
             {
                 Debug.Log("Report correcto -> sumo loop");
                 GameManager.Instance.AddLoopToCount();
-                StartLoopFresh();
             }
             else
             {
                 Debug.Log("Report incorrecto -> reseteo loops");
-                GameManager.Instance.ResetLoops();
-                StartBaseLoop();
+                GameManager.Instance.SubtractLoopToCount();
             }
+            
+            StartLoopFresh();
         }
         else
         {
@@ -69,12 +70,12 @@ public class LoopManager : MonoBehaviour
         if (reportState != null)
             reportState.ResetForNewLoop();
 
-        if (interactableDoors != null)
+        if (interactableObjects != null)
         {
-            for (int i = 0; i < interactableDoors.Count; i++)
+            for (int i = 0; i < interactableObjects.Count; i++)
             {
-                if (interactableDoors[i] != null)
-                    interactableDoors[i].ResetToInitialState(false);
+                if (interactableObjects[i] != null)
+                    interactableObjects[i].ResetState();
             }
         }
 
@@ -82,7 +83,7 @@ public class LoopManager : MonoBehaviour
             cameraFunctionality.ResetReels();
 
         if (exitLamp != null)
-            exitLamp.SetCanPass(true);
+            exitLamp.TurnOff();
 
         if (anomalyManager != null)
             anomalyManager.ClearSpawned();
@@ -101,15 +102,18 @@ public class LoopManager : MonoBehaviour
         if (reportState != null)
             reportState.ResetForNewLoop();
 
+        if (reportSheetOverlayScript != null)
+            reportSheetOverlayScript.ResetDocumentState();
+
         if (exitDoor != null)
             exitDoor.LockExitDoor();
 
-        if (interactableDoors != null)
+        if (interactableObjects != null)
         {
-            for (int i = 0; i < interactableDoors.Count; i++)
+            for (int i = 0; i < interactableObjects.Count; i++)
             {
-                if (interactableDoors[i] != null)
-                    interactableDoors[i].ResetToInitialState(false);
+                if (interactableObjects[i] != null)
+                    interactableObjects[i].ResetState();
             }
         }
 
@@ -120,7 +124,10 @@ public class LoopManager : MonoBehaviour
             cameraFunctionality.ResetReels();
 
         if (exitLamp != null)
-            exitLamp.SetCanPass(false);
+            exitLamp.TurnOn();
+
+        if (enemySpawner != null)
+            enemySpawner.ClearEnemy();
 
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();

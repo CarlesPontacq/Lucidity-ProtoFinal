@@ -30,6 +30,9 @@ public class EnemyChaseSpawner : MonoBehaviour
     [SerializeField] private string spawnSFX = "enemySpawn";
     [SerializeField] private float sfxVolume = 1.0f;
 
+    [Header("ProximityEffect")]
+    [SerializeField] PlayerEnemyDetection playerEnemyDetection;
+
     private GameObject currentEnemy;
     private Coroutine spawnCycleCoroutine;
     private bool isSpawning = true;
@@ -147,6 +150,8 @@ public class EnemyChaseSpawner : MonoBehaviour
             follow.SetCanChase(true);
             follow.SetChaseSpeed(enemyChaseSpeed);
         }
+
+        playerEnemyDetection.SetEnemy(currentEnemy);
     }
 
     public void DestroyCurrentEnemy()
@@ -159,6 +164,8 @@ public class EnemyChaseSpawner : MonoBehaviour
             Destroy(currentEnemy);
             currentEnemy = null;
         }
+
+        playerEnemyDetection.SetEnemy(null);
     }
 
     public void ResetSpawnCycle()

@@ -13,6 +13,15 @@ public class AnomalyManager : MonoBehaviour
         public AreasID areaID;
     }
 
+    [Serializable]
+    public class ScriptedLoopAnomalies
+    {
+        public int loop;
+        public bool loopHasBeenSpawned;
+        public bool enemyHasToSpawn;
+        [SerializeField] public List<Entry> loopEntries = new();
+    }
+
     [SerializeField] private List<Entry> entries = new();
 
     // Instancias vivas del loop
@@ -29,6 +38,9 @@ public class AnomalyManager : MonoBehaviour
     [SerializeField] private int minAnomaliesPerLoop = 2;
     [SerializeField] private int maxAnomaliesPerLoop = 3;
     private int numberOfAttempts = 3;
+
+    [Header("Scripted Loops")]
+    [SerializeField] private List<ScriptedLoopAnomalies> scriptedLoopsAnomalies = new();
 
     [Header("Enemy Related")]
     [SerializeField] private EnemyLoopSpawner enemySpawner;
@@ -71,14 +83,45 @@ public class AnomalyManager : MonoBehaviour
     /// </summary>
     public void StartNewLoop()
     {
+        documentedAnomalies.Clear();
+        ClearSpawned();
+
+        int currentLoop = GameManager.Instance.GetCurrentLoop();
+        currentLoop--;
+        if(currentLoop < scriptedLoopsAnomalies.Count)
+        {
+            if (!scriptedLoopsAnomalies[currentLoop].loopHasBeenSpawned)
+            {
+                PreparedScriptedLoop(currentLoop);
+                return;
+            }
+        }
+
+       PrepareRandomLoop();
+    }
+
+    private void PreparedScriptedLoop(int currentLoop)
+    {
+        scriptedLoopsAnomalies[currentLoop].loopHasBeenSpawned = true;
+
+        selectedEntriesThisLoop.Clear();
+
+        enemyHasToSpawn = scriptedLoopsAnomalies[currentLoop].enemyHasToSpawn;
+        foreach(Entry entry in scriptedLoopsAnomalies[currentLoop].loopEntries)
+        {
+            selectedEntriesThisLoop.Add(entry);
+        }
+
+        SpawnSelectedEntries();
+    }
+
+    private void PrepareRandomLoop()
+    {
         int min = Mathf.Max(0, minAnomaliesPerLoop);
         int max = Mathf.Max(min, maxAnomaliesPerLoop);
         anomaliesPerLoop = UnityEngine.Random.Range(min, max + 1);
 
         Debug.Log($"[AnomalyManager {GetInstanceID()}] StartNewLoop() called. EntryCount={EntryCount} anomaliesPerLoop={anomaliesPerLoop}");
-
-        documentedAnomalies.Clear();
-        ClearSpawned();
 
         DecideIfEnemySpawns();
 
@@ -194,6 +237,8 @@ public class AnomalyManager : MonoBehaviour
             int currentLoopIndex = GameManager.Instance.GetCurrentLoopIndex();
             enemySpawner.SpawnForLoopAsAnomaly(currentLoopIndex);
         }
+
+        Debug.Log("Anomalia: " + selectedEntriesThisLoop.Count);
     }
 
     private void DecideIfEnemySpawns()

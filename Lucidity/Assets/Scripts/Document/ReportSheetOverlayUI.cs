@@ -321,8 +321,8 @@ public class ReportSheetOverlayUI : MonoBehaviour
             exitLamp.TurnOff();
         else
             Debug.LogWarning("[UI] exitLamp NO encontrada/asignada. No puedo poner verde.");
-
-        GameManager.Instance.HasFinishedLastLoop();
+        if(correctSubmission)
+            GameManager.Instance.HasFinishedLastLoop();
     }
 
     private void SetOpen(bool value)

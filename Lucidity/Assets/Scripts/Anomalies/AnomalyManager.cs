@@ -237,8 +237,6 @@ public class AnomalyManager : MonoBehaviour
             int currentLoopIndex = GameManager.Instance.GetCurrentLoopIndex();
             enemySpawner.SpawnForLoopAsAnomaly(currentLoopIndex);
         }
-
-        Debug.Log("Anomalia: " + ExpectedAnomaliesThisLoop);
     }
 
     private void DecideIfEnemySpawns()

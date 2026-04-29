@@ -152,7 +152,7 @@ public class EnemyLoopSpawner : MonoBehaviour
         }
         else
         {
-            StartCoroutine(RespawnRoutine());
+           spawnCycleRoutine = StartCoroutine(RespawnRoutine());
         }
     }
 
@@ -212,8 +212,10 @@ public class EnemyLoopSpawner : MonoBehaviour
 
     private IEnumerator RespawnRoutine()
     {
+        Debug.Log("Anomalia: Repawn Iniciado");
         yield return new WaitForSeconds(respawnDelay);
 
+        Debug.Log("Anomalia: Repawn Completado");
         SpawnEnemyOnce();
     }
 

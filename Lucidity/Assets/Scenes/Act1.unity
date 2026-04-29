@@ -8920,6 +8920,51 @@ MonoBehaviour:
     areaID: 2
   minAnomaliesPerLoop: 0
   maxAnomaliesPerLoop: 3
+  scriptedLoopsAnomalies:
+  - loop: 1
+    loopHasBeenSpawned: 0
+    enemyHasToSpawn: 1
+    loopEntries:
+    - id: 18
+      prefab: {fileID: 1120138023}
+      anchor: {fileID: 1120138022}
+      areaID: 2
+    - id: 02
+      prefab: {fileID: 495577953}
+      anchor: {fileID: 635592693}
+      areaID: 0
+  - loop: 2
+    loopHasBeenSpawned: 0
+    enemyHasToSpawn: 1
+    loopEntries:
+    - id: 17
+      prefab: {fileID: 1927312710}
+      anchor: {fileID: 1708717279}
+      areaID: 1
+    - id: 14
+      prefab: {fileID: 265716697}
+      anchor: {fileID: 1238858844}
+      areaID: 0
+  - loop: 3
+    loopHasBeenSpawned: 0
+    enemyHasToSpawn: 0
+    loopEntries:
+    - id: 01
+      prefab: {fileID: 1071576265}
+      anchor: {fileID: 509518466}
+      areaID: 0
+    - id: 12
+      prefab: {fileID: 1792736984}
+      anchor: {fileID: 1977384097}
+      areaID: 0
+    - id: 16
+      prefab: {fileID: 350739362}
+      anchor: {fileID: 253131700}
+      areaID: 1
+  - loop: 4
+    loopHasBeenSpawned: 0
+    enemyHasToSpawn: 1
+    loopEntries: []
   enemySpawner: {fileID: 318053360}
   enemySpawnProbability: 0.6
   autoStartOnBegin: 0

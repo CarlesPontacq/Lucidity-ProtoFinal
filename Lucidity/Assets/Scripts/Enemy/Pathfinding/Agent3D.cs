@@ -5,14 +5,39 @@ public class Agent3D : MonoBehaviour
     [Header("Movimiento")]
     [SerializeField] float speed = 5f;
     [SerializeField] float turnSpeed = 10f;
+    [SerializeField] float minDistanceToRecalculatePath = 10f;
     private Vector3[] path;
+    private Vector3 lastPlayerPosition;
+    private Vector3 offset = new Vector3(0f, 0.5f, 0f);
     private int targetIndex;
+    Vector3 playerPosition;
+
+    private void Start()
+    {
+        playerPosition = GameManager.PlayerRef.transform.position;
+        playerPosition += offset;
+        PathRequestManager.RequestPath(transform.position, playerPosition, OnPathFound);
+        lastPlayerPosition = playerPosition;
+    }
 
     private void Update()
     {
+        playerPosition = GameManager.PlayerRef.transform.position;
+        playerPosition += offset;
 
-        Vector3 playerPosition = GameManager.PlayerRef.transform.position;
-        PathRequestManager.RequestPath(transform.position, playerPosition, OnPathFound);
+        if (path == null)
+        {
+            PathRequestManager.RequestPath(transform.position, playerPosition, OnPathFound);
+            lastPlayerPosition = playerPosition;
+            return;
+        }
+
+        if(Vector3.Distance(playerPosition, lastPlayerPosition) > minDistanceToRecalculatePath)
+        {
+            PathRequestManager.RequestPath(transform.position, playerPosition, OnPathFound);
+            lastPlayerPosition = playerPosition;
+        }
+        
     }
 
     private void FixedUpdate()

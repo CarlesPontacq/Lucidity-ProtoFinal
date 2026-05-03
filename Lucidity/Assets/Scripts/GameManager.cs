@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     [Header("Death FX")]
     [SerializeField] private DeathCameraEffect deathEffect;
 
+    [Header("Scene Transition")]
+    [SerializeField] private TransitionToAct3 sceneTransition;
+
     [Header("Disable while dead (NO metas Rigidbody/Colliders aquí)")]
     [SerializeField] private MonoBehaviour[] disableOnDeath;
 
@@ -217,6 +220,8 @@ public class GameManager : MonoBehaviour
 
         SetPlayerControlEnabled(false);
         cameraRotation.SetControlEnabled(false);
+
+        StartCoroutine(sceneTransition.PlayTransition());
     }
 
     public void StunModeUnlockerGrabbed(ItemData itemData)

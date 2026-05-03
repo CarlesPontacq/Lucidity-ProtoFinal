@@ -77,6 +77,6 @@ public class LightningController : MonoBehaviour
     private void PlayThunder()
     {
         if (SFXManager.Instance != null)
-            SFXManager.Instance.PlayGlobalSound(audioName, audioVolume);
+            SFXManager.Instance.PlayGlobalAnomalySound(audioName, audioVolume);
     }
 }

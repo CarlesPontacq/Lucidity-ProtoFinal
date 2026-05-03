@@ -6,6 +6,5 @@ public class GunObject : ObjectInteraction
     {
         GameManager.Instance.GunGrabbed();
         Destroy(gameObject);
-        SceneController.Instance.LoadNextScene();
     }
 }

@@ -13,8 +13,6 @@ public class CheatsManager : MonoBehaviour
     [SerializeField] KeyCode immortalityKey = KeyCode.I;
     [SerializeField] KeyCode nextLoopKey = KeyCode.L;
     [SerializeField] KeyCode restartLoopsKey = KeyCode.R;
-    [SerializeField] KeyCode unlockDoorsKey = KeyCode.Alpha4;
-    [SerializeField] KeyCode goToLastLoopKey = KeyCode.Alpha8;
 
     public bool currentlyImmortal = false;
 
@@ -57,7 +55,6 @@ public class CheatsManager : MonoBehaviour
             {
                 reportSheetScript.UnlockNextLoop(false);
                 GameManager.Instance.OnExitDoorCrossed();
-                GameManager.Instance.ResetLoops();
             }
 
             if (Input.GetKeyDown(openDoorKey))
@@ -65,9 +62,6 @@ public class CheatsManager : MonoBehaviour
         }
 
         if (Input.GetKeyDown(immortalityKey))
-            currentlyImmortal = !currentlyImmortal;
-
-        if (Input.GetKeyDown(goToLastLoopKey))
-            GameManager.Instance.SetCurrentLoopIndex(lastLoop);    
+            currentlyImmortal = !currentlyImmortal;  
     }
 }

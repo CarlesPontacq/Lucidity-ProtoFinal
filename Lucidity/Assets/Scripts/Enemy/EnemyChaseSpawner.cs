@@ -10,7 +10,6 @@ public class EnemyChaseSpawner : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private float enemyChaseSpeed = 3f;
-    [SerializeField] private int agentTypeID = 1;
 
     [Header("Spawn Position")]
     [SerializeField] private float spawnYOffset = 0.05f;

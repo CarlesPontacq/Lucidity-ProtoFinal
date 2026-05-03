@@ -19,7 +19,9 @@ public class SFXManager : MonoBehaviour
     public static SFXManager Instance { get; private set; }
 
     [SerializeField] private AudioSource sfxObject;
+    [SerializeField] private AudioSource anomalySfxObject;
     private ObjectPool<AudioSource> sfxObjectPool;
+    private ObjectPool<AudioSource> anomalySfxObjectPool;
 
     // Pool Settings
     private const int DefaultCapacity = 10;
@@ -47,6 +49,16 @@ public class SFXManager : MonoBehaviour
                 DefaultCapacity,
                 MaxSize
             );
+
+            anomalySfxObjectPool = new ObjectPool<AudioSource>(
+                CreateAnomalyAudioSource,
+                OnGetFromPool,
+                OnReleaseToPool,
+                OnDestroyPooledObject,
+                CollectionCheck,
+                DefaultCapacity,
+                MaxSize
+            );
         }
         else
         {
@@ -58,6 +70,11 @@ public class SFXManager : MonoBehaviour
     {
         AudioSource newSource = Instantiate(sfxObject, transform);
         return newSource;
+    }
+
+    private AudioSource CreateAnomalyAudioSource()
+    {
+        return Instantiate(anomalySfxObject, transform);
     }
 
     private void OnGetFromPool(AudioSource source)
@@ -89,12 +106,36 @@ public class SFXManager : MonoBehaviour
         PlaySound(audioSource, sound, volume); 
     }
 
+    public void PlayGlobalAnomalySound(string soundName, float volume)
+    {
+        Sound sound = Array.Find(sounds, s => s.name == soundName);
+        if (sound == null) return;
+
+        AudioSource audioSource = anomalySfxObjectPool.Get();
+        audioSource.spatialBlend = 0;
+
+        PlaySound(audioSource, sound, volume);
+    }
+
     public void PlaySpatialSound(string soundName, Vector3 position, float volume)
     {
         Sound sound = Array.Find(sounds, s => s.name == soundName);
         if (sound == null) return;
 
         AudioSource audioSource = sfxObjectPool.Get();
+
+        audioSource.transform.position = position;
+        audioSource.spatialBlend = 1;
+
+        PlaySound(audioSource, sound, volume);
+    }
+
+    public void PlaySpatialAnomalySound(string soundName, Vector3 position, float volume)
+    {
+        Sound sound = Array.Find(sounds, s => s.name == soundName);
+        if (sound == null) return;
+
+        AudioSource audioSource = anomalySfxObjectPool.Get();
 
         audioSource.transform.position = position;
         audioSource.spatialBlend = 1;

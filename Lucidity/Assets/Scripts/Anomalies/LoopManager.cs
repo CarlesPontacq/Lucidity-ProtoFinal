@@ -127,7 +127,10 @@ public class LoopManager : MonoBehaviour
             exitLamp.TurnOn();
 
         if (enemySpawner != null)
+        {
+            enemySpawner.StopAllCoroutines();
             enemySpawner.ClearEnemy();
+        }
 
         if (anomalyManager != null)
             anomalyManager.StartNewLoop();

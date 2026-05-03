@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 861743206223985424}
+  - component: {fileID: 3058742720377530419}
+  - component: {fileID: 5550538949115561269}
   m_Layer: 0
   m_Name: SogaConBiga
   m_TagString: Untagged
@@ -30,7 +32,73 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 524841484145309609}
+  - {fileID: 4749989225403975315}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3058742720377530419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718666114644984314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b5001dbfe16b4d4ca2c86587c9157a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hintPosition: {fileID: 4749989225403975315}
+--- !u!65 &5550538949115561269
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718666114644984314}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.600456, y: 1.2735724, z: 0.19901371}
+  m_Center: {x: -0.199772, y: 3.7672088, z: 0.52761996}
+--- !u!1 &8153043806667334098
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4749989225403975315}
+  m_Layer: 0
+  m_Name: Interact
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4749989225403975315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8153043806667334098}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.15260129, y: 0.61037403, z: -0.121324874, w: -0.7677478}
+  m_LocalPosition: {x: -0.22498365, y: 3.4094026, z: 0.5063387}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 861743206223985424}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &54647866515509314
 PrefabInstance:

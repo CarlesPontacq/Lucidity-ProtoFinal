@@ -1596,9 +1596,9 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: cd50d740e3538d54491dd8ac50fee5f7, type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: fb9af58db8608d84bb007cd0ee52f053, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: cd50d740e3538d54491dd8ac50fee5f7, type: 3}
+    m_HighlightedSprite: {fileID: 21300000, guid: fb9af58db8608d84bb007cd0ee52f053, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: cd50d740e3538d54491dd8ac50fee5f7, type: 3}
+    m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -1611,9 +1611,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1904718967}
+      - m_Target: {fileID: 1904718972}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: OnControlsButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2338,6 +2338,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1904718971}
     m_Modifications:
+    - target: {fileID: 4155165070208781655, guid: dc478723d85e46848b0e98062f065214, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1904718972}
+    - target: {fileID: 4155165070208781655, guid: dc478723d85e46848b0e98062f065214, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnCloseControlsClick
+      objectReference: {fileID: 0}
     - target: {fileID: 4453838758204525194, guid: dc478723d85e46848b0e98062f065214, type: 3}
       propertyPath: m_Name
       value: Controls
@@ -2431,6 +2439,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc478723d85e46848b0e98062f065214, type: 3}
+--- !u!1 &1642740639 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4453838758204525194, guid: dc478723d85e46848b0e98062f065214, type: 3}
+  m_PrefabInstance: {fileID: 1642740638}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1643312237 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8193940251358622340, guid: bd1f21db872461d499c4f2ae63497445, type: 3}
@@ -2819,6 +2832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuUX: {fileID: 991350299}
   optionsMenuUX: {fileID: 49924366}
+  controlsMenuUX: {fileID: 1642740639}
 --- !u!114 &1961476059 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3777264315668613830, guid: bd1f21db872461d499c4f2ae63497445, type: 3}

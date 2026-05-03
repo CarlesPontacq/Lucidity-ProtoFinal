@@ -6,12 +6,14 @@ public class MainMenuManager : MonoBehaviour
 
     [SerializeField] private GameObject mainMenuUX;
     [SerializeField] private GameObject optionsMenuUX;
+    [SerializeField] private GameObject controlsMenuUX;
 
     void Start()
     {
         controller = SceneController.Instance;
         mainMenuUX.SetActive(true);
         optionsMenuUX.SetActive(false);
+        controlsMenuUX.SetActive(false);
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -43,9 +45,21 @@ public class MainMenuManager : MonoBehaviour
         mainMenuUX.SetActive(false);
     }
 
+    public void OnControlsButtonClick()
+    {
+        controlsMenuUX.SetActive(true);
+        mainMenuUX.SetActive(false);
+    }
+
     public void OnCloseOptionsClick()
     {
         mainMenuUX.SetActive(true);
         optionsMenuUX.SetActive(false);
+    }
+
+    public void OnCloseControlsClick()
+    {
+        mainMenuUX.SetActive(true);
+        controlsMenuUX.SetActive(false);
     }
 }

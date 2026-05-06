@@ -36,11 +36,6 @@ public class CameraFunctionality : MonoBehaviour
         currentReels = maxReels;
     }
 
-    private void Update()
-    {
-        EnemyIsInSight();
-    }
-
     public void ActivateMode()
     {
         isActive = true;
@@ -114,39 +109,14 @@ public class CameraFunctionality : MonoBehaviour
 
                 if (GeometryUtility.TestPlanesAABB(plane, col.bounds))
                 {
-                    stunnable.OnStunned(null);
-                }
-            }
-        }
-    }
-
-    private void EnemyIsInSight()
-    {
-        if (stunCamera == null || !isActive) return;
-
-        bool showRedLight = false;
-
-        Plane[] plane = GeometryUtility.CalculateFrustumPlanes(normalCamera);
-
-        foreach (var mono in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
-        {
-            if (mono is IStunnable stunnable)
-            {
-                Collider col = mono.GetComponentInChildren<Collider>();
-                if (col == null) continue;
-
-                if (GeometryUtility.TestPlanesAABB(plane, col.bounds))
-                {
                     if (HasLineOfSight(col))
                     {
-                        showRedLight = true;
+                        stunnable.OnStunned(null);
                         break;
                     }
                 }
             }
         }
-
-        ui.ShowCameraRedLight(showRedLight);
     }
 
     private bool HasLineOfSight(Collider targetCollider)

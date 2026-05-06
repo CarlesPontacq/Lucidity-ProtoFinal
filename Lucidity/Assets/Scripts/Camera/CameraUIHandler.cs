@@ -17,6 +17,9 @@ public class CameraUIHandler : MonoBehaviour
     [SerializeField] private List<Image> cameraAspectBorder;
     [SerializeField] private List<TextMeshProUGUI> cameraTexts;
 
+    private bool enableRedLight = false;
+    private bool lookingThroughCamera = false;
+
     internal void ShowCameraAspect(bool showAspect)
     {
         cameraAspect.enabled = showAspect;
@@ -28,7 +31,12 @@ public class CameraUIHandler : MonoBehaviour
         foreach(TextMeshProUGUI text in cameraTexts) 
             text.enabled = showAspect;
 
-        ShowCameraRedLight(false);
+        lookingThroughCamera = showAspect;
+
+        if (enableRedLight && lookingThroughCamera)
+            cameraRedLight.enabled = true;
+        else
+            cameraRedLight.enabled = false;
     }
 
     internal void ShowCameraFlash(bool showAspect)
@@ -36,9 +44,14 @@ public class CameraUIHandler : MonoBehaviour
         cameraFlash.enabled = showAspect;
     }
 
-    internal void ShowCameraRedLight(bool showAspect)
+    internal void ShowCameraRedLight(bool enable)
     {
-        cameraRedLight.enabled = showAspect;
+        if (enable && lookingThroughCamera)
+            cameraRedLight.enabled = true;
+        else
+            cameraRedLight.enabled = false;
+
+        enableRedLight = enable;
     }
 
     internal void ActualizeRemainingReelsIndicator(int newRemainingReels)

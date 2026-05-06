@@ -6414,6 +6414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 6084432540919551882}
   optionsPanel: {fileID: 1589299174}
+  controlsPanel: {fileID: 6084432540919551884}
   returnToMainMenuButton: {fileID: 446133772}
   playerInput: {fileID: 2076784865}
   overlayUI: {fileID: 0}
@@ -13362,6 +13363,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 66372068856158180, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1041621245}
+    - target: {fileID: 66372068856158180, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenControls
+      objectReference: {fileID: 0}
+    - target: {fileID: 66372068856158180, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PauseMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 105622671752787604, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1041621245}
+    - target: {fileID: 105622671752787604, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseControls
+      objectReference: {fileID: 0}
+    - target: {fileID: 105622671752787604, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PauseMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 791730706326679244, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -13859,6 +13884,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6084432540919551884 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 365377745398493513, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 6084432540919551881}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

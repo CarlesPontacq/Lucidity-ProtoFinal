@@ -31,17 +31,12 @@ public class TutorialPopUps : MonoBehaviour
         SetupReportTutorial();
     }
 
-    // ---------------- RUN TUTORIAL (TRIGGERED) ----------------
-
     private void SetupRunTutorial()
     {
         FirstChaseEnabler.OnFirstChaseStarted += ShowRun;
 
         playerMovement.OnStartedRunning += CompleteRun;
     }
-
-    private void HideRun() => Hide(runStep);
-    private void ShowRun() => Show(runStep);
 
     private void CompleteRun()
     {
@@ -56,8 +51,6 @@ public class TutorialPopUps : MonoBehaviour
         reportSheet.OnClosed -= ShowRun;
     }
 
-    // ---------------- CAMERA TUTORIAL ----------------
-
     private void SetupCameraTutorial()
     {
         GameManager.Instance.OnCameraTaken += StartCameraTutorial;
@@ -71,10 +64,7 @@ public class TutorialPopUps : MonoBehaviour
 
         reportSheet.OnOpened += HideCamera;
         reportSheet.OnClosed += ShowCamera;
-    }
-
-    private void HideCamera() => Hide(cameraStep);
-    private void ShowCamera() => Show(cameraStep);
+    }    
 
     private void CompleteCamera()
     {
@@ -85,8 +75,6 @@ public class TutorialPopUps : MonoBehaviour
         reportSheet.OnOpened -= HideCamera;
         reportSheet.OnClosed -= ShowCamera;
     }
-
-    // ---------------- REPORT TUTORIAL ----------------
 
     private void SetupReportTutorial()
     {
@@ -106,17 +94,11 @@ public class TutorialPopUps : MonoBehaviour
         reportSheet.OnSigned += CompleteSigning;
     }
 
-    private void HideReportSheet() => Hide(reportSheetStep);
-    private void ShowReportSheet() => Show(reportSheetStep);
-
     private void OpenReportSheet()
     {
         Complete(reportSheetStep);
         Show(reportSelectionStep);
     }
-
-    private void HideSelection() => Hide(reportSelectionStep);
-
     private void SelectNumber()
     {
         Complete(reportSelectionStep);
@@ -127,8 +109,6 @@ public class TutorialPopUps : MonoBehaviour
     {
         Complete(reportSigningStep);
     }
-
-    // ---------------- CORE ----------------
 
     private void Show(TutorialStep step)
     {
@@ -153,4 +133,16 @@ public class TutorialPopUps : MonoBehaviour
         Hide(step);
         step.isCompleted = true;
     }
+
+    private void HideRun() => Hide(runStep);
+    private void ShowRun() => Show(runStep);
+
+    private void HideCamera() => Hide(cameraStep);
+    private void ShowCamera() => Show(cameraStep);
+
+    private void HideReportSheet() => Hide(reportSheetStep);
+    private void ShowReportSheet() => Show(reportSheetStep);
+    private void HideSelection() => Hide(reportSelectionStep);
+
+
 }

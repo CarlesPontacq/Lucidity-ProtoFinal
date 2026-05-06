@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class FirstChaseEnabler : MonoBehaviour
@@ -17,6 +18,7 @@ public class FirstChaseEnabler : MonoBehaviour
     private string doorSFX = "openDoor";
     private int SFXVolume = 1;
 
+    public static event Action OnFirstChaseStarted;
 
     private void Awake()
     {
@@ -35,6 +37,8 @@ public class FirstChaseEnabler : MonoBehaviour
 
             firstChaseTrigger.enabled = true;
             door.Unlock();
+
+            OnFirstChaseStarted?.Invoke();
         }
     }
 }

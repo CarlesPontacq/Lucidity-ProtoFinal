@@ -1,9 +1,11 @@
 using System;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class DoorInteraction : ObjectInteraction
 {
-    [SerializeField] private Transform pivot;
+    [SerializeField] private Transform pivotLeft;
+    [SerializeField] private Transform pivotRight;
     [SerializeField] private bool startsOpen;
     [SerializeField] private bool startsLocked;
 
@@ -29,6 +31,7 @@ public class DoorInteraction : ObjectInteraction
     private bool hasToApplyRotation = false;
     private bool hasStarted = false;
 
+    public Transform pivot;
     private Quaternion closedLocalRotation;
     private Quaternion targetLocalRotation;
 
@@ -72,10 +75,20 @@ public class DoorInteraction : ObjectInteraction
         if (GameManager.PlayerRef == null)
             return Mathf.Sign(defaultOpenDirection);
 
-        Vector3 doorToPlayer = (GameManager.PlayerRef.transform.position - pivot.position).normalized;
-        float side = Vector3.Cross(pivot.right, doorToPlayer).y;
+        float pivotLeftToPlayerDistance = Vector3.Distance(GameManager.PlayerRef.transform.position, pivotLeft.position);
+        float pivotRightToPlayerDistance = Vector3.Distance(GameManager.PlayerRef.transform.position, pivotRight.position);
 
-        return side > 0 ? -1f : 1f;
+        return pivotLeftToPlayerDistance < pivotRightToPlayerDistance ? -1f : 1f;
+    }
+
+    private void SetPivot(float openDirection)
+    {
+        if (openDirection == 1f)
+            pivot = pivotLeft;
+        else
+            pivot = pivotRight;
+
+        transform.SetParent(pivot);
     }
 
     private void ApplyRotation()
@@ -99,6 +112,10 @@ public class DoorInteraction : ObjectInteraction
             pivot.localRotation = targetLocalRotation;
             hasToApplyRotation = false;
         }
+
+        Debug.Log($"Applying rotation: {pivot.name} | {hasToApplyRotation}");
+        Debug.Log($"Current rot: {pivot.localRotation.eulerAngles}");
+        Debug.Log($"Target rot: {targetLocalRotation.eulerAngles}");
     }
 
     public override void Interact()
@@ -177,7 +194,13 @@ public class DoorInteraction : ObjectInteraction
         isOpen = true;
 
         float direction = GetOpenDirection();
-        targetLocalRotation = closedLocalRotation * Quaternion.Euler(0f, openAngle * direction, 0f);
+        SetPivot(direction);
+        targetLocalRotation = targetLocalRotation = Quaternion.Euler(0f, openAngle * direction, 0f);
+        Debug.Log($"closed local rotation: {closedLocalRotation.eulerAngles}");
+        Debug.Log($"openAngle: {openAngle}");
+        Debug.Log($"direction: {direction}");
+        Debug.Log($"target local rotation: {targetLocalRotation.eulerAngles}");
+
 
         if (animate)
         {

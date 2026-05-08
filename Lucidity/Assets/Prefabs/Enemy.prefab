@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 1616319559184568735}
   - component: {fileID: 5679625458799070854}
   - component: {fileID: 3198104670081476090}
-  - component: {fileID: 6088789872207094378}
-  - component: {fileID: 5923701626171110876}
   - component: {fileID: 4780688494496512257}
   - component: {fileID: -5922762196799043489}
   - component: {fileID: 4322959742973971490}
@@ -115,55 +113,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8363037, y: 1.911309, z: 0.84976196}
   m_Center: {x: -0.013031006, y: 0.53065455, z: 0.007736206}
---- !u!54 &6088789872207094378
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5533655514814115806}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
---- !u!114 &5923701626171110876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5533655514814115806}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 265146f6798312841a0e0b3e2ed8ee6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 2
-  stopDistance: 0.3
-  turnRateDeg: 180
-  avoidDistance: 4
-  avoidRadius: 0.35
-  avoidStrength: 1
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 2049
-  directionSmooth: 8
 --- !u!114 &4780688494496512257
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@ public class FirstChaseEnabler : MonoBehaviour
 {
     [Header("First Enemy Chase")]
     [SerializeField] private GameObject firstChaseEnemy;
-    [SerializeField] private EnemyFollowSteering enemyFollow;
     [SerializeField] private bool firstChase;
     [SerializeField] private BoxCollider firstChaseTrigger;
 
@@ -33,7 +32,6 @@ public class FirstChaseEnabler : MonoBehaviour
             SFXManager.Instance.PlaySpatialSound(enemySpawnSFX, firstChaseEnemy.transform.position, SFXVolume);
 
             SFXManager.Instance.PlaySpatialSound(doorSFX, doorAudioPosition.position, SFXVolume);
-            enemyFollow.SetCanChase(true);
 
             firstChaseTrigger.enabled = true;
             door.Unlock();

@@ -200,6 +200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 4322959742973971490}
+  animator: {fileID: 454990717225805390}
+  speedCorrectionFactor: 1.5
 --- !u!1 &7749276523923405347
 GameObject:
   m_ObjectHideFlags: 0
@@ -5343,6 +5345,11 @@ PrefabInstance:
       addedObject: {fileID: 3713259037961965429}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0120c93d39c78ec4b934e9dc05815c04, type: 3}
+--- !u!95 &454990717225805390 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6019833985713033067, guid: 0120c93d39c78ec4b934e9dc05815c04, type: 3}
+  m_PrefabInstance: {fileID: 6186482129219086629}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &735733782469287019 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6912767327191823694, guid: 0120c93d39c78ec4b934e9dc05815c04, type: 3}

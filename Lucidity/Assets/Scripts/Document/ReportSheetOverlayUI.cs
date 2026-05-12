@@ -108,9 +108,6 @@ public class ReportSheetOverlayUI : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
-
-        if (open && Input.GetKeyDown(KeyCode.Tab))
-            SetOpen(false);
     }
 
     private void LateUpdate()

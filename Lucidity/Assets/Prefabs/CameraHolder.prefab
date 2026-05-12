@@ -295,6 +295,7 @@ MonoBehaviour:
   hasFlashCamera: 0
   maxReels: 5
   currentReels: 0
+  lineOfSightRadius: 0.5
   flashDuration: 0.1
   stunCamera: {fileID: 1186519364348274735}
   cameraRotation: {fileID: 7795568537833020718}
@@ -313,7 +314,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 6dd412baba5d1164f846c7fc04c2e1bc, type: 2}
   cameraManager: {fileID: 8172359253978911886}
-  transitionTime: 0.5
+  timeToHearAnomalies: 0
+  timeToStopHearingAnomalies: 0.5
   mutedDb: -80
   normalDb: 0
 --- !u!1 &3314024275106931295
@@ -922,6 +924,7 @@ MonoBehaviour:
   sensitivity: 0.4
   smoothSpeed: 35
   verticalLimit: 90
+  initialYaw: 200
 --- !u!1001 &7874492758431482640
 PrefabInstance:
   m_ObjectHideFlags: 0

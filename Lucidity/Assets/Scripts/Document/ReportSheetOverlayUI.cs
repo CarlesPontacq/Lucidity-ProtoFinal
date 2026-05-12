@@ -42,7 +42,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     [Header("Game")]
     [SerializeField] private AnomalyManager anomalyManager;
-    [SerializeField] private DoorInteraction exitDoor;
+    [SerializeField] private DoorController exitDoor;
     [SerializeField] private ReportResultState reportState;
 
     [Header("Exit Blocker (optional)")]

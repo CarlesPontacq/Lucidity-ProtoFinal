@@ -5,7 +5,7 @@ public class StartEnemyChaseSequance : MonoBehaviour
 {
     [SerializeField] private GameObject firstChaseEnemy;
     [SerializeField] private EnemyChaseSpawner chaseSpawner;
-    [SerializeField] private DoorInteraction door;
+    [SerializeField] private DoorController door;
 
     private string playerTag = "Player";
     private int floor = 0;

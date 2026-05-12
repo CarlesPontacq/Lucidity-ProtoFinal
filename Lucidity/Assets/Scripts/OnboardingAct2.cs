@@ -11,7 +11,7 @@ public class OnboardingAct2 : MonoBehaviour
     
     [Header("Doors")]
     [SerializeField] float doorsOpeningDelay = 0.5f;
-    [SerializeField] List<DoorInteraction> doorsToOpen;
+    [SerializeField] List<DoorController> doorsToOpen;
 
     [Header("Camera UI")]
     [SerializeField] GameObject leftClickText;
@@ -58,7 +58,7 @@ public class OnboardingAct2 : MonoBehaviour
     {
         yield return new WaitForSeconds(doorsOpeningDelay);
 
-        foreach (DoorInteraction door in doorsToOpen)
+        foreach (DoorController door in doorsToOpen)
         {
             door.Open(true);
         }

@@ -178,18 +178,4 @@ public class DoorController : MonoBehaviour
 
         Close(false);
     }
-
-    public void CopyFromOld(DoorInteraction old)
-    {
-        startsOpen = old.StartsOpen;
-        startsLocked = old.StartsLocked;
-
-        autoOpenWhenUnlocked = old.AutoOpenWhenUnlocked;
-        autoOpenAnimated = old.AutoOpenAnimated;
-        defaultOpenDirection = old.DefaultOpenDirection;
-        requiresReportToOpen = old.RequiresReportToOpen;
-
-        openAngle = old.OpenAngle;
-        openSpeed = old.OpenSpeed;
-    }
 }

@@ -8,7 +8,7 @@ public class LoopManager : MonoBehaviour
     [SerializeField] private AnomalyManager anomalyManager;
     [SerializeField] private ReportSheetOverlayUI reportSheetOverlayScript;
     [SerializeField] private ReportResultState reportState;
-    [SerializeField] private DoorInteraction exitDoor;
+    [SerializeField] private DoorController exitDoor;
     [SerializeField] private List<ObjectInteraction> interactableObjects;
     [SerializeField] private CameraFunctionality cameraFunctionality;
 

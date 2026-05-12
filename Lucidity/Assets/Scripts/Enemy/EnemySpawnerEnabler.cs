@@ -5,7 +5,7 @@ public class EnemySpawnerEnabler : MonoBehaviour
     [SerializeField] private EnemyChaseSpawner enemyChaseSpawner;
     private string playerTag = "Player";
     [SerializeField] private bool enableEnemySpawner;
-    [SerializeField] private DoorInteraction  door;
+    [SerializeField] private DoorController door;
 
     private void OnTriggerEnter(Collider other)
     {

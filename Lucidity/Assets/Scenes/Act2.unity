@@ -4524,19 +4524,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hintPosition: {fileID: 0}
-  pivotLeft: {fileID: 0}
-  pivotRight: {fileID: 0}
-  startsOpen: 0
-  startsLocked: 0
+  door: {fileID: 0}
   interactionHintPos1: {fileID: 0}
   interactionHintPos2: {fileID: 0}
-  openAngle: 90
-  openSpeed: 5
-  autoOpenWhenUnlocked: 1
-  autoOpenAnimated: 0
-  defaultOpenDirection: 1
-  requiresReportToOpen: 0
-  reportState: {fileID: 0}
 --- !u!114 &692290630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5087,7 +5077,7 @@ MonoBehaviour:
   anomalyManager: {fileID: 2062422187}
   reportSheetOverlayScript: {fileID: 1024894407}
   reportState: {fileID: 564581944}
-  exitDoor: {fileID: 1441630025}
+  exitDoor: {fileID: 4286839523203662238}
   interactableObjects:
   - {fileID: 625066580}
   - {fileID: 223494450}
@@ -6964,7 +6954,7 @@ PrefabInstance:
     - target: {fileID: 1829699887660878471, guid: 95f51769e016c3e49a76153d0267da4f, type: 3}
       propertyPath: exitDoor
       value: 
-      objectReference: {fileID: 1441630025}
+      objectReference: {fileID: 4286839523203662238}
     - target: {fileID: 1829699887660878471, guid: 95f51769e016c3e49a76153d0267da4f, type: 3}
       propertyPath: playerInput
       value: 
@@ -8693,17 +8683,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2255bf3ee6e3f3646a6db3adcf22f83e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1441630025 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4099630363432856693, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}
-  m_PrefabInstance: {fileID: 4286839523203662237}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1456718194
@@ -11714,6 +11693,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 606023673}
     m_Modifications:
     - target: {fileID: 4028317177823982601, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}
+      propertyPath: reportState
+      value: 
+      objectReference: {fileID: 564581944}
+    - target: {fileID: 4028317177823982601, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}
       propertyPath: startsLocked
       value: 1
       objectReference: {fileID: 0}
@@ -11790,6 +11773,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}
+--- !u!114 &4286839523203662238 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4028317177823982601, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}
+  m_PrefabInstance: {fileID: 4286839523203662237}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5eeb9e8b0a403849817f1a91b4e3704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4290987967269388933 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 143345287042078899, guid: f5f9404dbde64ef41802991d93791d66, type: 3}

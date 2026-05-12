@@ -9,7 +9,7 @@ public class FirstChaseEnabler : MonoBehaviour
     [SerializeField] private bool firstChase;
     [SerializeField] private BoxCollider firstChaseTrigger;
 
-    [SerializeField] private DoorInteraction door;
+    [SerializeField] private DoorController door;
     [SerializeField] private Transform doorAudioPosition;
 
 

@@ -19,6 +19,12 @@ public class DoorInteraction : ObjectInteraction
     protected override void Update()
     {
         base.Update();
+
+        if (!isFocused) return;
+
+        Transform currentHint = GetCorrectHintPosition();
+
+        InteractionFeedback.Instance.MoveInteractHint(currentHint.position);
     }
 
     public override void Interact()

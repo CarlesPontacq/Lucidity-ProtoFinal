@@ -5548,6 +5548,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashObjectPrefab: {fileID: 1822227943412310092, guid: 3e17dcd6bbc492a439f25ec5f8d91356, type: 3}
   loopManager: {fileID: 1146919884}
+  doorsToOpen:
+  - {fileID: 1964119119}
+  - {fileID: 1240430147}
 --- !u!43 &937074306
 Mesh:
   m_ObjectHideFlags: 0
@@ -7517,6 +7520,17 @@ Transform:
   - {fileID: 1273858180}
   m_Father: {fileID: 783111351}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1240430147 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7869269937068198484, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+  m_PrefabInstance: {fileID: 1720269723}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1257543727
 Mesh:
   m_ObjectHideFlags: 0
@@ -8976,6 +8990,7 @@ MonoBehaviour:
     loopEntries: []
   enemySpawner: {fileID: 318053360}
   enemySpawnProbability: 0.6
+  stunUnlockSpawnDelay: 1.5
   autoStartOnBegin: 0
 --- !u!4 &1423677013
 Transform:
@@ -12166,6 +12181,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7224af8b9002be847a73bdf6e80ad1f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1964119119 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6181369759579719432, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
+  m_PrefabInstance: {fileID: 1720269723}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c8a7363de7a61418cb99bfa79ff6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!43 &1966261994

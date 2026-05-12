@@ -4491,6 +4491,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1711263670991005564, guid: 622603ec22f72a640805115b281fc265, type: 3}
       insertIndex: -1
       addedObject: {fileID: 692290629}
+    - targetCorrespondingSourceObject: {fileID: 1711263670991005564, guid: 622603ec22f72a640805115b281fc265, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 692290630}
   m_SourcePrefab: {fileID: 100100000, guid: 622603ec22f72a640805115b281fc265, type: 3}
 --- !u!114 &692290627 stripped
 MonoBehaviour:
@@ -4521,7 +4524,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hintPosition: {fileID: 0}
-  pivot: {fileID: 692290630}
+  pivotLeft: {fileID: 0}
+  pivotRight: {fileID: 0}
   startsOpen: 0
   startsLocked: 0
   interactionHintPos1: {fileID: 0}
@@ -4533,11 +4537,29 @@ MonoBehaviour:
   defaultOpenDirection: 1
   requiresReportToOpen: 0
   reportState: {fileID: 0}
---- !u!4 &692290630 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7371083405656330105, guid: 622603ec22f72a640805115b281fc265, type: 3}
-  m_PrefabInstance: {fileID: 692290626}
+--- !u!114 &692290630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692290628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5eeb9e8b0a403849817f1a91b4e3704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotLeft: {fileID: 0}
+  pivotRight: {fileID: 0}
+  startsOpen: 0
+  startsLocked: 0
+  openAngle: 90
+  openSpeed: 5
+  autoOpenWhenUnlocked: 1
+  autoOpenAnimated: 0
+  defaultOpenDirection: 1
+  requiresReportToOpen: 0
+  reportState: {fileID: 0}
 --- !u!1 &695710479
 GameObject:
   m_ObjectHideFlags: 0
@@ -11359,6 +11381,7 @@ MonoBehaviour:
       areaID: 0
   enemySpawner: {fileID: 0}
   enemySpawnProbability: 0
+  stunUnlockSpawnDelay: 1.5
   autoStartOnBegin: 0
 --- !u!4 &2062422188
 Transform:
@@ -11690,6 +11713,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 606023673}
     m_Modifications:
+    - target: {fileID: 4028317177823982601, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}
+      propertyPath: startsLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028317177823982601, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}
+      propertyPath: autoOpenAnimated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028317177823982601, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}
+      propertyPath: requiresReportToOpen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4099630363432856693, guid: 16718161804dc6e4fb83b8ab737e64b7, type: 3}
       propertyPath: reportState
       value: 

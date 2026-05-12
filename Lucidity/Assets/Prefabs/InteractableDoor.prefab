@@ -234,6 +234,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 13b7632ebd2dfa14bbbcbc105813c696, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9004695201238947326}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 13b7632ebd2dfa14bbbcbc105813c696, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 709356282644423602}
   m_SourcePrefab: {fileID: 100100000, guid: 13b7632ebd2dfa14bbbcbc105813c696, type: 3}
 --- !u!1 &2531639371258833151 stripped
 GameObject:
@@ -280,6 +283,29 @@ MonoBehaviour:
   startsLocked: 0
   interactionHintPos1: {fileID: 5712746716060516481}
   interactionHintPos2: {fileID: 5207132802412727938}
+  openAngle: 90
+  openSpeed: 5
+  autoOpenWhenUnlocked: 1
+  autoOpenAnimated: 0
+  defaultOpenDirection: 1
+  requiresReportToOpen: 0
+  reportState: {fileID: 0}
+--- !u!114 &709356282644423602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2531639371258833151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5eeb9e8b0a403849817f1a91b4e3704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivotLeft: {fileID: 0}
+  pivotRight: {fileID: 0}
+  startsOpen: 0
+  startsLocked: 0
   openAngle: 90
   openSpeed: 5
   autoOpenWhenUnlocked: 1

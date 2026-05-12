@@ -305,4 +305,14 @@ public class DoorInteraction : ObjectInteraction
 
         fullyInteractable = !isLocked;
     }
+
+    public bool StartsOpen => startsOpen;
+    public bool StartsLocked => startsLocked;
+    public bool AutoOpenWhenUnlocked => autoOpenWhenUnlocked;
+    public bool AutoOpenAnimated => autoOpenAnimated;
+    public float DefaultOpenDirection => defaultOpenDirection;
+    public bool RequiresReportToOpen => requiresReportToOpen;
+
+    public float OpenAngle => openAngle;
+    public float OpenSpeed => openSpeed;
 }

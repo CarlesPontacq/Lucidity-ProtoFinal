@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 
 public class AnomalyManager : MonoBehaviour
 {
@@ -45,6 +46,7 @@ public class AnomalyManager : MonoBehaviour
     [Header("Enemy Related")]
     [SerializeField] private EnemyLoopSpawner enemySpawner;
     [SerializeField][Range(0f, 1f)] private float enemySpawnProbability = 0.6f;
+    [SerializeField] private float stunUnlockSpawnDelay = 1.5f;
     private bool enemyHasToSpawn = false;
 
     [Header("Auto Start")]
@@ -54,6 +56,8 @@ public class AnomalyManager : MonoBehaviour
     private readonly List<Entry> selectedEntriesThisLoop = new();
 
     public int ExpectedAnomaliesThisLoop { get; private set; } = 0;
+
+    private bool pendingEnemySpawn = false;
 
     // Instancias vivas REALES en escena
     public int ActiveSpawnedCount
@@ -72,6 +76,8 @@ public class AnomalyManager : MonoBehaviour
     private void Start()
     {
         Debug.Log($"[AnomalyManager {GetInstanceID()}] Start() called. EntryCount={EntryCount}");
+
+        GameManager.Instance.OnStunUnlocked += HandleStunUnlocked;
 
         if (autoStartOnBegin)
             StartNewLoop();
@@ -233,9 +239,19 @@ public class AnomalyManager : MonoBehaviour
         if (enemyHasToSpawn && enemySpawner != null)
         {
             ExpectedAnomaliesThisLoop++;
-            Debug.Log("[AnomalyManager] Enemy will appear as an anomaly this loop!");
-            int currentLoopIndex = GameManager.Instance.GetCurrentLoopIndex();
-            enemySpawner.SpawnForLoopAsAnomaly(currentLoopIndex);
+
+            if (GameManager.Instance.HasUnlockedStun())
+            {
+                Debug.Log("[AnomalyManager] Enemy spawning normally");
+
+                int currentLoopIndex = GameManager.Instance.GetCurrentLoopIndex();
+                enemySpawner.SpawnForLoopAsAnomaly(currentLoopIndex);
+            }
+            else
+            {
+                Debug.Log("[AnomalyManager] Enemy waiting for stun unlock");
+                pendingEnemySpawn = true;
+            }
         }
     }
 
@@ -284,4 +300,33 @@ public class AnomalyManager : MonoBehaviour
     public List<Anomaly> GetSpawnedEnemiesThisLoop() => spawnedThisLoop;
 
     public bool DoesEnemySpawnThisLoop() => enemyHasToSpawn;
+
+    private void HandleStunUnlocked()
+    {
+        if (!pendingEnemySpawn)
+            return;
+
+        pendingEnemySpawn = false;
+
+        StartCoroutine(DelayedEnemySpawnAfterUnlock());
+    }
+
+    private IEnumerator DelayedEnemySpawnAfterUnlock()
+    {
+        yield return new WaitForSeconds(stunUnlockSpawnDelay);
+
+        if (enemySpawner != null)
+        {
+            Debug.Log("[AnomalyManager] Spawning delayed enemy after stun unlock");
+
+            int currentLoopIndex = GameManager.Instance.GetCurrentLoopIndex();
+            enemySpawner.SpawnForLoopAsAnomaly(currentLoopIndex);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnStunUnlocked -= HandleStunUnlocked;
+    }
 }

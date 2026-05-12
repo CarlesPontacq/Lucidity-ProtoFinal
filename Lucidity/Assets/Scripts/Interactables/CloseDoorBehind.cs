@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CloseDoorBehind : MonoBehaviour
 {
-    [SerializeField] DoorInteraction door;
+    [SerializeField] DoorController door;
 
     private void OnTriggerEnter(Collider other)
     {

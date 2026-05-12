@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UnlockEntranceDoor : MonoBehaviour
 {
-    [SerializeField] private DoorInteraction door;
+    [SerializeField] private DoorController door;
 
     private void OnTriggerEnter(Collider other)
     {

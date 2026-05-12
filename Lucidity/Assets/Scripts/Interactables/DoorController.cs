@@ -25,21 +25,25 @@ public class DoorController : MonoBehaviour
 
     public bool IsInteractable => !isLocked;
 
-    private bool isOpen;
-    private bool isLocked;
+    private bool isOpen = false;
+    private bool isLocked = false;
 
-    private bool hasToApplyRotation;
-    private bool hasStarted;
+    private bool hasToApplyRotation = false;
+    private bool hasStarted = false;
+
+    private Vector3 soundPosition;
 
     private Transform currentPivot;
 
     private Quaternion leftClosedRotation;
     private Quaternion rightClosedRotation;
+
     private Quaternion leftOpenRotation;
     private Quaternion rightOpenRotation;
 
     private Vector3 leftLocalPos;
     private Quaternion leftLocalRot;
+
     private Vector3 rightLocalPos;
     private Quaternion rightLocalRot;
 
@@ -47,8 +51,6 @@ public class DoorController : MonoBehaviour
 
     private float pendingPivotChange;
     private float previousDelta;
-
-    private Vector3 soundPosition;
 
     private void Start()
     {
@@ -95,14 +97,78 @@ public class DoorController : MonoBehaviour
             currentPivot.localRotation = targetRotation;
             hasToApplyRotation = false;
         }
+
+        TrySwitchPivot();
+    }
+
+    private void TrySwitchPivot()
+    {
+        float currentY = currentPivot.localRotation.eulerAngles.y;
+        float closedY = leftClosedRotation.eulerAngles.y;
+
+        float delta = Mathf.DeltaAngle(currentY, closedY);
+
+        if (pendingPivotChange != 0f)
+        {
+            bool crossedZero = Mathf.Sign(previousDelta) != Mathf.Sign(delta);
+
+            if (crossedZero)
+            {
+                SetPivot(pendingPivotChange);
+            }
+        }
+
+        previousDelta = delta;
+    }
+
+    private float GetOpenDirection()
+    {
+        if (GameManager.PlayerRef == null)
+            return Mathf.Sign(defaultOpenDirection);
+
+        float leftDistance = Vector3.Distance(GameManager.PlayerRef.transform.position, pivotLeft.position);
+        float rightDistance = Vector3.Distance(GameManager.PlayerRef.transform.position, pivotRight.position);
+
+        return leftDistance < rightDistance ? -1f : 1f;
+    }
+
+    private void SetPivot(float direction)
+    {
+        Transform newPivot = direction == 1f ? pivotLeft : pivotRight;
+
+        if (currentPivot == newPivot) return;
+
+        currentPivot = newPivot;
+
+        transform.SetParent(currentPivot, true);
+
+        ApplyCorrectLocalOffset();
+
+        pendingPivotChange = 0f;
+    }
+
+    private void ApplyCorrectLocalOffset()
+    {
+        if (currentPivot == pivotLeft)
+        {
+            transform.localPosition = leftLocalPos;
+            transform.localRotation = leftLocalRot;
+        }
+        else
+        {
+            transform.localPosition = rightLocalPos;
+            transform.localRotation = rightLocalRot;
+        }
     }
 
     public void Toggle()
     {
         if (isLocked) return;
 
-        if (isOpen) Close(true);
-        else Open(true);
+        if (isOpen)
+            Close(true);
+        else
+            Open(true);
     }
 
     public void Open(bool animate)
@@ -113,11 +179,17 @@ public class DoorController : MonoBehaviour
 
         float direction = GetOpenDirection();
 
+        if (hasToApplyRotation)
+            pendingPivotChange = direction;
+        else
+            SetPivot(direction);
+
         targetRotation = direction == 1f ? leftOpenRotation : rightOpenRotation;
 
         if (animate)
         {
             hasToApplyRotation = true;
+
             SFXManager.Instance.PlaySpatialSound("openDoor", soundPosition, 1f);
         }
         else
@@ -138,6 +210,7 @@ public class DoorController : MonoBehaviour
         if (animate)
         {
             hasToApplyRotation = true;
+
             SFXManager.Instance.PlaySpatialSound("closeDoor", soundPosition, 1f);
         }
         else
@@ -147,22 +220,26 @@ public class DoorController : MonoBehaviour
         }
     }
 
-    private float GetOpenDirection()
+    public void ResetToInitialState(bool animate)
     {
-        if (GameManager.PlayerRef == null)
-            return Mathf.Sign(defaultOpenDirection);
+        if (startsOpen && !isOpen)
+            Open(animate);
+        else if (!startsOpen && isOpen)
+            Close(animate);
 
-        float left = Vector3.Distance(GameManager.PlayerRef.transform.position, pivotLeft.position);
-        float right = Vector3.Distance(GameManager.PlayerRef.transform.position, pivotRight.position);
-
-        return left < right ? -1f : 1f;
+        if (startsLocked && !isLocked)
+            Lock();
+        else if (!startsLocked && isLocked)
+            Unlock();
     }
 
     public void Unlock()
     {
+        bool wasLocked = isLocked;
+
         isLocked = false;
 
-        if (autoOpenWhenUnlocked)
+        if (hasStarted && wasLocked && autoOpenWhenUnlocked)
             Open(autoOpenAnimated);
     }
 

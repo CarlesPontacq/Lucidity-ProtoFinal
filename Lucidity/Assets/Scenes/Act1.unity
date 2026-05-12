@@ -3646,6 +3646,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc25579602d24ce4d84648cea7351946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &542741577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1805000008687423742, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 6084432540919551881}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &550493949 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1829699887660878471, guid: 95f51769e016c3e49a76153d0267da4f, type: 3}
@@ -5548,9 +5553,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashObjectPrefab: {fileID: 1822227943412310092, guid: 3e17dcd6bbc492a439f25ec5f8d91356, type: 3}
   loopManager: {fileID: 1146919884}
+  doorsOpeningDelay: 0.5
   doorsToOpen:
   - {fileID: 1964119119}
   - {fileID: 1240430147}
+  leftClickText: {fileID: 542741577}
+  cameraFunctionality: {fileID: 1154273966}
 --- !u!43 &937074306
 Mesh:
   m_ObjectHideFlags: 0
@@ -8728,6 +8736,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 1423677012}
+    - target: {fileID: 6170689117712442392, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: maxReels
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7047000021626056852, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: cameraManager
       value: 
@@ -9267,7 +9279,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 791730706326679244, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
   m_PrefabInstance: {fileID: 6084432540919551881}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 542741577}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -13505,6 +13517,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1041621245}
+    - target: {fileID: 1805000008687423742, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1882348739406738567, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

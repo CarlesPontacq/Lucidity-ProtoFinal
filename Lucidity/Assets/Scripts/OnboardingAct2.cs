@@ -8,15 +8,26 @@ public class OnboardingAct2 : MonoBehaviour
 {
     [SerializeField] GameObject flashObjectPrefab;
     [SerializeField] LoopManager loopManager;
+    
+    [Header("Doors")]
     [SerializeField] float doorsOpeningDelay = 0.5f;
     [SerializeField] List<DoorInteraction> doorsToOpen;
 
+    [Header("Camera UI")]
+    [SerializeField] GameObject leftClickText;
+    [SerializeField] CameraFunctionality cameraFunctionality;
+
     private bool objectSpawned = false;
+    private int originalMaxReels;
 
     private void Start()
     {
         LoopManager.OnLoopStarted += HandleObjectSpawning;
         GameManager.Instance.OnStunUnlocked += HandleStunUnlocked;
+
+        originalMaxReels = cameraFunctionality.maxReels;
+        cameraFunctionality.maxReels = 0;
+        cameraFunctionality.ResetReels();
     }
 
     private void HandleObjectSpawning(int loopIndex)
@@ -35,6 +46,11 @@ public class OnboardingAct2 : MonoBehaviour
 
     private void HandleStunUnlocked()
     {
+        leftClickText.SetActive(true);
+
+        cameraFunctionality.maxReels = originalMaxReels;
+        cameraFunctionality.ResetReels();
+
         StartCoroutine(OpenDoorsWithDelay());
     }
 

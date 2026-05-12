@@ -67,6 +67,8 @@ public class GameManager : MonoBehaviour
     private bool gunGrabbed = false;
     public bool finishedLoops = false;
 
+    public event Action OnStunUnlocked;
+
     private void Awake()
     {
         if(PlayerRef == null)
@@ -233,7 +235,11 @@ public class GameManager : MonoBehaviour
 
         if (itemInfoOverlay != null)
             itemInfoOverlay.OpenInfo(itemData);
+
+        OnStunUnlocked?.Invoke();
     }
+
+    public bool HasUnlockedStun() => stunModeUnlockerGrabbed;
 
     public void SetHandsWithCameraVisibility(bool visibility)
     {

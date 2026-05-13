@@ -50,6 +50,11 @@ public class DoorInteraction : ObjectInteraction
         base.OnFocusExit();
     }
 
+    public override void ResetState()
+    {
+        door.ResetToInitialState(false);
+    }
+
     private Transform GetCorrectHintPosition()
     {
         Vector3 playerPos = GameManager.PlayerRef.transform.position;

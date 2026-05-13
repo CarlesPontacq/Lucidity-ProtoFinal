@@ -10,11 +10,6 @@ public class GameManager : MonoBehaviour
     public static GameObject PlayerRef { get; private set; }
     public static GrabHandler GrabHandlerRef { get; private set; }
 
-    //public event Action OnCameraTaken;
-    //public event Action OnReportSheetTaken;
-    //public event Action OnStunUnlocked;
-
-
     [Header("Player settings")]
     [SerializeField] private bool toggleSprint;
 
@@ -37,15 +32,6 @@ public class GameManager : MonoBehaviour
     [Header("Spawn")]
     [SerializeField] private string playerSpawnTag = "PlayerSpawn";
 
-    [Header("Pickups / Systems")]
-    //public bool startWithCamera = false;
-    //public bool startWithReportSheet = false;
-    //[SerializeField] private CameraManager cameraManager;
-    //[SerializeField] private CameraFunctionality cameraFunctionality;
-    //[SerializeField] private ReportSheetOverlayUI reportSheet;
-    //[SerializeField] private ItemInfoOverlay itemInfoOverlay;
-    //[SerializeField] private PlayerArmsAnimationController handsWithCamera;
-
     [Header("Death Safety")]
     [SerializeField] private float deathCooldown = 0.35f;
 
@@ -63,10 +49,6 @@ public class GameManager : MonoBehaviour
     public bool isDying = false;
     private float nextAllowedDeathTime = 0f;
 
-    //private bool cameraGrabbed = false;
-    //private bool stunModeUnlockerGrabbed = false;
-    //private bool reportSheetGrabbed = false;
-    //private bool gunGrabbed = false;
     public bool finishedLoops = false;
 
 
@@ -106,8 +88,6 @@ public class GameManager : MonoBehaviour
         cameraRotation.SetControlEnabled(true);
         SetPlayerControlEnabled(true);
         finishedLoops = false;
-
-        //playerInventory.StartSetUp();
     }
 
     private void SetUpCharacterOnNewScene()
@@ -171,80 +151,6 @@ public class GameManager : MonoBehaviour
         if (loopManager != null)
             loopManager.StartNextLoop();
     }
-
-    #endregion
-
-    #region Pickups
-
-    //public void CameraGrabbed(ItemData itemData)
-    //{
-    //    cameraGrabbed = true;
-
-    //    if (cameraFunctionality != null)
-    //        cameraFunctionality.isUnlocked = true;
-
-    //    if (itemInfoOverlay != null)
-    //        itemInfoOverlay.OpenInfo(itemData);
-
-    //    if (cameraManager != null)
-    //        cameraManager.SetFunctionality(cameraFunctionality);
-
-    //    SetHandsWithCameraVisibility(true);
-
-    //    OnCameraTaken?.Invoke();
-    //}
-
-    //public void ReportSheetGrabbed(ItemData itemData)
-    //{
-    //    reportSheetGrabbed = true;
-
-    //    if (reportSheet != null)
-    //        reportSheet.Grab();
-
-    //    if (itemInfoOverlay != null)
-    //        itemInfoOverlay.OpenInfo(itemData);
-
-    //    OnReportSheetTaken?.Invoke();
-    //}
-
-    //public void GunGrabbed()
-    //{
-    //    gunGrabbed = true;
-    //    finishedLoops = true;
-
-    //    SetPlayerControlEnabled(false);
-    //    cameraRotation.SetControlEnabled(false);
-
-    //    StartCoroutine(sceneTransition.PlayTransition());
-    //}
-
-    //public void StunModeUnlockerGrabbed(ItemData itemData)
-    //{
-    //    stunModeUnlockerGrabbed = true;
-
-    //    if (cameraManager != null)
-    //        cameraManager.OnGrabbedFlash();
-
-    //    if (itemInfoOverlay != null)
-    //        itemInfoOverlay.OpenInfo(itemData);
-
-    //    OnStunUnlocked?.Invoke();
-    //}
-
-
-    //public void SetHandsWithCameraVisibility(bool visibility)
-    //{
-    //    if (handsWithCamera == null) return;
-
-    //    if (visibility)
-    //        handsWithCamera.ShowArms();
-    //    else
-    //        handsWithCamera.HideArms();
-    //}
-
-    //public bool HasUnlockedStun() => stunModeUnlockerGrabbed;
-    //public bool GetCameraGrabbed() => cameraGrabbed;
-    //public bool GetReportSheetGrabbed() => reportSheetGrabbed;
 
     #endregion
 
@@ -371,6 +277,8 @@ public class GameManager : MonoBehaviour
 
 #endregion
 
+
+    public void SetFinishedLoops(bool finished) => finishedLoops = finished;
     public bool GetToggleSprint() => toggleSprint;
     public void SetToggleSprint(bool sprintToggle) => toggleSprint = sprintToggle;
 }

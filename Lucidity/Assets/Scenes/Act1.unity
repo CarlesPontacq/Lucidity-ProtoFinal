@@ -5715,7 +5715,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashObjectPrefab: {fileID: 1822227943412310092, guid: 3e17dcd6bbc492a439f25ec5f8d91356, type: 3}
   loopManager: {fileID: 1146919884}
-  playerInventory: {fileID: 2010698535}
   doorsOpeningDelay: 0.5
   doorsToOpen:
   - {fileID: 1533982347}
@@ -8115,7 +8114,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hintPosition: {fileID: 1352390309}
-  playerInventory: {fileID: 2010698535}
 --- !u!1 &1306155747
 GameObject:
   m_ObjectHideFlags: 0
@@ -9187,7 +9185,6 @@ MonoBehaviour:
   enemySpawner: {fileID: 318053360}
   enemySpawnProbability: 0.6
   stunUnlockSpawnDelay: 1.5
-  playerInventory: {fileID: 2010698535}
   autoStartOnBegin: 0
 --- !u!4 &1423677013
 Transform:
@@ -11402,7 +11399,6 @@ MonoBehaviour:
   - {fileID: 1735276961}
   playerBody: {fileID: 985145223}
   playerSpawnTag: PlayerSpawn
-  playerInventory: {fileID: 2010698535}
   deathCooldown: 0.35
   forcePlayerLayer: -1
   lastLoop: 4
@@ -12807,7 +12803,7 @@ GameObject:
   - component: {fileID: 2010698534}
   - component: {fileID: 2010698535}
   m_Layer: 0
-  m_Name: PlayerInventory
+  m_Name: GrabHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12842,6 +12838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startWithCamera: 1
   startWithReportSheet: 1
+  cameraRotation: {fileID: 1928008041}
   cameraManager: {fileID: 1415356122}
   cameraFunctionality: {fileID: 1154273966}
   reportSheet: {fileID: 550493949}

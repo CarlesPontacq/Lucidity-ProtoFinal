@@ -8,6 +8,7 @@ public class GrabHandler : MonoBehaviour
     public bool startWithReportSheet = false;
 
     [Header("External References")]
+    [SerializeField] private CameraRotation cameraRotation;
     [SerializeField] private CameraManager cameraManager;
     [SerializeField] private CameraFunctionality cameraFunctionality;
     [SerializeField] private ReportSheetOverlayUI reportSheet;
@@ -83,10 +84,10 @@ public class GrabHandler : MonoBehaviour
     public void GunGrabbed()
     {
         gunGrabbed = true;
-        //finishedLoops = true;
+        GameManager.Instance.SetFinishedLoops(true);
 
-        //SetPlayerControlEnabled(false);
-        //cameraRotation.SetControlEnabled(false);
+        GameManager.Instance.SetPlayerControlEnabled(false);
+        cameraRotation.SetControlEnabled(false);
 
         StartCoroutine(sceneTransition.PlayTransition());
     }

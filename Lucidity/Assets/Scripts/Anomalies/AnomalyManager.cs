@@ -24,14 +24,11 @@ public class AnomalyManager : MonoBehaviour
     }
 
     [SerializeField] private List<Entry> entries = new();
-
-    // Instancias vivas del loop
+    
     private readonly List<Anomaly> spawnedThisLoop = new();
-
-    // Documentadas
+    
     private readonly HashSet<string> documentedAnomalies = new();
 
-    // Número de entries configuradas
     public int EntryCount => entries != null ? entries.Count : 0;
 
     [Header("Loop Selection")]
@@ -77,7 +74,7 @@ public class AnomalyManager : MonoBehaviour
     {
         Debug.Log($"[AnomalyManager {GetInstanceID()}] Start() called. EntryCount={EntryCount}");
 
-        GameManager.Instance.OnStunUnlocked += HandleStunUnlocked;
+        GameManager.GrabHandlerRef.OnStunUnlocked += HandleStunUnlocked;
 
         if (autoStartOnBegin)
             StartNewLoop();
@@ -92,7 +89,7 @@ public class AnomalyManager : MonoBehaviour
         documentedAnomalies.Clear();
         ClearSpawned();
 
-        int currentLoop = GameManager.Instance.GetCurrentLoop();
+        int currentLoop = GameManager.Instance.GetCurrentLoopIndex();
         currentLoop--;
         if(currentLoop < scriptedLoopsAnomalies.Count)
         {
@@ -240,7 +237,7 @@ public class AnomalyManager : MonoBehaviour
         {
             ExpectedAnomaliesThisLoop++;
 
-            if (GameManager.Instance.HasUnlockedStun())
+            if (GameManager.GrabHandlerRef.HasUnlockedStun())
             {
                 Debug.Log("[AnomalyManager] Enemy spawning normally");
 
@@ -326,7 +323,7 @@ public class AnomalyManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (GameManager.Instance != null)
-            GameManager.Instance.OnStunUnlocked -= HandleStunUnlocked;
+        if (GameManager.GrabHandlerRef != null)
+            GameManager.GrabHandlerRef.OnStunUnlocked -= HandleStunUnlocked;
     }
 }

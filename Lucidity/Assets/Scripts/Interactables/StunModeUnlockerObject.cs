@@ -9,7 +9,7 @@ public class StunModeUnlockerObject : ObjectInteraction
     public override void Interact()
     {
         SFXManager.Instance.PlayGlobalSound(grabFlashSFX, grabFlashVolumeSFX);
-        GameManager.Instance.StunModeUnlockerGrabbed(itemData);
+        GameManager.GrabHandlerRef.StunModeUnlockerGrabbed(itemData);
         Destroy(gameObject);
     }
 }

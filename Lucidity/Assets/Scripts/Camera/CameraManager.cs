@@ -117,7 +117,7 @@ public class CameraManager : MonoBehaviour
         ui.ShowCameraAspect(true);
         InteractionFeedback.Instance.HideInteractHint();
 
-        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        GameManager.GrabHandlerRef.SetHandsWithCameraVisibility(!lookingThroughCamera);
         isTransitioning = false;
     }
 
@@ -132,7 +132,7 @@ public class CameraManager : MonoBehaviour
 
         ui.ShowCameraAspect(false);
 
-        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        GameManager.GrabHandlerRef.SetHandsWithCameraVisibility(!lookingThroughCamera);
         isTransitioning = false;
     }
     #endregion

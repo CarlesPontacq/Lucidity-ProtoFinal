@@ -8,9 +8,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
+    public static GrabHandler GrabHandlerRef { get; private set; }
 
-    public event Action OnCameraTaken;
-    public event Action OnReportSheetTaken;
+    //public event Action OnCameraTaken;
+    //public event Action OnReportSheetTaken;
+    //public event Action OnStunUnlocked;
 
 
     [Header("Player settings")]
@@ -36,13 +38,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string playerSpawnTag = "PlayerSpawn";
 
     [Header("Pickups / Systems")]
-    public bool startWithCamera = false;
-    public bool startWithReportSheet = false;
-    [SerializeField] private CameraManager cameraManager;
-    [SerializeField] private CameraFunctionality cameraFunctionality;
-    [SerializeField] private ReportSheetOverlayUI reportSheet;
-    [SerializeField] private ItemInfoOverlay itemInfoOverlay;
-    [SerializeField] private PlayerArmsAnimationController handsWithCamera;
+    //public bool startWithCamera = false;
+    //public bool startWithReportSheet = false;
+    //[SerializeField] private CameraManager cameraManager;
+    //[SerializeField] private CameraFunctionality cameraFunctionality;
+    //[SerializeField] private ReportSheetOverlayUI reportSheet;
+    //[SerializeField] private ItemInfoOverlay itemInfoOverlay;
+    //[SerializeField] private PlayerArmsAnimationController handsWithCamera;
 
     [Header("Death Safety")]
     [SerializeField] private float deathCooldown = 0.35f;
@@ -61,20 +63,16 @@ public class GameManager : MonoBehaviour
     public bool isDying = false;
     private float nextAllowedDeathTime = 0f;
 
-    private bool cameraGrabbed = false;
-    private bool stunModeUnlockerGrabbed = false;
-    private bool reportSheetGrabbed = false;
-    private bool gunGrabbed = false;
+    //private bool cameraGrabbed = false;
+    //private bool stunModeUnlockerGrabbed = false;
+    //private bool reportSheetGrabbed = false;
+    //private bool gunGrabbed = false;
     public bool finishedLoops = false;
 
-    public event Action OnStunUnlocked;
 
     private void Awake()
     {
-        if(PlayerRef == null)
-        {
-            PlayerRef = GameObject.FindGameObjectWithTag("Player");
-        }
+        SetUpReferences();
 
         if (Instance == null)
         {
@@ -89,6 +87,19 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void SetUpReferences()
+    {
+        if (PlayerRef == null)
+        {
+            PlayerRef = GameObject.FindGameObjectWithTag("Player");
+        }
+
+        if(GrabHandlerRef  == null)
+        {
+            GrabHandlerRef = FindAnyObjectByType<GrabHandler>();
+        }
+    }
+
     private void Start()
     {
         CachePlayerRoot();
@@ -96,26 +107,7 @@ public class GameManager : MonoBehaviour
         SetPlayerControlEnabled(true);
         finishedLoops = false;
 
-        SetHandsWithCameraVisibility(false);
-
-        if (startWithCamera)
-        {
-            cameraGrabbed = true;
-
-            if (cameraFunctionality != null)
-                cameraFunctionality.isUnlocked = true;
-
-            if (cameraManager != null)
-                cameraManager.SetFunctionality(cameraFunctionality);
-
-            SetHandsWithCameraVisibility(true);
-        }
-
-        if (startWithReportSheet)
-        {
-            reportSheetGrabbed = true;
-            reportSheet.Grab();
-        }
+        //playerInventory.StartSetUp();
     }
 
     private void SetUpCharacterOnNewScene()
@@ -184,78 +176,79 @@ public class GameManager : MonoBehaviour
 
     #region Pickups
 
-    public void CameraGrabbed(ItemData itemData)
-    {
-        cameraGrabbed = true;
+    //public void CameraGrabbed(ItemData itemData)
+    //{
+    //    cameraGrabbed = true;
 
-        if (cameraFunctionality != null)
-            cameraFunctionality.isUnlocked = true;
+    //    if (cameraFunctionality != null)
+    //        cameraFunctionality.isUnlocked = true;
 
-        if (itemInfoOverlay != null)
-            itemInfoOverlay.OpenInfo(itemData);
+    //    if (itemInfoOverlay != null)
+    //        itemInfoOverlay.OpenInfo(itemData);
 
-        if (cameraManager != null)
-            cameraManager.SetFunctionality(cameraFunctionality);
+    //    if (cameraManager != null)
+    //        cameraManager.SetFunctionality(cameraFunctionality);
 
-        SetHandsWithCameraVisibility(true);
+    //    SetHandsWithCameraVisibility(true);
 
-        OnCameraTaken?.Invoke();
-    }
+    //    OnCameraTaken?.Invoke();
+    //}
 
-    public void ReportSheetGrabbed(ItemData itemData)
-    {
-        reportSheetGrabbed = true;
+    //public void ReportSheetGrabbed(ItemData itemData)
+    //{
+    //    reportSheetGrabbed = true;
 
-        if (reportSheet != null)
-            reportSheet.Grab();
+    //    if (reportSheet != null)
+    //        reportSheet.Grab();
 
-        if (itemInfoOverlay != null)
-            itemInfoOverlay.OpenInfo(itemData);
+    //    if (itemInfoOverlay != null)
+    //        itemInfoOverlay.OpenInfo(itemData);
 
-        OnReportSheetTaken?.Invoke();
-    }
+    //    OnReportSheetTaken?.Invoke();
+    //}
 
-    public void GunGrabbed()
-    {
-        gunGrabbed = true;
-        finishedLoops = true;
+    //public void GunGrabbed()
+    //{
+    //    gunGrabbed = true;
+    //    finishedLoops = true;
 
-        SetPlayerControlEnabled(false);
-        cameraRotation.SetControlEnabled(false);
+    //    SetPlayerControlEnabled(false);
+    //    cameraRotation.SetControlEnabled(false);
 
-        StartCoroutine(sceneTransition.PlayTransition());
-    }
+    //    StartCoroutine(sceneTransition.PlayTransition());
+    //}
 
-    public void StunModeUnlockerGrabbed(ItemData itemData)
-    {
-        stunModeUnlockerGrabbed = true;
+    //public void StunModeUnlockerGrabbed(ItemData itemData)
+    //{
+    //    stunModeUnlockerGrabbed = true;
 
-        if (cameraManager != null)
-            cameraManager.OnGrabbedFlash();
+    //    if (cameraManager != null)
+    //        cameraManager.OnGrabbedFlash();
 
-        if (itemInfoOverlay != null)
-            itemInfoOverlay.OpenInfo(itemData);
+    //    if (itemInfoOverlay != null)
+    //        itemInfoOverlay.OpenInfo(itemData);
 
-        OnStunUnlocked?.Invoke();
-    }
+    //    OnStunUnlocked?.Invoke();
+    //}
 
-    public bool HasUnlockedStun() => stunModeUnlockerGrabbed;
 
-    public void SetHandsWithCameraVisibility(bool visibility)
-    {
-        if (handsWithCamera == null) return;
+    //public void SetHandsWithCameraVisibility(bool visibility)
+    //{
+    //    if (handsWithCamera == null) return;
 
-        if (visibility)
-            handsWithCamera.ShowArms();
-        else
-            handsWithCamera.HideArms();
-    }
+    //    if (visibility)
+    //        handsWithCamera.ShowArms();
+    //    else
+    //        handsWithCamera.HideArms();
+    //}
+
+    //public bool HasUnlockedStun() => stunModeUnlockerGrabbed;
+    //public bool GetCameraGrabbed() => cameraGrabbed;
+    //public bool GetReportSheetGrabbed() => reportSheetGrabbed;
 
     #endregion
 
-    // ===============================
-    // DEATH SYSTEM
-    // ===============================
+    #region PlayerDeath
 
     public void PlayerDied()
     {
@@ -376,10 +369,8 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-    public bool GetCameraGrabbed() => cameraGrabbed;
+#endregion
 
-    public int GetCurrentLoop() => currentLoop;
-    public bool GetReportSheetGrabbed() => reportSheetGrabbed;
     public bool GetToggleSprint() => toggleSprint;
     public void SetToggleSprint(bool sprintToggle) => toggleSprint = sprintToggle;
 }

@@ -10,7 +10,7 @@ public class CameraObject : ObjectInteraction
     public override void Interact()
     {
         SFXManager.Instance.PlayGlobalSound(grabCameraSFX, grabCameraVolumeSFX);
-        GameManager.Instance.CameraGrabbed(itemData);
+        GameManager.GrabHandlerRef.CameraGrabbed(itemData);
         Destroy(gameObject);
     }
 }

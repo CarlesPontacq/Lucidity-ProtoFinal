@@ -383,6 +383,58 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4895994334007429397, guid: dffbc9bc26cc57a43aacc6f2bc7b3f9a, type: 3}
   m_PrefabInstance: {fileID: 17976405}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &23038249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 23038250}
+  - component: {fileID: 23038251}
+  m_Layer: 0
+  m_Name: PlayerInventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &23038250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23038249}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 807779994}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &23038251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23038249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6557a9f0642c5c94287e71095da52d59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWithCamera: 0
+  startWithReportSheet: 0
+  cameraManager: {fileID: 281296273}
+  cameraFunctionality: {fileID: 2125485322}
+  reportSheet: {fileID: 1024894407}
+  itemInfoOverlay: {fileID: 1101621661}
+  handsWithCamera: {fileID: 1125481048}
+  sceneTransition: {fileID: 0}
 --- !u!4 &42013065 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9024575345706392717, guid: f03b6b704f9608b4689b7e2b1fbf3419, type: 3}
@@ -3193,13 +3245,6 @@ MonoBehaviour:
   - {fileID: 281296270}
   playerBody: {fileID: 1937983210}
   playerSpawnTag: PlayerSpawn
-  startWithCamera: 0
-  startWithReportSheet: 0
-  cameraManager: {fileID: 281296273}
-  cameraFunctionality: {fileID: 2125485322}
-  reportSheet: {fileID: 1024894407}
-  itemInfoOverlay: {fileID: 1101621661}
-  handsWithCamera: {fileID: 1125481048}
   deathCooldown: 0.35
   forcePlayerLayer: -1
   lastLoop: 4
@@ -5442,6 +5487,7 @@ Transform:
   - {fileID: 226654001}
   - {fileID: 961099854}
   - {fileID: 503176625}
+  - {fileID: 23038250}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &812132026

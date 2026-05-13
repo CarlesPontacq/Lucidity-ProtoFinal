@@ -53,7 +53,7 @@ public class TutorialPopUps : MonoBehaviour
 
     private void SetupCameraTutorial()
     {
-        GameManager.Instance.OnCameraTaken += StartCameraTutorial;
+        GameManager.GrabHandlerRef.OnCameraTaken += StartCameraTutorial;
     }
 
     private void StartCameraTutorial()
@@ -78,7 +78,7 @@ public class TutorialPopUps : MonoBehaviour
 
     private void SetupReportTutorial()
     {
-        GameManager.Instance.OnReportSheetTaken += StartReportTutorial;
+        GameManager.GrabHandlerRef.OnReportSheetTaken += StartReportTutorial;
     }
 
     private void StartReportTutorial()

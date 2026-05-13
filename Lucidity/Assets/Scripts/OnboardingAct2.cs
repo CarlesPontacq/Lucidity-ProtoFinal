@@ -23,7 +23,7 @@ public class OnboardingAct2 : MonoBehaviour
     private void Start()
     {
         LoopManager.OnLoopStarted += HandleObjectSpawning;
-        GameManager.Instance.OnStunUnlocked += HandleStunUnlocked;
+        GameManager.GrabHandlerRef.OnStunUnlocked += HandleStunUnlocked;
 
         originalMaxReels = cameraFunctionality.maxReels;
         cameraFunctionality.maxReels = 0;
@@ -66,6 +66,6 @@ public class OnboardingAct2 : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnStunUnlocked += HandleStunUnlocked;
+        GameManager.GrabHandlerRef.OnStunUnlocked += HandleStunUnlocked;
     }
 }

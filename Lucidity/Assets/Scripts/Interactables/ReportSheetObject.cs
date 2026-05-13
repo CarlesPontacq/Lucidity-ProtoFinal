@@ -10,7 +10,7 @@ public class ReportSheetObject : ObjectInteraction
     public override void Interact()
     {
         SFXManager.Instance.PlayGlobalSound(grabReportSFX, grabReportVolumeSFX);
-        GameManager.Instance.ReportSheetGrabbed(itemData);
+        GameManager.GrabHandlerRef.ReportSheetGrabbed(itemData);
         Destroy(gameObject);
     }
 }

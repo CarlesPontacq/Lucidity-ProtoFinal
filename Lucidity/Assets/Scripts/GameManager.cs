@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
     public static GrabHandler GrabHandlerRef { get; private set; }
+    public static DeathHandler DeathHandlerRef { get; private set; }
 
     [Header("Player settings")]
     [SerializeField] private bool toggleSprint;
@@ -17,27 +18,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LoopCounter loopCounterUI;
     [SerializeField] private LoopManager loopManager;
 
-    [Header("Death FX")]
-    [SerializeField] private DeathCameraEffect deathEffect;
+    //[Header("Death FX")]
+    //[SerializeField] private DeathCameraEffect deathEffect;
 
-    [Header("Scene Transition")]
-    [SerializeField] private TransitionToAct3 sceneTransition;
+    //[Header("Disable while dead (NO metas Rigidbody/Colliders aquí)")]
+    //[SerializeField] private MonoBehaviour[] disableOnDeath;
 
-    [Header("Disable while dead (NO metas Rigidbody/Colliders aquí)")]
-    [SerializeField] private MonoBehaviour[] disableOnDeath;
+    //[Header("Player Visuals")]
+    //[SerializeField] private GameObject playerBody;
 
-    [Header("Player Visuals")]
-    [SerializeField] private GameObject playerBody;
+    //[Header("Spawn")]
+    //[SerializeField] private string playerSpawnTag = "PlayerSpawn";
 
-    [Header("Spawn")]
-    [SerializeField] private string playerSpawnTag = "PlayerSpawn";
+    //[Header("Death Safety")]
+    //[SerializeField] private float deathCooldown = 0.35f;
 
-    [Header("Death Safety")]
-    [SerializeField] private float deathCooldown = 0.35f;
-
-    [Header("Physics Safety")]
-    [Tooltip("Layer que debe tener el Player root tras respawn (opcional). Déjalo en -1 para no tocar layer.")]
-    [SerializeField] private int forcePlayerLayer = -1;
+    //[Header("Physics Safety")]
+    //[Tooltip("Layer que debe tener el Player root tras respawn (opcional). Déjalo en -1 para no tocar layer.")]
+    //[SerializeField] private int forcePlayerLayer = -1;
 
     [Header("Exit Loop")]
     [SerializeField] private int lastLoop = 8;
@@ -46,8 +44,8 @@ public class GameManager : MonoBehaviour
 
     private int currentLoop = 0;
     private int minLoop = 1;
-    public bool isDying = false;
-    private float nextAllowedDeathTime = 0f;
+    //public bool isDying = false;
+    //private float nextAllowedDeathTime = 0f;
 
     public bool finishedLoops = false;
 
@@ -71,14 +69,16 @@ public class GameManager : MonoBehaviour
 
     private void SetUpReferences()
     {
-        if (PlayerRef == null)
-        {
-            PlayerRef = GameObject.FindGameObjectWithTag("Player");
-        }
+        CachePlayerRoot();
 
         if(GrabHandlerRef  == null)
         {
             GrabHandlerRef = FindAnyObjectByType<GrabHandler>();
+        }
+
+        if (DeathHandlerRef == null)
+        {
+            DeathHandlerRef = FindAnyObjectByType<DeathHandler>();
         }
     }
 
@@ -86,14 +86,14 @@ public class GameManager : MonoBehaviour
     {
         CachePlayerRoot();
         cameraRotation.SetControlEnabled(true);
-        SetPlayerControlEnabled(true);
+        //SetPlayerControlEnabled(true);
         finishedLoops = false;
     }
 
     private void SetUpCharacterOnNewScene()
     {
         cameraRotation.SetControlEnabled(true);
-        SetPlayerControlEnabled(true);
+        //SetPlayerControlEnabled(true);
         finishedLoops = false;
     }
 
@@ -103,9 +103,6 @@ public class GameManager : MonoBehaviour
         if (pm != null)
         {
             PlayerRef = pm.gameObject;
-
-            if (deathEffect == null)
-                deathEffect = PlayerRef.GetComponentInChildren<DeathCameraEffect>(true);
 
             Debug.Log($"[GM] PlayerRef = {PlayerRef.name}");
         }
@@ -156,124 +153,124 @@ public class GameManager : MonoBehaviour
 
     #region PlayerDeath
 
-    public void PlayerDied()
-    {
-        if (CheatsManager.Instance != null && CheatsManager.Instance.currentlyImmortal) return;
-        if (isDying) return;
-        if (Time.time < nextAllowedDeathTime) return;
+    //public void PlayerDied()
+    //{
+    //    if (CheatsManager.Instance != null && CheatsManager.Instance.currentlyImmortal) return;
+    //    if (isDying) return;
+    //    if (Time.time < nextAllowedDeathTime) return;
 
-        nextAllowedDeathTime = Time.time + deathCooldown;
+    //    nextAllowedDeathTime = Time.time + deathCooldown;
 
-        if (PlayerRef == null)
-            CachePlayerRoot();
+    //    if (PlayerRef == null)
+    //        CachePlayerRoot();
 
-        StartCoroutine(DeathRoutine());
-    }
+    //    StartCoroutine(DeathRoutine());
+    //}
 
-    private IEnumerator DeathRoutine()
-    {
-        isDying = true;
+    //private IEnumerator DeathRoutine()
+    //{
+    //    isDying = true;
 
-        Time.timeScale = 1f;
+    //    Time.timeScale = 1f;
 
-        SetPlayerControlEnabled(false);
+    //    SetPlayerControlEnabled(false);
 
-        // Ocultar body
-        SetPlayerBodyVisible(false);
-        cameraRotation.SetControlEnabled(false);
+    //    // Ocultar body
+    //    SetPlayerBodyVisible(false);
+    //    cameraRotation.SetControlEnabled(false);
 
-        // Animación de muerte
-        if (deathEffect != null)
-            yield return deathEffect.PlayDeathSequence();
-        else
-            yield return new WaitForSecondsRealtime(5f);
+    //    // Animación de muerte
+    //    if (deathEffect != null)
+    //        yield return deathEffect.PlayDeathSequence();
+    //    else
+    //        yield return new WaitForSecondsRealtime(5f);
 
-        // Reset loops
-        SubtractLoopToCount();
-        if (loopManager != null)
-            loopManager.StartLoopFresh();
+    //    // Reset loops
+    //    SubtractLoopToCount();
+    //    if (loopManager != null)
+    //        loopManager.StartLoopFresh();
 
-        yield return TeleportAndRearmPhysics();
+    //    yield return TeleportAndRearmPhysics();
 
-        if (deathEffect != null)
-        {
-            deathEffect.ClearOverlays();
-            deathEffect.RestoreAfterRespawn();
-        }
+    //    if (deathEffect != null)
+    //    {
+    //        deathEffect.ClearOverlays();
+    //        deathEffect.RestoreAfterRespawn();
+    //    }
 
-        SetPlayerBodyVisible(true);
-        cameraRotation.SetControlEnabled(true);
-        cameraRotation.ResetOrientation();
+    //    SetPlayerBodyVisible(true);
+    //    cameraRotation.SetControlEnabled(true);
+    //    cameraRotation.ResetOrientation();
 
-        SetPlayerControlEnabled(true);
+    //    SetPlayerControlEnabled(true);
 
-        var deathTouch = PlayerRef.GetComponentInChildren<PlayerDeathOnEnemyTouch>(true);
-        if (deathTouch != null)
-            deathTouch.ResetDeathTrigger();
+    //    var deathTouch = PlayerRef.GetComponentInChildren<PlayerDeathOnEnemyTouch>(true);
+    //    if (deathTouch != null)
+    //        deathTouch.ResetDeathTrigger();
 
-        isDying = false;
-    }
+    //    isDying = false;
+    //}
 
-    public void SetPlayerControlEnabled(bool enabled)
-    {
-        if (disableOnDeath == null) return;
+    //public void SetPlayerControlEnabled(bool enabled)
+    //{
+    //    if (disableOnDeath == null) return;
 
-        for (int i = 0; i < disableOnDeath.Length; i++)
-            if (disableOnDeath[i] != null)
-                disableOnDeath[i].enabled = enabled;
-    }
+    //    for (int i = 0; i < disableOnDeath.Length; i++)
+    //        if (disableOnDeath[i] != null)
+    //            disableOnDeath[i].enabled = enabled;
+    //}
 
-    private void SetPlayerBodyVisible(bool visible)
-    {
-        if (playerBody == null) return;
+    //private void SetPlayerBodyVisible(bool visible)
+    //{
+    //    if (playerBody == null) return;
 
-        Renderer[] renderers = playerBody.GetComponentsInChildren<Renderer>(true);
-        for (int i = 0; i < renderers.Length; i++)
-            renderers[i].enabled = visible;
-    }
+    //    Renderer[] renderers = playerBody.GetComponentsInChildren<Renderer>(true);
+    //    for (int i = 0; i < renderers.Length; i++)
+    //        renderers[i].enabled = visible;
+    //}
 
-    private IEnumerator TeleportAndRearmPhysics()
-    {
-        if (PlayerRef == null) yield break;
+    //private IEnumerator TeleportAndRearmPhysics()
+    //{
+    //    if (PlayerRef == null) yield break;
 
-        GameObject sp = GameObject.FindGameObjectWithTag(playerSpawnTag);
-        if (sp == null)
-        {
-            Debug.LogWarning($"No hay objeto con tag {playerSpawnTag}.");
-            yield break;
-        }
+    //    GameObject sp = GameObject.FindGameObjectWithTag(playerSpawnTag);
+    //    if (sp == null)
+    //    {
+    //        Debug.LogWarning($"No hay objeto con tag {playerSpawnTag}.");
+    //        yield break;
+    //    }
 
-        Transform spawn = sp.transform;
+    //    Transform spawn = sp.transform;
 
-        var cols = PlayerRef.GetComponentsInChildren<Collider>(true);
-        foreach (var col in cols)
-            col.enabled = true;
+    //    var cols = PlayerRef.GetComponentsInChildren<Collider>(true);
+    //    foreach (var col in cols)
+    //        col.enabled = true;
 
-        Rigidbody rb = PlayerRef.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = false;
-            rb.detectCollisions = true;
-            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-            rb.interpolation = RigidbodyInterpolation.Interpolate;
+    //    Rigidbody rb = PlayerRef.GetComponent<Rigidbody>();
+    //    if (rb != null)
+    //    {
+    //        rb.isKinematic = false;
+    //        rb.detectCollisions = true;
+    //        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+    //        rb.interpolation = RigidbodyInterpolation.Interpolate;
 
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+    //        rb.linearVelocity = Vector3.zero;
+    //        rb.angularVelocity = Vector3.zero;
 
-            rb.position = spawn.position;
-            rb.rotation = spawn.rotation;
+    //        rb.position = spawn.position;
+    //        rb.rotation = spawn.rotation;
 
-            rb.WakeUp();
-        }
-        else
-        {
-            PlayerRef.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
-        }
+    //        rb.WakeUp();
+    //    }
+    //    else
+    //    {
+    //        PlayerRef.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
+    //    }
 
-        Physics.SyncTransforms();
+    //    Physics.SyncTransforms();
 
-        yield return null;
-    }
+    //    yield return null;
+    //}
 
 #endregion
 

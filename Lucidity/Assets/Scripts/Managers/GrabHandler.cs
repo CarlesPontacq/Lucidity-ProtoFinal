@@ -86,7 +86,7 @@ public class GrabHandler : MonoBehaviour
         gunGrabbed = true;
         GameManager.Instance.SetFinishedLoops(true);
 
-        GameManager.Instance.SetPlayerControlEnabled(false);
+        GameManager.DeathHandlerRef.SetPlayerControlEnabled(false);
         cameraRotation.SetControlEnabled(false);
 
         StartCoroutine(sceneTransition.PlayTransition());

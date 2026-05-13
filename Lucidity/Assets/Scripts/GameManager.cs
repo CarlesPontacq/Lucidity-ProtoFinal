@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
+    public static PlayerInputObserver PlayerInput { get; private set; }
 
     public event Action OnCameraTaken;
     public event Action OnReportSheetTaken;
@@ -74,6 +75,7 @@ public class GameManager : MonoBehaviour
         if(PlayerRef == null)
         {
             PlayerRef = GameObject.FindGameObjectWithTag("Player");
+            PlayerInput = PlayerRef.GetComponent<PlayerInputObserver>();
         }
 
         if (Instance == null)
@@ -322,6 +324,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < disableOnDeath.Length; i++)
             if (disableOnDeath[i] != null)
                 disableOnDeath[i].enabled = enabled;
+
+        PlayerInput.enabled = false;
     }
 
     private void SetPlayerBodyVisible(bool visible)

@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public abstract class SceneTransition : MonoBehaviour
 {
-    [SerializeField] private CameraRotation cameraRotation;
     [SerializeField] private Image blackFadeImage;
     [SerializeField] protected float fadeDuration = 1f;
 
@@ -38,7 +37,6 @@ public abstract class SceneTransition : MonoBehaviour
     protected void DisablePlayer()
     {
         GameManager.Instance.SetPlayerControlEnabled(false);
-        cameraRotation.SetControlEnabled(false);
     }
 
     protected void PlaySound(string id, float volume = 1f)

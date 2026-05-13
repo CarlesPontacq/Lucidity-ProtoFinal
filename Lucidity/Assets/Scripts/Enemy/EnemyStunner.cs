@@ -74,9 +74,22 @@ public class EnemyStunner : MonoBehaviour, IStunnable
 
         if (stunParticles != null)
         {
+            Debug.Log("[EnemyStunner] Play particles: " + stunParticles.name);
+
             stunParticles.gameObject.SetActive(true);
             stunParticles.transform.SetParent(null, true);
+            stunParticles.transform.position = transform.position + Vector3.up * 1f;
+
+            stunParticles.Clear(true);
+            stunParticles.Emit(300);
             stunParticles.Play(true);
+
+            Destroy(stunParticles.gameObject, 3f);
+        }
+        else
+
+        {
+            Debug.LogWarning("[EnemyStunner] stunParticles es NULL");
         }
 
         float t = 0f;

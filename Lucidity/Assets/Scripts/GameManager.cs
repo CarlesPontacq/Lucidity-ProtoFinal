@@ -3,11 +3,14 @@ using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
+    public static PlayerInput PlayerInput { get; private set; }
 
     public event Action OnCameraTaken;
     public event Action OnReportSheetTaken;
@@ -71,22 +74,25 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(PlayerRef == null)
-        {
-            PlayerRef = GameObject.FindGameObjectWithTag("Player");
-        }
-
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             SetUpCharacterOnNewScene();
             Destroy(gameObject);
         }
+    }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlayerRef = GameObject.FindGameObjectWithTag("Player");
+        PlayerInput = FindFirstObjectByType<PlayerInput>();
+        PlayerInput[] inputs = FindObjectsByType<PlayerInput>(FindObjectsSortMode.None);
     }
 
     private void Start()
@@ -322,6 +328,11 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < disableOnDeath.Length; i++)
             if (disableOnDeath[i] != null)
                 disableOnDeath[i].enabled = enabled;
+
+        if (enabled)
+            PlayerInput.ActivateInput();
+        else
+            PlayerInput.DeactivateInput();
     }
 
     private void SetPlayerBodyVisible(bool visible)

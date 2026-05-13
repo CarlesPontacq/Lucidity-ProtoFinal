@@ -9,10 +9,8 @@ public class DeathHandler : MonoBehaviour
     [SerializeField] private CameraRotation cameraRotation;
     [SerializeField] private LoopManager loopManager;
 
-    [Header("Disable while dead (NO metas Rigidbody/Colliders aquí)")]
+    [Header("Disable components")]
     [SerializeField] private MonoBehaviour[] disableOnDeath;
-
-    [Header("Player Visuals")]
     [SerializeField] private GameObject playerBody;
 
     [Header("Spawn")]
@@ -23,7 +21,6 @@ public class DeathHandler : MonoBehaviour
 
     [Header("Physics Safety")]
     [Tooltip("Layer que debe tener el Player root tras respawn (opcional). Déjalo en -1 para no tocar layer.")]
-    [SerializeField] private int forcePlayerLayer = -1;
 
     public bool isDying = false;
     private float nextAllowedDeathTime = 0f;

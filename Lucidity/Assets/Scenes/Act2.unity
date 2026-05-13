@@ -3239,18 +3239,8 @@ MonoBehaviour:
   toggleSprint: 0
   loopCounterUI: {fileID: 4804982792918676206}
   loopManager: {fileID: 806857064}
-  deathEffect: {fileID: 281296274}
-  sceneTransition: {fileID: 0}
-  disableOnDeath:
-  - {fileID: 1937983212}
-  - {fileID: 281296270}
-  playerBody: {fileID: 1937983210}
-  playerSpawnTag: PlayerSpawn
-  deathCooldown: 0.35
-  forcePlayerLayer: -1
   lastLoop: 4
   cameraRotation: {fileID: 281296276}
-  isDying: 0
   finishedLoops: 0
 --- !u!4 &564581947
 Transform:
@@ -5489,6 +5479,7 @@ Transform:
   - {fileID: 961099854}
   - {fileID: 503176625}
   - {fileID: 23038250}
+  - {fileID: 1981636630}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &812132026
@@ -11514,6 +11505,60 @@ CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 3090440918093045446, guid: d8d7d2f372568654b88614a37b3e7763, type: 3}
   m_PrefabInstance: {fileID: 1937983205}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1981636629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1981636630}
+  - component: {fileID: 1981636631}
+  m_Layer: 0
+  m_Name: DeathHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1981636630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981636629}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 807779994}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1981636631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981636629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8272be8b41b6014aa32d41a4de5fa3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathEffect: {fileID: 281296274}
+  cameraRotation: {fileID: 281296276}
+  loopManager: {fileID: 806857064}
+  disableOnDeath:
+  - {fileID: 281296270}
+  - {fileID: 1937983212}
+  playerBody: {fileID: 1937983210}
+  playerSpawnTag: PlayerSpawn
+  deathCooldown: 0.35
+  isDying: 0
 --- !u!1 &1998281639 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6482740584489384410, guid: 216299c732c5b2c49b1de9796b2266fd, type: 3}

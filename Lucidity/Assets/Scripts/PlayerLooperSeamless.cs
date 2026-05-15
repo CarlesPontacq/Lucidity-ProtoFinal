@@ -12,7 +12,7 @@ public class PlayerLooperSeamless : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            if (GameManager.Instance.finishedLoops)
+            if (GameManager.LoopManagerRef.GetFinishedLoops())
                 return;
 
             SetPlayerLoopPositionPosition();
@@ -28,6 +28,6 @@ public class PlayerLooperSeamless : MonoBehaviour
         if (playerCameraRotationRef != null)
             playerCameraRotationRef.ApplyRotationOffset(relativeRotation);
 
-        GameManager.Instance.OnExitDoorCrossed();
+        GameManager.LoopManagerRef.OnExitDoorCrossed();
     }
 }

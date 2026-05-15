@@ -4,7 +4,7 @@ public class GunObject : ObjectInteraction
 {
     public override void Interact()
     {
-        GameManager.Instance.GunGrabbed();
+        GameManager.GrabHandlerRef.GunGrabbed();
         Destroy(gameObject);
     }
 }

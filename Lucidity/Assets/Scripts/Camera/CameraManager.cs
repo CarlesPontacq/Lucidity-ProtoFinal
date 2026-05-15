@@ -43,9 +43,10 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
+
         bool docOpen = ReportSheetOverlayUI.IsOpen;
 
-        if (docOpen && !lastDocOpen && lookingThroughCamera)
+        if ((docOpen && !lastDocOpen && lookingThroughCamera) || GameManager.DeathHandlerRef.isDying)
         {
             StopLookingThroughCamera();
             ui.ShowCameraFlash(false);
@@ -70,7 +71,7 @@ public class CameraManager : MonoBehaviour
     {
         if (functionality == null) return;
         if (ReportSheetOverlayUI.IsOpen || functionality.isPerformingAction) return;
-        if (isTransitioning) return;
+        if (isTransitioning || GameManager.DeathHandlerRef.isDying) return;
 
         isTransitioning = true;
         if (!lookingThroughCamera)
@@ -117,7 +118,7 @@ public class CameraManager : MonoBehaviour
         ui.ShowCameraAspect(true);
         InteractionFeedback.Instance.HideInteractHint();
 
-        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        GameManager.GrabHandlerRef.SetHandsWithCameraVisibility(!lookingThroughCamera);
         isTransitioning = false;
     }
 
@@ -132,7 +133,7 @@ public class CameraManager : MonoBehaviour
 
         ui.ShowCameraAspect(false);
 
-        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        GameManager.GrabHandlerRef.SetHandsWithCameraVisibility(!lookingThroughCamera);
         isTransitioning = false;
     }
     #endregion

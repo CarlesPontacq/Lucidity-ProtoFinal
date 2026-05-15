@@ -47,14 +47,14 @@ public class CheatsManager : MonoBehaviour
             if (Input.GetKeyDown(nextLoopKey))
             {
                 reportSheetScript.UnlockNextLoop(true);
-                GameManager.Instance.OnExitDoorCrossed();
+                GameManager.LoopManagerRef.OnExitDoorCrossed();
 
             }
 
             if (Input.GetKeyDown(restartLoopsKey))
             {
                 reportSheetScript.UnlockNextLoop(false);
-                GameManager.Instance.OnExitDoorCrossed();
+                GameManager.LoopManagerRef.OnExitDoorCrossed();
             }
 
             if (Input.GetKeyDown(openDoorKey))

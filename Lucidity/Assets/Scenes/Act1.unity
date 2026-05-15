@@ -1953,7 +1953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 251308553}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: ----------Managers----------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1984,6 +1984,8 @@ Transform:
   - {fileID: 771829876}
   - {fileID: 932480054}
   - {fileID: 2030286115}
+  - {fileID: 2010698534}
+  - {fileID: 2040899553}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &253131699
@@ -7176,6 +7178,8 @@ MonoBehaviour:
   - {fileID: 1326264524}
   - {fileID: 158081566}
   cameraFunctionality: {fileID: 1154273966}
+  loopCounterUI: {fileID: 1877356729}
+  lastLoop: 4
   exitBlocker: {fileID: 0}
   exitLamp: {fileID: 667022886}
   nextLoopCooldown: 0.25
@@ -8947,6 +8951,10 @@ PrefabInstance:
       propertyPath: input
       value: 
       objectReference: {fileID: 2076784865}
+    - target: {fileID: 8172359253978911886, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
+      propertyPath: playerInventory
+      value: 
+      objectReference: {fileID: 2010698535}
     - target: {fileID: 8572510722767480966, guid: 0e54ca28fd5884049b6a0b0adc386942, type: 3}
       propertyPath: uiCanvas
       value: 
@@ -11378,29 +11386,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2415b83343de44bb4e1776d5635a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraRotation: {fileID: 1928008041}
   toggleSprint: 0
-  loopCounterUI: {fileID: 1877356729}
-  loopManager: {fileID: 1146919884}
-  deathEffect: {fileID: 2063194142}
-  sceneTransition: {fileID: 2063194143}
-  disableOnDeath:
+  scriptsToDisble:
   - {fileID: 2076784877}
   - {fileID: 1735276961}
-  playerBody: {fileID: 985145223}
-  playerSpawnTag: PlayerSpawn
-  startWithCamera: 1
-  startWithReportSheet: 1
-  cameraManager: {fileID: 1415356122}
-  cameraFunctionality: {fileID: 1154273966}
-  reportSheet: {fileID: 550493949}
-  itemInfoOverlay: {fileID: 630035896}
-  handsWithCamera: {fileID: 1415356123}
-  deathCooldown: 0.35
-  forcePlayerLayer: -1
-  lastLoop: 4
-  cameraRotation: {fileID: 1928008041}
-  isDying: 0
-  finishedLoops: 0
 --- !u!4 &1758223932
 Transform:
   m_ObjectHideFlags: 0
@@ -12788,6 +12778,59 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &2010698533
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2010698534}
+  - component: {fileID: 2010698535}
+  m_Layer: 0
+  m_Name: GrabHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2010698534
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010698533}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 251308553}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2010698535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010698533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6557a9f0642c5c94287e71095da52d59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWithCamera: 1
+  startWithReportSheet: 1
+  cameraRotation: {fileID: 1928008041}
+  cameraManager: {fileID: 1415356122}
+  cameraFunctionality: {fileID: 1154273966}
+  reportSheet: {fileID: 550493949}
+  itemInfoOverlay: {fileID: 630035896}
+  handsWithCamera: {fileID: 1415356123}
+  sceneTransition: {fileID: 2063194143}
 --- !u!114 &2013992853 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1882348739406738567, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
@@ -12863,6 +12906,56 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: fe7e273350736374c9788d83ab50f361, type: 2}
   m_BuildHeightMesh: 0
+--- !u!1 &2040899552
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2040899553}
+  - component: {fileID: 2040899554}
+  m_Layer: 0
+  m_Name: DeathHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2040899553
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040899552}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 251308553}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2040899554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040899552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8272be8b41b6014aa32d41a4de5fa3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathEffect: {fileID: 2063194142}
+  cameraRotation: {fileID: 1928008041}
+  playerBody: {fileID: 985145223}
+  playerSpawn: {fileID: 1206500719}
+  deathCooldown: 0.35
+  isDying: 0
 --- !u!114 &2052968890 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7375034048739926501, guid: 57f05ef8e063cd844a886f51a30b3520, type: 3}
@@ -13129,7 +13222,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reportState: {fileID: 1758223928}
-  loopManager: {fileID: 1146919884}
 --- !u!65 &2128741194
 BoxCollider:
   m_ObjectHideFlags: 0

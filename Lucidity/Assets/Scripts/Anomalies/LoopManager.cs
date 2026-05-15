@@ -1,16 +1,26 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class LoopManager : MonoBehaviour
 {
     public static event Action<int> OnLoopStarted;
+
+    [Header("References")]
     [SerializeField] private AnomalyManager anomalyManager;
     [SerializeField] private ReportSheetOverlayUI reportSheetOverlayScript;
     [SerializeField] private ReportResultState reportState;
     [SerializeField] private DoorController exitDoor;
     [SerializeField] private List<ObjectInteraction> interactableObjects;
     [SerializeField] private CameraFunctionality cameraFunctionality;
+
+    [Header("Loop Config")]
+    [SerializeField] private LoopCounter loopCounterUI;
+    [SerializeField] private int lastLoop = 4;
+    private int currentLoop = 1;
+    private int minLoop = 1;
+    private bool finishedLoops = false;
 
     [Header("Optional")]
     [SerializeField] private ExitDoorBlocker exitBlocker;
@@ -23,12 +33,14 @@ public class LoopManager : MonoBehaviour
     [SerializeField] private EnemyLoopSpawner enemySpawner;
 
     private float nextAllowedTime = 0f;
+    private bool firstLoop = true;
 
     private void Start()
     {
         StartNextLoop();
     }
 
+    #region Loop Functionality
     public void StartNextLoop()
     {
         if (Time.unscaledTime < nextAllowedTime)
@@ -36,11 +48,10 @@ public class LoopManager : MonoBehaviour
 
         nextAllowedTime = Time.unscaledTime + nextLoopCooldown;
 
-        if(GameManager.Instance.GetCurrentLoopIndex() == 0)
+        if(firstLoop)
         {
-            Debug.Log("Loop 0 -> se avanza directamente");
-            GameManager.Instance.AddLoopToCount();
             StartLoopFresh();
+            firstLoop = false;
         }
 
         if (reportState != null && reportState.HasSubmittedReport)
@@ -48,12 +59,12 @@ public class LoopManager : MonoBehaviour
             if (reportState.WasCorrect)
             {
                 Debug.Log("Report correcto -> sumo loop");
-                GameManager.Instance.AddLoopToCount();
+                AddLoopToCount();
             }
             else
             {
                 Debug.Log("Report incorrecto -> reseteo loops");
-                GameManager.Instance.SubtractLoopToCount();
+                SubtractLoopToCount();
             }
             
             StartLoopFresh();
@@ -63,38 +74,6 @@ public class LoopManager : MonoBehaviour
             Debug.Log("Sin reporte enviado (primer loop o no firm�) -> no toco el contador");
         }
 
-    }
-
-    public void StartBaseLoop()
-    {
-        if (reportState != null)
-            reportState.ResetForNewLoop();
-
-        if (interactableObjects != null)
-        {
-            for (int i = 0; i < interactableObjects.Count; i++)
-            {
-                if (interactableObjects[i] != null)
-                    interactableObjects[i].ResetState();
-            }
-        }
-
-        if (cameraFunctionality != null)
-            cameraFunctionality.ResetReels();
-
-        if (exitLamp != null)
-            exitLamp.TurnOff();
-
-        if (anomalyManager != null)
-            anomalyManager.ClearSpawned();
-
-        if(enemySpawner != null)
-            enemySpawner.ResetCurrentLoopIndex();
-
-        if (exitDoor != null)
-        {
-            exitDoor.Unlock();        
-        }
     }
 
     public void StartLoopFresh()
@@ -137,6 +116,45 @@ public class LoopManager : MonoBehaviour
         else
             Debug.LogWarning("LoopManager: anomalyManager es null (no puedo spawnear anomal�as).");
 
-        OnLoopStarted?.Invoke(GameManager.Instance.GetCurrentLoopIndex());
+        OnLoopStarted?.Invoke(GetCurrentLoopIndex());
     }
+    #endregion
+
+    #region Loop Control
+    public void AddLoopToCount()
+    {
+        currentLoop++;
+        if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
+    }
+
+    public void HasFinishedLastLoop()
+    {
+        if (currentLoop >= lastLoop) finishedLoops = true;
+    }
+
+    public void SubtractLoopToCount()
+    {
+        currentLoop--;
+        if (currentLoop <= minLoop) currentLoop = minLoop;
+
+        if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
+    }
+
+    public void ResetLoops()
+    {
+        currentLoop = 0;
+        if (loopCounterUI != null)
+            loopCounterUI.SetLoopCounterText(currentLoop);
+    }
+
+    public void OnExitDoorCrossed()
+    {
+        StartNextLoop();
+    }
+
+    public int GetCurrentLoopIndex() => currentLoop;
+    public bool GetFinishedLoops() => finishedLoops;
+    public void SetCurrentLoopIndex(int newIndex) => currentLoop = newIndex;
+    public void SetFinishedLoops(bool finished) => finishedLoops = finished;
+    #endregion
 }

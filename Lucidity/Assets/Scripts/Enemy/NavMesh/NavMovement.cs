@@ -11,18 +11,12 @@ public class NavMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private float speedCorrectionFactor = 2f;
 
-    void Start()
-    {
-        //Solucion Opcion 2: agent.updatePosition = false; agent.updateRotation = false;
-    }
-
     void Update()
     {
         if (GameManager.PlayerRef == null) return;
 
         playerPosition = GameManager.PlayerRef.transform.position;
         agent.SetDestination(playerPosition);
-        Debug.Log("NavMeshAgent velocity: " + agent.velocity.magnitude);
 
         if(animator != null)
         {
@@ -30,7 +24,5 @@ public class NavMovement : MonoBehaviour
 
             animator.speed = currentSpeed / speedCorrectionFactor;
         }
-
-        // Solucion Opcion 1: agent.velocity = agent.desiredVelocity.normalized * agent.speed;
     }
 }

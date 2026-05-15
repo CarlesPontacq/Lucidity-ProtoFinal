@@ -7,7 +7,6 @@ using UnityEngine.Rendering;
 public class OnboardingAct2 : MonoBehaviour
 {
     [SerializeField] GameObject flashObjectPrefab;
-    [SerializeField] LoopManager loopManager;
     
     [Header("Doors")]
     [SerializeField] float doorsOpeningDelay = 0.5f;
@@ -23,7 +22,7 @@ public class OnboardingAct2 : MonoBehaviour
     private void Start()
     {
         LoopManager.OnLoopStarted += HandleObjectSpawning;
-        GameManager.Instance.OnStunUnlocked += HandleStunUnlocked;
+        GameManager.GrabHandlerRef.OnStunUnlocked += HandleStunUnlocked;
 
         originalMaxReels = cameraFunctionality.maxReels;
         cameraFunctionality.maxReels = 0;
@@ -66,6 +65,6 @@ public class OnboardingAct2 : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnStunUnlocked += HandleStunUnlocked;
+        GameManager.GrabHandlerRef.OnStunUnlocked += HandleStunUnlocked;
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class LoopManager : MonoBehaviour
 {
     public static event Action<int> OnLoopStarted;
+
     [Header("References")]
     [SerializeField] private AnomalyManager anomalyManager;
     [SerializeField] private ReportSheetOverlayUI reportSheetOverlayScript;
@@ -17,7 +18,7 @@ public class LoopManager : MonoBehaviour
     [Header("Loop Config")]
     [SerializeField] private LoopCounter loopCounterUI;
     [SerializeField] private int lastLoop = 4;
-    private int currentLoop = 0;
+    private int currentLoop = 1;
     private int minLoop = 1;
     private bool finishedLoops = false;
 
@@ -32,6 +33,7 @@ public class LoopManager : MonoBehaviour
     [SerializeField] private EnemyLoopSpawner enemySpawner;
 
     private float nextAllowedTime = 0f;
+    private bool firstLoop = true;
 
     private void Start()
     {
@@ -46,11 +48,10 @@ public class LoopManager : MonoBehaviour
 
         nextAllowedTime = Time.unscaledTime + nextLoopCooldown;
 
-        if(GetCurrentLoopIndex() == 0)
+        if(firstLoop)
         {
-            Debug.Log("Loop 0 -> se avanza directamente");
-            AddLoopToCount();
             StartLoopFresh();
+            firstLoop = false;
         }
 
         if (reportState != null && reportState.HasSubmittedReport)
@@ -73,38 +74,6 @@ public class LoopManager : MonoBehaviour
             Debug.Log("Sin reporte enviado (primer loop o no firm�) -> no toco el contador");
         }
 
-    }
-
-    public void StartBaseLoop()
-    {
-        if (reportState != null)
-            reportState.ResetForNewLoop();
-
-        if (interactableObjects != null)
-        {
-            for (int i = 0; i < interactableObjects.Count; i++)
-            {
-                if (interactableObjects[i] != null)
-                    interactableObjects[i].ResetState();
-            }
-        }
-
-        if (cameraFunctionality != null)
-            cameraFunctionality.ResetReels();
-
-        if (exitLamp != null)
-            exitLamp.TurnOff();
-
-        if (anomalyManager != null)
-            anomalyManager.ClearSpawned();
-
-        if(enemySpawner != null)
-            enemySpawner.ResetCurrentLoopIndex();
-
-        if (exitDoor != null)
-        {
-            exitDoor.Unlock();        
-        }
     }
 
     public void StartLoopFresh()

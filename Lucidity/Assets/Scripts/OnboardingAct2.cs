@@ -7,7 +7,6 @@ using UnityEngine.Rendering;
 public class OnboardingAct2 : MonoBehaviour
 {
     [SerializeField] GameObject flashObjectPrefab;
-    [SerializeField] LoopManager loopManager;
     
     [Header("Doors")]
     [SerializeField] float doorsOpeningDelay = 0.5f;

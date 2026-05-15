@@ -3150,7 +3150,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraObjectPrefab: {fileID: 1822227943412310092, guid: fe72c33055cd59e4eb03860a67c87a13, type: 3}
   reportSheetObjectPrefab: {fileID: 6977075569323202861, guid: f7c3188e94b0a02418d9c24955031f62, type: 3}
-  loopManager: {fileID: 806857064}
   reportSheetObjectPosition: {x: -0.405, y: 1.04, z: 0.91}
   reportSheetObjectRotation: {x: 0, y: -0.56640625, z: 0, w: 0.8241262}
 --- !u!114 &503176627
@@ -3236,12 +3235,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2415b83343de44bb4e1776d5635a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraRotation: {fileID: 281296276}
   toggleSprint: 0
-  loopManager: {fileID: 806857064}
   scriptsToDisble:
   - {fileID: 1937983212}
   - {fileID: 281296270}
-  cameraRotation: {fileID: 281296276}
 --- !u!4 &564581947
 Transform:
   m_ObjectHideFlags: 0
@@ -5422,7 +5420,6 @@ MonoBehaviour:
   cameraFunctionality: {fileID: 2125485322}
   loopCounterUI: {fileID: 4804982792918676206}
   lastLoop: 4
-  finishedLoops: 0
   exitBlocker: {fileID: 0}
   exitLamp: {fileID: 407168220}
   nextLoopCooldown: 0.25
@@ -6812,6 +6809,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6535034121995386881, guid: 81c6dbb2997d2cb46adc23f22e215df7, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6584193074302168407, guid: 81c6dbb2997d2cb46adc23f22e215df7, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -6827,6 +6828,10 @@ PrefabInstance:
     - target: {fileID: 7857278738764637271, guid: 81c6dbb2997d2cb46adc23f22e215df7, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949532332843243836, guid: 81c6dbb2997d2cb46adc23f22e215df7, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9175,7 +9180,7 @@ PrefabInstance:
     - target: {fileID: 7033477218996007507, guid: 3d23d862a2465524d8f9c78208ec3e0a, type: 3}
       propertyPath: normalObjectOverride
       value: 
-      objectReference: {fileID: 1603694045}
+      objectReference: {fileID: 919132149155446097, guid: 342c30a9275d3d846bf710c8f366eb3f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9790,11 +9795,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &1603694045 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 756387330135900231, guid: 3a16e628133310b4c959c96f9651e137, type: 3}
-  m_PrefabInstance: {fileID: 145980300}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1609028290
 GameObject:
   m_ObjectHideFlags: 0
@@ -11554,7 +11554,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathEffect: {fileID: 281296274}
   cameraRotation: {fileID: 281296276}
-  loopManager: {fileID: 806857064}
   playerBody: {fileID: 1937983210}
   playerSpawn: {fileID: 2081911471}
   deathCooldown: 0.35

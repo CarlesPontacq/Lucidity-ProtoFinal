@@ -7,7 +7,6 @@ public class DeathHandler : MonoBehaviour
     [Header("References")]
     [SerializeField] private DeathCameraEffect deathEffect;
     [SerializeField] private CameraRotation cameraRotation;
-    [SerializeField] private LoopManager loopManager;
     [SerializeField] private GameObject playerBody;
 
     [Header("Death Related")]
@@ -57,8 +56,8 @@ public class DeathHandler : MonoBehaviour
 
         // Reset loops
         GameManager.LoopManagerRef.SubtractLoopToCount();
-        if (loopManager != null)
-            loopManager.StartLoopFresh();
+        if (GameManager.LoopManagerRef != null)
+            GameManager.LoopManagerRef.StartLoopFresh();
 
         yield return RespawnPlayer();
 

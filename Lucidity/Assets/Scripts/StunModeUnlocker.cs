@@ -3,7 +3,6 @@ using UnityEngine;
 public class StunModeUnlocker : MonoBehaviour
 {
     [SerializeField] GameObject stunModeObjectUnlockerPrefab;
-    [SerializeField] LoopManager loopManager;
     private bool objectSpawned = false;
     [SerializeField] private int numberLoopToSapwnObject = 4; 
 

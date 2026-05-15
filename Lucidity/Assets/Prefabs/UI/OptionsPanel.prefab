@@ -4709,7 +4709,7 @@ GameObject:
   - component: {fileID: 6269481917394239146}
   - component: {fileID: 238722555831372109}
   - component: {fileID: 1048417604280825044}
-  - component: {fileID: 8981197631177085285}
+  - component: {fileID: 7602448463062640316}
   m_Layer: 5
   m_Name: MusicText
   m_TagString: Untagged
@@ -4835,7 +4835,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8981197631177085285
+--- !u!114 &7602448463062640316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4859,7 +4859,19 @@ MonoBehaviour:
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1048417604280825044}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   references:
     version: 2
     RefIds: []

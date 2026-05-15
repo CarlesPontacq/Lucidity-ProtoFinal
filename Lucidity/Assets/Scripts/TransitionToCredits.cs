@@ -24,7 +24,7 @@ public class TransitionToCredits : MonoBehaviour
 
     public IEnumerator PlayTransition()
     {
-        GameManager.DeathHandlerRef.SetPlayerControlEnabled(false);
+        GameManager.CinematicHandlerRef.SetPlayerControlEnabled(false);
         cameraRotation.SetControlEnabled(false);
 
         if (playerController != null)

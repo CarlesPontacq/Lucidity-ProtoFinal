@@ -83,13 +83,13 @@ public class CameraFunctionality : MonoBehaviour
     private IEnumerator StunFlashCoroutine()
     {
         cameraRotation.SetControlEnabled(false);
-        GameManager.DeathHandlerRef.SetPlayerControlEnabled(false);
+        GameManager.CinematicHandlerRef.SetPlayerControlEnabled(false);
 
         yield return new WaitForSeconds(flashDuration);
 
         ui.ShowCameraFlash(false);
         cameraRotation.SetControlEnabled(true);
-        GameManager.DeathHandlerRef.SetPlayerControlEnabled(true);
+        GameManager.CinematicHandlerRef.SetPlayerControlEnabled(true);
 
         TryStunEnemy();
         isPerformingAction = false;

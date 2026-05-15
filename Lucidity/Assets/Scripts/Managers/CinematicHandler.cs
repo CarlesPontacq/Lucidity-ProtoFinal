@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEditor.EditorTools;
 using UnityEngine;
 
-public class DeathHandler : MonoBehaviour
+public class CinematicHandler : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private DeathCameraEffect deathEffect;
@@ -13,18 +13,32 @@ public class DeathHandler : MonoBehaviour
     [SerializeField] private MonoBehaviour[] disableOnDeath;
     [SerializeField] private GameObject playerBody;
 
-    [Header("Spawn")]
-    [SerializeField] private string playerSpawnTag = "PlayerSpawn";
-
-    [Header("Death Safety")]
+    [Header("Death Related")]
+    [SerializeField] private Transform playerSpawn;
     [SerializeField] private float deathCooldown = 0.35f;
-
-    [Header("Physics Safety")]
-    [Tooltip("Layer que debe tener el Player root tras respawn (opcional). Déjalo en -1 para no tocar layer.")]
-
     public bool isDying = false;
+
     private float nextAllowedDeathTime = 0f;
 
+    public void SetPlayerControlEnabled(bool enabled)
+    {
+        if (disableOnDeath == null) return;
+
+        for (int i = 0; i < disableOnDeath.Length; i++)
+            if (disableOnDeath[i] != null)
+                disableOnDeath[i].enabled = enabled;
+    }
+
+    private void SetPlayerBodyVisible(bool visible)
+    {
+        if (playerBody == null) return;
+
+        Renderer[] renderers = playerBody.GetComponentsInChildren<Renderer>(true);
+        for (int i = 0; i < renderers.Length; i++)
+            renderers[i].enabled = visible;
+    }
+
+    #region Player Death
     public void PlayerDied()
     {
         if (CheatsManager.Instance != null && CheatsManager.Instance.currentlyImmortal) return;
@@ -59,7 +73,7 @@ public class DeathHandler : MonoBehaviour
         if (loopManager != null)
             loopManager.StartLoopFresh();
 
-        yield return TeleportAndRearmPhysics();
+        yield return RespawnPlayer();
 
         if (deathEffect != null)
         {
@@ -80,36 +94,9 @@ public class DeathHandler : MonoBehaviour
         isDying = false;
     }
 
-    public void SetPlayerControlEnabled(bool enabled)
+    private IEnumerator RespawnPlayer()
     {
-        if (disableOnDeath == null) return;
-
-        for (int i = 0; i < disableOnDeath.Length; i++)
-            if (disableOnDeath[i] != null)
-                disableOnDeath[i].enabled = enabled;
-    }
-
-    private void SetPlayerBodyVisible(bool visible)
-    {
-        if (playerBody == null) return;
-
-        Renderer[] renderers = playerBody.GetComponentsInChildren<Renderer>(true);
-        for (int i = 0; i < renderers.Length; i++)
-            renderers[i].enabled = visible;
-    }
-
-    private IEnumerator TeleportAndRearmPhysics()
-    {
-        if (GameManager.PlayerRef == null) yield break;
-
-        GameObject sp = GameObject.FindGameObjectWithTag(playerSpawnTag);
-        if (sp == null)
-        {
-            Debug.LogWarning($"No hay objeto con tag {playerSpawnTag}.");
-            yield break;
-        }
-
-        Transform spawn = sp.transform;
+        if (GameManager.PlayerRef == null || playerSpawn == null) yield break;
 
         var cols = GameManager.PlayerRef.GetComponentsInChildren<Collider>(true);
         foreach (var col in cols)
@@ -118,26 +105,22 @@ public class DeathHandler : MonoBehaviour
         Rigidbody rb = GameManager.PlayerRef.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.isKinematic = false;
-            rb.detectCollisions = true;
-            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-            rb.interpolation = RigidbodyInterpolation.Interpolate;
-
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
-            rb.position = spawn.position;
-            rb.rotation = spawn.rotation;
+            rb.position = playerSpawn.position;
+            rb.rotation = playerSpawn.rotation;
 
             rb.WakeUp();
         }
         else
         {
-            GameManager.PlayerRef.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
+            GameManager.PlayerRef.transform.SetPositionAndRotation(playerSpawn.position, playerSpawn.rotation);
         }
 
         Physics.SyncTransforms();
 
         yield return null;
     }
+    #endregion
 }

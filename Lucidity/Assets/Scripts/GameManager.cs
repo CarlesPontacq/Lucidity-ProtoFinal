@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
     public static GrabHandler GrabHandlerRef { get; private set; }
-    public static DeathHandler DeathHandlerRef { get; private set; }
+    public static CinematicHandler CinematicHandlerRef { get; private set; }
 
     [Header("Player settings")]
     [SerializeField] private bool toggleSprint;
@@ -55,9 +55,9 @@ public class GameManager : MonoBehaviour
             GrabHandlerRef = FindAnyObjectByType<GrabHandler>();
         }
 
-        if (DeathHandlerRef == null)
+        if (CinematicHandlerRef == null)
         {
-            DeathHandlerRef = FindAnyObjectByType<DeathHandler>();
+            CinematicHandlerRef = FindAnyObjectByType<CinematicHandler>();
         }
     }
 
@@ -65,14 +65,14 @@ public class GameManager : MonoBehaviour
     {
         CachePlayerRoot();
         cameraRotation.SetControlEnabled(true);
-        DeathHandlerRef.SetPlayerControlEnabled(true);
+        CinematicHandlerRef.SetPlayerControlEnabled(true);
         finishedLoops = false;
     }
 
     private void SetUpCharacterOnNewScene()
     {
         cameraRotation.SetControlEnabled(true);
-        DeathHandlerRef.SetPlayerControlEnabled(true);
+        CinematicHandlerRef.SetPlayerControlEnabled(true);
         finishedLoops = false;
     }
 

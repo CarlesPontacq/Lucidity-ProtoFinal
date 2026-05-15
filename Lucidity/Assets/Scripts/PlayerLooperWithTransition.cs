@@ -45,7 +45,7 @@
             if (fadeImage != null)
                 yield return FadeAlpha(0f, 1f, fadeOutDuration);
 
-            if (GameManager.Instance.finishedLoops)
+            if (GameManager.LoopManagerRef.GetFinishedLoops())
             {
                 SceneController.Instance.LoadNextScene();
                 yield break;    
@@ -68,7 +68,7 @@
 
             playerRb.isKinematic = false;
 
-            GameManager.Instance.OnExitDoorCrossed();
+            GameManager.LoopManagerRef.OnExitDoorCrossed();
 
             if (fadeImage != null)
                 yield return FadeAlpha(1f, 0f, fadeInDuration);

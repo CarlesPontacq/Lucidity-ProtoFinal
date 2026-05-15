@@ -43,9 +43,10 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
+
         bool docOpen = ReportSheetOverlayUI.IsOpen;
 
-        if (docOpen && !lastDocOpen && lookingThroughCamera)
+        if ((docOpen && !lastDocOpen && lookingThroughCamera) || GameManager.DeathHandlerRef.isDying)
         {
             StopLookingThroughCamera();
             ui.ShowCameraFlash(false);
@@ -70,7 +71,7 @@ public class CameraManager : MonoBehaviour
     {
         if (functionality == null) return;
         if (ReportSheetOverlayUI.IsOpen || functionality.isPerformingAction) return;
-        if (isTransitioning) return;
+        if (isTransitioning || GameManager.DeathHandlerRef.isDying) return;
 
         isTransitioning = true;
         if (!lookingThroughCamera)

@@ -66,7 +66,7 @@ public class PauseMenuManager : MonoBehaviour
     public void SetOpen(bool value)
     {
         if (ReportSheetOverlayUI.IsOpen) return;
-        if (GameManager.CinematicHandlerRef.isDying) return;
+        if (GameManager.DeathHandlerRef.isDying) return;
         if(isOptionsPanelOpen || isControlsPanelOpen) return;
 
         openPausePanel = value;

@@ -2,6 +2,7 @@ using NUnit.Framework.Interfaces;
 using System;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,24 +10,19 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public static GameObject PlayerRef { get; private set; }
     public static GrabHandler GrabHandlerRef { get; private set; }
-    public static CinematicHandler CinematicHandlerRef { get; private set; }
+    public static DeathHandler DeathHandlerRef { get; private set; }
+    public static LoopManager LoopManagerRef { get; private set; }
+
+    [SerializeField] private CameraRotation cameraRotation;
 
     [Header("Player settings")]
     [SerializeField] private bool toggleSprint;
 
-    [Header("References")]
-    [SerializeField] private LoopCounter loopCounterUI;
-    [SerializeField] private LoopManager loopManager;
+    [Header("Disable components")]
+    [SerializeField] private MonoBehaviour[] scriptsToDisble;
 
-    [Header("Exit Loop")]
-    [SerializeField] private int lastLoop = 8;
 
-    [SerializeField] private CameraRotation cameraRotation;
 
-    private int currentLoop = 0;
-    private int minLoop = 1;
-
-    public bool finishedLoops = false;
 
 
     private void Awake()
@@ -55,9 +51,14 @@ public class GameManager : MonoBehaviour
             GrabHandlerRef = FindAnyObjectByType<GrabHandler>();
         }
 
-        if (CinematicHandlerRef == null)
+        if (DeathHandlerRef == null)
         {
-            CinematicHandlerRef = FindAnyObjectByType<CinematicHandler>();
+            DeathHandlerRef = FindAnyObjectByType<DeathHandler>();
+        }
+
+        if (LoopManagerRef == null)
+        {
+            LoopManagerRef = FindAnyObjectByType<LoopManager>();
         }
     }
 
@@ -65,15 +66,15 @@ public class GameManager : MonoBehaviour
     {
         CachePlayerRoot();
         cameraRotation.SetControlEnabled(true);
-        CinematicHandlerRef.SetPlayerControlEnabled(true);
-        finishedLoops = false;
+        SetPlayerControlEnabled(true);
+        LoopManagerRef.SetFinishedLoops(false);
     }
 
     private void SetUpCharacterOnNewScene()
     {
         cameraRotation.SetControlEnabled(true);
-        CinematicHandlerRef.SetPlayerControlEnabled(true);
-        finishedLoops = false;
+        SetPlayerControlEnabled(true);
+        LoopManagerRef.SetFinishedLoops(false);
     }
 
     private void CachePlayerRoot()
@@ -91,48 +92,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    #region Loops
-
-    public int GetCurrentLoopIndex() => currentLoop;
-    public void SetCurrentLoopIndex(int newIndex) => currentLoop = newIndex;
-
-    public void AddLoopToCount()
+    public void SetPlayerControlEnabled(bool enabled)
     {
-        currentLoop++;
-        if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
+        if (scriptsToDisble == null) return;
+
+        for (int i = 0; i < scriptsToDisble.Length; i++)
+            if (scriptsToDisble[i] != null)
+                scriptsToDisble[i].enabled = enabled;
     }
 
-    public void HasFinishedLastLoop()
-    {
-        if (currentLoop >= lastLoop) finishedLoops = true;
-    }
-
-    public void SubtractLoopToCount()
-    {
-        currentLoop--;
-        if(currentLoop <= minLoop) currentLoop = minLoop;
-
-        if (loopCounterUI != null) loopCounterUI.SetLoopCounterText(currentLoop);
-    }
-
-    public void ResetLoops()
-    {
-        currentLoop = 0;
-        if (loopCounterUI != null)
-            loopCounterUI.SetLoopCounterText(currentLoop);
-    }
-
-    public void OnExitDoorCrossed()
-    {
-        if (loopManager != null)
-            loopManager.StartNextLoop();
-    }
-
-    #endregion
-
-
-
-    public void SetFinishedLoops(bool finished) => finishedLoops = finished;
     public bool GetToggleSprint() => toggleSprint;
     public void SetToggleSprint(bool sprintToggle) => toggleSprint = sprintToggle;
 }

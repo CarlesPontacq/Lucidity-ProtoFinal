@@ -3237,11 +3237,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggleSprint: 0
-  loopCounterUI: {fileID: 4804982792918676206}
   loopManager: {fileID: 806857064}
-  lastLoop: 4
+  scriptsToDisble:
+  - {fileID: 1937983212}
+  - {fileID: 281296270}
   cameraRotation: {fileID: 281296276}
-  finishedLoops: 0
 --- !u!4 &564581947
 Transform:
   m_ObjectHideFlags: 0
@@ -5420,6 +5420,9 @@ MonoBehaviour:
   - {fileID: 692290627}
   - {fileID: 1437824060}
   cameraFunctionality: {fileID: 2125485322}
+  loopCounterUI: {fileID: 4804982792918676206}
+  lastLoop: 4
+  finishedLoops: 0
   exitBlocker: {fileID: 0}
   exitLamp: {fileID: 407168220}
   nextLoopCooldown: 0.25
@@ -11552,9 +11555,6 @@ MonoBehaviour:
   deathEffect: {fileID: 281296274}
   cameraRotation: {fileID: 281296276}
   loopManager: {fileID: 806857064}
-  disableOnDeath:
-  - {fileID: 281296270}
-  - {fileID: 1937983212}
   playerBody: {fileID: 1937983210}
   playerSpawn: {fileID: 2081911471}
   deathCooldown: 0.35

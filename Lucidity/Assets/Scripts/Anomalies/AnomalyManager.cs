@@ -89,7 +89,7 @@ public class AnomalyManager : MonoBehaviour
         documentedAnomalies.Clear();
         ClearSpawned();
 
-        int currentLoop = GameManager.Instance.GetCurrentLoopIndex();
+        int currentLoop = GameManager.LoopManagerRef.GetCurrentLoopIndex();
         currentLoop--;
         if(currentLoop < scriptedLoopsAnomalies.Count)
         {
@@ -241,7 +241,7 @@ public class AnomalyManager : MonoBehaviour
             {
                 Debug.Log("[AnomalyManager] Enemy spawning normally");
 
-                int currentLoopIndex = GameManager.Instance.GetCurrentLoopIndex();
+                int currentLoopIndex = GameManager.LoopManagerRef.GetCurrentLoopIndex();
                 enemySpawner.SpawnForLoopAsAnomaly(currentLoopIndex);
             }
             else
@@ -316,7 +316,7 @@ public class AnomalyManager : MonoBehaviour
         {
             Debug.Log("[AnomalyManager] Spawning delayed enemy after stun unlock");
 
-            int currentLoopIndex = GameManager.Instance.GetCurrentLoopIndex();
+            int currentLoopIndex = GameManager.LoopManagerRef.GetCurrentLoopIndex();
             enemySpawner.SpawnForLoopAsAnomaly(currentLoopIndex);
         }
     }

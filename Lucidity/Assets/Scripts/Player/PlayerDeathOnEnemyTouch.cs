@@ -39,6 +39,6 @@ public class PlayerDeathOnEnemyTouch : MonoBehaviour
 
         triggered = true;
         Debug.Log("[Player] Touched enemy -> PlayerDied()");
-        GameManager.CinematicHandlerRef?.PlayerDied();
+        GameManager.DeathHandlerRef?.PlayerDied();
     }
 }

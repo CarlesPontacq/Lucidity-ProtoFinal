@@ -2,15 +2,12 @@ using System.Collections;
 using UnityEditor.EditorTools;
 using UnityEngine;
 
-public class CinematicHandler : MonoBehaviour
+public class DeathHandler : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private DeathCameraEffect deathEffect;
     [SerializeField] private CameraRotation cameraRotation;
     [SerializeField] private LoopManager loopManager;
-
-    [Header("Disable components")]
-    [SerializeField] private MonoBehaviour[] disableOnDeath;
     [SerializeField] private GameObject playerBody;
 
     [Header("Death Related")]
@@ -19,15 +16,6 @@ public class CinematicHandler : MonoBehaviour
     public bool isDying = false;
 
     private float nextAllowedDeathTime = 0f;
-
-    public void SetPlayerControlEnabled(bool enabled)
-    {
-        if (disableOnDeath == null) return;
-
-        for (int i = 0; i < disableOnDeath.Length; i++)
-            if (disableOnDeath[i] != null)
-                disableOnDeath[i].enabled = enabled;
-    }
 
     private void SetPlayerBodyVisible(bool visible)
     {
@@ -38,7 +26,6 @@ public class CinematicHandler : MonoBehaviour
             renderers[i].enabled = visible;
     }
 
-    #region Player Death
     public void PlayerDied()
     {
         if (CheatsManager.Instance != null && CheatsManager.Instance.currentlyImmortal) return;
@@ -56,7 +43,7 @@ public class CinematicHandler : MonoBehaviour
 
         Time.timeScale = 1f;
 
-        SetPlayerControlEnabled(false);
+        GameManager.Instance.SetPlayerControlEnabled(false);
 
         // Ocultar body
         SetPlayerBodyVisible(false);
@@ -69,7 +56,7 @@ public class CinematicHandler : MonoBehaviour
             yield return new WaitForSecondsRealtime(5f);
 
         // Reset loops
-        GameManager.Instance.SubtractLoopToCount();
+        GameManager.LoopManagerRef.SubtractLoopToCount();
         if (loopManager != null)
             loopManager.StartLoopFresh();
 
@@ -85,7 +72,7 @@ public class CinematicHandler : MonoBehaviour
         cameraRotation.SetControlEnabled(true);
         cameraRotation.ResetOrientation();
 
-        SetPlayerControlEnabled(true);
+        GameManager.Instance.SetPlayerControlEnabled(true);
 
         var deathTouch = GameManager.PlayerRef.GetComponentInChildren<PlayerDeathOnEnemyTouch>(true);
         if (deathTouch != null)
@@ -122,5 +109,4 @@ public class CinematicHandler : MonoBehaviour
 
         yield return null;
     }
-    #endregion
 }

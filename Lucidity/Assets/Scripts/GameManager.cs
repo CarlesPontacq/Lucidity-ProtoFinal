@@ -74,14 +74,18 @@ public class GameManager : MonoBehaviour
         CachePlayerRoot();
         cameraRotation.SetControlEnabled(true);
         SetPlayerControlEnabled(true);
-        LoopManagerRef.SetFinishedLoops(false);
+        
+        if(LoopManagerRef != null)
+            LoopManagerRef.SetFinishedLoops(false);
     }
 
     private void SetUpCharacterOnNewScene()
     {
         cameraRotation.SetControlEnabled(true);
         SetPlayerControlEnabled(true);
-        LoopManagerRef.SetFinishedLoops(false);
+
+        if (LoopManagerRef != null)
+            LoopManagerRef.SetFinishedLoops(false);
     }
 
     private void CachePlayerRoot()

@@ -2,7 +2,6 @@ using NUnit.Framework.Interfaces;
 using System;
 using System.Collections;
 using Unity.VisualScripting;
-using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;

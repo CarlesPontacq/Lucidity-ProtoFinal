@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class DeathHandler : MonoBehaviour

@@ -44,11 +44,16 @@ public class TutorialPopUps : MonoBehaviour
 
         playerMovement.OnStartedRunning -= CompleteRun;
 
-        cameraManager.OnCameraLookedThrough -= HideRun;
-        cameraManager.OnCameraStoppedLookingThrough -= ShowRun;
-
-        reportSheet.OnOpened -= HideRun;
-        reportSheet.OnClosed -= ShowRun;
+        if (cameraStep.popup != null)
+        {
+            cameraManager.OnCameraLookedThrough -= HideRun;
+            cameraManager.OnCameraStoppedLookingThrough -= ShowRun;
+        }
+        if (reportSheetStep.popup != null)
+        {
+            reportSheet.OnOpened -= HideRun;
+            reportSheet.OnClosed -= ShowRun;
+        }
     }
 
     private void SetupCameraTutorial()
@@ -143,6 +148,4 @@ public class TutorialPopUps : MonoBehaviour
     private void HideReportSheet() => Hide(reportSheetStep);
     private void ShowReportSheet() => Show(reportSheetStep);
     private void HideSelection() => Hide(reportSelectionStep);
-
-
 }

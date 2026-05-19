@@ -9,30 +9,36 @@ public class TVInteraction : ObjectInteraction
 
     public override void ResetState()
     {
-        TurnOff();
+        TurnOff(false);
     }
 
     public override void Interact()
     {
         if (isOn)
-            TurnOff();
+            TurnOff(true);
         else
-            TurnOn();
+            TurnOn(true);
     }
 
-    private void TurnOn()
+    private void TurnOn(bool makeSound)
     {
         isOn = true;
 
         screenOff.SetActive(false);
         screenOn.SetActive(true);
+
+        if (makeSound)
+            SFXManager.Instance.PlaySpatialSound("tvOn", transform.position, 1f);
     }
 
-    private void TurnOff()
+    private void TurnOff(bool makeSound)
     {
         isOn = false;
 
         screenOff.SetActive(true);
         screenOn.SetActive(false);
+
+        if (makeSound)
+            SFXManager.Instance.PlaySpatialSound("tvOff", transform.position, 1f);
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class LeakingSounds : MonoBehaviour
+public class RandomAmbienceSounds : MonoBehaviour
 {
     [SerializeField] private float soundHeight;
     [SerializeField] private float volume = 1f;
@@ -11,23 +11,25 @@ public class LeakingSounds : MonoBehaviour
     [SerializeField] private float maxInterval;
     [SerializeField] private bool looping;
 
+    [SerializeField] private string sfx = "leaking";
+
     private void Start()
     {
-        StartCoroutine(LeakRoutine());
+        StartCoroutine(RandomAmbienceRoutine());
     }
 
-    private IEnumerator LeakRoutine()
+    private IEnumerator RandomAmbienceRoutine()
     {
         while (looping)
         {
             float waitTime = Random.Range(minInterval, maxInterval);
             yield return new WaitForSeconds(waitTime);
 
-            PlayLeakingSound();
+            PlayRandomAmbienceSound();
         }
     }
 
-    private void PlayLeakingSound()
+    private void PlayRandomAmbienceSound()
     {
         Vector2 randomDir2D = Random.insideUnitCircle.normalized;
         float distance = Random.Range(minDistance, maxDistance);
@@ -40,7 +42,7 @@ public class LeakingSounds : MonoBehaviour
 
         position.y = soundHeight;
 
-        SFXManager.Instance.PlaySpatialSound("leaking", position, volume);
+        SFXManager.Instance.PlaySpatialSound(sfx, position, volume);
     }
 
 }

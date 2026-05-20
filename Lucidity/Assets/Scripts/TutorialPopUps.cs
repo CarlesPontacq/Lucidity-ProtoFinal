@@ -1,69 +1,151 @@
+using System;
 using UnityEngine;
+
+[Serializable]
+public class TutorialStep
+{
+    public GameObject popup;
+
+    [NonSerialized] public bool isCompleted;
+    [NonSerialized] public bool isVisible;
+}
 
 public class TutorialPopUps : MonoBehaviour
 {
-    [Header("Popups")]
-    [SerializeField] GameObject cameraControlsPopUp;
-    [SerializeField] GameObject reportSheetPopUp;
-    [SerializeField] GameObject reportSelectionTutorial;
-    [SerializeField] GameObject reportSigningTutorial;
+    [Header("Steps")]
+    [SerializeField] private TutorialStep runStep;
+    [SerializeField] private TutorialStep cameraStep;
+    [SerializeField] private TutorialStep reportSheetStep;
+    [SerializeField] private TutorialStep reportSelectionStep;
+    [SerializeField] private TutorialStep reportSigningStep;
 
     [Header("References")]
-    [SerializeField] CameraManager cameraManager;
-    [SerializeField] ReportSheetOverlayUI reportSheetScript;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private CameraManager cameraManager;
+    [SerializeField] private ReportSheetOverlayUI reportSheet;
 
     private void Start()
     {
-        GameManager.Instance.OnCameraTaken += ShowCameraPopup;
-        cameraManager.OnCameraLookedThroughFirstTime += HideCameraPopup;
-
-        GameManager.Instance.OnReportSheetTaken += ShowReportSheetPopup;
-        reportSheetScript.OnReportSheetOpenedFirstTime += HideReportSheetPopup;
-        reportSheetScript.OnReportSheetOpenedFirstTime += ShowReportSheetSelectionTutorial;
-
-        // Por ahora en estos eventos, cuando este el otro input del informe se cambian
-        reportSheetScript.OnReportSheetOpenedFirstTime += ShowReportSheetSigningTutorial;
-        reportSheetScript.OnSignedFirstTime += HideReportSheetSelectionTutorial;
-        reportSheetScript.OnSignedFirstTime += HideReportSheetSigningTutorial;
+        SetupRunTutorial();
+        SetupCameraTutorial();
+        SetupReportTutorial();
     }
 
-    private void ShowCameraPopup()
+    private void SetupRunTutorial()
     {
-        cameraControlsPopUp.SetActive(true);
+        FirstChaseEnabler.OnFirstChaseStarted += ShowRun;
+
+        playerMovement.OnStartedRunning += CompleteRun;
     }
 
-    private void HideCameraPopup()
+    private void CompleteRun()
     {
-        cameraControlsPopUp.SetActive(false);
+        Complete(runStep);
+
+        playerMovement.OnStartedRunning -= CompleteRun;
+
+        if (cameraStep.popup != null)
+        {
+            cameraManager.OnCameraLookedThrough -= HideRun;
+            cameraManager.OnCameraStoppedLookingThrough -= ShowRun;
+        }
+        if (reportSheetStep.popup != null)
+        {
+            reportSheet.OnOpened -= HideRun;
+            reportSheet.OnClosed -= ShowRun;
+        }
     }
 
-    private void ShowReportSheetPopup()
+    private void SetupCameraTutorial()
     {
-        reportSheetPopUp.SetActive(true);
+        GameManager.GrabHandlerRef.OnCameraTaken += StartCameraTutorial;
     }
 
-    private void HideReportSheetPopup()
+    private void StartCameraTutorial()
     {
-        reportSheetPopUp.SetActive(false);
+        Show(cameraStep);
+
+        cameraManager.OnCameraLookedThrough += CompleteCamera;
+
+        reportSheet.OnOpened += HideCamera;
+        reportSheet.OnClosed += ShowCamera;
+    }    
+
+    private void CompleteCamera()
+    {
+        Complete(cameraStep);
+
+        cameraManager.OnCameraLookedThrough -= CompleteCamera;
+
+        reportSheet.OnOpened -= HideCamera;
+        reportSheet.OnClosed -= ShowCamera;
     }
 
-    private void ShowReportSheetSelectionTutorial()
+    private void SetupReportTutorial()
     {
-        reportSelectionTutorial.SetActive(true);
+        GameManager.GrabHandlerRef.OnReportSheetTaken += StartReportTutorial;
     }
 
-    private void HideReportSheetSelectionTutorial()
+    private void StartReportTutorial()
     {
-        reportSelectionTutorial.SetActive(false);
+        Show(reportSheetStep);
+
+        cameraManager.OnCameraLookedThrough += HideReportSheet;
+        cameraManager.OnCameraStoppedLookingThrough += ShowReportSheet;
+
+        reportSheet.OnOpened += OpenReportSheet;
+        reportSheet.OnClosed += HideSelection;
+        reportSheet.OnNumberSelected += SelectNumber;
+        reportSheet.OnSigned += CompleteSigning;
     }
 
-    private void ShowReportSheetSigningTutorial()
+    private void OpenReportSheet()
     {
-        reportSigningTutorial.SetActive(true);
+        Complete(reportSheetStep);
+        Show(reportSelectionStep);
+    }
+    private void SelectNumber()
+    {
+        Complete(reportSelectionStep);
+        Show(reportSigningStep);
     }
 
-    private void HideReportSheetSigningTutorial()
+    private void CompleteSigning()
     {
-        reportSigningTutorial.SetActive(false);
+        Complete(reportSigningStep);
     }
+
+    private void Show(TutorialStep step)
+    {
+        if (step.isCompleted) return;
+
+        step.popup.SetActive(true);
+        step.isVisible = true;
+    }
+
+    private void Hide(TutorialStep step)
+    {
+        if (!step.isVisible) return;
+
+        step.popup.SetActive(false);
+        step.isVisible = false;
+    }
+
+    private void Complete(TutorialStep step)
+    {
+        if (step.isCompleted) return;
+
+        Hide(step);
+        step.isCompleted = true;
+    }
+
+    private void HideRun() => Hide(runStep);
+    private void ShowRun() => Show(runStep);
+
+    private void HideCamera() => Hide(cameraStep);
+    private void ShowCamera() => Show(cameraStep);
+
+    private void HideReportSheet() => Hide(reportSheetStep);
+    private void ShowReportSheet() => Show(reportSheetStep);
+    private void HideSelection() => Hide(reportSelectionStep);
 }

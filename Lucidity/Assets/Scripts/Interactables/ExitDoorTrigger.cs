@@ -3,13 +3,12 @@ using UnityEngine;
 public class ExitDoorTrigger : MonoBehaviour
 {
     [SerializeField] private ReportResultState reportState;
-    [SerializeField] private LoopManager loopManager;
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
 
-        if (reportState == null || loopManager == null)
+        if (reportState == null || GameManager.LoopManagerRef == null)
         {
             Debug.LogWarning("ExitDoorTrigger: faltan referencias.");
             return;

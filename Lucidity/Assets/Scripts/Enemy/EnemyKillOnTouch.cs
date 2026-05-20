@@ -8,7 +8,7 @@ public class EnemyKillOnTouch : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            GameManager.Instance.PlayerDied();
+            GameManager.DeathHandlerRef.PlayerDied();
         }
     }
 

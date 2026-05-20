@@ -2,25 +2,43 @@ using UnityEngine;
 
 public class TVInteraction : ObjectInteraction
 {
+    [SerializeField] GameObject screenOff;
+    [SerializeField] GameObject screenOn;
+
     private bool isOn = false;
+
+    public override void ResetState()
+    {
+        TurnOff(false);
+    }
 
     public override void Interact()
     {
         if (isOn)
-            TurnOff();
+            TurnOff(true);
         else
-            TurnOn();
+            TurnOn(true);
     }
 
-    private void TurnOn()
+    private void TurnOn(bool makeSound)
     {
         isOn = true;
-        Debug.Log("TV is now on");
+
+        screenOff.SetActive(false);
+        screenOn.SetActive(true);
+
+        if (makeSound)
+            SFXManager.Instance.PlaySpatialSound("tvOn", transform.position, 1f);
     }
 
-    private void TurnOff()
+    private void TurnOff(bool makeSound)
     {
         isOn = false;
-        Debug.Log("TV is now off");
+
+        screenOff.SetActive(true);
+        screenOn.SetActive(false);
+
+        if (makeSound)
+            SFXManager.Instance.PlaySpatialSound("tvOff", transform.position, 1f);
     }
 }

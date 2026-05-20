@@ -22,9 +22,10 @@ public class EnemyLoopSpawner : MonoBehaviour
     [SerializeField] private float minDistanceFromPlayer = 4f;
     [SerializeField] private Transform[] spawnPoints;
 
-    [Header("SFX Spawn")]
+    [Header("Spawn Effects")]
     [SerializeField] private string spawnSFX = "enemySpawn";
     [SerializeField] private float sfxVolume = 1.0f;
+    [SerializeField] private CameraUIHandler cameraUI;
 
     [Header("ProximityEffect")]
     [SerializeField] PlayerEnemyDetection playerEnemyDetection;
@@ -128,6 +129,7 @@ public class EnemyLoopSpawner : MonoBehaviour
         Debug.Log($"[EnemySpawner] Spawned enemy successfully. loop={currentLoopIndex} chase={true} asAnomaly={spawnedAsAnomaly}");
 
         playerEnemyDetection.SetEnemy(currentEnemy);
+        cameraUI.ShowCameraRedLight(true);
     }
 
     private Transform GetPlayerTransform()
@@ -152,7 +154,7 @@ public class EnemyLoopSpawner : MonoBehaviour
         }
         else
         {
-            StartCoroutine(RespawnRoutine());
+           spawnCycleRoutine = StartCoroutine(RespawnRoutine());
         }
     }
 
@@ -171,6 +173,7 @@ public class EnemyLoopSpawner : MonoBehaviour
 
             playerEnemyDetection.SetEnemy(null);
         }
+            cameraUI.ShowCameraRedLight(false);
     }
 
     private void StopCycle()
@@ -212,8 +215,10 @@ public class EnemyLoopSpawner : MonoBehaviour
 
     private IEnumerator RespawnRoutine()
     {
+        Debug.Log("Anomalia: Repawn Iniciado");
         yield return new WaitForSeconds(respawnDelay);
 
+        Debug.Log("Anomalia: Repawn Completado");
         SpawnEnemyOnce();
     }
 

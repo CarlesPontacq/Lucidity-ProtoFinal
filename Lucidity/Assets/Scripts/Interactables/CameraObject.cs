@@ -4,10 +4,13 @@ using UnityEngine;
 public class CameraObject : ObjectInteraction
 {
     [SerializeField] ItemData itemData;
+    [SerializeField] private string grabCameraSFX = "GrabCamera";
+    private float grabCameraVolumeSFX = 1f;
 
     public override void Interact()
     {
-        GameManager.Instance.CameraGrabbed(itemData);
+        SFXManager.Instance.PlayGlobalSound(grabCameraSFX, grabCameraVolumeSFX);
+        GameManager.GrabHandlerRef.CameraGrabbed(itemData);
         Destroy(gameObject);
     }
 }

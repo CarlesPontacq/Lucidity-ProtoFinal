@@ -1,20 +1,23 @@
+using System;
 using UnityEngine;
 
 public class FirstChaseEnabler : MonoBehaviour
 {
     [Header("First Enemy Chase")]
     [SerializeField] private GameObject firstChaseEnemy;
-    [SerializeField] private EnemyFollowSteering enemyFollow;
     [SerializeField] private bool firstChase;
     [SerializeField] private BoxCollider firstChaseTrigger;
 
-    [SerializeField] private DoorInteraction door;
+    [SerializeField] private DoorController door;
+    [SerializeField] private Transform doorAudioPosition;
 
 
     private string playerTag = "Player";
     private string enemySpawnSFX = "EnemySpawn";
-    private int enemySpawnSFXVolume = 1;
+    private string doorSFX = "openDoor";
+    private int SFXVolume = 1;
 
+    public static event Action OnFirstChaseStarted;
 
     private void Awake()
     {
@@ -26,11 +29,14 @@ public class FirstChaseEnabler : MonoBehaviour
         {
             firstChase = false;
             firstChaseEnemy.SetActive(true);
-            SFXManager.Instance.PlaySpatialSound(enemySpawnSFX, firstChaseEnemy.transform.position, enemySpawnSFXVolume);
-            enemyFollow.SetCanChase(true);
+            SFXManager.Instance.PlaySpatialSound(enemySpawnSFX, firstChaseEnemy.transform.position, SFXVolume);
+
+            SFXManager.Instance.PlaySpatialSound(doorSFX, doorAudioPosition.position, SFXVolume);
 
             firstChaseTrigger.enabled = true;
             door.Unlock();
+
+            OnFirstChaseStarted?.Invoke();
         }
     }
 }

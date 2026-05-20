@@ -8,15 +8,17 @@ public class CameraManager : MonoBehaviour
 {
     [Header("CameraFunctions")]
     [SerializeField] private CameraFunctionality functionality;
-    public bool hasFlashCamera = false;
+    [SerializeField] private bool hasFlashCamera = false;
+
+    [SerializeField] private GameObject flashComponent;
 
     [Header("State")]
     public bool lookingThroughCamera = false;
     [SerializeField] private CameraPostProcessToggle cameraPostProcessToggle;
     [SerializeField] private CameraRotation cameraRotation;
 
-    public event Action OnCameraLookedThroughFirstTime;
-    private bool hasLookedThroughOnce = false;
+    public event Action OnCameraLookedThrough;
+    public event Action OnCameraStoppedLookingThrough;
 
     [SerializeField] private CameraAudioHandler audioHandler;
 
@@ -34,13 +36,17 @@ public class CameraManager : MonoBehaviour
     {
         input.onCameraToggle += HandleCameraToggle;
         input.onCameraAction += HandleCameraPhoto;
+
+        if(!hasFlashCamera)
+            flashComponent.SetActive(false);
     }
 
     private void Update()
     {
+
         bool docOpen = ReportSheetOverlayUI.IsOpen;
 
-        if (docOpen && !lastDocOpen && lookingThroughCamera)
+        if ((docOpen && !lastDocOpen && lookingThroughCamera) || GameManager.DeathHandlerRef.isDying)
         {
             StopLookingThroughCamera();
             ui.ShowCameraFlash(false);
@@ -54,12 +60,18 @@ public class CameraManager : MonoBehaviour
         functionality = newfunctionality;
     }
 
+    public void OnGrabbedFlash()
+    {
+        hasFlashCamera = true;
+        flashComponent.SetActive(true);
+    }
+
     #region Input
     private void HandleCameraToggle()
     {
         if (functionality == null) return;
         if (ReportSheetOverlayUI.IsOpen || functionality.isPerformingAction) return;
-        if (isTransitioning) return;
+        if (isTransitioning || GameManager.DeathHandlerRef.isDying) return;
 
         isTransitioning = true;
         if (!lookingThroughCamera)
@@ -101,16 +113,12 @@ public class CameraManager : MonoBehaviour
         lookingThroughCamera = true;
         functionality.ActivateMode();
 
-        if (!hasLookedThroughOnce)
-        {
-            hasLookedThroughOnce = true;
-            OnCameraLookedThroughFirstTime?.Invoke();
-        }
+        OnCameraLookedThrough?.Invoke();
 
         ui.ShowCameraAspect(true);
-        InteractionFeedback.Instance.ShowInteractHint(false);
+        InteractionFeedback.Instance.HideInteractHint();
 
-        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        GameManager.GrabHandlerRef.SetHandsWithCameraVisibility(!lookingThroughCamera);
         isTransitioning = false;
     }
 
@@ -121,9 +129,11 @@ public class CameraManager : MonoBehaviour
         lookingThroughCamera = false;
         functionality.DeactivateMode();
 
+        OnCameraStoppedLookingThrough?.Invoke();
+
         ui.ShowCameraAspect(false);
 
-        GameManager.Instance.SetHandsWithCameraVisibility(!lookingThroughCamera);
+        GameManager.GrabHandlerRef.SetHandsWithCameraVisibility(!lookingThroughCamera);
         isTransitioning = false;
     }
     #endregion

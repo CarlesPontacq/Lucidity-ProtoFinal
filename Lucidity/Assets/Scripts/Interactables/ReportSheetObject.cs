@@ -4,10 +4,13 @@ using UnityEngine;
 public class ReportSheetObject : ObjectInteraction
 {
     [SerializeField] ItemData itemData;
+    [SerializeField] private string grabReportSFX = "";
+    private float grabReportVolumeSFX = 1f;
 
     public override void Interact()
     {
-        GameManager.Instance.ReportSheetGrabbed(itemData);
+        SFXManager.Instance.PlayGlobalSound(grabReportSFX, grabReportVolumeSFX);
+        GameManager.GrabHandlerRef.ReportSheetGrabbed(itemData);
         Destroy(gameObject);
     }
 }

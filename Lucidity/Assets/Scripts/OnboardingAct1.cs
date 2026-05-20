@@ -4,7 +4,6 @@ public class OnboardingAct1 : MonoBehaviour
 {
     [SerializeField] GameObject cameraObjectPrefab;
     [SerializeField] GameObject reportSheetObjectPrefab;
-    [SerializeField] LoopManager loopManager;
 
     [SerializeField] Vector3 reportSheetObjectPosition;
     [SerializeField] Quaternion reportSheetObjectRotation;

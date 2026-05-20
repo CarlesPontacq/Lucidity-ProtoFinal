@@ -1,195 +1,67 @@
-using System;
 using UnityEngine;
 
 public class DoorInteraction : ObjectInteraction
 {
-    [SerializeField] private Transform pivot;
-    [SerializeField] private bool startsOpen;
-    [SerializeField] private bool startsLocked;
+    [Header("Door Reference")]
+    [SerializeField] private DoorController door;
 
-    [Header("Door Rotation")]
-    public float openAngle = 90f;
-    public float openSpeed = 5f;
+    [Header("Interaction Hint")]
+    public Transform interactionHintPos1;
+    public Transform interactionHintPos2;
 
-    [Header("Auto Open On Unlock")]
-    [SerializeField] private bool autoOpenWhenUnlocked = true;
-    [SerializeField] private bool autoOpenAnimated = false;
-    [SerializeField] private float defaultOpenDirection = 1f; 
-
-    [Header("Exit Door (optional)")]
-    [SerializeField] private bool requiresReportToOpen = false;
-    [SerializeField] private ReportResultState reportState;
-
-    private bool isOpen = false;
-    private bool isLocked = false;
-    private bool hasToApplyRotation = false;
-    private bool hasStarted = false;
-
-    private Quaternion closedLocalRotation;
-    private Quaternion targetLocalRotation;
-
-    private Vector3 soundPosition;
+    private bool isFocused = false;
 
     protected override void Start()
     {
         base.Start();
-
-        closedLocalRotation = pivot.localRotation;
-        targetLocalRotation = closedLocalRotation;
-
-        isOpen = false;
-        hasToApplyRotation = false;
-        pivot.localRotation = closedLocalRotation;
-
-        soundPosition = transform.position;
-        hasStarted = true;
-
-        fullyInteractable = !isLocked;
-
-        if (startsOpen)
-            Open(false);
     }
 
     protected override void Update()
     {
         base.Update();
-        ApplyRotation();
-    }
 
-    private float GetOpenDirection()
-    {
-        if (GameManager.PlayerRef == null)
-            return Mathf.Sign(defaultOpenDirection);
+        if (!isFocused) return;
 
-        Vector3 doorToPlayer = (GameManager.PlayerRef.transform.position - pivot.position).normalized;
-        float side = Vector3.Cross(pivot.right, doorToPlayer).y;
+        Transform currentHint = GetCorrectHintPosition();
 
-        return side > 0 ? -1f : 1f;
-    }
-
-    private void ApplyRotation()
-    {
-        if (!hasToApplyRotation) return;
-
-        pivot.localRotation = Quaternion.Lerp(
-            pivot.localRotation,
-            targetLocalRotation,
-            Time.deltaTime * openSpeed
-        );
-
-        if (Quaternion.Angle(pivot.localRotation, targetLocalRotation) < 0.1f)
-        {
-            pivot.localRotation = targetLocalRotation;
-            hasToApplyRotation = false;
-        }
+        InteractionFeedback.Instance.MoveInteractHint(currentHint.position);
     }
 
     public override void Interact()
     {
-        if (requiresReportToOpen && isLocked)
-        {
-            Debug.Log("Puerta bloqueada: firma el documento primero.");
-            return;
-        }
+        if (door == null) return;
 
-        if (!isLocked)
-            Toggle();
-        else
-            Debug.Log("Puerta bloqueada");
+        door.Toggle();
     }
 
-    public void Unlock()
+    public override void OnFocusEnter()
     {
-        bool wasLocked = isLocked;
-        isLocked = false;
+        if (door == null || !door.IsInteractable) return;
 
-        if (hasStarted && wasLocked && autoOpenWhenUnlocked)
-        {
-            Open(autoOpenAnimated);
-        }
+        isFocused = true;
+        hintPosition = GetCorrectHintPosition();
 
-        fullyInteractable = !isLocked;
+        base.OnFocusEnter();
     }
 
-    public void Lock()
+    public override void OnFocusExit()
     {
-        isLocked = true;
-
-        fullyInteractable = !isLocked;
+        isFocused = false;
+        base.OnFocusExit();
     }
 
-    public void LockExitDoor()
+    public override void ResetState()
     {
-        if (requiresReportToOpen)
-            isLocked = true;
-
-        Close(false);
-
-        fullyInteractable = !isLocked;
+        door.ResetToInitialState(false);
     }
 
-    public void Open(bool animate)
+    private Transform GetCorrectHintPosition()
     {
-        if (isOpen) return;
+        Vector3 playerPos = GameManager.PlayerRef.transform.position;
 
-        isOpen = true;
+        float d1 = Vector3.Distance(playerPos, interactionHintPos1.position);
+        float d2 = Vector3.Distance(playerPos, interactionHintPos2.position);
 
-        float direction = GetOpenDirection();
-        targetLocalRotation = closedLocalRotation * Quaternion.Euler(0f, openAngle * direction, 0f);
-
-        if (animate)
-        {
-            hasToApplyRotation = true;
-            SFXManager.Instance.PlaySpatialSound("openDoor", soundPosition, 1f);
-        }
-        else
-        {
-            hasToApplyRotation = false;
-            pivot.localRotation = targetLocalRotation;
-        }
-    }
-
-    public void Close(bool animate)
-    {
-        if (!isOpen) return;
-
-        isOpen = false;
-        targetLocalRotation = closedLocalRotation;
-
-        if (animate)
-        {
-            hasToApplyRotation = true;
-            SFXManager.Instance.PlaySpatialSound("closeDoor", soundPosition, 1f);
-        }
-        else
-        {
-            hasToApplyRotation = false;
-            pivot.localRotation = closedLocalRotation;
-        }
-    }
-
-    private void Toggle()
-    {
-        if (isOpen)
-        {
-            Close(true);
-        }
-        else
-        {
-            Open(true);
-        }
-    }
-
-    public void ResetToInitialState(bool animate)
-    {
-        if (startsOpen && !isOpen)
-            Open(animate);
-        else if (!startsOpen && isOpen)
-            Close(animate);
-
-        if (startsLocked && !isLocked)
-            Lock();
-        else if (!startsLocked && isLocked)
-            Unlock();
+        return d1 < d2 ? interactionHintPos1 : interactionHintPos2;
     }
 }

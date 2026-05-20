@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyChaseSpawner : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class EnemyChaseSpawner : MonoBehaviour
     [SerializeField] private string spawnSFX = "enemySpawn";
     [SerializeField] private float sfxVolume = 1.0f;
 
+    [Header("ProximityEffect")]
+    [SerializeField] PlayerEnemyDetection playerEnemyDetection;
+
     private GameObject currentEnemy;
     private Coroutine spawnCycleCoroutine;
     private bool isSpawning = true;
@@ -49,14 +53,6 @@ public class EnemyChaseSpawner : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        if (spawnCycleCoroutine != null)
-            StopCoroutine(spawnCycleCoroutine);
-
-        StartSpawnCycle();
-    }
-
     private void OnDisable()
     {
         if (spawnCycleCoroutine != null)
@@ -65,7 +61,7 @@ public class EnemyChaseSpawner : MonoBehaviour
         DestroyCurrentEnemy();
     }
 
-    private void StartSpawnCycle()
+    public void StartSpawnCycle()
     {
         if (spawnCycleCoroutine != null)
             StopCoroutine(spawnCycleCoroutine);
@@ -126,10 +122,9 @@ public class EnemyChaseSpawner : MonoBehaviour
         Debug.Log($"[EnemySpawner] Enemy instantiated successfully: {currentEnemy.name}");
 
         // Mirar al player
-        Vector3 lookDir = playerTransform.position - currentEnemy.transform.position;
+        Vector3 lookDir = playerTransform.position;
         lookDir.y = 0f;
-        if (lookDir.sqrMagnitude > 0.001f)
-            currentEnemy.transform.rotation = Quaternion.LookRotation(lookDir);
+        currentEnemy.transform.LookAt(lookDir);
 
         Rigidbody rb = currentEnemy.GetComponent<Rigidbody>();
         if (rb != null)
@@ -154,15 +149,22 @@ public class EnemyChaseSpawner : MonoBehaviour
             follow.SetCanChase(true);
             follow.SetChaseSpeed(enemyChaseSpeed);
         }
+
+        playerEnemyDetection.SetEnemy(currentEnemy);
     }
 
     public void DestroyCurrentEnemy()
     {
+        if (spawnCycleCoroutine != null)
+            StopCoroutine(spawnCycleCoroutine);
+
         if (currentEnemy != null)
         {
             Destroy(currentEnemy);
             currentEnemy = null;
         }
+
+        playerEnemyDetection.SetEnemy(null);
     }
 
     public void ResetSpawnCycle()

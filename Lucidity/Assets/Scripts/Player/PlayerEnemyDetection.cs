@@ -12,34 +12,37 @@ public class PlayerEnemyDetection : MonoBehaviour
     [SerializeField] float baseWeight;
     [SerializeField] float maxWeight;
 
-    private GameObject enemy = null;
+    [SerializeField] float smoothSpeed = 5f;
+
+    [SerializeField] GameObject enemy = null;
+    private float targetWeight = 0f;
 
     void Update()
     {
         if (enemy != null)
         {
-            float distance = Vector3.Distance(this.transform.position, enemy.transform.position);
-            float weight = baseWeight;
-            
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+
             if (distance < minDistance)
             {
-                weight = maxWeight;
+                targetWeight = maxWeight;
             }
             else
             {
                 float t = Mathf.InverseLerp(minDistance, maxDistance, distance);
-
-                weight = Mathf.Lerp(maxWeight, baseWeight, t);
+                targetWeight = Mathf.Lerp(maxWeight, baseWeight, t);
             }
-
-            volume.weight = weight;
         }
+        else
+        {
+            targetWeight = 0f;
+        }
+
+        volume.weight = Mathf.Lerp(volume.weight, targetWeight, Time.deltaTime * smoothSpeed);
     }
 
     public void SetEnemy(GameObject enemyObj)
     {
         enemy = enemyObj;
-
-        if (enemy == null) volume.weight = 0f;
     }
 }

@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
     private string objectToStep = "Stairs";
 
+    public event Action OnStartedRunning;
+    private bool hasTriggeredRunEvent = false;
     public bool IsMoving { get; private set; }
     public bool IsRunning { get; private set; }
 
@@ -126,6 +128,12 @@ public class PlayerMovement : MonoBehaviour
 
         IsMoving = currentSpeed > 0.01f;
         IsRunning = IsMoving && currentSpeed > walkingSpeed + 0.01f;
+
+        if (IsRunning && !hasTriggeredRunEvent)
+        {
+            hasTriggeredRunEvent = true;
+            OnStartedRunning?.Invoke();
+        }
     }
 
     public float GetWalkingSpeed()

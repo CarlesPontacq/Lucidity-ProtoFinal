@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 247179815839382193}
   - component: {fileID: 2588325535155523862}
   - component: {fileID: 6170689117712442392}
+  - component: {fileID: 3041516405984460238}
   m_Layer: 0
   m_Name: NormalModeCamera
   m_TagString: MainCamera
@@ -197,7 +198,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.15
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -205,7 +206,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 23871
+    m_Bits: 56639
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -294,10 +295,29 @@ MonoBehaviour:
   hasFlashCamera: 0
   maxReels: 5
   currentReels: 0
+  lineOfSightRadius: 0.5
   flashDuration: 0.1
   stunCamera: {fileID: 1186519364348274735}
   cameraRotation: {fileID: 7795568537833020718}
   globalVolumeMode: {fileID: 952838819765055643}
+--- !u!114 &3041516405984460238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081242053931431542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec0a9e57c1cdfe41b4f02f645bf985d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: 6dd412baba5d1164f846c7fc04c2e1bc, type: 2}
+  cameraManager: {fileID: 8172359253978911886}
+  timeToHearAnomalies: 0
+  timeToStopHearingAnomalies: 0.5
+  mutedDb: -80
+  normalDb: 0
 --- !u!1 &3314024275106931295
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +520,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1343
+    m_Bits: 34111
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -650,12 +670,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   functionality: {fileID: 0}
-  hasFlashCamera: 1
+  hasFlashCamera: 0
+  flashComponent: {fileID: 6781786286037281946}
   lookingThroughCamera: 0
   cameraPostProcessToggle: {fileID: 5275213290345335608}
   cameraRotation: {fileID: 7795568537833020718}
   audioHandler: {fileID: 588726753737900789}
-  armsController: {fileID: 0}
+  armsController: {fileID: 2019422921604433588}
   ui: {fileID: 8572510722767480966}
   input: {fileID: 0}
 --- !u!114 &8572510722767480966
@@ -813,7 +834,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.15
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 60.000004
   orthographic: 0
@@ -821,7 +842,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 7543
+    m_Bits: 40311
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -903,6 +924,7 @@ MonoBehaviour:
   sensitivity: 0.4
   smoothSpeed: 35
   verticalLimit: 90
+  initialYaw: 200
 --- !u!1001 &7874492758431482640
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1189,6 +1211,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7924658205296258832, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
   m_PrefabInstance: {fileID: 7874492758431482640}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2019422921604433588 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8161014022619153828, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
+  m_PrefabInstance: {fileID: 7874492758431482640}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd47689b438aa7142a9dbf76d274a3fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2667349956635365860 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5207152748949558004, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
@@ -1197,5 +1230,10 @@ Transform:
 --- !u!1 &3911089773048025053 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6557568833710787789, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
+  m_PrefabInstance: {fileID: 7874492758431482640}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6781786286037281946 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3700392929252077450, guid: 7789ab5497a3b9142b47b31204f7dcd5, type: 3}
   m_PrefabInstance: {fileID: 7874492758431482640}
   m_PrefabAsset: {fileID: 0}

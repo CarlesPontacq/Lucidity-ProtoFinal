@@ -2404,10 +2404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b683c73ba492ee448560d6987473d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disablePermanentlyWhenCaptured: 0
-  respawnDelay: 20
   enemyPrefab: {fileID: 5533655514814115806, guid: e8c807f17680eb54fb263653955cfbd4, type: 3}
-  firstSpawnLoop: 1
   spawnYOffset: -1.3
   minDistanceFromPlayer: 4
   spawnPoints:
@@ -2415,10 +2412,14 @@ MonoBehaviour:
   - {fileID: 847225103}
   - {fileID: 1938579448}
   - {fileID: 2001523293}
+  defaultSpawnPoint: {fileID: 311258858}
   spawnSFX: EnemySpawn
   sfxVolume: 1
-  cameraUI: {fileID: 2063194145}
   playerEnemyDetection: {fileID: 2076784878}
+  disablePermanentlyWhenCaptured: 0
+  respawnDelay: 20
+  firstSpawnLoop: 1
+  cameraUI: {fileID: 2063194145}
 --- !u!114 &318257581 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4325275888344775858, guid: 1a33092edd04e624a88e44e470abb098, type: 3}

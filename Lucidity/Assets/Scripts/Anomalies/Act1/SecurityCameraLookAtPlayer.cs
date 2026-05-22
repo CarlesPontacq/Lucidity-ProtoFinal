@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SecurityCameraLookAtPlayer : MonoBehaviour
 {
-    [SerializeField] private Transform player;
+    private Transform player;
     [SerializeField] private float rotationSpeed = 3f;
     [SerializeField] private Vector3 rotationOffset;
 
@@ -10,7 +10,7 @@ public class SecurityCameraLookAtPlayer : MonoBehaviour
     {
         if(player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player")?.transform;
+            player = GameManager.PlayerRef.transform;
         }    
     }
 

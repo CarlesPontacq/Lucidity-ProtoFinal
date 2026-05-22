@@ -27,12 +27,22 @@ public class OptionsManager : MonoBehaviour
 
     [Header("Language")]
     public int languageIndex = 0;
-    [SerializeField] private TMP_Dropdown languageDropdown;
+
+    [SerializeField] private TMP_Text languageText;
+    [SerializeField] private Button languageLeftButton;
+    [SerializeField] private Button languageRightButton;
+
+    [SerializeField]
+    private string[] languageDisplayNames =
+    {
+    "Català",
+    "Español",
+    "English"
+};
 
     [Header("Sprint")]
     public int sprintIndex = 0;
     public bool isToggleSprint = false;
-    [SerializeField] private TMP_Dropdown sprintDropdown;
 
     [Header("References")]
     [SerializeField] private CameraRotation cameraRotation;
@@ -87,11 +97,7 @@ public class OptionsManager : MonoBehaviour
         if (sensitivitySlider != null)
             sensitivitySlider.SetValueWithoutNotify(mouseSensitivity);
 
-        if (languageDropdown != null)
-            languageDropdown.SetValueWithoutNotify(languageIndex);
-
-        if (sprintDropdown != null)
-            sprintDropdown.SetValueWithoutNotify(sprintIndex);
+        UpdateLanguageUI();
     }
 
     public void SaveOptions()
@@ -122,26 +128,66 @@ public class OptionsManager : MonoBehaviour
     {
         yield return LocalizationSettings.InitializationOperation;
 
-        var options = new List<TMP_Dropdown.OptionData>();
-        int selected = 0;
-        for (int i = 0; i < LocalizationSettings.AvailableLocales.Locales.Count; ++i)
-        {
-            var locale = LocalizationSettings.AvailableLocales.Locales[i];
-            if (LocalizationSettings.SelectedLocale == locale)
-                selected = i;
-            options.Add(new TMP_Dropdown.OptionData(locale.name));
-        }
-        languageDropdown.options = options;
+        languageIndex = Mathf.Clamp(
+            languageIndex,
+            0,
+            LocalizationSettings.AvailableLocales.Locales.Count - 1
+        );
 
-        languageDropdown.value = selected;
-        languageDropdown.onValueChanged.AddListener(OnLanguageChanged);
+        LocalizationSettings.SelectedLocale =
+            LocalizationSettings.AvailableLocales.Locales[languageIndex];
+
+        UpdateLanguageUI();
+
+        languageLeftButton.onClick.AddListener(PreviousLanguage);
+        languageRightButton.onClick.AddListener(NextLanguage);
     }
 
-    public void OnLanguageChanged(int index)
+    public void PreviousLanguage()
     {
-        languageIndex = index;
-        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
+        languageIndex--;
+
+        if (languageIndex < 0)
+        {
+            languageIndex =
+                LocalizationSettings.AvailableLocales.Locales.Count - 1;
+        }
+
+        ApplyLanguage();
+    }
+
+    public void NextLanguage()
+    {
+        languageIndex++;
+
+        if (languageIndex >= LocalizationSettings.AvailableLocales.Locales.Count)
+        {
+            languageIndex = 0;
+        }
+
+        ApplyLanguage();
+    }
+
+    private void ApplyLanguage()
+    {
+        LocalizationSettings.SelectedLocale =
+            LocalizationSettings.AvailableLocales.Locales[languageIndex];
+
+        UpdateLanguageUI();
         SaveOptions();
+    }
+
+    private void UpdateLanguageUI()
+    {
+        if (languageText == null)
+            return;
+
+        if (languageDisplayNames == null || languageDisplayNames.Length == 0)
+            return;
+
+        int displayIndex = Mathf.Clamp(languageIndex, 0, languageDisplayNames.Length - 1);
+
+        languageText.text = languageDisplayNames[displayIndex];
     }
 
     private void ApplySound()

@@ -2334,6 +2334,7 @@ MonoBehaviour:
   minInterval: 2
   maxInterval: 10
   looping: 1
+  sfx: leaking
 --- !u!1001 &344955685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2592,6 +2593,39 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &372137386 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4959784628826001225, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 1911859907}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &372137387 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7858773146282656839, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 1911859907}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &372137388 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3890846014252164158, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 1911859907}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &383558291
 GameObject:
   m_ObjectHideFlags: 0
@@ -3078,17 +3112,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &466000789 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2740676333426345874, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
-  m_PrefabInstance: {fileID: 1911859907}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &488424947 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 42075158401274472, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
@@ -3853,6 +3876,17 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &588538466 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8015727234215421951, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 1911859907}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &590052382
 GameObject:
   m_ObjectHideFlags: 0
@@ -4192,11 +4226,20 @@ MonoBehaviour:
   musicMuteToggle: {fileID: 0}
   mouseSensitivity: 0.4
   sensitivitySlider: {fileID: 1911859914}
+  sensitivityValueText: {fileID: 588538466}
   languageIndex: 0
-  languageDropdown: {fileID: 1911859913}
+  languageText: {fileID: 372137388}
+  languageLeftButton: {fileID: 372137387}
+  languageRightButton: {fileID: 372137386}
+  languages:
+  - displayName: English
+    localeCode: English (en)
+  - displayName: "Catal\xE0"
+    localeCode: Catalan (ca)
+  - displayName: "Espa\xF1ol"
+    localeCode: Spanish (es)
   sprintIndex: 0
   isToggleSprint: 0
-  sprintDropdown: {fileID: 466000789}
   cameraRotation: {fileID: 281296276}
   ostMixer: {fileID: 383558292}
 --- !u!43 &687584675
@@ -12873,17 +12916,6 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1911859913 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 945482080505463724, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
-  m_PrefabInstance: {fileID: 1911859907}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1911859914 stripped

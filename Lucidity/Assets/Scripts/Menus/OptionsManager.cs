@@ -132,6 +132,7 @@ public class OptionsManager : MonoBehaviour
         yield return LocalizationSettings.InitializationOperation;
 
         languageIndex = Mathf.Clamp(languageIndex, 0, languages.Length - 1);
+        Debug.Log("Index: " + languageIndex + " - Size: " + languages.Length);
 
         ApplyLanguage();
 

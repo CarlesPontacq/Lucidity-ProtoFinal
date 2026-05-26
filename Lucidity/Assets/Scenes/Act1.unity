@@ -5339,6 +5339,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc25579602d24ce4d84648cea7351946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &876556202 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8015727234215421951, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 6084432540919551881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &897116275
 Mesh:
   m_ObjectHideFlags: 0
@@ -5930,12 +5941,18 @@ MonoBehaviour:
   musicMuteToggle: {fileID: 0}
   mouseSensitivity: 0.4
   sensitivitySlider: {fileID: 1867835696}
-  sensitivityValueText: {fileID: 0}
+  sensitivityValueText: {fileID: 876556202}
   languageIndex: 0
-  languageText: {fileID: 0}
-  languageLeftButton: {fileID: 0}
-  languageRightButton: {fileID: 0}
-  languages: []
+  languageText: {fileID: 1111603982}
+  languageLeftButton: {fileID: 6084432540919551883}
+  languageRightButton: {fileID: 6084432540919551882}
+  languages:
+  - displayName: English
+    localeCode: English (en)
+  - displayName: "Catal\xE0"
+    localeCode: Catalan (ca)
+  - displayName: "Espa\xF1ol"
+    localeCode: Spanish (es)
   sprintIndex: 0
   isToggleSprint: 0
   cameraRotation: {fileID: 1928008041}
@@ -6923,6 +6940,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2124349951116417019, guid: 2b98c035edae56b4e8f9db3d38bcb1bf, type: 3}
   m_PrefabInstance: {fileID: 1109634413}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1111603982 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3890846014252164158, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 6084432540919551881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1117677026
 GameObject:
   m_ObjectHideFlags: 0
@@ -14376,10 +14404,34 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 970217620}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5733234704082496912, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+    - {fileID: 1661893715128451875, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+--- !u!114 &6084432540919551882 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4959784628826001225, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 6084432540919551881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6084432540919551883 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7858773146282656839, guid: 1a33092edd04e624a88e44e470abb098, type: 3}
+  m_PrefabInstance: {fileID: 6084432540919551881}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6084432540919551884 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 365377745398493513, guid: 1a33092edd04e624a88e44e470abb098, type: 3}

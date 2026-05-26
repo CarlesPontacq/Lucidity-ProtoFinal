@@ -23,6 +23,9 @@ public class DoorController : MonoBehaviour
     [SerializeField] private bool requiresReportToOpen = false;
     [SerializeField] private ReportResultState reportState;
 
+    [Header("SFX")]
+    [SerializeField] private string openDoorSFX = "openDoor";
+    [SerializeField] private string closeDoorSFX = "closeDoor";
     public bool IsInteractable => !isLocked;
 
     private bool isOpen = false;
@@ -190,7 +193,7 @@ public class DoorController : MonoBehaviour
         {
             hasToApplyRotation = true;
 
-            SFXManager.Instance.PlaySpatialSound("openDoor", soundPosition, 1f);
+            SFXManager.Instance.PlaySpatialSound(openDoorSFX, soundPosition, 1f);
         }
         else
         {
@@ -211,7 +214,7 @@ public class DoorController : MonoBehaviour
         {
             hasToApplyRotation = true;
 
-            SFXManager.Instance.PlaySpatialSound("closeDoor", soundPosition, 1f);
+            SFXManager.Instance.PlaySpatialSound(closeDoorSFX, soundPosition, 1f);
         }
         else
         {

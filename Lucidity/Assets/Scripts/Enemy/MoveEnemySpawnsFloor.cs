@@ -6,6 +6,7 @@ public class MoveEnemySpawnsFloor : MonoBehaviour
     [SerializeField] private Transform enemySpawnsParent;
     [SerializeField] private GameObject spawnPointToDeactivate;
     [SerializeField] private GameObject spawnPointToActivate;
+    [SerializeField] private Transform whisperSFXParent;
     [SerializeField] private float newYPos;
     private string playerTag = "Player";
 
@@ -18,9 +19,13 @@ public class MoveEnemySpawnsFloor : MonoBehaviour
             spawnPointToActivate.SetActive(true);
             spawnPointToDeactivate.SetActive(false);
 
-            Vector3 newPos = enemySpawnsParent.position;
-            newPos.y = newYPos;
-            enemySpawnsParent.position = newPos;
+            Vector3 newSpanwsPos = enemySpawnsParent.position;
+            newSpanwsPos.y = newYPos;
+            enemySpawnsParent.position = newSpanwsPos;
+
+            Vector3 newWhisperPos = whisperSFXParent.position;
+            newWhisperPos.y = newYPos;
+            whisperSFXParent.position = newWhisperPos;
 
             enemyChaseSpawner.SetDefaultSpawnPoint(spawnPointToDeactivate.transform);
             enemyChaseSpawner.ResetSpawnCycle();

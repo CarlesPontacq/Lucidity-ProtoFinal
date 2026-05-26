@@ -24,6 +24,7 @@ public class OptionsManager : MonoBehaviour
     [Header("Sensitivity")]
     public float mouseSensitivity = 0.75f;
     [SerializeField] private Slider sensitivitySlider;
+    [SerializeField] private TMP_Text sensitivityValueText;
 
     [Header("Language")]
     public int languageIndex = 0;
@@ -32,13 +33,14 @@ public class OptionsManager : MonoBehaviour
     [SerializeField] private Button languageLeftButton;
     [SerializeField] private Button languageRightButton;
 
-    [SerializeField]
-    private string[] languageDisplayNames =
+    [System.Serializable]
+    public class LanguageOption
     {
-    "Català",
-    "Español",
-    "English"
-};
+        public string displayName;
+        public string localeCode;
+    }
+
+    [SerializeField] private LanguageOption[] languages;
 
     [Header("Sprint")]
     public int sprintIndex = 0;
@@ -97,6 +99,7 @@ public class OptionsManager : MonoBehaviour
         if (sensitivitySlider != null)
             sensitivitySlider.SetValueWithoutNotify(mouseSensitivity);
 
+        UpdateSensitivityText();
         UpdateLanguageUI();
     }
 
@@ -128,16 +131,9 @@ public class OptionsManager : MonoBehaviour
     {
         yield return LocalizationSettings.InitializationOperation;
 
-        languageIndex = Mathf.Clamp(
-            languageIndex,
-            0,
-            LocalizationSettings.AvailableLocales.Locales.Count - 1
-        );
+        languageIndex = Mathf.Clamp(languageIndex, 0, languages.Length - 1);
 
-        LocalizationSettings.SelectedLocale =
-            LocalizationSettings.AvailableLocales.Locales[languageIndex];
-
-        UpdateLanguageUI();
+        ApplyLanguage();
 
         languageLeftButton.onClick.AddListener(PreviousLanguage);
         languageRightButton.onClick.AddListener(NextLanguage);
@@ -148,10 +144,7 @@ public class OptionsManager : MonoBehaviour
         languageIndex--;
 
         if (languageIndex < 0)
-        {
-            languageIndex =
-                LocalizationSettings.AvailableLocales.Locales.Count - 1;
-        }
+            languageIndex = languages.Length - 1;
 
         ApplyLanguage();
     }
@@ -160,18 +153,24 @@ public class OptionsManager : MonoBehaviour
     {
         languageIndex++;
 
-        if (languageIndex >= LocalizationSettings.AvailableLocales.Locales.Count)
-        {
+        if (languageIndex >= languages.Length)
             languageIndex = 0;
-        }
 
         ApplyLanguage();
     }
 
     private void ApplyLanguage()
     {
-        LocalizationSettings.SelectedLocale =
-            LocalizationSettings.AvailableLocales.Locales[languageIndex];
+        string selectedCode = languages[languageIndex].localeCode;
+
+        foreach (var locale in LocalizationSettings.AvailableLocales.Locales)
+        {
+            if (locale.Identifier.Code == selectedCode)
+            {
+                LocalizationSettings.SelectedLocale = locale;
+                break;
+            }
+        }
 
         UpdateLanguageUI();
         SaveOptions();
@@ -182,12 +181,10 @@ public class OptionsManager : MonoBehaviour
         if (languageText == null)
             return;
 
-        if (languageDisplayNames == null || languageDisplayNames.Length == 0)
+        if (languages == null || languages.Length == 0)
             return;
 
-        int displayIndex = Mathf.Clamp(languageIndex, 0, languageDisplayNames.Length - 1);
-
-        languageText.text = languageDisplayNames[displayIndex];
+        languageText.text = languages[languageIndex].displayName;
     }
 
     private void ApplySound()
@@ -242,6 +239,7 @@ public class OptionsManager : MonoBehaviour
     public void SetMouseSensitivity(float value)
     {
         mouseSensitivity = value;
+        UpdateSensitivityText();
         ApplySensitivity();
         SaveOptions();
     }
@@ -253,5 +251,14 @@ public class OptionsManager : MonoBehaviour
 
         ApplySprintMode();
         SaveOptions();
+    }
+
+    private void UpdateSensitivityText()
+    {
+        if (sensitivityValueText == null)
+            return;
+
+        int percentage = Mathf.RoundToInt(mouseSensitivity * 100f);
+        sensitivityValueText.text = percentage.ToString();
     }
 }

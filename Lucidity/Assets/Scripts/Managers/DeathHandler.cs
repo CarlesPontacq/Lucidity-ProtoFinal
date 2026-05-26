@@ -54,9 +54,11 @@ public class DeathHandler : MonoBehaviour
             yield return new WaitForSecondsRealtime(5f);
 
         // Reset loops
-        GameManager.LoopManagerRef.SubtractLoopToCount();
         if (GameManager.LoopManagerRef != null)
+        {
+            GameManager.LoopManagerRef.SubtractLoopToCount();
             GameManager.LoopManagerRef.StartLoopFresh();
+        }
 
         yield return RespawnPlayer();
 

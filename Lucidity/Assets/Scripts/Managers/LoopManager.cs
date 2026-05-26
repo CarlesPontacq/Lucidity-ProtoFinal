@@ -59,6 +59,7 @@ public class LoopManager : MonoBehaviour
             {
                 Debug.Log("Report correcto -> sumo loop");
                 AddLoopToCount();
+                SFXManager.Instance.PlayGlobalSound("correctLoop", 0.75f);
             }
             else
             {

@@ -2421,6 +2421,21 @@ MonoBehaviour:
   disablePermanentlyWhenCaptured: 0
   respawnDelay: 20
   firstSpawnLoop: 1
+  enemySpawnProbability: 0.6
+  stunUnlockSpawnDelay: 1.5
+  scriptedLoopsEnemies:
+  - loop: 1
+    loopHasBeenProcessed: 0
+    enemyHasToSpawn: 1
+  - loop: 2
+    loopHasBeenProcessed: 0
+    enemyHasToSpawn: 1
+  - loop: 3
+    loopHasBeenProcessed: 0
+    enemyHasToSpawn: 0
+  - loop: 4
+    loopHasBeenProcessed: 0
+    enemyHasToSpawn: 1
   cameraUI: {fileID: 2063194145}
 --- !u!114 &318257581 stripped
 MonoBehaviour:
@@ -9143,7 +9158,6 @@ MonoBehaviour:
   scriptedLoopsAnomalies:
   - loop: 1
     loopHasBeenSpawned: 0
-    enemyHasToSpawn: 1
     loopEntries:
     - id: 18
       prefab: {fileID: 1120138023}
@@ -9155,7 +9169,6 @@ MonoBehaviour:
       areaID: 0
   - loop: 2
     loopHasBeenSpawned: 0
-    enemyHasToSpawn: 1
     loopEntries:
     - id: 17
       prefab: {fileID: 1927312710}
@@ -9167,7 +9180,6 @@ MonoBehaviour:
       areaID: 0
   - loop: 3
     loopHasBeenSpawned: 0
-    enemyHasToSpawn: 0
     loopEntries:
     - id: 01
       prefab: {fileID: 1071576265}
@@ -9183,11 +9195,7 @@ MonoBehaviour:
       areaID: 1
   - loop: 4
     loopHasBeenSpawned: 0
-    enemyHasToSpawn: 1
     loopEntries: []
-  enemySpawner: {fileID: 318053360}
-  enemySpawnProbability: 0.6
-  stunUnlockSpawnDelay: 1.5
   autoStartOnBegin: 0
 --- !u!4 &1423677013
 Transform:

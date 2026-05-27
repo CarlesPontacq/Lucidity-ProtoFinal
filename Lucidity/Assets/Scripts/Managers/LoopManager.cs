@@ -109,6 +109,7 @@ public class LoopManager : MonoBehaviour
         {
             enemySpawner.StopAllCoroutines();
             enemySpawner.ClearEnemy();
+            enemySpawner.DecideAndSpawnForLoop(currentLoop);
         }
 
         if (anomalyManager != null)

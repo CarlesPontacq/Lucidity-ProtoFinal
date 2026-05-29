@@ -24,7 +24,15 @@ public class OptionsManager : MonoBehaviour
     [Header("Sensitivity")]
     public float mouseSensitivity = 0.75f;
     [SerializeField] private Slider sensitivitySlider;
+
+
+    [Header("Slider Value Texts")]
     [SerializeField] private TMP_Text sensitivityValueText;
+    [SerializeField] private TMP_Text generalVolumeValueText;
+    [SerializeField] private TMP_Text musicVolumeValueText;
+    [SerializeField] private TMP_Text soundVolumeValueText;
+    public float generalVolume = 1f;
+    [SerializeField] private Slider generalVolumeSlider;
 
     [Header("Language")]
     public int languageIndex = 0;
@@ -46,6 +54,31 @@ public class OptionsManager : MonoBehaviour
     public int sprintIndex = 0;
     public bool isToggleSprint = false;
 
+    [SerializeField] private TMP_Text sprintText;
+    [SerializeField] private Button sprintLeftButton;
+    [SerializeField] private Button sprintRightButton;
+
+    [SerializeField]
+    private string[] sprintModesCatalan =
+    {
+    "Mantenir",
+    "Prémer"
+};
+
+    [SerializeField]
+    private string[] sprintModesSpanish =
+    {
+    "Mantener",
+    "Apretar"
+};
+
+    [SerializeField]
+    private string[] sprintModesEnglish =
+    {
+    "Hold",
+    "Press"
+};
+
     [Header("References")]
     [SerializeField] private CameraRotation cameraRotation;
     [SerializeField] private AudioSource ostMixer;
@@ -61,6 +94,13 @@ public class OptionsManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(StartLocalization());
+
+        if (sprintLeftButton != null)
+            sprintLeftButton.onClick.AddListener(PreviousSprintMode);
+
+        if (sprintRightButton != null)
+            sprintRightButton.onClick.AddListener(NextSprintMode);
+
         LoadOptions();
         ApplyOptions();
         RefreshUI();
@@ -101,6 +141,12 @@ public class OptionsManager : MonoBehaviour
 
         UpdateSensitivityText();
         UpdateLanguageUI();
+        UpdateSprintUI();
+
+        UpdateSliderValueText(sensitivityValueText, mouseSensitivity);
+        UpdateSliderValueText(generalVolumeValueText, generalVolume);
+        UpdateSliderValueText(musicVolumeValueText, musicVolume);
+        UpdateSliderValueText(soundVolumeValueText, soundVolume);
     }
 
     public void SaveOptions()
@@ -174,6 +220,7 @@ public class OptionsManager : MonoBehaviour
         }
 
         UpdateLanguageUI();
+        UpdateSprintUI();
         SaveOptions();
     }
 
@@ -219,10 +266,18 @@ public class OptionsManager : MonoBehaviour
     public void SetSoundVolume(float value)
     {
         soundVolume = value;
+        UpdateSliderValueText(soundVolumeValueText, soundVolume);
         ApplySound();
         SaveOptions();
     }
 
+    public void SetGeneralVolume(float value)
+    {
+        generalVolume = value;
+        UpdateSliderValueText(generalVolumeValueText, generalVolume);
+        AudioListener.volume = generalVolume;
+        SaveOptions();
+    }
     public void SetMusicMute(bool value)
     {
         isMusicMute = value;
@@ -233,6 +288,7 @@ public class OptionsManager : MonoBehaviour
     public void SetMusicVolume(float value)
     {
         musicVolume = value;
+        UpdateSliderValueText(musicVolumeValueText, musicVolume);
         ApplySound();
         SaveOptions();
     }
@@ -240,20 +296,58 @@ public class OptionsManager : MonoBehaviour
     public void SetMouseSensitivity(float value)
     {
         mouseSensitivity = value;
-        UpdateSensitivityText();
+        UpdateSliderValueText(sensitivityValueText, mouseSensitivity);
         ApplySensitivity();
         SaveOptions();
     }
 
-    public void OnSprintModeChanged(int index)
+    public void PreviousSprintMode()
     {
-        sprintIndex = index;
-        isToggleSprint = index == 1;
+        sprintIndex = (sprintIndex == 0) ? 1 : 0;
+        ApplySprintSelection();
+    }
 
+    public void NextSprintMode()
+    {
+        sprintIndex = (sprintIndex == 0) ? 1 : 0;
+        ApplySprintSelection();
+    }
+
+    private void ApplySprintSelection()
+    {
+        isToggleSprint = sprintIndex == 1;
+
+        UpdateSprintUI();
         ApplySprintMode();
         SaveOptions();
     }
 
+    private void UpdateSprintUI()
+    {
+        if (sprintText == null)
+            return;
+
+        string currentLanguageCode = LocalizationSettings.SelectedLocale.Identifier.Code;
+
+        switch (currentLanguageCode)
+        {
+            case "ca":
+                sprintText.text = sprintModesCatalan[sprintIndex];
+                break;
+
+            case "es":
+                sprintText.text = sprintModesSpanish[sprintIndex];
+                break;
+
+            case "en":
+                sprintText.text = sprintModesEnglish[sprintIndex];
+                break;
+
+            default:
+                sprintText.text = sprintModesEnglish[sprintIndex];
+                break;
+        }
+    }
     private void UpdateSensitivityText()
     {
         if (sensitivityValueText == null)
@@ -261,5 +355,14 @@ public class OptionsManager : MonoBehaviour
 
         int percentage = Mathf.RoundToInt(mouseSensitivity * 100f);
         sensitivityValueText.text = percentage.ToString();
+    }
+
+    private void UpdateSliderValueText(TMP_Text text, float value)
+    {
+        if (text == null)
+            return;
+
+        int percentage = Mathf.RoundToInt(value * 100f);
+        text.text = percentage.ToString();
     }
 }

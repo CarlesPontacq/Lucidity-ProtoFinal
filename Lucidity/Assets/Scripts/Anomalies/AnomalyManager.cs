@@ -19,7 +19,6 @@ public class AnomalyManager : MonoBehaviour
     {
         public int loop;
         public bool loopHasBeenSpawned;
-        public bool enemyHasToSpawn;
         [SerializeField] public List<Entry> loopEntries = new();
     }
 
@@ -40,12 +39,6 @@ public class AnomalyManager : MonoBehaviour
     [Header("Scripted Loops")]
     [SerializeField] private List<ScriptedLoopAnomalies> scriptedLoopsAnomalies = new();
 
-    [Header("Enemy Related")]
-    [SerializeField] private EnemyLoopSpawner enemySpawner;
-    [SerializeField][Range(0f, 1f)] private float enemySpawnProbability = 0.6f;
-    [SerializeField] private float stunUnlockSpawnDelay = 1.5f;
-    private bool enemyHasToSpawn = false;
-
     [Header("Auto Start")]
     [Tooltip("Si LoopManager ya llama StartNewLoop(), desactiva esto para evitar doble arranque.")]
     [SerializeField] private bool autoStartOnBegin = false;
@@ -54,7 +47,6 @@ public class AnomalyManager : MonoBehaviour
 
     public int ExpectedAnomaliesThisLoop { get; private set; } = 0;
 
-    private bool pendingEnemySpawn = false;
 
     // Instancias vivas REALES en escena
     public int ActiveSpawnedCount
@@ -73,8 +65,6 @@ public class AnomalyManager : MonoBehaviour
     private void Start()
     {
         Debug.Log($"[AnomalyManager {GetInstanceID()}] Start() called. EntryCount={EntryCount}");
-
-        GameManager.GrabHandlerRef.OnStunUnlocked += HandleStunUnlocked;
 
         if (autoStartOnBegin)
             StartNewLoop();
@@ -109,7 +99,6 @@ public class AnomalyManager : MonoBehaviour
 
         selectedEntriesThisLoop.Clear();
 
-        enemyHasToSpawn = scriptedLoopsAnomalies[currentLoop].enemyHasToSpawn;
         foreach(Entry entry in scriptedLoopsAnomalies[currentLoop].loopEntries)
         {
             selectedEntriesThisLoop.Add(entry);
@@ -125,8 +114,6 @@ public class AnomalyManager : MonoBehaviour
         anomaliesPerLoop = UnityEngine.Random.Range(min, max + 1);
 
         Debug.Log($"[AnomalyManager {GetInstanceID()}] StartNewLoop() called. EntryCount={EntryCount} anomaliesPerLoop={anomaliesPerLoop}");
-
-        DecideIfEnemySpawns();
 
         SelectEntriesForThisLoop();
         SpawnSelectedEntries();
@@ -145,12 +132,6 @@ public class AnomalyManager : MonoBehaviour
         }
 
         int count = Mathf.Min(anomaliesPerLoop, entries.Count);
-
-        if (enemyHasToSpawn && count > 0)
-        {
-            count = Mathf.Max(1, count - 1);
-            Debug.Log($"[AnomalyManager] Enemy will spawn this loop, reducing normal anomalies to {count}");
-        }
 
         List<Entry> bag = new List<Entry>(entries);
         HashSet<AreasID> usedAreas = new HashSet<AreasID>();
@@ -209,7 +190,7 @@ public class AnomalyManager : MonoBehaviour
     {
         ExpectedAnomaliesThisLoop = 0;
 
-        if (selectedEntriesThisLoop.Count == 0 && !enemyHasToSpawn)
+        if (selectedEntriesThisLoop.Count == 0)
         {
             Debug.LogWarning($"[AnomalyManager {GetInstanceID()}] selectedEntriesThisLoop is empty and no enemy to spawn!");
             return;
@@ -232,44 +213,26 @@ public class AnomalyManager : MonoBehaviour
             spawnedThisLoop.Add(e.prefab);
             ExpectedAnomaliesThisLoop++;
         }
-
-        if (enemyHasToSpawn && enemySpawner != null)
-        {
-            ExpectedAnomaliesThisLoop++;
-
-            if (GameManager.GrabHandlerRef.HasUnlockedStun())
-            {
-                Debug.Log("[AnomalyManager] Enemy spawning normally");
-
-                int currentLoopIndex = GameManager.LoopManagerRef.GetCurrentLoopIndex();
-                enemySpawner.SpawnForLoopAsAnomaly(currentLoopIndex);
-            }
-            else
-            {
-                Debug.Log("[AnomalyManager] Enemy waiting for stun unlock");
-                pendingEnemySpawn = true;
-            }
-        }
     }
 
-    private void DecideIfEnemySpawns()
-    {
-        if (enemySpawner == null)
-        {
-            enemyHasToSpawn = false;
-            return;
-        }
+    //private void DecideIfEnemySpawns()
+    //{
+    //    if (enemySpawner == null)
+    //    {
+    //        enemyHasToSpawn = false;
+    //        return;
+    //    }
 
-        enemyHasToSpawn = UnityEngine.Random.value <= enemySpawnProbability;
-        if (enemyHasToSpawn)
-        {
-            Debug.Log($"[AnomalyManager] Enemy will spawn this loop with probability {enemySpawnProbability:P}");
-        }
-        else
-        {
-            Debug.Log($"[AnomalyManager] No enemy this loop");
-        }
-    }
+    //    enemyHasToSpawn = UnityEngine.Random.value <= enemySpawnProbability;
+    //    if (enemyHasToSpawn)
+    //    {
+    //        Debug.Log($"[AnomalyManager] Enemy will spawn this loop with probability {enemySpawnProbability:P}");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log($"[AnomalyManager] No enemy this loop");
+    //    }
+    //}
 
     public void ClearSpawned()
     {
@@ -283,7 +246,6 @@ public class AnomalyManager : MonoBehaviour
 
         spawnedThisLoop.Clear();
         ExpectedAnomaliesThisLoop = 0;
-        enemyHasToSpawn = false;
     }
 
     public bool IsDocumented(string anomalyId) => documentedAnomalies.Contains(anomalyId);
@@ -295,35 +257,4 @@ public class AnomalyManager : MonoBehaviour
     }
 
     public List<Anomaly> GetSpawnedEnemiesThisLoop() => spawnedThisLoop;
-
-    public bool DoesEnemySpawnThisLoop() => enemyHasToSpawn;
-
-    private void HandleStunUnlocked()
-    {
-        if (!pendingEnemySpawn)
-            return;
-
-        pendingEnemySpawn = false;
-
-        StartCoroutine(DelayedEnemySpawnAfterUnlock());
-    }
-
-    private IEnumerator DelayedEnemySpawnAfterUnlock()
-    {
-        yield return new WaitForSeconds(stunUnlockSpawnDelay);
-
-        if (enemySpawner != null)
-        {
-            Debug.Log("[AnomalyManager] Spawning delayed enemy after stun unlock");
-
-            int currentLoopIndex = GameManager.LoopManagerRef.GetCurrentLoopIndex();
-            enemySpawner.SpawnForLoopAsAnomaly(currentLoopIndex);
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (GameManager.GrabHandlerRef != null)
-            GameManager.GrabHandlerRef.OnStunUnlocked -= HandleStunUnlocked;
-    }
 }

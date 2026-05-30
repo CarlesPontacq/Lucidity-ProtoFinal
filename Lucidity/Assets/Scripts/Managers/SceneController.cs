@@ -12,6 +12,8 @@ public class SceneController : MonoBehaviour
     private int currentCheckpointAct;
     private const string CURRENT_ACT = "current_act";
 
+    private int currentMaxCompletedAct;
+    private const string COMPLETED_ACTS = "completed_acts";
 
     void Awake()
     {
@@ -42,6 +44,19 @@ public class SceneController : MonoBehaviour
         SaveCheckpoint();
     }
 
+    void SaveCompletedAct()
+    {
+        if (currentScene > mainMenuScene && currentScene < creditsScene)
+        {
+            int completedActs = currentScene - 1;
+            if (completedActs > PlayerPrefs.GetInt(COMPLETED_ACTS))
+            {
+                PlayerPrefs.SetInt(COMPLETED_ACTS, completedActs);
+                currentMaxCompletedAct = completedActs;
+            }          
+        }
+    }
+
     void SaveCheckpoint()
     {
         currentScene = SceneManager.GetActiveScene().buildIndex;
@@ -61,6 +76,9 @@ public class SceneController : MonoBehaviour
     public void LoadNextScene()
     {
         if (currentScene >= SceneManager.sceneCountInBuildSettings || currentScene < 0) return;
+
+        currentMaxCompletedAct = PlayerPrefs.GetInt(COMPLETED_ACTS, 0);
+        SaveCompletedAct();
 
         int nextScene = ++currentScene;
         SceneManager.LoadScene(nextScene);

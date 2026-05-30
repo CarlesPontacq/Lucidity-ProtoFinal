@@ -9,15 +9,34 @@ public class EnemyLoopSpawner : EnemySpawner
     [SerializeField] private float respawnDelay = 10f;
 
     [Header("Loop Rules")]
-    private int baseLoop = 0;
     [SerializeField] private int firstSpawnLoop = 1;
+    private int baseLoop = 0;
+    [SerializeField][Range(0f, 1f)] private float enemySpawnProbability = 0.6f;
+    [SerializeField] private float stunUnlockSpawnDelay = 1.5f;
+
+    [Header("Scripted Loops")]
+    [SerializeField] private List<ScriptedLoopEnemy> scriptedLoopsEnemies = new();
 
     [Header("Spawn Effects")]
     [SerializeField] private CameraUIHandler cameraUI;
 
+    [System.Serializable]
+    public class ScriptedLoopEnemy
+    {
+        public int loop;
+        public bool loopHasBeenProcessed;
+        public bool enemyHasToSpawn;
+    }
+
     public bool enemyEnabledThisLoop { get; private set; } = false;
     private int currentLoopIndex = 0;
-    private bool spawnedAsAnomaly = false;
+    private bool pendingEnemySpawn = false;
+    private bool enemyHasToSpawnForCurrentLoop = false;
+
+    private void Start()
+    {
+        GameManager.GrabHandlerRef.OnStunUnlocked += HandleStunUnlocked;
+    }
 
     private void Update()
     {
@@ -27,10 +46,49 @@ public class EnemyLoopSpawner : EnemySpawner
         }
     }
 
+    public void DecideAndSpawnForLoop(int loopIndex)
+    {
+        currentLoopIndex = loopIndex;
+
+        // Verificar si hay regla para loop scripteado
+        if (currentLoopIndex - 1 < scriptedLoopsEnemies.Count)
+        {
+            var scriptedLoop = scriptedLoopsEnemies[currentLoopIndex - 1];
+            if (!scriptedLoop.loopHasBeenProcessed)
+            {
+                scriptedLoop.loopHasBeenProcessed = true;
+                enemyHasToSpawnForCurrentLoop = scriptedLoop.enemyHasToSpawn;
+
+                if (enemyHasToSpawnForCurrentLoop)
+                {
+                    SpawnEnemyIfNeeded();
+                }
+                return;
+            }
+        }
+
+        // Decisión aleatoria para loops no scripteados
+        DecideIfEnemySpawnsRandomly();
+        SpawnEnemyIfNeeded();
+    }
+
+    private void DecideIfEnemySpawnsRandomly()
+    {
+        enemyHasToSpawnForCurrentLoop = UnityEngine.Random.value <= enemySpawnProbability;
+
+        if (enemyHasToSpawnForCurrentLoop)
+        {
+            Debug.Log($"[EnemyLoopSpawner] Enemy will spawn this loop with probability {enemySpawnProbability:P}");
+        }
+        else
+        {
+            Debug.Log($"[EnemyLoopSpawner] No enemy this loop");
+        }
+    }
+
     public void SpawnForLoopAsAnomaly(int loopIndex)
     {
         currentLoopIndex = loopIndex;
-        spawnedAsAnomaly = true;
         enemyEnabledThisLoop = true;
 
         StopCycle();
@@ -41,6 +99,23 @@ public class EnemyLoopSpawner : EnemySpawner
         SpawnEnemyOnce();
     }
 
+    private void SpawnEnemyIfNeeded()
+    {
+        if (!enemyHasToSpawnForCurrentLoop)
+            return;
+
+        if (GameManager.GrabHandlerRef.HasUnlockedStun())
+        {
+            Debug.Log($"[EnemyLoopSpawner] Spawning enemy normally for loop {currentLoopIndex}");
+            SpawnForLoopAsAnomaly(currentLoopIndex);
+        }
+        else
+        {
+            Debug.Log("[EnemyLoopSpawner] Enemy waiting for stun unlock");
+            pendingEnemySpawn = true;
+        }
+    }
+
     protected override void SpawnEnemyOnce()
     {
         base.SpawnEnemyOnce();
@@ -49,7 +124,7 @@ public class EnemyLoopSpawner : EnemySpawner
         if (stunner != null)
             stunner.Init(this);
 
-        Debug.Log($"[EnemySpawner] Spawned enemy successfully. loop={currentLoopIndex} chase={true} asAnomaly={spawnedAsAnomaly}");
+        Debug.Log($"[EnemySpawner] Spawned enemy successfully. loop={currentLoopIndex} chase={true}");
 
         cameraUI.ShowCameraRedLight(true);
     }
@@ -114,5 +189,34 @@ public class EnemyLoopSpawner : EnemySpawner
     public void ResetCurrentLoopIndex()
     {
         currentLoopIndex = baseLoop;
+    }
+
+    private void HandleStunUnlocked()
+    {
+        if (!pendingEnemySpawn)
+            return;
+
+        pendingEnemySpawn = false;
+
+        StartCoroutine(DelayedEnemySpawnAfterUnlock());
+    }
+
+    private IEnumerator DelayedEnemySpawnAfterUnlock()
+    {
+        yield return new WaitForSeconds(stunUnlockSpawnDelay);
+
+        if (enemyHasToSpawnForCurrentLoop)
+        {
+            Debug.Log("[EnemyLoopSpawner] Spawning delayed enemy after stun unlock");
+            SpawnForLoopAsAnomaly(currentLoopIndex);
+        }
+    }
+
+    public bool DoesEnemySpawnThisLoop() => enemyHasToSpawnForCurrentLoop;
+
+    private void OnDestroy()
+    {
+        if (GameManager.GrabHandlerRef != null)
+            GameManager.GrabHandlerRef.OnStunUnlocked -= HandleStunUnlocked;
     }
 }

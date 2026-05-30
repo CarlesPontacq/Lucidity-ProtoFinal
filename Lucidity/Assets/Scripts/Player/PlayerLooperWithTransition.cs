@@ -5,7 +5,8 @@
     public class PlayerLooperWithTransition : MonoBehaviour
     {
         [Header("Player References")]
-        [SerializeField] private Transform teleportDestination;
+        [SerializeField] private Transform regularTeleportDestination;
+        [SerializeField] private Transform endingTeleportDestination;
         [SerializeField] private Rigidbody playerRb;
         [SerializeField] private CapsuleCollider playerCollider;
         [SerializeField] private CameraRotation playerCameraRotationRef;
@@ -37,18 +38,17 @@
                 return;
 
             isTeleporting = true;
-            StartCoroutine(TeleportRoutine());
+            StartCoroutine(TeleportRoutine(regularTeleportDestination));
         }
 
-        private IEnumerator TeleportRoutine()
+        private IEnumerator TeleportRoutine(Transform teleportDestination)
         {
             if (fadeImage != null)
                 yield return FadeAlpha(0f, 1f, fadeOutDuration);
 
             if (GameManager.LoopManagerRef.GetFinishedLoops())
             {
-                SceneController.Instance.LoadNextScene();
-                yield break;    
+                teleportDestination = endingTeleportDestination;    
             }
 
             if (blackHoldDuration > 0f)

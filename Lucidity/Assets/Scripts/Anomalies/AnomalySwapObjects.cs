@@ -54,6 +54,8 @@ public class AnomalySwapObjects : Anomaly
     {
         base.MarkUnspawned();
 
+        if (normalRoot == null) return;
+
         // Cuando SE SPAWNEA
         normalRoot.layer = defaultLayer;
         foreach(Transform child in normalRoot.transform)

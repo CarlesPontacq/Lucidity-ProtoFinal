@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Anomaly : MonoBehaviour, ICameraModeListener
+public abstract class Anomaly : MonoBehaviour
 {
     [SerializeField] private string anomalyId;
     public string Id => anomalyId;

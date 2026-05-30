@@ -49,11 +49,17 @@ public class InteractionFeedback : MonoBehaviour
 
     void MakeReticleBigger()
     {
+        if (reticle == null)
+            return;
+
         StartReticleSizeAnimation(reticle.rectTransform.localScale.x, reticleFocusSize);
     }
 
     void ReturnReticleToNormalSize()
     {
+        if (reticle == null)
+            return;
+
         StartReticleSizeAnimation(reticle.rectTransform.localScale.x, reticleRegularSize);
     }
 

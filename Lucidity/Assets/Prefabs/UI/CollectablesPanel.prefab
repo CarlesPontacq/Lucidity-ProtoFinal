@@ -65,16 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Bea M\xFCller solicita confirmaci\xF3n sobre un env\xEDo de suministros
-    m\xE9dicos de Artemis hacia el hospital del Distrito, a lo que Sebastian Schneider
-    responde que ya est\xE1n en camino y que contar\xE1n con un margen de veinte
-    minutos si llegan durante el cambio de turno. Dominik Uhlig a\xF1ade que utilizar\xE1n
-    el desv\xEDo de la cantera, una zona ya despejada de testigos, para trasladar
-    el cargamento a los s\xF3tanos del Bloque C. Finalmente, M\xFCller indica que
-    la transacci\xF3n debe registrarse formalmente como una donaci\xF3n para los
-    c\xEDrculos educativos, advirtiendo que si el Leiter sospecha que el pueblo se
-    est\xE1 armando, se ver\xE1n obligados a adelantar los planes, poniendo en riesgo
-    a cientos de familias."
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fe17d83fc2577f54386c8c77c78642c1, type: 2}
   m_sharedMaterial: {fileID: 7359607884239315069, guid: fe17d83fc2577f54386c8c77c78642c1, type: 2}
@@ -199,7 +190,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoDisplay: {fileID: 1548416454275543231}
-  collectables:
+  lockedCollectable: {fileID: 11400000, guid: 64219f9dae0d9244f9af77d60eeb6269, type: 2}
+  collectables: []
+  collectablesAct1:
+  - {fileID: 11400000, guid: 9dcb82e005701d448b6199d2f0fed7ff, type: 2}
+  - {fileID: 11400000, guid: 0d281ed87e87b77468ad69038ae01146, type: 2}
+  - {fileID: 11400000, guid: d68a69e49ce0fa5418b2195b7d899e97, type: 2}
+  - {fileID: 11400000, guid: 81eafb552c07ab147b3dd3bf786309fb, type: 2}
+  - {fileID: 11400000, guid: b84f76648820fe146bc5bc1850b52ccd, type: 2}
+  - {fileID: 11400000, guid: ca2349b7d886db445ada5576e24e1285, type: 2}
+  - {fileID: 11400000, guid: cee58dee3a6dcd14ea19dad161fe972d, type: 2}
+  - {fileID: 11400000, guid: 0aa655a7ba06b3b408ec44fbde73d315, type: 2}
+  collectablesAct2:
   - {fileID: 11400000, guid: a16b918293a21914caf882eea100be53, type: 2}
   - {fileID: 11400000, guid: 7c9e8dbe023da774189c65ecfede5fd5, type: 2}
   - {fileID: 11400000, guid: 6c4a430abb0f61f4e8922026825ac0db, type: 2}
@@ -208,6 +210,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 926a1432e1a44a7419eeb077c298a207, type: 2}
   - {fileID: 11400000, guid: 77b201cb49fce674dbb5bd0b99f3dc8e, type: 2}
   - {fileID: 11400000, guid: c081a0cf0385fd146b2b72581f95e030, type: 2}
+  collectablesAct3:
+  - {fileID: 11400000, guid: 5ecd65f608080ab4bab0569d167c27da, type: 2}
+  - {fileID: 11400000, guid: 5895dbf3a2d6d4645ae3f89fe6c381df, type: 2}
+  - {fileID: 11400000, guid: 52362226183557c42afb2905ce6fb474, type: 2}
   previousArrow: {fileID: 6211201598606653557}
   nextArrow: {fileID: 7586764480655319616}
 --- !u!1 &675267908002716737
@@ -244,7 +250,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5076661119859862527
@@ -612,7 +618,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2967235743164252152
 RectTransform:
   m_ObjectHideFlags: 0
@@ -921,7 +927,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Corona de Los Arquitectos \u2013 Protocolo 24-C "
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fe17d83fc2577f54386c8c77c78642c1, type: 2}
   m_sharedMaterial: {fileID: 7359607884239315069, guid: fe17d83fc2577f54386c8c77c78642c1, type: 2}

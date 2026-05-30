@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RopeObject : ObjectInteraction
 {
-    [SerializeField] private TransitionToCredits transition;
+    [SerializeField] private TransitionToNextScene transition;
 
     public override void Interact()
     {

@@ -170,6 +170,27 @@ public class SFXManager : MonoBehaviour
         sfxObjectPool.Release(source);
     }
 
+    public IEnumerator PlayGlobalSoundAndWait(string soundName, float volume = 1f)
+    {
+        Sound sound = Array.Find(sounds, s => s.name == soundName);
+        if (sound == null)
+            yield break;
+
+        AudioSource audioSource = sfxObjectPool.Get();
+        audioSource.spatialBlend = 0;
+
+        audioSource.resource = sound.audio;
+        audioSource.volume = volume * globalVolume;
+        audioSource.Play();
+
+        while (audioSource.isPlaying)
+        {
+            yield return null;
+        }
+
+        sfxObjectPool.Release(audioSource);
+    }
+
     public void SetVolume(float v)
     {
         globalVolume = v;

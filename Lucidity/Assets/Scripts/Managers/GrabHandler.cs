@@ -14,7 +14,7 @@ public class GrabHandler : MonoBehaviour
     [SerializeField] private ReportSheetOverlayUI reportSheet;
     [SerializeField] private ItemInfoOverlay itemInfoOverlay;
     [SerializeField] private PlayerArmsAnimationController handsWithCamera;
-    [SerializeField] private TransitionToAct3 sceneTransition;
+    [SerializeField] private TransitionToNextScene sceneTransition;
 
 
     public event Action OnCameraTaken;
@@ -85,7 +85,14 @@ public class GrabHandler : MonoBehaviour
     {
         gunGrabbed = true;
         GameManager.LoopManagerRef.SetFinishedLoops(true);
-        GameManager.Instance.SetPlayerControlEnabled(false);
+        cameraRotation.SetControlEnabled(false);
+
+        StartCoroutine(sceneTransition.PlayTransition());
+    }
+
+    public void PillsGrabbed()
+    {
+        GameManager.LoopManagerRef.SetFinishedLoops(true);
         cameraRotation.SetControlEnabled(false);
 
         StartCoroutine(sceneTransition.PlayTransition());

@@ -15,7 +15,7 @@ public class DeathHandler : MonoBehaviour
 
     private float nextAllowedDeathTime = 0f;
 
-    private void SetPlayerBodyVisible(bool visible)
+    public void SetPlayerBodyVisible(bool visible)
     {
         if (playerBody == null) return;
 

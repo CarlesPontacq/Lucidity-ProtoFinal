@@ -7,7 +7,7 @@ public class SceneController : MonoBehaviour
 
     private int currentScene;
     private int mainMenuScene = 1;
-    private int creditsScene = 5;
+    private int creditsScene = 6;
 
     private int currentCheckpointAct;
     private const string CURRENT_ACT = "current_act";
@@ -40,7 +40,7 @@ public class SceneController : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        currentCheckpointAct = PlayerPrefs.GetInt(CURRENT_ACT);
+        currentCheckpointAct = PlayerPrefs.GetInt(CURRENT_ACT, 0);
         SaveCheckpoint();
     }
 
@@ -48,7 +48,7 @@ public class SceneController : MonoBehaviour
     {
         if (currentScene > mainMenuScene && currentScene < creditsScene)
         {
-            int completedActs = currentScene - 1;
+            int completedActs = currentScene - 2;
             if (completedActs > PlayerPrefs.GetInt(COMPLETED_ACTS))
             {
                 PlayerPrefs.SetInt(COMPLETED_ACTS, completedActs);

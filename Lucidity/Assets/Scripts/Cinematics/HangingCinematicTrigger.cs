@@ -4,7 +4,7 @@ using UnityEngine.ProBuilder.Shapes;
 
 public class HangingCinematicTrigger : MonoBehaviour
 {
-    [SerializeField] private TransitionToCredits transition;
+    [SerializeField] private TransitionToNextScene transition;
     [SerializeField] private GameObject cinematicCamera;
     private string playerTag = "Player";
     [SerializeField] private float waitTimeBeforeSounds = 15f;

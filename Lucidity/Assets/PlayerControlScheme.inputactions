@@ -511,6 +511,56 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Cinematic",
+            "id": "59945d63-b991-450d-8828-a2285cec3aa2",
+            "actions": [
+                {
+                    "name": "SkipCinematic",
+                    "type": "Button",
+                    "id": "df328a6d-dde6-4404-bf1e-cb94de343b59",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold(duration=3)",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fb1162ee-a52f-444e-8981-a0e9589c23b5",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkipCinematic",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "79f0e464-edb9-436b-ba92-60f641e37917",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkipCinematic",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b476d839-7eea-4018-9d2a-1a5ede45be50",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkipCinematic",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

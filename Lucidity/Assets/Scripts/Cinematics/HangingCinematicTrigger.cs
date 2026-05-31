@@ -4,6 +4,7 @@ using UnityEngine.ProBuilder.Shapes;
 
 public class HangingCinematicTrigger : MonoBehaviour
 {
+    [SerializeField] private GameObject gameplayUI;
     [SerializeField] private TransitionToNextScene transition;
     [SerializeField] private GameObject cinematicCamera;
     private string playerTag = "Player";
@@ -16,11 +17,12 @@ public class HangingCinematicTrigger : MonoBehaviour
             cinematicCamera.SetActive(true);
             GameManager.Instance.SetPlayerControlEnabled(false);
             GameManager.DeathHandlerRef.SetPlayerBodyVisible(false);
-            StartCoroutine(StartTransiition());
+            gameplayUI.SetActive(false);
+            StartCoroutine(StartTransition());
         }
     }
 
-    private IEnumerator StartTransiition()
+    private IEnumerator StartTransition()
     {
         yield return new WaitForSecondsRealtime(waitTimeBeforeSounds);
 

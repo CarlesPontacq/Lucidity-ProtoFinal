@@ -4,6 +4,7 @@ public class CinematicSkipping : MonoBehaviour
 {
     [SerializeField] private CinematicInputObserver input;
     [SerializeField] private CinematicSkipPanelUI ui;
+    [SerializeField] private CinematicController cinematicController;
 
     [SerializeField] private float completeThreshold = 1f;
 
@@ -28,10 +29,10 @@ public class CinematicSkipping : MonoBehaviour
 
         ui.SetProgress(progress);
 
-        if (!skipTriggered && progress >= completeThreshold)
+        if (!skipTriggered && progress >= 1f)
         {
             skipTriggered = true;
-            SceneController.Instance.LoadNextScene();
+            cinematicController.Skip();
         }
     }
 }

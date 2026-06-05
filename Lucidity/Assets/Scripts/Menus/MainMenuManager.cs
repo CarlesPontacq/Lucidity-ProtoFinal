@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -7,13 +8,16 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject mainMenuUX;
     [SerializeField] private GameObject optionsMenuUX;
     [SerializeField] private GameObject controlsMenuUX;
+    [SerializeField] private GameObject extrasMenuUX;
+    [SerializeField] private Button continueButton;
 
     void Start()
     {
         controller = SceneController.Instance;
         mainMenuUX.SetActive(true);
         optionsMenuUX.SetActive(false);
-        controlsMenuUX.SetActive(false);
+        extrasMenuUX.SetActive(false);
+        ActivateContinueButton();
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -24,9 +28,22 @@ public class MainMenuManager : MonoBehaviour
 
     }
 
+    void ActivateContinueButton()
+    {
+        if (controller.ThereIsSavedACheckpoint())
+            continueButton.interactable = true;
+        else
+            continueButton.interactable = false;
+    }
+
     public void OnPlayButtonClick()
     {
         controller.LoadNextScene();
+    }
+
+    public void OnContinueButtonClick()
+    {
+        controller.LoadCheckpointScene();
     }
 
     public void OnExitButtonClick()
@@ -51,6 +68,12 @@ public class MainMenuManager : MonoBehaviour
         mainMenuUX.SetActive(false);
     }
 
+    public void OnExtrasButtonClick()
+    {
+        extrasMenuUX.SetActive(true);
+        mainMenuUX.SetActive(false);
+    }
+
     public void OnCloseOptionsClick()
     {
         mainMenuUX.SetActive(true);
@@ -61,5 +84,11 @@ public class MainMenuManager : MonoBehaviour
     {
         mainMenuUX.SetActive(true);
         controlsMenuUX.SetActive(false);
+    }
+
+    public void OnCloseExtrasClick()
+    {
+        mainMenuUX.SetActive(true);
+        extrasMenuUX.SetActive(false);
     }
 }

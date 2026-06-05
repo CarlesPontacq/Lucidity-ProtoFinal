@@ -9,12 +9,12 @@ public class ItemInfoOverlay : MonoBehaviour
     [SerializeField] PlayerInputObserver playerInput;
     [SerializeField] List<GameObject> otherCanvasToHide;
 
-    [SerializeField] TextMeshProUGUI nameText;
-    [SerializeField] TextMeshProUGUI descriptionText;
-    [SerializeField] Image image;
+    [SerializeField] InfoDisplay infoDisplay;
     [SerializeField] Image background;
+
     [SerializeField] private float waitTime = 2f;
     [SerializeField] private float currentWaitTime = 0f;
+
     private bool waitTimeEnded = false;
     private bool opened = false;
 
@@ -42,8 +42,10 @@ public class ItemInfoOverlay : MonoBehaviour
         waitTimeEnded = false;
         opened = true;
 
-        SetInfo(itemData);
+        infoDisplay.SetInfo(itemData);
+
         Show();
+
         Time.timeScale = 0f;
         playerInput.SwitchActionMap(PlayerInputObserver.ActionMap.ItemInfo);
     }
@@ -51,8 +53,8 @@ public class ItemInfoOverlay : MonoBehaviour
     public void CloseInfo()
     {
         if (!waitTimeEnded) return;
-        opened = false;
 
+        opened = false;
 
         Hide();
 
@@ -60,29 +62,10 @@ public class ItemInfoOverlay : MonoBehaviour
         playerInput.SwitchActionMap(PlayerInputObserver.ActionMap.Player);
     }
 
-    private void SetInfo(ItemData itemData)
-    {
-        itemData.itemName.StringChanged += UpdateName;
-        itemData.description.StringChanged += UpdateDescription;
-        image.sprite = itemData.image;
-    }
-
-    void UpdateName(string value)
-    {
-        nameText.text = value;
-    }
-
-    void UpdateDescription(string value)
-    {
-        descriptionText.text = value;
-    }
-
     private void Hide()
     {
         background.gameObject.SetActive(false);
-        nameText.gameObject.SetActive(false);
-        descriptionText.gameObject.SetActive(false);
-        image.gameObject.SetActive(false);
+        infoDisplay.gameObject.SetActive(false);
 
         foreach (GameObject otherCanvas in otherCanvasToHide)
         {
@@ -93,9 +76,7 @@ public class ItemInfoOverlay : MonoBehaviour
     private void Show()
     {
         background.gameObject.SetActive(true);
-        nameText.gameObject.SetActive(true);
-        descriptionText.gameObject.SetActive(true);
-        image.gameObject.SetActive(true);
+        infoDisplay.gameObject.SetActive(true);
 
         foreach (GameObject otherCanvas in otherCanvasToHide)
         {

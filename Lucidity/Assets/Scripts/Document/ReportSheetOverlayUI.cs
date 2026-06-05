@@ -42,7 +42,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
 
     [Header("Game")]
     [SerializeField] private AnomalyManager anomalyManager;
-    [SerializeField] private DoorInteraction exitDoor;
+    [SerializeField] private DoorController exitDoor;
     [SerializeField] private ReportResultState reportState;
 
     [Header("Exit Blocker (optional)")]
@@ -108,9 +108,6 @@ public class ReportSheetOverlayUI : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
-
-        if (open && Input.GetKeyDown(KeyCode.Tab))
-            SetOpen(false);
     }
 
     private void LateUpdate()
@@ -322,7 +319,7 @@ public class ReportSheetOverlayUI : MonoBehaviour
         else
             Debug.LogWarning("[UI] exitLamp NO encontrada/asignada. No puedo poner verde.");
         if(correctSubmission)
-            GameManager.Instance.HasFinishedLastLoop();
+            GameManager.LoopManagerRef.HasFinishedLastLoop();
     }
 
     private void SetOpen(bool value)

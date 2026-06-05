@@ -20,6 +20,7 @@ public class CameraFunctionality : MonoBehaviour
     public bool hasFlashCamera = false;
     public int maxReels = 5;
     public int currentReels;
+    [SerializeField] float lineOfSightRadius = 0.2f;
     [SerializeField] private float flashDuration = 0.3f;
     private Coroutine flashCoroutine;
     [SerializeField] private Camera stunCamera;
@@ -34,11 +35,6 @@ public class CameraFunctionality : MonoBehaviour
         audioHandler = FindAnyObjectByType<CameraAudioHandler>();
 
         currentReels = maxReels;
-    }
-
-    private void Update()
-    {
-        EnemyIsInSight();
     }
 
     public void ActivateMode()
@@ -114,63 +110,34 @@ public class CameraFunctionality : MonoBehaviour
 
                 if (GeometryUtility.TestPlanesAABB(plane, col.bounds))
                 {
-                    stunnable.OnStunned(null);
-                }
-            }
-        }
-    }
-
-    private void EnemyIsInSight()
-    {
-        if (stunCamera == null || !isActive) return;
-
-        bool showRedLight = false;
-
-        Plane[] plane = GeometryUtility.CalculateFrustumPlanes(normalCamera);
-
-        foreach (var mono in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
-        {
-            if (mono is IStunnable stunnable)
-            {
-                Collider col = mono.GetComponentInChildren<Collider>();
-                if (col == null) continue;
-
-                if (GeometryUtility.TestPlanesAABB(plane, col.bounds))
-                {
                     if (HasLineOfSight(col))
                     {
-                        showRedLight = true;
+                        stunnable.OnStunned(null);
                         break;
                     }
                 }
             }
         }
-
-        ui.ShowCameraRedLight(showRedLight);
     }
 
     private bool HasLineOfSight(Collider targetCollider)
     {
         Vector3 cameraPosition = normalCamera.transform.position;
-
         Vector3 targetPosition = targetCollider.bounds.center;
-
         Vector3 direction = targetPosition - cameraPosition;
         float distance = direction.magnitude;
 
-        RaycastHit hit;
+        RaycastHit[] hits = Physics.SphereCastAll(cameraPosition, lineOfSightRadius, direction, distance);
 
-        if (Physics.Raycast(cameraPosition, direction, out hit, distance))
+        foreach (RaycastHit hit in hits)
         {
             if (hit.collider == targetCollider ||
                 hit.collider.transform.IsChildOf(targetCollider.transform) ||
                 targetCollider.transform.IsChildOf(hit.collider.transform))
             {
+                Debug.DrawLine(cameraPosition, hit.point, Color.green, 0.1f);
                 return true;
             }
-
-            Debug.DrawLine(cameraPosition, hit.point, Color.red, 0.1f);
-            return false;
         }
 
         return false;
@@ -181,5 +148,55 @@ public class CameraFunctionality : MonoBehaviour
         currentReels = maxReels;
         if (ui != null)
             ui.ActualizeRemainingReelsIndicator(currentReels);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (normalCamera == null) return;
+
+        // Optional: Only draw when in Play Mode
+        if (!Application.isPlaying) return;
+
+        // Find a specific target or use a configurable one
+        // For demonstration, this will draw for all stunnable objects
+
+        var stunnableObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
+
+        foreach (var mono in stunnableObjects)
+        {
+            if (mono is IStunnable stunnable)
+            {
+                Collider col = mono.GetComponentInChildren<Collider>();
+                if (col == null) continue;
+
+                Vector3 cameraPosition = normalCamera.transform.position;
+                Vector3 targetPosition = col.bounds.center;
+                Vector3 direction = targetPosition - cameraPosition;
+                float distance = direction.magnitude;
+
+                // Draw the main line
+                Gizmos.color = Color.white;
+                Gizmos.DrawLine(cameraPosition, targetPosition);
+
+                // Draw the sphere cast volume (as multiple lines)
+                Vector3 dirNorm = direction.normalized;
+                Vector3 right = Vector3.Cross(dirNorm, Vector3.up).normalized;
+                Vector3 up = Vector3.Cross(right, dirNorm);
+
+                Gizmos.color = new Color(0.5f, 0.5f, 1, 0.5f);
+
+                // Draw 8 lines around the capsule
+                for (int i = 0; i < 8; i++)
+                {
+                    float angle = i * 45 * Mathf.Deg2Rad;
+                    Vector3 offset = (right * Mathf.Cos(angle) + up * Mathf.Sin(angle)) * lineOfSightRadius;
+                    Gizmos.DrawLine(cameraPosition + offset, targetPosition + offset);
+                }
+
+                // Draw end caps
+                Gizmos.DrawWireSphere(cameraPosition, lineOfSightRadius);
+                Gizmos.DrawWireSphere(targetPosition, lineOfSightRadius);
+            }
+        }
     }
 }

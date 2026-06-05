@@ -8,6 +8,7 @@ public class PauseMenuManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject optionsPanel;
+    [SerializeField] private GameObject controlsPanel;
     [SerializeField] private Button returnToMainMenuButton;
 
     [Header("Input")]
@@ -19,6 +20,7 @@ public class PauseMenuManager : MonoBehaviour
 
     private bool openPausePanel;
     private bool isOptionsPanelOpen;
+    private bool isControlsPanelOpen;
     private float previousTimeScale = 1f;
 
     private void Awake()
@@ -49,11 +51,23 @@ public class PauseMenuManager : MonoBehaviour
         isOptionsPanelOpen = false;
     }
 
+    public void OpenControls()
+    {
+        controlsPanel.SetActive(true);
+        isControlsPanelOpen = true;
+    }
+
+    public void CloseControls()
+    {
+        controlsPanel.SetActive(false);
+        isControlsPanelOpen = false;
+    }
+
     public void SetOpen(bool value)
     {
         if (ReportSheetOverlayUI.IsOpen) return;
-        if (GameManager.Instance.isDying) return;
-        if(isOptionsPanelOpen) return;
+        if (GameManager.DeathHandlerRef.isDying) return;
+        if(isOptionsPanelOpen || isControlsPanelOpen) return;
 
         openPausePanel = value;
         IsOpen = openPausePanel;

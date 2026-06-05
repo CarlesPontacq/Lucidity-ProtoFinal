@@ -24,6 +24,7 @@ public class ObjectInteraction : MonoBehaviour
     
     public virtual void OnFocusExit()
     {
+        if(InteractionFeedback.Instance == null) return;
         InteractionFeedback.Instance.HideInteractionFeedback();
     }
 

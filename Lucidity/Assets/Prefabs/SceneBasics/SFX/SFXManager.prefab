@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &623274770557619649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7493953331338454403}
+  - component: {fileID: 2295743591073983070}
+  m_Layer: 0
+  m_Name: SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7493953331338454403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623274770557619649}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2295743591073983070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623274770557619649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c97ebf53edd4c40a01a53e9ac24d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxObject: {fileID: 2653268958743995092, guid: 3c66f8ff6835fa84a8b93cb9084b324f, type: 3}
+  anomalySfxObject: {fileID: 2653268958743995092, guid: 1f59ff12753a0e94d887e3dd40d6e9f1, type: 3}
+  sounds:
+  - name: cameraShutter
+    audio: {fileID: 8300000, guid: 5a26e821cf8d10649b381fe08242219d, type: 3}
+  - name: openDoor
+    audio: {fileID: 6418180475301049370, guid: 0adbab1dfb616bf4081f5b30efdf8075, type: 2}
+  - name: closeDoor
+    audio: {fileID: 6418180475301049370, guid: 9616cbfbe02035e4caeaad1742f66bb6, type: 2}
+  - name: lightSwitchOn
+    audio: {fileID: 6418180475301049370, guid: 9927c9be3a1f77f45af0c9b7a7aca207, type: 2}
+  - name: lightSwitchOff
+    audio: {fileID: 6418180475301049370, guid: 5f1c0cabd1935af46aeda3685e88b21c, type: 2}
+  - name: leaking
+    audio: {fileID: 6418180475301049370, guid: a01d99fa26cfb414bb402df67a71c762, type: 2}
+  - name: cables
+    audio: {fileID: 6418180475301049370, guid: 2fbfa4943ba5d694e80de9643872c3d9, type: 2}
+  - name: paper
+    audio: {fileID: 8300000, guid: a4ff5bdb1ccc19f44a8f57d64f7b29b5, type: 3}
+  - name: Thunder
+    audio: {fileID: 6418180475301049370, guid: 98f9e3c592855674e810f972f8534091, type: 2}
+  - name: walkSteps
+    audio: {fileID: 6418180475301049370, guid: 3f455990ac2bf894a9f9a96cc3377904, type: 2}
+  - name: runSteps
+    audio: {fileID: 6418180475301049370, guid: caab60ac008b3a241b006e2484917d2d, type: 2}
+  - name: stunModeShutter
+    audio: {fileID: 8300000, guid: fe62a032cdf847c418dd979973a56ec2, type: 3}
+  - name: EnemySpawn
+    audio: {fileID: 8300000, guid: 26afefa073dfc4545a27e2ecad356fc7, type: 3}
+  - name: ReportCircle
+    audio: {fileID: 8300000, guid: aa69b071789e4d046969442c454c94bb, type: 3}
+  - name: ReportFirma
+    audio: {fileID: 8300000, guid: 784cf2c29dc53fc4bb500d0070cc1fc6, type: 3}
+  - name: CogerReporte
+    audio: {fileID: 8300000, guid: 069815dd62a411f4490113b400938402, type: 3}
+  - name: GrabCamera
+    audio: {fileID: 8300000, guid: 6e6b06322a61e444094fb0cfde6128a3, type: 3}
+  - name: GrabFlash
+    audio: {fileID: 8300000, guid: 376bbb02aef16054f9bc79b76b3f5681, type: 3}
+  - name: EnemySteps
+    audio: {fileID: 8300000, guid: 86e868090c0c60d4eba92b4219a15d36, type: 3}
+  - name: shot
+    audio: {fileID: 8300000, guid: c405eeb8a08a451408b804704887aae4, type: 3}
+  - name: chair
+    audio: {fileID: 8300000, guid: a953a7a219c426e4795c93bc0ecde75d, type: 3}
+  - name: rope
+    audio: {fileID: 8300000, guid: 17db46678afdad246bfbc5c222649f73, type: 3}
+  - name: tvOn
+    audio: {fileID: 8300000, guid: b17da44bc28e139468a287cbf00b447f, type: 3}
+  - name: tvOff
+    audio: {fileID: 8300000, guid: fc2790db2045f2047890796dfc95df75, type: 3}
+  - name: pageTurn
+    audio: {fileID: 6418180475301049370, guid: fc8f38cdbad340c49869b30d9e0cfead, type: 2}
+  - name: elevatorDoorClose
+    audio: {fileID: 8300000, guid: 796e165c15ab0a64e9a7430f1b35bff1, type: 3}
+  - name: elevatorDoorOpen
+    audio: {fileID: 8300000, guid: e33661fec7f2158458e4033512e41c67, type: 3}
+  - name: elevatorLoop
+    audio: {fileID: 8300000, guid: 32f0b328086443c48aa5f9e087370f02, type: 3}
+  - name: correctLoop
+    audio: {fileID: 8300000, guid: 4235f38516cac4848a454383c5211326, type: 3}
+  - name: gunshot
+    audio: {fileID: 8300000, guid: df17c40886b091e46af420ea636372ed, type: 3}
+  - name: pills
+    audio: {fileID: 8300000, guid: 73c74ad830cc79541931b054cf1bc339, type: 3}
+  - name: hanging
+    audio: {fileID: 8300000, guid: 56a76cf023ea79947a7acdb925c4cfa7, type: 3}
